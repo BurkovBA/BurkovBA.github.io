@@ -5,10 +5,9 @@
   "main": "gulpfile.js",
   "scripts": {
     "clean": "rm -rf dist/*",
-    "build": "npm run clean && npm run build:scripts && npm run build:styles && npm run build:templates",
+    "build": "npm run clean && npm run build:scripts && npm run build:styles",
     "build:scripts": "find . -path './app/*.js' -or -path './components/*.js' | xargs uglifyjs --compress --mangle -o dist/app.js --source-map dist/app.js.map",
     "build:styles": "node-sass --include-path assets/styles assets/styles/main.scss dist/app.css",
-    "build:templates": "",
     "test:unit": "karma start --browsers Chrome --single-run",
     "test:e2e": "protractor test/e2e/protractor.conf.js",
     "start": "http-server -a localhost -p 8000 -c-1 ."
