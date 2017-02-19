@@ -1,0 +1,32 @@
+{
+  "name": "burkov",
+  "version": "1.0.0",
+  "description": "Personal blog of Boris Burkov",
+  "main": "gulpfile.js",
+  "scripts": {
+    "clean": "rm -rf dist/*",
+    "build": "npm run clean && npm run build:scripts && npm run build:styles && npm run build:templates",
+    "build:scripts": "find . -path './app/*.js' -or -path './components/*.js' | xargs uglifyjs --compress --mangle -o dist/app.js --source-map dist/app.js.map",
+    "build:styles": "node-sass --include-path assets/styles assets/styles/main.scss dist/app.css",
+    "build:templates": "",
+    "test:unit": "karma start --browsers Chrome --single-run",
+    "test:e2e": "protractor test/e2e/protractor.conf.js",
+    "concat": "cat src/*.js > dist/angularjs-genoverse.all.js",
+    "uglify": "uglifyjs --compress --mangle -o dist/angularjs-genoverse.min.js --source-map dist/angularjs-genoverse.min.js.map dist/angularjs-genoverse.all.js",
+    "start": "http-server -a localhost -p 8000 -c-1 ."
+  },
+  "keywords": [
+    "blog",
+    "engineering",
+    "entrepreneurship",
+    "programming",
+    "bioinformatics"
+  ],
+  "author": "Boris A. Burkov",
+  "license": "WTFPL",
+  "devDependencies": {
+    "node-sass": "^4.5.0",
+    "uglify-js": "^2.7.5"
+  },
+  "dependencies": {}
+}
