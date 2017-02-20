@@ -7,10 +7,10 @@
     "clean": "rm -rf dist/*",
     "build": "npm run clean && npm run build:scripts && npm run build:styles",
     "build:scripts": "find . -path './app/*.js' -or -path './components/*.js' | xargs uglifyjs --compress --mangle -o dist/app.js --source-map dist/app.js.map",
-    "build:styles": "node-sass --include-path assets/styles assets/styles/main.scss dist/app.css",
+    "build:styles": "node-sass --include-path assets/styles assets/styles/style.scss dist/app.css",
     "test:unit": "karma start --browsers Chrome --single-run",
     "test:e2e": "protractor test/e2e/protractor.conf.js",
-    "start": "http-server -a localhost -p 8000 -c-1 ."
+    "start": "npm run build && http-server -a localhost -p 8000 -c-1 ."
   },
   "keywords": [
     "blog",
@@ -22,6 +22,7 @@
   "author": "Boris A. Burkov",
   "license": "WTFPL",
   "devDependencies": {
+    "http-server": "^0.9.0",
     "node-sass": "^4.5.0",
     "uglify-js": "^2.7.5"
   },
