@@ -5,19 +5,23 @@
   "main": "gulpfile.js",
   "scripts": {
     "clean": "rm -rf dist/*",
-    "build": "npm run clean && npm run build:scripts && npm run build:styles",
-    "build:scripts": "find . -path './app/*.js' -or -path './components/*.js' | xargs uglifyjs --compress --mangle -o dist/app.js --source-map dist/app.js.map",
+    "build": "npm run clean && npm run build:scripts && npm run build:styles && npm run build:templates",
+    "build:scripts": "find . -path './app/*.js' -or -path './components/*.js' | xargs uglifyjs --compress --mangle -o dist/app.js --source-map dist/app.js.map  --source-map-url /dist/app.js.map --source-map-root /",
     "build:styles": "node-sass --include-path assets/styles assets/styles/style.scss dist/app.css",
+    "build:templates": "find . -path './app/*.html' -or -path './components/*.html' | xargs cp -t dist",
     "test:unit": "karma start --browsers Chrome --single-run",
     "test:e2e": "protractor test/e2e/protractor.conf.js",
     "start": "npm run build && http-server -a localhost -p 8000 -c-1 ."
   },
   "keywords": [
     "blog",
+    "world view",
     "engineering",
     "entrepreneurship",
     "programming",
-    "bioinformatics"
+    "music",
+    "mathematics",
+    "physics"
   ],
   "author": "Boris A. Burkov",
   "license": "WTFPL",
@@ -26,5 +30,17 @@
     "node-sass": "^4.5.0",
     "uglify-js": "^2.7.5"
   },
-  "dependencies": {}
+  "dependencies": {
+    "angular": "^1.6.2",
+    "angular-animate": "^1.6.2",
+    "angular-bootstrap": "^0.12.2",
+    "angular-cookies": "^1.6.2",
+    "angular-messages": "^1.6.2",
+    "angular-resource": "^1.6.2",
+    "angular-sanitize": "^1.6.2",
+    "angular-ui-router": "^0.4.2",
+    "angular-validation-match": "^1.9.0",
+    "jquery": "^3.1.1",
+    "metismenu": "^2.6.2"
+  }
 }

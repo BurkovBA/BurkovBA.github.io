@@ -41,48 +41,43 @@ limitations under the License.
         <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">-->
     </head>
 
-    <body ng-app="Example">
-        <div ng-controller="GenoverseGenomeBrowser" class="container">
-            <div class="row">
-                <div class="col-md-12" role="main">
+    <body ng-app="app" ng-class="[specialClass]" ng-strict-di>
+        <!-- Header -->
+        <header id="header"></header>
 
-                    <h1><i class="fa fa-map-marker"></i> Genome browser</h1>
+        <!-- Navigation -->
+        <aside id="menu">
+            <navigation id="navigation"></navigation>
+        </aside>
 
-                    <p class="text-muted col-md-12">
-                        <i class="fa fa-info-circle"></i> Explore sequences
-                        alongside genes and transcripts from <a href="http://ensembl.org" class="text-muted">Ensembl</a>
-                        / <a href="http://ensemblgenomes.org/" class="text-muted">Ensembl Genomes</a>
-                    </p>
+        <!-- Main Wrapper -->
+        <div id="wrapper">
 
-                    <div class="row">
-                        <div class="col-lg-3 col-md-3 col-sm-12">
-                            <label for="genomic-species-select">Species</label>
-                            <select id="genomic-species-select" class="form-control" ng-options="genome as genome.species for genome in genomes" ng-model="genome">
-                            </select>
-                        </div>
-                        <div class="ol-lg-2 col-md-2 col-sm-4">
-                            <label for="chromosome-input">Chromosome</label>
-                            <input type="text" class="form-control" id="chromosome-input" placeholder="Enter chromosome" ng-model="chromosome">
-                        </div>
-                        <div class="col-lg-2 col-md-2 col-sm-4">
-                            <label for="genomic-start-input">Start</label>
-                            <input type="number" class="form-control" id="genomic-start-input" placeholder="Enter start" ng-model="start">
-                        </div>
-                        <div class="col-lg-2 col-md-2 col-sm-4">
-                            <label for="genomic-end-input">End</label>
-                            <input type="number" class="form-control" id="genomic-end-input" placeholder="Enter end" ng-model="end">
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <ui-view></ui-view>
 
-            <br>
+            <!-- Right sidebar -->
+            <right-sidebar id="right-sidebar" class="sidebar-open" ng-show="rightSidebar"></right-sidebar>
+
+            <!-- Footer -->
+            <footer class="footer" ng-include="'/components/footer/footer.html'"></footer>
 
         </div>
 
-        <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.js"></script>
-        <script src="app.js"></script>
+        <script src="/node_modules/jquery/dist/jquery.js"></script>
+        <script src="/node_modules/metismenu/dist/metisMenu.js"></script>
+        <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
+        <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.2/angular.js"></script>-->
+        <script src="/node_modules/angular/angular.js"></script>
+        <script src="/node_modules/angular-animate/angular-animate.js"></script>
+        <script src="/node_modules/angular-cookies/angular-cookies.js"></script>
+        <script src="/node_modules/angular-messages/angular-messages.js"></script>
+        <script src="/node_modules/angular-resource/angular-resource.js"></script>
+        <script src="/node_modules/angular-sanitize/angular-sanitize.js"></script>
+        <script src="/node_modules/angular-ui-router/release/angular-ui-router.js"></script>
+        <script src="/node_modules/angular-validation-match/dist/angular-validation-match.js"></script>
+        <script src="/node_modules/angular-ui-router/release/angular-ui-router.js"></script>
+        <script src="/node_modules/angular-bootstrap/ui-bootstrap.js"></script>
+
+        <script src="/dist/app.js"></script>
     </body>
 </html>

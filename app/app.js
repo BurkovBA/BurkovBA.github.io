@@ -1,25 +1,8 @@
-(function(){
-angular.module("Universe", [
-    "ngAnimate",
-    "ngMessages",
-    "ngResource",
-    "ngSanitize",
-    "ngCookies",
-    "validation.match",
-    "ui.router",
-    "ui.bootstrap",
-    "gridshore.c3js.chart",
-    "ui.footable",
-    "schemaForm",
-    "ngFileUpload",
-    "ngScrollbars"
-])
-.config(function($urlRouterProvider, $locationProvider, $stateProvider, $httpProvider, $resourceProvider) {
-    // In production we may set a default route:
-    $urlRouterProvider.otherwise("/about");
+(function() {
 
+function config($urlRouterProvider, $locationProvider, $stateProvider, $httpProvider, $resourceProvider) {
     // In production router may use html5 history API instead of hash routing:
-    // $locationProvider.html5Mode(true);
+    $locationProvider.html5Mode(true);
 
     // Make $http ajax requests send django csrf token
     $httpProvider.defaults.xsrfCookieName = "csrftoken";
@@ -34,29 +17,40 @@ angular.module("Universe", [
     $resourceProvider.defaults.stripTrailingSlashes = false;
 
     // Just a test state
-    $stateProvider
-        .state("test", {
-            url: "/test",
-            template: "This is a test"
-        });
-})
-.run(function($rootScope, Auth) {
-    // Auth service is globally available and requests current user on every
-    // state change.
-    $rootScope.Auth = Auth;
+    $stateProvider.state("test", {
+        url: "/test",
+        template: "This is a test"
+    });
+}
+config.$inject = ["$urlRouterProvider", "$locationProvider", "$stateProvider", "$httpProvider", "$resourceProvider"];
 
+function run($rootScope) {
     // Set special class on landing page <body> - it has some modifications
     // in css and those require '.landing-page' - see index.html and sass
     // in assets/styles/_landing.scss.
-    $rootScope.$on("$stateChangeSuccess", function(event, currentState){
-        switch (currentState.name) {
-            case "about":
-                $rootScope.specialClass = "landing-page";
-                break;
-            default:
-                $rootScope.specialClass = "";
-                break;
+    $rootScope.$on("$stateChangeSuccess", function(event, currentState) {
+        if (currentState.name === "about") {
+            $rootScope.specialClass = "landing-page";
+        }
+        else {
+            $rootScope.specialClass = "";
         }
     });
-});
+}
+run.$inject = ["$rootScope"];
+
+
+angular.module("app", [
+    "ngAnimate",
+    "ngMessages",
+    "ngResource",
+    "ngSanitize",
+    "ngCookies",
+    "validation.match",
+    "ui.router",
+    "ui.bootstrap",
+
+    "header"
+]).config(config).run(run);
+
 })();
