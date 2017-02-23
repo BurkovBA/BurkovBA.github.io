@@ -41,6 +41,7 @@ run.$inject = ["$rootScope"];
 
 
 angular.module("app", [
+    // third-party modules
     "ngAnimate",
     "ngMessages",
     "ngResource",
@@ -50,7 +51,11 @@ angular.module("app", [
     "ui.router",
     "ui.bootstrap",
 
-    "header"
+    // components
+    "header",
+
+    // routes
+    "blog"
 ]).config(config).run(run);
 
 })();
