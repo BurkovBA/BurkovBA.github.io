@@ -2,7 +2,7 @@
 
 function config($urlRouterProvider, $locationProvider, $stateProvider, $httpProvider, $resourceProvider) {
     // In production router may use html5 history API instead of hash routing:
-    $locationProvider.html5Mode(false);
+    $locationProvider.html5Mode(true);
 
     // Make $http ajax requests send django csrf token
     $httpProvider.defaults.xsrfCookieName = "csrftoken";
@@ -67,6 +67,7 @@ angular.module("app", [
 
     // components
     "header",
+    "navigation",
 
     // routes
     "blog"

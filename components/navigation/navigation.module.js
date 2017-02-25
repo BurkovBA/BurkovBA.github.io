@@ -4,7 +4,7 @@
 function navigation() {
     return {
         restrict: "E",
-        templateUrl: template,
+        templateUrl: "/dist/navigation.html",
         link: ["scope", "element", function(scope, element) {}]
     }
 }

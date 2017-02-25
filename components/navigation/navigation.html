@@ -1,17 +1,10 @@
 <ul side-navigation class="nav" id="side-menu">
-    <li ng-class="{active: $state.includes('workflows')}">
-        <a href="#"><span class="nav-label">Workflows</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="label label-success">v.1</span>  <span class="fa arrow"></span> </a>
-        <ul class="nav nav-second-level" ng-class="{in: $state.includes('workflows')}">
-            <li ui-sref-active="active"><a ui-sref="big-picture">Картина Мира</a></li>
-            <li ui-sref-active="active"><a ui-sref="programming">Программирование</a></li>
-            <li ui-sref-active="active"><a ui-sref="entrepreneurship">Предпринимательство</a></li>
-            <li ui-sref-active="active"><a ui-sref="economy">Экономика</a></li>
-            <li ui-sref-active="active"><a ui-sref="math">Математика</a></li>
-            <li ui-sref-active="active"><a ui-sref="economy"Музыка</a></li>
-            <li ui-sref-active="active"><a ui-sref="miscellaneous">Разное</a></li>
-        </ul>
-    </li>
-    <li>
-        <a ui-sref="about"> <span class="nav-label">About</span> </a>
-    </li>
+    <li ui-sref="active"><a ui-sref="big-picture">Картина Мира</a></li>
+    <li ui-sref="active"><a ui-sref="science">Наука</a></li>
+    <li ui-sref="active"><a ui-sref="technology">Технология</a></li>
+    <li ui-sref="active"><a ui-sref="business">Бизнес</a></li>
+    <li ui-sref="active"><a ui-sref="music">Музыка</a></li>
+    <li ui-sref="active"><a ui-sref="people">Люди</a></li>
+    <li ui-sref="active"><a ui-sref="miscellaneous">Разное</a></li>
+    <li><a ui-sref="about"> <span class="nav-label">Контакты</span> </a></li>
 </ul>
