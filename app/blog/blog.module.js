@@ -1,47 +1,63 @@
 (function() {
-    function BlogListController($scope, $location, $stateParams, $state) {
+    var PostResourceFactory = function($resource) {
+        return $resource(
+            "/api/blog/:id/",
+            { id: "@id" },
+            { update:
+                { method: "put", isArray: false }
+            }
+        );
+    };
+    PostResourceFactory.$inject = ['$resource'];
+
+
+    var BlogListController = function($scope, $location, $stateParams, $state, posts) {
         this.$scope = $scope;
         this.$location = $location;
         this.$state = $state;
         this.$stateParams = $stateParams;
-    }
-    BlogListController.$inject = ['$scope', '$location', '$stateParams', '$state'];
+
+        this.$scope.posts = posts;
+    };
+    BlogListController.$inject = ['$scope', '$location', '$stateParams', '$state', 'posts'];
 
 
-    function BlogDetailsController($scope, $location, $stateParams, $state) {
+    var BlogDetailsController = function($scope, $location, $stateParams, $state) {
         this.$scope = $scope;
-        this.$llocation = $location;
+        this.$location = $location;
         this.$state = $state;
         this.$stateParams = $stateParams;
-    }
+    };
     BlogDetailsController.$inject = ['$scope', '$location', '$stateParams', '$state'];
 
 
-    // @ngInject
-    function routesList($stateProvider) {
+    var routesList = function($stateProvider) {
         $stateProvider.state("blog-list", {
             url: "/",
             templateUrl: "/dist/blog.list.html",
             controller: "BlogListController",
-            controllerAs: "vm"
+            resolve: {
+                posts: ["PostResource", function (PostResource) {
+                    return PostResource.query().$promise;
+                }]
+            }
         });
-    }
+    };
     routesList.$inject = ['$stateProvider'];
 
 
-    // @ngInject
-    function routesDetails($stateProvider) {
+    var routesDetails = function($stateProvider) {
         $stateProvider.state("blog-details", {
             url: "/:id",
             templateUrl: "/dist/blog.details.html",
-            controller: "BlogDetailsController",
-            controllerAs: "vm"
+            controller: "BlogDetailsController"
         });
-    }
+    };
     routesDetails.$inject = ['$stateProvider'];
 
 
     angular.module("blog", [])
+        .factory("PostResource", PostResourceFactory)
         .controller("BlogListController", BlogListController)
         .controller("BlogDetailsController", BlogDetailsController)
         .config(routesList)

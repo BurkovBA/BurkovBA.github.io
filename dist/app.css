@@ -2909,8 +2909,9 @@ body.fullscreen-panel-mode {
 .blog-box .panel-image .title {
   position: absolute;
   bottom: 10px;
-  padding: 0 20px;
-  color: #fff; }
+  padding: 10px 20px;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.5); }
 
 .blog-box .panel-image .title h4 {
   margin-bottom: 0px; }
