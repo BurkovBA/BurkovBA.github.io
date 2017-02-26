@@ -47,18 +47,11 @@ function minimalizaMenu($rootScope) {
         controller: ["$scope", "$element", function ($scope, $element) {
 
             $scope.minimalize = function () {
-
-                // Originally it was:
-                /*
                 if ($(window).width() < 769) {
                     $("body").toggleClass("show-sidebar");
                 } else {
                     $("body").toggleClass("hide-sidebar");
                 }
-                */
-
-                // But I left just unconditional hide-sidebar
-                $("body").toggleClass("hide-sidebar");
             };
         }]
     };
