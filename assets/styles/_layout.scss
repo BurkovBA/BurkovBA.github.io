@@ -40,6 +40,7 @@ body {
 
 #wrapper {
   margin: 0 0 0 $menu-width;
+  left: 0px; // added by me
   padding: 0;
   background: $color-background;
   border-left: 1px solid $border-color;

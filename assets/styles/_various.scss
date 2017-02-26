@@ -396,7 +396,9 @@ body.page-small.show-sidebar #menu {
 }
 
 body.page-small.show-sidebar #wrapper {
-  margin-left: $menu-width;
+  //margin-left: $menu-width; // fixed by me
+  margin-left: 0px;
+  left: $menu-width;
 }
 
 a {
