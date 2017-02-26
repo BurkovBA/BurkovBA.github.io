@@ -1050,6 +1050,10 @@ body.blank {
   padding: 20px 20px;
   text-align: center; }
 
+.profile-picture a img {
+  width: 76px;
+  height: 76px; }
+
 .stats-box div {
   display: inline-block;
   vertical-align: middle; }
