@@ -1138,7 +1138,7 @@ body.blank {
   color: #9d9fa2; }
 
 .header-link {
-  padding: 18px 26px 23px 26px;
+  padding: 18px 26px 17px 26px;
   font-size: 14px;
   float: left;
   border-right: 1px solid #e4e5e7;
@@ -2311,8 +2311,7 @@ body {
   position: fixed;
   overflow-x: hidden;
   overflow-y: scroll;
-  width: 197px;
-  padding-right: 17px; }
+  width: 197px; }
 
 .fixed-sidebar.show-sidebar #menu {
   width: 180px; }

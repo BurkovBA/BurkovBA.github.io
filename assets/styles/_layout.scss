@@ -112,7 +112,7 @@ body {
   overflow-x: hidden;
   overflow-y: scroll;
   width: 197px;
-  padding-right: 17px;
+  //padding-right: 17px; - commented out, it creates useless additional padding
 }
 
 .fixed-sidebar.show-sidebar #menu {
