@@ -13,9 +13,9 @@
                             <small class="text-muted"><i class="fa fa-calendar"> </i> {{ post.date_created | date: 'longDate' }}</small>
                         </span>
                         <span class="pull-right">
-                            <small><i class="fa fa-eye"> </i> просмотров: 62 </small>
+                            <small><i class="fa fa-eye"> </i> Просмотров: 62 </small>
                             <br>
-                            <small><i class="fa fa-comments-o"> </i> комментариев: 10</small>
+                            <small><i class="fa fa-comments-o"> </i> Комментариев: 10</small>
                         </span>
                     </div>
                 </div>
@@ -23,7 +23,7 @@
             <div class="panel-image">
                 <img class="img-responsive" src="{{ post.cover }}" alt="">
                 <div class="title">
-                    <a ui-sref="blog-details"> <h4>{{ post.title }}</h4></a>
+                    <a ui-sref="blog-details({id: post.id})"> <h4>{{ post.title }}</h4></a>
                     <small>{{ post.subtitle }}</small>
                 </div>
             </div>
@@ -31,7 +31,7 @@
                 <p>
                     {{ post.abstract }}
                 </p>
-                <a ui-sref="blog_details" class="btn btn-primary btn-xs">Продолжение...</a>
+                <a ui-sref="blog-details({id: post.id})" class="btn btn-primary btn-xs">Продолжение...</a>
             </div>
         </div>
     </div>

@@ -10,6 +10,16 @@
     };
     PostResourceFactory.$inject = ['$resource'];
 
+    var BrokenPostResourceFactory = function($resource) {
+        return $resource(
+            "/api/:id/",
+            { id: "@id" },
+            { update:
+                { method: "put", isArray: false }
+            }
+        );
+    };
+    BrokenPostResourceFactory.$inject = ['$resource'];
 
     var BlogListController = function($scope, $location, $stateParams, $state, posts) {
         this.$scope = $scope;
@@ -22,13 +32,15 @@
     BlogListController.$inject = ['$scope', '$location', '$stateParams', '$state', 'posts'];
 
 
-    var BlogDetailsController = function($scope, $location, $stateParams, $state) {
+    var BlogDetailsController = function($scope, $location, $stateParams, $state, post) {
         this.$scope = $scope;
         this.$location = $location;
         this.$state = $state;
         this.$stateParams = $stateParams;
+
+        this.$scope.post = post;
     };
-    BlogDetailsController.$inject = ['$scope', '$location', '$stateParams', '$state'];
+    BlogDetailsController.$inject = ['$scope', '$location', '$stateParams', '$state', 'post'];
 
 
     var routesList = function($stateProvider) {
@@ -50,7 +62,12 @@
         $stateProvider.state("blog-details", {
             url: "/:id",
             templateUrl: "/dist/blog.details.html",
-            controller: "BlogDetailsController"
+            controller: "BlogDetailsController",
+            resolve: {
+                post: ["BrokenPostResource", "$stateParams", function(BrokenPostResource, $stateParams) {
+                    return BrokenPostResource.get({id: $stateParams.id}).$promise;
+                }]
+            }
         });
     };
     routesDetails.$inject = ['$stateProvider'];
@@ -58,6 +75,7 @@
 
     angular.module("blog", [])
         .factory("PostResource", PostResourceFactory)
+        .factory("BrokenPostResource", BrokenPostResourceFactory)
         .controller("BlogListController", BlogListController)
         .controller("BlogDetailsController", BlogDetailsController)
         .config(routesList)
