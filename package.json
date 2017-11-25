@@ -1,48 +1,56 @@
 {
   "name": "burkov",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Personal blog of Boris Burkov",
-  "main": "gulpfile.js",
   "scripts": {
     "clean": "rm -rf dist/*",
-    "build": "npm run clean && npm run build:scripts && npm run build:styles && npm run build:templates",
-    "build:scripts": "find . -path './app/*.js' -or -path './components/*.js' | xargs uglifyjs --compress --mangle -o dist/app.js --source-map dist/app.js.map  --source-map-url /dist/app.js.map --source-map-root /",
-    "build:styles": "node-sass --include-path assets/styles assets/styles/style.scss dist/app.css",
-    "build:templates": "find . -path './app/*.html' -or -path './components/*.html' | xargs cp -t dist",
-    "test:unit": "karma start --browsers Chrome --single-run",
-    "test:e2e": "protractor test/e2e/protractor.conf.js",
-    "start": "npm run build && http-server -a localhost -p 8000 -c-1 ."
+    "start": "node server.js",
+    "build": "BABEL_ENV=production ./node_modules/.bin/webpack --config webpack.config.production.js"
   },
   "keywords": [
     "blog",
     "world view",
     "engineering",
     "entrepreneurship",
+    "economy",
+    "history"
+    "physics",
     "programming",
     "music",
-    "mathematics",
-    "physics"
+    "mathematics"
   ],
   "author": "Boris A. Burkov",
   "license": "WTFPL",
   "devDependencies": {
-    "http-server": "^0.9.0",
-    "node-sass": "^4.5.0",
-    "uglify-js": "^2.7.5"
+    "babel-core": "^6.0.20",
+    "babel-eslint": "^4.1.3",
+    "babel-loader": "^6.0.1",
+    "babel-preset-es2015": "^6.0.15",
+    "babel-preset-react": "^6.0.15",
+    "babel-preset-stage-0": "^6.0.15",
+    "css-loader": "^0.23.1",
+    "extract-text-webpack-plugin": "^1.0.1",
+    "file-loader": "^0.8.5",
+    "path": "^0.12.7",
+    "react-hot-loader": "^1.3.0",
+    "style-loader": "^0.13.0",
+    "url-loader": "^0.5.7",
+    "webpack": "^1.12.14",
+    "webpack-dev-server": "^1.14.1"
   },
   "dependencies": {
-    "angular": "^1.6.2",
-    "angular-animate": "^1.6.2",
-    "angular-bootstrap": "^0.12.2",
-    "angular-cookies": "^1.6.2",
-    "angular-messages": "^1.6.2",
-    "angular-resource": "^1.6.2",
-    "angular-sanitize": "^1.6.2",
-    "angular-ui-router": "^0.4.2",
-    "angular-validation-match": "^1.9.0",
+    "animate.css": "^3.1.1",
     "bootstrap": "^3.3.7",
+    "dom-tools": "^0.1.4",
     "font-awesome": "^4.7.0",
+    "history": "^3.0.0",
     "jquery": "^3.1.1",
-    "metismenu": "^2.6.2"
+    "jquery-slimscroll": "^1.3.6",
+    "metismenu": "^2.6.2",
+    "react": "^0.14.6",
+    "react-bootstrap": "^0.28.3",
+    "react-dom": "^0.14.6",
+    "react-pace": "^1.0.0",
+    "react-router": "^2.7.0"
   }
 }
