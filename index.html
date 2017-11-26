@@ -1,92 +1,14 @@
-<!--
-Copyright [2009-2017] EMBL-European Bioinformatics Institute
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-     http://www.apache.org/licenses/LICENSE-2.0
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
 <!DOCTYPE html>
 <html>
     <head>
-        <!--
-            We need to set base tag for document to deal with github pages
-            url, which is normally:
-
-            https://BurkovBA.github.io/angularjs-genoverse/
-
-            while our local url is like:
-
-            http://localhost:8000/
-
-            Also, Angular's $location in HTML5 mode requires <base> tag set.
-        -->
-        <script type="text/javascript">
-            document.write("<base href='" + document.URL + "' />");
-        </script>
-
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <meta name="viewport" content="width=device-width">
-
-        <title>
-            AngularJS - Genoverse directive
-        </title>
-        <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
-        <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.css">
-        <link rel="stylesheet" href="dist/app.css">
-        <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
-        <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">-->
+        <meta charset="UTF-8">
+        <title>Personal blog of Boris Burkov</title>
     </head>
 
-    <body ng-app="app" class="fixed-navbar fixed-sidebar" ng-strict-di>
+    <body class="fixed-navbar fixed-sidebar">
         <!-- Simple splash screen-->
         <div class="splash"> <div class="color-line"></div><div class="splash-title"><h1>Хорошо висим</h1><p>Реактивные вычисления такие реактивные... </p><div class="spinner"> <div class="rect1"></div> <div class="rect2"></div> <div class="rect3"></div> <div class="rect4"></div> <div class="rect5"></div> </div> </div> </div>
-        <!--[if lt IE 7]>
-        <p class="alert alert-danger">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
 
-        <!-- Header -->
-        <header id="header"></header>
-
-        <!-- Navigation -->
-        <aside id="menu">
-            <navigation id="navigation"></navigation>
-        </aside>
-
-        <!-- Main Wrapper -->
-        <div id="wrapper">
-            <div class="content animate-panel">
-                <ui-view></ui-view>
-            </div>
-
-            <!-- Right sidebar -->
-            <right-sidebar id="right-sidebar" class="sidebar-open" ng-show="rightSidebar"></right-sidebar>
-
-            <!-- Footer -->
-            <footer class="footer" ng-include="'/components/footer/footer.html'"></footer>
-
-        </div>
-
-        <script src="/node_modules/jquery/dist/jquery.js"></script>
-        <script src="/node_modules/metismenu/dist/metisMenu.js"></script>
-        <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
-        <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.2/angular.js"></script>-->
-        <script src="/node_modules/angular/angular.js"></script>
-        <script src="/node_modules/angular-animate/angular-animate.js"></script>
-        <script src="/node_modules/angular-cookies/angular-cookies.js"></script>
-        <script src="/node_modules/angular-messages/angular-messages.js"></script>
-        <script src="/node_modules/angular-resource/angular-resource.js"></script>
-        <script src="/node_modules/angular-sanitize/angular-sanitize.js"></script>
-        <script src="/node_modules/angular-ui-router/release/angular-ui-router.js"></script>
-        <script src="/node_modules/angular-validation-match/dist/angular-validation-match.js"></script>
-        <script src="/node_modules/angular-ui-router/release/angular-ui-router.js"></script>
-        <script src="/node_modules/angular-bootstrap/ui-bootstrap.js"></script>
-
-        <script src="/dist/app.js"></script>
+        <div id="main"></div>
     </body>
 </html>
