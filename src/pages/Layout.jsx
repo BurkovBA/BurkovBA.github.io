@@ -2,19 +2,14 @@ import React from 'react';
 import {Route, Link, Redirect, Switch} from 'react-router-dom';
 
 // import Progress from 'components/Progress';
-import Navigation from 'components/Navigation';
-import Footer from 'components/Footer';
-import Header from 'components/Header';
-import Home from 'pages/Home.jsx';
-import About from 'pages/About.jsx';
-import Data from 'pages/Data.jsx';
-import People from 'pages/People.jsx';
-import Organizations from 'pages/Organizations.jsx';
-import News from 'pages/News.jsx';
+import Navigation from '../components/Navigation';
+import Footer from '../components/Footer';
+import Header from '../components/Header';
+import Home from '../pages/Home.jsx';
 
 class Layout extends React.Component {
   render() {
-    var wrapperClass = "gray-bg " + this.props.location.pathname;
+    let wrapperClass = "gray-bg " + this.props.location.pathname;
     return (
       <div id="wrapper">
         {/*<Progress />*/}
@@ -25,11 +20,7 @@ class Layout extends React.Component {
           <Header />
             <Switch>
               <Route exact path="/home" component={Home} />
-              <Route exact path="/about" component={About} />
-              <Route exact path="/data" component={Data} />
-              <Route exact path="/people" component={People} />
-              <Route exact path="/organizations" component={Organizations} />
-              <Route exact path="/news" component={News} />
+              {/*<Route exact path="/about" component={About} />*/}
               <Redirect to="/home" />
             </Switch>
           <Footer />
@@ -40,11 +31,20 @@ class Layout extends React.Component {
   }
 
   componentDidMount() {
-    var self = this;
+    let self = this;
+
+    $(window).bind("load", function () {
+      // Remove splash screen after load
+      $('.splash').css('display', 'none')
+    });
 
     // Run correctHeight function on load and resize window event
     $(window).bind("load resize", function() {
+
+      // Set minimal height of #wrapper to fit the window
       self.correctHeight();
+
+      // Add special class to minimalize page elements when screen is less than 769px
       self.detectBody();
     });
 
@@ -55,26 +55,37 @@ class Layout extends React.Component {
   }
 
   correctHeight() {
-    var pageWrapper = $('#page-wrapper');
-    var navbarHeight = $('nav.navbar-default').height();
-    var wrapperHeight = pageWrapper.height();
+    // Get and set current height
+    let headerHeight = 62;
+    let navigationHeight = $("#navigation").height();
+    let contentHeight = $(".content").height();
 
-    if (navbarHeight > wrapperHeight) { pageWrapper.css("min-height", navbarHeight + "px"); }
-
-    if (navbarHeight <= wrapperHeight) {
-      if (navbarHeight < $(window).height()) { pageWrapper.css("min-height", $(window).height() + "px"); }
-      else { pageWrapper.css("min-height", navbarHeight + "px"); }
+    // Set new height when content height is less then navigation
+    if (contentHeight < navigationHeight) {
+        $("#wrapper").css("min-height", navigationHeight + 'px');
     }
 
-    if ($('body').hasClass('fixed-nav')) {
-      if (navbarHeight > wrapperHeight) { pageWrapper.css("min-height", navbarHeight + "px"); }
-      else { pageWrapper.css("min-height", $(window).height() - 60 + "px"); }
+    // Set new height when content height is less then navigation and navigation is less then window
+    if (contentHeight < navigationHeight && navigationHeight < $(window).height()) {
+        $("#wrapper").css("min-height", $(window).height() - headerHeight + 'px');
+    }
+
+    // Set new height when content is higher then navigation but less then window
+    if (contentHeight > navigationHeight && contentHeight < $(window).height()) {
+        $("#wrapper").css("min-height", $(window).height() - headerHeight + 'px');
     }
   }
 
+  /**
+   * Sets .body-small class on body, if width is smaller than 769px
+   */
   detectBody() {
-    if ($(document).width() < 769) { $('body').addClass('body-small'); }
-    else { $('body').removeClass('body-small'); }
+    if ($(document).width() < 769) {
+        $('body').addClass('page-small');
+    } else {
+        $('body').removeClass('page-small');
+        $('body').removeClass('show-sidebar');
+    }
   }
 
 }
