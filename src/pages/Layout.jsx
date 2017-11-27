@@ -3,8 +3,8 @@ import {Route, Link, Redirect, Switch} from 'react-router-dom';
 
 // import Progress from 'components/Progress';
 import Navigation from 'components/Navigation/index.jsx';
-import Footer from 'components/Footer/index.jsx';
 import Header from 'components/Header/index.jsx';
+import Footer from 'components/Footer/index.jsx';
 
 import Home from 'pages/Home.jsx';
 
@@ -13,7 +13,6 @@ class Layout extends React.Component {
     let wrapperClass = "gray-bg " + this.props.location.pathname;
     return (
       <div id="wrapper">
-        {/*<Progress />*/}
         <Navigation location={this.props.location}/>
 
         <div id="page-wrapper" className={wrapperClass}>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Dropdown } from 'react-bootstrap';
-import { Link, Location } from 'react-router';
+import { Link, Location } from 'react-router-dom';
 
 class Navigation extends Component {
 
@@ -27,23 +27,23 @@ class Navigation extends Component {
 
     render() {
         return [
-            <div class="profile-picture">
+            <div className="profile-picture">
                 <a href="index.html">
-                    <img src="/src/images/burkov_boris_web.jpg" class="img-circle m-b" alt="logo"></img>
+                    <img src="/src/images/burkov_boris_web.jpg" className="img-circle m-b" alt="logo"></img>
                 </a>
 
-                <div class="stats-label text-color">
-                    <span class="font-extra-bold font-uppercase">Борис Бурков</span>
+                <div className="stats-label text-color">
+                    <span className="font-extra-bold font-uppercase">Борис Бурков</span>
 
-                    <div class="dropdown" uib-dropdown>
-                        <a ui-sref="about">
-                            <small class="text-muted">Обо мне</small>
+                    <div className="dropdown">
+                        <a href="/about">
+                            <small className="text-muted">Обо мне</small>
                         </a>
                     </div>
                 </div>
             </div>,
 
-            <ul side-navigation class="nav" id="side-menu">
+            <ul className="nav" id="side-menu">
                 <li className={this.activeRoute("/main")}>
                     <Link to="/world"><i className="fa fa-th-large"></i> <span className="nav-label">Как работает мир</span></Link>
                 </li>
@@ -66,32 +66,8 @@ class Navigation extends Component {
                     <Link to="/diary"><i className="fa fa-th-large"></i> <span className="nav-label">Дневник</span></Link>
                 </li>
             </ul>
-        ]
+        ];
     }
 }
 
 export default Navigation
-
-
-
-/**
- * minimalizaSidebar - Directive for minimalize sidebar
- */
-//@ngInject
-function minimalizaMenu($rootScope) {
-    return {
-        restrict: "EA",
-        template: '<div class="header-link hide-menu" ng-click="minimalize()"><i class="fa fa-bars"></i></div>',
-        controller: ["$scope", "$element", function ($scope, $element) {
-
-            $scope.minimalize = function () {
-                if ($(window).width() < 769) {
-                    $("body").toggleClass("show-sidebar");
-                } else {
-                    $("body").toggleClass("hide-sidebar");
-                }
-            };
-        }]
-    };
-}
-minimalizaMenu.$inject = ["$rootScope"];
