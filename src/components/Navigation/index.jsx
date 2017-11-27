@@ -26,10 +26,10 @@ class Navigation extends Component {
     }
 
     render() {
-        return (
+        return [
             <div class="profile-picture">
                 <a href="index.html">
-                    <img src="/src/images/burkov_boris_web.jpg" class="img-circle m-b" alt="logo">
+                    <img src="/src/images/burkov_boris_web.jpg" class="img-circle m-b" alt="logo"></img>
                 </a>
 
                 <div class="stats-label text-color">
@@ -41,7 +41,7 @@ class Navigation extends Component {
                         </a>
                     </div>
                 </div>
-            </div>
+            </div>,
 
             <ul side-navigation class="nav" id="side-menu">
                 <li className={this.activeRoute("/main")}>
@@ -66,7 +66,7 @@ class Navigation extends Component {
                     <Link to="/diary"><i className="fa fa-th-large"></i> <span className="nav-label">Дневник</span></Link>
                 </li>
             </ul>
-        )
+        ]
     }
 }
 

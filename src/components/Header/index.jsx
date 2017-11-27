@@ -1,31 +1,29 @@
 import React from 'react';
 import { Dropdown } from 'react-bootstrap';
-import { smoothlyMenu } from '../layouts/Helpers';
 
-class TopHeader extends React.Component {
+class Header extends React.Component {
 
     toggleNavigation(e) {
         e.preventDefault();
         $("body").toggleClass("mini-navbar");
-        smoothlyMenu();
     }
 
     render() {
-        return (
-            <div class="color-line"></div>
+        return [
+            <div class="color-line"></div>,
             <div id="logo" class="light-version">
                     <span>
                         Burkov<font color="red">.net</font>
                     </span>
-            </div>
+            </div>,
             <nav role="navigation">
                     <minimaliza-menu></minimaliza-menu>
                 <div class="small-logo">
-                    <span class="text-primary">Burkov<font color="red">.net</font><br></span>
+                    <span class="text-primary">Burkov<font color="red">.net</font><br/></span>
                 </div>
                 <form role="search" class="navbar-form-custom" method="post" action="#">
                     <div class="form-group">
-                        <input type="text" placeholder="Find ..." class="form-control" name="search">
+                        <input type="text" placeholder="Find ..." class="form-control" name="search"/>
                     </div>
                 </form>
                 <div class="mobile-menu">
@@ -51,7 +49,7 @@ class TopHeader extends React.Component {
                         <li uib-dropdown ng-if="Auth.isLoggedIn()">
                             <a class="label-menu-corner" href="#" uib-dropdown-toggle>
                                 <i class="pe-7s-drawer"></i>
-                                <span ng-if="(notifications | filter:{spotted:false}).length" class="label label-success">{{(notifications | filter:{spotted:false}).length}}</span>
+                                {notifications.length && (<span class="label label-success">{notifications.length}</span>)}
                             </a>
                             <ul uib-dropdown-menu notifications class="hdropdown animated flipInX" ng-scrollbars ng-scrollbars-config="scrollbarsConfig"></ul>
                         </li>
@@ -138,8 +136,7 @@ class TopHeader extends React.Component {
                         </li>
                     </ul>
                 </div>
-            </nav>
-
+            </nav>,
 
             <div className="row border-bottom">
                 <nav className="navbar navbar-static-top white-bg" role="navigation" style={{marginBottom: 0}}>
@@ -155,11 +152,11 @@ class TopHeader extends React.Component {
                     </ul>
                 </nav>
             </div>
-        )
+        ];
     }
 }
 
-export default TopHeader
+export default Header
 
 
 
