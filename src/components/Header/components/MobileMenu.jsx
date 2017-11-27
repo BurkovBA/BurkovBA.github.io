@@ -5,9 +5,10 @@ class MobileMenu extends React.Component {
   render() {
     return (
       <div className="mobile-menu">
-        <button type="button" className="navbar-toggle mobile-menu-toggle" ng-click="collapseMobileMenu = !collapseMobileMenu">
+        <button type="button" className="navbar-toggle mobile-menu-toggle" onClick={}>
           <i className="fa fa-chevron-down"></i>
         </button>
+        <Dropdown>
         <div uib-collapse="collapseMobileMenu" className="collapse mobile-navbar">
           <ul className="nav navbar-nav">
             <li ng-if="!Auth.isLoggedIn()">
