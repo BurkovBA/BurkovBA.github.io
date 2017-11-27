@@ -2,11 +2,11 @@ import React from 'react';
 import {Route, Link, Redirect, Switch} from 'react-router-dom';
 
 // import Progress from 'components/Progress';
-import Navigation from '../components/Navigation';
-import Footer from '../components/Footer';
-import Header from '../components/Header';
+import Navigation from 'components/Navigation/index.jsx';
+import Footer from 'components/Footer/index.jsx';
+import Header from 'components/Header/index.jsx';
 
-import Home from '../pages/Home.jsx';
+import Home from 'pages/Home.jsx';
 
 class Layout extends React.Component {
   render() {

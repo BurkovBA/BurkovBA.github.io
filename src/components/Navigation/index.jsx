@@ -29,7 +29,7 @@ class Navigation extends Component {
         return (
             <div class="profile-picture">
                 <a href="index.html">
-                    <img src="/src/assets/images/burkov_boris_web.jpg" class="img-circle m-b" alt="logo">
+                    <img src="/src/images/burkov_boris_web.jpg" class="img-circle m-b" alt="logo">
                 </a>
 
                 <div class="stats-label text-color">
