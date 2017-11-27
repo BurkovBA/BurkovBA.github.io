@@ -5,6 +5,7 @@ import {Route, Link, Redirect, Switch} from 'react-router-dom';
 import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
+
 import Home from '../pages/Home.jsx';
 
 class Layout extends React.Component {
