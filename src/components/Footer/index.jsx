@@ -4,7 +4,7 @@ class Footer extends React.Component {
     render() {
         return (
             <div className="footer">
-                <span class="pull-right">
+                <span className="pull-right">
                     All rights reserved.
                 </span>
                 &copy; Boris Burkov (2017)

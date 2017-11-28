@@ -1,3 +1,4 @@
+const photo = require('images/burkov_boris_web.jpg');
 import React, { Component } from 'react';
 import { Dropdown } from 'react-bootstrap';
 import { Link, Location } from 'react-router-dom';
@@ -31,7 +32,7 @@ class Navigation extends Component {
         <div id="navigation">
           <div className="profile-picture">
             <a href="index.html">
-              <img src="/src/images/burkov_boris_web.jpg" className="img-circle m-b" alt="logo"></img>
+              <img src='${photo}' className="img-circle m-b" alt="logo" />
             </a>
 
             <div className="stats-label text-color">

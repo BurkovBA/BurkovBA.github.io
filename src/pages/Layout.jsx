@@ -12,16 +12,16 @@ class Layout extends React.Component {
   render() {
     let wrapperClass = "gray-bg " + this.props.location.pathname;
     return [
-      <Header />,
-      <Navigation location={this.props.location}/>,
-      <div id="wrapper" className={wrapperClass}>
+      <Header key="Header" />,
+      <Navigation location={this.props.location} key="Navigation" />,
+      <div id="wrapper" className={wrapperClass} key="div">
         <Switch>
           <Route exact path="/home" component={Home} />
           {/*<Route exact path="/about" component={About} />*/}
           <Redirect to="/home" />
         </Switch>
       </div>,
-      <Footer />
+      <Footer key="Footer" />
     ]
   }
 
