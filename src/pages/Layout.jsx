@@ -11,23 +11,18 @@ import Home from 'pages/Home.jsx';
 class Layout extends React.Component {
   render() {
     let wrapperClass = "gray-bg " + this.props.location.pathname;
-    return (
-      <div id="wrapper">
-        <Navigation location={this.props.location}/>
-
-        <div id="page-wrapper" className={wrapperClass}>
-
-          <Header />
-            <Switch>
-              <Route exact path="/home" component={Home} />
-              {/*<Route exact path="/about" component={About} />*/}
-              <Redirect to="/home" />
-            </Switch>
-          <Footer />
-
-        </div>
+    return [
+      <Header />,
+      <Navigation location={this.props.location}/>,
+      <div id="wrapper" className={wrapperClass}>
+        <Switch>
+          <Route exact path="/home" component={Home} />
+          {/*<Route exact path="/about" component={About} />*/}
+          <Redirect to="/home" />
+        </Switch>
+        <Footer />
       </div>
-    )
+    ]
   }
 
   componentDidMount() {
