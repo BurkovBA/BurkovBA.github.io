@@ -27,46 +27,48 @@ class Navigation extends Component {
 
   render() {
     return (
-      <div id="navigation">
-        <div className="profile-picture">
-          <a href="index.html">
-            <img src="/src/images/burkov_boris_web.jpg" className="img-circle m-b" alt="logo"></img>
-          </a>
+      <aside id="menu">
+        <div id="navigation">
+          <div className="profile-picture">
+            <a href="index.html">
+              <img src="/src/images/burkov_boris_web.jpg" className="img-circle m-b" alt="logo"></img>
+            </a>
 
-          <div className="stats-label text-color">
-            <span className="font-extra-bold font-uppercase">Борис Бурков</span>
-            <div className="dropdown">
-              <a href="/about">
-                <small className="text-muted">Обо мне</small>
-              </a>
+            <div className="stats-label text-color">
+              <span className="font-extra-bold font-uppercase">Борис Бурков</span>
+              <div className="dropdown">
+                <a href="/about">
+                  <small className="text-muted">Обо мне</small>
+                </a>
+              </div>
             </div>
           </div>
-        </div>
 
-        <ul className="nav" id="side-menu">
-          <li className={this.activeRoute("/main")}>
-            <Link to="/world"><i className="fa fa-th-large"></i> <span className="nav-label">Как работает мир</span></Link>
-          </li>
-          <li className={this.activeRoute("/software-engineering")}>
-            <Link to="/software-engineering"><i className="fa fa-th-large"></i> <span className="nav-label">Программирование</span></Link>
-          </li>
-          <li className={this.activeRoute("/economy")}>
-            <Link to="/economy"><i className="fa fa-th-large"></i> <span className="nav-label">Экономика и бизнес</span></Link>
-          </li>
-          <li className={this.activeRoute("/biomed")}>
-            <Link to="/biomed"><i className="fa fa-th-large"></i> <span className="nav-label">Биология и медицина</span></Link>
-          </li>
-          <li className={this.activeRoute("/music")}>
-            <Link to="/music"><i className="fa fa-th-large"></i> <span className="nav-label">Музыка</span></Link>
-          </li>
-          <li className={this.activeRoute("/history")}>
-            <Link to="/history"><i className="fa fa-th-large"></i> <span className="nav-label">История</span></Link>
-          </li>
-          <li className={this.activeRoute("/diary")}>
-            <Link to="/diary"><i className="fa fa-th-large"></i> <span className="nav-label">Дневник</span></Link>
-          </li>
-        </ul>
-      </div>
+          <ul className="nav" id="side-menu">
+            <li className={this.activeRoute("/main")}>
+              <Link to="/world"><i className="fa fa-th-large"></i> <span className="nav-label">Как работает мир</span></Link>
+            </li>
+            <li className={this.activeRoute("/software-engineering")}>
+              <Link to="/software-engineering"><i className="fa fa-th-large"></i> <span className="nav-label">Программирование</span></Link>
+            </li>
+            <li className={this.activeRoute("/economy")}>
+              <Link to="/economy"><i className="fa fa-th-large"></i> <span className="nav-label">Экономика и бизнес</span></Link>
+            </li>
+            <li className={this.activeRoute("/biomed")}>
+              <Link to="/biomed"><i className="fa fa-th-large"></i> <span className="nav-label">Биология и медицина</span></Link>
+            </li>
+            <li className={this.activeRoute("/music")}>
+              <Link to="/music"><i className="fa fa-th-large"></i> <span className="nav-label">Музыка</span></Link>
+            </li>
+            <li className={this.activeRoute("/history")}>
+              <Link to="/history"><i className="fa fa-th-large"></i> <span className="nav-label">История</span></Link>
+            </li>
+            <li className={this.activeRoute("/diary")}>
+              <Link to="/diary"><i className="fa fa-th-large"></i> <span className="nav-label">Дневник</span></Link>
+            </li>
+          </ul>
+        </div>
+      </aside>
     );
   }
 }

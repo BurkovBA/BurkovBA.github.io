@@ -20,8 +20,8 @@ class Layout extends React.Component {
           {/*<Route exact path="/about" component={About} />*/}
           <Redirect to="/home" />
         </Switch>
-        <Footer />
-      </div>
+      </div>,
+      <Footer />
     ]
   }
 
