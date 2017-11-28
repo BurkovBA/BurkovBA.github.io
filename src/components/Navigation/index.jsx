@@ -46,25 +46,25 @@ class Navigation extends Component {
 
           <ul className="nav" id="side-menu">
             <li className={this.activeRoute("/main")}>
-              <Link to="/world"><i className="fa fa-th-large"></i> <span className="nav-label">Как работает мир</span></Link>
+              <Link to="/world"><span className="nav-label">Как работает мир</span></Link>
             </li>
             <li className={this.activeRoute("/software-engineering")}>
-              <Link to="/software-engineering"><i className="fa fa-th-large"></i> <span className="nav-label">Программирование</span></Link>
+              <Link to="/software-engineering"><span className="nav-label">Программирование</span></Link>
             </li>
             <li className={this.activeRoute("/economy")}>
-              <Link to="/economy"><i className="fa fa-th-large"></i> <span className="nav-label">Экономика и бизнес</span></Link>
+              <Link to="/economy"><span className="nav-label">Экономика и бизнес</span></Link>
             </li>
             <li className={this.activeRoute("/biomed")}>
-              <Link to="/biomed"><i className="fa fa-th-large"></i> <span className="nav-label">Биология и медицина</span></Link>
+              <Link to="/biomed"><span className="nav-label">Биология и медицина</span></Link>
             </li>
             <li className={this.activeRoute("/music")}>
-              <Link to="/music"><i className="fa fa-th-large"></i> <span className="nav-label">Музыка</span></Link>
+              <Link to="/music"><span className="nav-label">Музыка</span></Link>
             </li>
             <li className={this.activeRoute("/history")}>
-              <Link to="/history"><i className="fa fa-th-large"></i> <span className="nav-label">История</span></Link>
+              <Link to="/history"><span className="nav-label">История</span></Link>
             </li>
             <li className={this.activeRoute("/diary")}>
-              <Link to="/diary"><i className="fa fa-th-large"></i> <span className="nav-label">Дневник</span></Link>
+              <Link to="/diary"><span className="nav-label">Дневник</span></Link>
             </li>
           </ul>
         </div>
