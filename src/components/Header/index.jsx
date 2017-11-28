@@ -8,12 +8,12 @@ class Header extends React.Component {
   render() {
     return (
       <div id="header">
-        <div className="color-line"></div>,
+        <div className="color-line"></div>
         <div id="logo" className="light-version">
           <span>
             Burkov<font color="red">.net</font>
           </span>
-        </div>,
+        </div>
         <nav role="navigation">
           <MinimalizeMenu/>
           <div className="small-logo">
