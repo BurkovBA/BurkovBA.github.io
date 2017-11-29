@@ -32,7 +32,7 @@ class Navigation extends Component {
         <div id="navigation">
           <div className="profile-picture">
             <a href="index.html">
-              <img src='${photo}' className="img-circle m-b" alt="logo" />
+              <img src={photo} className="img-circle m-b" alt="logo" />
             </a>
 
             <div className="stats-label text-color">
