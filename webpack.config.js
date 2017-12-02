@@ -1,7 +1,7 @@
 var path = require('path');
 var webpack = require('webpack');
 
-const HtmlWebpackPlugin = require("html-webpack-plugin");
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: path.join(__dirname, 'src', 'app.jsx'),
@@ -36,8 +36,12 @@ module.exports = {
         }
       },
       {
-        test: /\.scss$/,
-        use: ['style-loader', 'css-loader', 'sass-loader']
+        test: /\.(scss|sass)$/,
+        use: [
+          { loader: 'style-loader' },
+          { loader: 'css-loader', options: {sourceMap: true} },
+          { loader: 'sass-loader', options: {sourceMap: true} }
+        ]
       },
       {
         test: /\.css$/,
