@@ -1,7 +1,34 @@
 require('pages/Post.scss');
 import React from 'react';
 
+
 class Post extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      "author": "",
+      "date_created": "",
+      "title": "",
+      "subtitle": "",
+      "abstract": "",
+      "cover": "",
+      "categories": [],
+      "views": "",
+      "comments": [],
+    };
+  }
+
+  componentDidMount() {
+    // do ajax requests with following setState invocation, e.g.:
+    // http://mediatemple.net/blog/tips/loading-and-using-external-data-in-react/
+    let id = this.props.match.params.id;
+  }
+
+  componentWillUnmount() {
+    // abort any ajax here
+  }
+
   render () {
     return (
       <div className="row">
@@ -11,19 +38,19 @@ class Post extends React.Component {
               <a className="pull-left">
                 <img src="/src/images/burkov_boris_web.jpg" />
               </a>
-              <h4>{ this.props.title }</h4>
-              <span className="font-bol">{ this.props.subtitle }</span>
+              <h4>{ this.state.title }</h4>
+              <span className="font-bol">{ this.state.subtitle }</span>
               <div className="text-muted">
-                Автор: <span className="font-bold">{ this.props.author }</span>
+                Автор: <span className="font-bold">{ this.state.author }</span>
               </div>
               <div className="text-muted">
-                Дата: <span className="font-bold">{ this.props.date_created }</span>
+                Дата: <span className="font-bold">{ this.state.date_created }</span>
               </div>
               <br />
-              <img className="post-cover" src="{ this.props.cover }" alt="" />
+              <img className="post-cover" src={ this.state.cover } alt="" />
             </div>
               <div className="panel-body">
-                { this.props.children }
+                { this.state.children }
               </div>
               <div className="panel-footer">
                 <span className="pull-right">
