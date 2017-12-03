@@ -13,6 +13,7 @@ class Blog extends React.Component {
         {
           "id": "1",
           "author": "Борис Бурков",
+          "authors_avatar": require("images/burkov_boris_web.jpg"),
           "date_created": "5.01.2017",
           "title": "Об овцах и стартапщиках",
           "subtitle": "Огораживание в средневековой Англии и современные вынужденные предприниматели",
@@ -45,7 +46,7 @@ class Blog extends React.Component {
               <div className="panel-heading">
                 <div className="media clearfix">
                   <a className="pull-left">
-                    <img src="/src/images/burkov_boris_web.jpg" alt="profile-picture" />
+                    <img src={ post.authors_avatar } alt="profile-picture" />
                   </a>
                   <div className="media-body">
                     <span className="post-authorship">
@@ -62,9 +63,9 @@ class Blog extends React.Component {
                 </div>
               </div>
               <div className="panel-image">
-                <img className="img-responsive" src="{ post.cover }" alt="" />
+                <img className="img-responsive" src={ post.cover } alt="" />
                 <div className="title">
-                  <Link to="/blog/{post.id}"> <h4>{ post.title }</h4></Link>
+                  <Link to={`/blog/${post.id}`}> <h4>{ post.title }</h4></Link>
                   <small>{ post.subtitle }</small>
                 </div>
               </div>
@@ -72,7 +73,7 @@ class Blog extends React.Component {
                 <p>
                   { post.abstract }
                 </p>
-                <Link to="/blog/{post.id}"> <h4>Продолжение...</h4></Link>
+                <Link to={`/blog/${post.id}`}> <h4>Продолжение...</h4></Link>
               </div>
             </div>
           </div>

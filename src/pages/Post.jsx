@@ -1,3 +1,4 @@
+require('pages/Post.scss');
 import React from 'react';
 
 class Post extends React.Component {
@@ -19,7 +20,7 @@ class Post extends React.Component {
                 Дата: <span className="font-bold">{ this.props.date_created }</span>
               </div>
               <br />
-              <img style="width:80%;" src="{ this.props.cover }" alt="" />
+              <img className="post-cover" src="{ this.props.cover }" alt="" />
             </div>
               <div className="panel-body">
                 { this.props.children }
