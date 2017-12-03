@@ -22,7 +22,7 @@ class Blog extends React.Component {
   render() {
     return (
       <div className="row">
-        { posts.map((post) =>
+        { this.state.posts.map((post) =>
           <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
             <div className="hpanel blog-box">
               <div className="panel-heading">
