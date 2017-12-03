@@ -1,12 +1,29 @@
 import React from 'react';
 import { Link, Location } from 'react-router-dom';
 
+require("pages/Blog.scss");
+
+
 class Blog extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      posts: []
+      posts: [
+        {
+          "id": "1",
+          "author": "Борис Бурков",
+          "date_created": "5.01.2017",
+          "title": "Об овцах и стартапщиках",
+          "subtitle": "Огораживание в средневековой Англии и современные вынужденные предприниматели",
+          "abstract": "Гербом Англии должны быть не три льва, а дюжина овец.\n Этим кротким созданиям она отчасти обязана своей индустриальной мощью, позволившей ей так вырваться вперед в общественном и экономическом развитии.",
+          "cover": "http://www.rabstol.net/uploads/gallery/main/515/rabstol_net_sheep_02.jpg",
+          "categories": ["Big Picture", "Economy & Finance", "Entrepreneurship"],
+          "views": "",
+          "comments": [],
+          "content": "Сегодня я добирался на работу в Хинкстон на поезде и проезжал овечью ферму возле деревни Грейт Честерфорд. \n лучший друг советских физкультуников положил 20 миллионов жизней. Впрочем, и Merrie Olde England без боя не сдавалась - смена экономической модели стала сильнейшим социальным потрясением для широких слоев крестьян."
+        },
+      ]
     };
   }
 
@@ -23,7 +40,7 @@ class Blog extends React.Component {
     return (
       <div className="row">
         { this.state.posts.map((post) =>
-          <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+          <div key={post.id} className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
             <div className="hpanel blog-box">
               <div className="panel-heading">
                 <div className="media clearfix">
@@ -31,7 +48,7 @@ class Blog extends React.Component {
                     <img src="/src/images/burkov_boris_web.jpg" alt="profile-picture" />
                   </a>
                   <div className="media-body">
-                    <span style="display: inline-block;">
+                    <span className="post-authorship">
                       <small><span className="font-bold">{ post.author }</span> </small>
                       <br />
                       <small className="text-muted"><i className="fa fa-calendar"> </i> { post.date_created }</small>
