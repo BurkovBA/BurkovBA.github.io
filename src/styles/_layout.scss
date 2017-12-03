@@ -112,8 +112,9 @@ body {
 .fixed-sidebar #menu {
   position: fixed;
   overflow-x: hidden;
-  overflow-y: scroll;
-  width: 197px;
+  overflow-y: hidden;
+  border-right: 1px solid #e4e5e7;
+  width: 181px;
   //padding-right: 17px; - commented out, it creates useless additional padding
 }
 
