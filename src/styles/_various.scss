@@ -155,7 +155,7 @@
   width: $menu-width;
   background-color: $color-navy-blue;
   padding: 18px 10px 18px 18px;
-  height: 56px;
+  height: 55px;
   text-align: center;
 }
 
@@ -291,7 +291,7 @@
 }
 
 .header-link {
-  padding: 18px 26px 17px 26px; // padding-bottom now 17px, used to be 23 px
+  padding: 17px 26px 17px 26px; // padding-bottom now 17px, used to be 23 px
   font-size: 14px;
   float: left;
   border-right:1px solid $border-color;

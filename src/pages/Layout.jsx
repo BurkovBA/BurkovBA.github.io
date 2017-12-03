@@ -51,7 +51,7 @@ class Layout extends React.Component {
 
   correctHeight() {
     // Get and set current height
-    let headerHeight = 62;
+    let headerHeight = 55;
     let navigationHeight = $("#navigation").height();
     let contentHeight = $(".content").height();
 
