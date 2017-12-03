@@ -2,6 +2,23 @@ import React from 'react';
 import { Link, Location } from 'react-router-dom';
 
 class Blog extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      posts: []
+    };
+  }
+
+  componentDidMount() {
+    // do ajax requests with following setState invocation, e.g.:
+    // http://mediatemple.net/blog/tips/loading-and-using-external-data-in-react/
+  }
+
+  componentWillUnmount() {
+    // abort any ajax here
+  }
+
   render() {
     return (
       <div className="row">
