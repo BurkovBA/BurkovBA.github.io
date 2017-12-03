@@ -11,19 +11,19 @@ class Header extends React.Component {
         {/*<div className="color-line"></div>*/}
         <div id="logo" className="light-version">
           <span>
-            Burkov<font color="red">.net</font>
+            BurkovBA<font color="red">.github.io</font>
           </span>
         </div>
         <nav role="navigation">
           <MinimalizeMenu/>
           <div className="small-logo">
-            <span className="text-primary">Burkov<font color="red">.net</font><br/></span>
+            <span className="text-primary">BurkovBA<font color="red">.github.io</font><br/></span>
           </div>
-          <form role="search" className="navbar-form-custom" method="post" action="#">
-            <div className="form-group">
-              <input type="text" placeholder="Find ..." className="form-control" name="search"/>
-            </div>
-          </form>
+          {/*<form role="search" className="navbar-form-custom" method="post" action="#">*/}
+            {/*<div className="form-group">*/}
+              {/*<input type="text" placeholder="Find ..." className="form-control" name="search"/>*/}
+            {/*</div>*/}
+          {/*</form>*/}
           <MobileMenu/>
           <DesktopMenu/>
         </nav>

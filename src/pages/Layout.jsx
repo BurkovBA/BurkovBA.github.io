@@ -10,16 +10,17 @@ import Home from 'pages/Home.jsx';
 
 class Layout extends React.Component {
   render() {
-    let wrapperClass = "gray-bg " + this.props.location.pathname;
     return [
       <Header key="Header" />,
       <Navigation location={this.props.location} key="Navigation" />,
-      <div id="wrapper" className={wrapperClass} key="div">
-        <Switch>
-          <Route exact path="/home" component={Home} />
-          {/*<Route exact path="/about" component={About} />*/}
-          <Redirect to="/home" />
-        </Switch>
+      <div id="wrapper" key="div">
+        <div className="content content-boxed">
+          <Switch>
+            <Route exact path="/home" component={Home} />
+            {/*<Route exact path="/about" component={About} />*/}
+            <Redirect to="/home" />
+          </Switch>
+        </div>
       </div>,
       <Footer key="Footer" />
     ]
