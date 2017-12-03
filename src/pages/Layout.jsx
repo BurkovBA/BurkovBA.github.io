@@ -7,6 +7,7 @@ import Header from 'components/Header/index.jsx';
 import Footer from 'components/Footer/index.jsx';
 
 import Home from 'pages/Home.jsx';
+import Blog from 'pages/Blog.jsx';
 
 class Layout extends React.Component {
   render() {
@@ -16,9 +17,9 @@ class Layout extends React.Component {
       <div id="wrapper" key="div">
         <div className="content content-boxed">
           <Switch>
-            <Route exact path="/home" component={Home} />
+            <Route exact path="/blog" component={Blog} />
             {/*<Route exact path="/about" component={About} />*/}
-            <Redirect to="/home" />
+            <Redirect to="/blog" />
           </Switch>
         </div>
       </div>,
