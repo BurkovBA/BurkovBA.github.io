@@ -13,6 +13,7 @@ context.keys().forEach(function (path) {
 });
 console.log(posts);
 
+
 class Post extends React.Component {
   constructor(props) {
     super(props);
@@ -38,7 +39,7 @@ class Post extends React.Component {
     // http://mediatemple.net/blog/tips/loading-and-using-external-data-in-react/
     self.setState({
       id: this.props.match.params.id,
-      post: posts[this.props.match.params.id]
+      post: posts[this.props.match.params.id].default
     });
   }
 
