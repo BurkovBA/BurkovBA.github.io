@@ -71,7 +71,7 @@ class Post extends React.Component {
               <img className="post-cover" src={ this.state.cover } alt="" />
             </div>
               <div className="panel-body">
-                { this.state.children }
+                { this.state.content }
               </div>
               <div className="panel-footer">
                 <span className="pull-right">

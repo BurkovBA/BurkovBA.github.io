@@ -11,7 +11,7 @@ class Blog extends React.Component {
     this.state = {
       posts: [
         {
-          "id": "1",
+          "id": "5-01-2017-1",
           "author": "Борис Бурков",
           "authors_avatar": require("images/burkov_boris_web.jpg"),
           "date_created": "5.01.2017",
