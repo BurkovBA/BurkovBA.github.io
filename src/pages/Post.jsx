@@ -7,7 +7,9 @@ let context = require.context("./posts", true, /\.*/);
 
 console.log(context.keys());
 context.keys().forEach(function (path) {
-  posts[path] = context(path);
+  let id = path.match(/\d{4}-\d{2}-\d{2}-\d/);
+  console.log(id);
+  posts[id] = context(path);
 });
 console.log(posts);
 
@@ -29,34 +31,15 @@ class Post extends React.Component {
     };
   }
 
-  componentDidMount() {
+  componentWillMount() {
     let self = this;
 
     // do ajax requests with following setState invocation, e.g.:
     // http://mediatemple.net/blog/tips/loading-and-using-external-data-in-react/
-    let id = this.props.match.params.id;
-
-    // in production we want JSON to be served from github pages:
-    // https://stackoverflow.com/questions/39199042/serve-json-data-from-github-pages
-    // in development it's got to be served by webpackDevServer locally
-    let url = '/api/' + id;
-
-    self.promise = $.ajax({url: url});
-    self.promise.then(
-      (data) => { self.setState(JSON.parse(data)); },
-      () => {console.log("Rejected");
+    self.setState({
+      id: this.props.match.params.id,
+      post: posts[this.props.match.params.id]
     });
-  }
-
-  componentDidUpdate() {
-    // better call this than setState callback
-    // console.log("componentDidUpdate() called");
-    // console.log("setState callback called, self.state = ", self.state);
-  }
-
-  componentWillUnmount() {
-    // abort any ajax here
-    if (this.promise) this.promise.abort();
   }
 
   render () {
@@ -80,7 +63,7 @@ class Post extends React.Component {
               <img className="post-cover" src={ this.state.cover } alt="" />
             </div>
               <div className="panel-body">
-                { this.state.content }
+                <this.state.post onload={this.setState} />
               </div>
               <div className="panel-footer">
                 <span className="pull-right">

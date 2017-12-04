@@ -3,6 +3,15 @@ import { Link, Location } from 'react-router-dom';
 
 require("pages/Blog.scss");
 
+// import all blog posts (second argument means recursively)
+let posts = {};
+let context = require.context("./posts", true, /\.*/);
+
+context.keys().forEach(function (path) {
+  let id = path.match(/\d{4}-\d{2}-\d{2}-\d/);
+  posts[id] = context(path);
+});
+
 
 class Blog extends React.Component {
   constructor(props) {
@@ -11,7 +20,7 @@ class Blog extends React.Component {
     this.state = {
       posts: [
         {
-          "id": "5-01-2017-1",
+          "id": "2017-05-01-1",
           "author": "Борис Бурков",
           "authors_avatar": require("images/burkov_boris_web.jpg"),
           "date_created": "5.01.2017",
