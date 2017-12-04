@@ -1,6 +1,15 @@
 require('pages/Post.scss');
 import React from 'react';
 
+// import all blog posts (second argument means recursively)
+let posts = {};
+let context = require.context("./posts", true, /\.*/);
+
+console.log(context.keys());
+context.keys().forEach(function (path) {
+  posts[path] = context(path);
+});
+console.log(posts);
 
 class Post extends React.Component {
   constructor(props) {
