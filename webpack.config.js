@@ -63,7 +63,7 @@ module.exports = {
   },
   devServer: {
     publicPath: '/',
-    contentBase: './dist',
+    contentBase: './',
     hot: true
   },
   devtool: "source-map"
