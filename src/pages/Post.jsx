@@ -47,7 +47,7 @@ class Post extends React.Component {
 
   componentWillUnmount() {
     // abort any ajax here
-    self.promise.abort();
+    if (this.promise) this.promise.abort();
   }
 
   render () {

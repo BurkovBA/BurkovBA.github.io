@@ -24,8 +24,8 @@ class Layout extends React.Component {
             <Redirect to="/blog" />
           </Switch>
         </div>
-      </div>,
-      <Footer key="Footer" />
+        <Footer key="Footer" />
+      </div>
     ]
   }
 
