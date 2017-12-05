@@ -5,13 +5,11 @@ import React from 'react';
 let posts = {};
 let context = require.context("./posts", true, /\.*/);
 
-console.log(context.keys());
 context.keys().forEach(function (path) {
   let id = path.match(/\d{4}-\d{2}-\d{2}-\d/);
   console.log(id);
   posts[id] = context(path);
 });
-console.log(posts);
 
 
 class Post extends React.Component {
@@ -58,9 +56,9 @@ class Post extends React.Component {
         <div className="col-lg-12">
           <div className="hpanel blog-article-box">
             <div className="panel-heading">
-              <a className="pull-left">
-                <img src={this.state.authors_avatar} />
-              </a>
+              {/*<a className="pull-left">*/}
+                {/*<img src={this.state.authors_avatar} />*/}
+              {/*</a>*/}
               <h4>{ this.state.title }</h4>
               <span className="font-bol">{ this.state.subtitle }</span>
               <div className="text-muted">

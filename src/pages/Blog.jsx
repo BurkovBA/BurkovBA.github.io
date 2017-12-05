@@ -3,13 +3,13 @@ import { Link, Location } from 'react-router-dom';
 
 require("pages/Blog.scss");
 
-// import all blog posts (second argument means recursively)
-let posts = {};
+// import metadata of blog posts
+let posts = [];
 let context = require.context("./posts", true, /\.*/);
 
 context.keys().forEach(function (path) {
   let id = path.match(/\d{4}-\d{2}-\d{2}-\d/);
-  posts[id] = context(path);
+  posts.push(context(path).metadata);
 });
 
 
@@ -18,22 +18,7 @@ class Blog extends React.Component {
     super(props);
 
     this.state = {
-      posts: [
-        {
-          "id": "2017-01-05-1",
-          "author": "Борис Бурков",
-          "authors_avatar": require("images/burkov_boris_web.jpg"),
-          "date_created": "5.01.2017",
-          "title": "Об овцах и стартапщиках",
-          "subtitle": "Огораживание в средневековой Англии и современные вынужденные предприниматели",
-          "abstract": "Гербом Англии должны быть не три льва, а дюжина овец.\n Этим кротким созданиям она отчасти обязана своей индустриальной мощью, позволившей ей так вырваться вперед в общественном и экономическом развитии.",
-          "cover": "http://www.rabstol.net/uploads/gallery/main/515/rabstol_net_sheep_02.jpg",
-          "categories": ["Big Picture", "Economy & Finance", "Entrepreneurship"],
-          "views": "",
-          "comments": [],
-          "content": "Сегодня я добирался на работу в Хинкстон на поезде и проезжал овечью ферму возле деревни Грейт Честерфорд. \n лучший друг советских физкультуников положил 20 миллионов жизней. Впрочем, и Merrie Olde England без боя не сдавалась - смена экономической модели стала сильнейшим социальным потрясением для широких слоев крестьян."
-        },
-      ]
+      posts: posts
     };
   }
 
