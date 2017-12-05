@@ -23,8 +23,7 @@ class Blog extends React.Component {
   }
 
   componentDidMount() {
-    // do ajax requests with following setState invocation, e.g.:
-    // http://mediatemple.net/blog/tips/loading-and-using-external-data-in-react/
+    console.log(this.props.match);
   }
 
   componentWillUnmount() {

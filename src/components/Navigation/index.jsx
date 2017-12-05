@@ -46,26 +46,32 @@ class Navigation extends Component {
           </div>
 
           <ul className="nav" id="side-menu">
-            <li className={this.activeRoute("/main")}>
-              <Link to="/world"><span className="nav-label">Как работает мир</span></Link>
+            <li className={this.activeRoute("/blog?category=how-life-works")}>
+              <Link to="/blog?category=how-life-works"><span className="nav-label">Как устроена жизнь</span></Link>
             </li>
-            <li className={this.activeRoute("/software-engineering")}>
-              <Link to="/software-engineering"><span className="nav-label">Программирование</span></Link>
+            <li className={this.activeRoute("/blog?category=software-engineering")}>
+              <Link to="/blog?category=software-engineering"><span className="nav-label">Программирование</span></Link>
             </li>
-            <li className={this.activeRoute("/economy")}>
-              <Link to="/economy"><span className="nav-label">Экономика и бизнес</span></Link>
+            <li className={this.activeRoute("/blog?category=business")}>
+              <Link to="/blog?category=business"><span className="nav-label">Бизнес</span></Link>
             </li>
-            <li className={this.activeRoute("/biomed")}>
-              <Link to="/biomed"><span className="nav-label">Биология и медицина</span></Link>
+            <li className={this.activeRoute("/blog?category=economy")}>
+              <Link to="/blog?category=economy"><span className="nav-label">Экономика</span></Link>
             </li>
-            <li className={this.activeRoute("/music")}>
-              <Link to="/music"><span className="nav-label">Музыка</span></Link>
+            <li className={this.activeRoute("/blog?category=biomed")}>
+              <Link to="/blog?category=biomed"><span className="nav-label">Биология и медицина</span></Link>
             </li>
-            <li className={this.activeRoute("/history")}>
-              <Link to="/history"><span className="nav-label">История</span></Link>
+            <li className={this.activeRoute("/blog?category=math")}>
+              <Link to="/blog?category=math"><span className="nav-label">Математика</span></Link>
             </li>
-            <li className={this.activeRoute("/diary")}>
-              <Link to="/diary"><span className="nav-label">Дневник</span></Link>
+            <li className={this.activeRoute("/blog?category=music")}>
+              <Link to="/blog?category=music"><span className="nav-label">Музыка</span></Link>
+            </li>
+            <li className={this.activeRoute("/blog?category=history")}>
+              <Link to="/blog?category=history"><span className="nav-label">История</span></Link>
+            </li>
+            <li className={this.activeRoute("/blog?category=people")}>
+              <Link to="/blog?category=people"><span className="nav-label">Люди</span></Link>
             </li>
           </ul>
         </div>
