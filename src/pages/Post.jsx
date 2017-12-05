@@ -30,6 +30,8 @@ class Post extends React.Component {
       "views": "",
       "comments": [],
     };
+
+    this.onContentLoad = this.onContentLoad.bind(this);
   }
 
   componentWillMount() {
@@ -41,6 +43,13 @@ class Post extends React.Component {
       id: this.props.match.params.id,
       post: posts[this.props.match.params.id].default
     });
+  }
+
+  /**
+   * This method runs when Content is loaded to pass state from it to Post.
+   */
+  onContentLoad(state) {
+    this.setState(state);
   }
 
   render () {
@@ -64,7 +73,7 @@ class Post extends React.Component {
               <img className="post-cover" src={ this.state.cover } alt="" />
             </div>
               <div className="panel-body">
-                <this.state.post onload={this.setState} />
+                <this.state.post onload={this.onContentLoad} />
               </div>
               <div className="panel-footer">
                 <span className="pull-right">
