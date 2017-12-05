@@ -10,7 +10,7 @@ let metadata = {
   subtitle: "Огораживание в средневековой Англии и современные вынужденные предприниматели",
   abstract: "Гербом Англии должны быть не три льва, а дюжина овец.\n Этим кротким созданиям она отчасти обязана своей индустриальной мощью, позволившей ей так вырваться вперед в общественном и экономическом развитии.",
   cover: "http://www.rabstol.net/uploads/gallery/main/515/rabstol_net_sheep_02.jpg",
-  categories: ["Big Picture", "Economy & Finance", "Entrepreneurship"],
+  categories: ["how-life-works", "economy", "business", "history"],
   views: "",
   comments: [],
 };
