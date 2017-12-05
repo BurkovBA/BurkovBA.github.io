@@ -31,7 +31,7 @@ class Navigation extends Component {
       <aside id="menu">
         <div id="navigation">
           <div className="profile-picture">
-            <a href="index.html">
+            <a href="/">
               <img src={photo} className="img-circle m-b" alt="logo" />
             </a>
 
