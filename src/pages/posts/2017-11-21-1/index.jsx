@@ -102,7 +102,9 @@ class Content extends React.Component {
           Мама, конечно, объяснила, что её оставили какие-то плохие люди, но слово звучало завораживающе...
           Хе-хе, зуб даю, что если бы Гайдн родился века на 2 позже, у AC/DC был бы клавишник!)
         </p>
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/uT3SBzmDxGk" className="center-block" frameBorder="0" gesture="media" allow="encrypted-media" allowFullScreen></iframe>
+        <div className="video-container">
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/uT3SBzmDxGk" frameBorder="0" gesture="media" allow="encrypted-media" allowFullScreen></iframe>
+        </div>
         <div className="caption text-center">XVIII century Thunderstruck by 2Cello</div>
         <p>
           Увы, ничто не вечно: Малькольм Янг начал испытывать проблемы со здоровьем в конце 2000-ых.
@@ -127,7 +129,9 @@ class Content extends React.Component {
           Что ж, здоровья фанатичному Ангусу Янгу и ушедшим на покой ветераном.
           И спасибо Малькольму Янгу за его необузданное творчество.
         </p>
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/pAgnJDJN4VA" className="center-block" frameBorder="0" gesture="media" allow="encrypted-media" allowFullScreen></iframe>
+        <div className="video-container">
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/pAgnJDJN4VA" frameBorder="0" gesture="media" allow="encrypted-media" allowFullScreen></iframe>
+        </div>
         <div className="caption text-center">AC/DC - Back in Black (1980)</div>
       </div>
     )
