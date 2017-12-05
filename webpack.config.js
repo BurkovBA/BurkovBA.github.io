@@ -48,7 +48,7 @@ module.exports = {
         use: ['style-loader', 'css-loader']
       },
       {
-        test: /\.(png|jpg|gif)(\?v=\d+\.\d+\.\d+)?$/,
+        test: /\.(png|jpe?g|gif)(\?v=\d+\.\d+\.\d+)?$/,
         loader: 'url-loader?limit=100000'
       },
       {

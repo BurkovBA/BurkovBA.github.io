@@ -5,7 +5,7 @@ require("pages/Blog.scss");
 
 // import metadata of blog posts
 let posts = [];
-let context = require.context("./posts", true, /\.*/);
+let context = require.context("./posts", true, /\.jsx/);
 
 context.keys().forEach(function (path) {
   let id = path.match(/\d{4}-\d{2}-\d{2}-\d/);
