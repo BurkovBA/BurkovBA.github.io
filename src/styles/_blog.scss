@@ -58,6 +58,11 @@
   color: #fff !important;
 }
 
+/* added by me */
+.blog-article-box a {
+  text-decoration: underline;
+}
+
 .blog-article-box .panel-heading {
   background: #fff;
   border-top: 1px solid $border-color;
@@ -73,7 +78,7 @@
 .blog-article-box .panel-heading h4 {
   font-size: 32px;
   font-weight: 700;
-  color: darken($color-text, 10%);
+  color: $color-text; //darken($color-text, 50%);
 }
 
 .blog-article-box .panel-body {
@@ -81,10 +86,12 @@
 }
 
 .blog-article-box .panel-body p {
-  font-family: "Times New Roman", Georgia, Serif;
-  font-size: 20px;
+  font-family: Georgia, "Open Sans", Verdana;
+  font-size: 18px; /* 20px; */
   line-height: 32px;
-  color: darken($color-text, 10%);
+  color: $color-text; //darken($color-text, 50%);
+  margin-bottom: 1.5em;
+  margin-top: 1.5em;
 }
 
 @media(max-width: 768px) {
@@ -93,9 +100,11 @@
   }
 
   .blog-article-box .panel-body p {
-    font-family: "Times New Roman", Georgia, Serif;
+    font-family: Georgia, "Open Sans", Verdana;
     font-size: 16px;
     line-height: 28px;
+    margin-bottom: 1.5em;
+    margin-top: 1.5em;
   }
 
   .blog-article-box .panel-heading {
