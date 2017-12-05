@@ -1,5 +1,6 @@
 .blog-box p {
   font-size: 12px;
+  color: darken($color-text, 100%);
 }
 
 .blog-box h4 {
@@ -95,7 +96,7 @@
 .blog-article-box .panel-heading h4 {
   font-size: 32px;
   font-weight: 700;
-  color: $color-text; //darken($color-text, 50%);
+  color: darken($color-text, 100%);
 }
 
 .blog-article-box .panel-body {
@@ -103,10 +104,10 @@
 }
 
 .blog-article-box .panel-body p {
-  font-family: Georgia, "Open Sans", Verdana;
-  font-size: 18px; /* 20px; */
-  line-height: 32px;
-  color: $color-text; //darken($color-text, 50%);
+  font-family: "Open Sans", Helvetica, Verdana;
+  font-size: 16px; /* 20px; */
+  line-height: 28px; /* 32px; */
+  color: darken($color-text, 100%);
   margin-bottom: 1.5em;
   margin-top: 1.5em;
 }
@@ -117,7 +118,7 @@
   }
 
   .blog-article-box .panel-body p {
-    font-family: Georgia, "Open Sans", Verdana;
+    font-family: "Open Sans", Helvetica, Verdana;
     font-size: 16px;
     line-height: 28px;
     margin-bottom: 1.5em;
