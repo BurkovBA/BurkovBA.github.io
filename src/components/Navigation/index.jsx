@@ -52,7 +52,7 @@ class Navigation extends Component {
 
           <ul className="nav" id="side-menu">
             <li className={`${this.activeRoute("/blog")}`}>
-              <Link to="/blog" onClick={() => window.location.reload()}><span className="nav-label">Все</span></Link>
+              <Link to="/blog" onClick={() => window.location.reload()}><span className="nav-label">Все записи</span></Link>
             </li>
             <li className={`${this.activeRoute("/blog?category=how-life-works")} hwhite`}>
               <Link to="/blog?category=how-life-works" onClick={() => window.location.reload()}><span className="nav-label">Как устроена жизнь</span></Link>
