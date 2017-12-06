@@ -11,6 +11,7 @@ let metadata = {
   abstract: "Гербом Англии должны быть не три льва, а дюжина овец.\n Этим кротким созданиям она отчасти обязана своей индустриальной мощью, позволившей ей так вырваться вперед в общественном и экономическом развитии.",
   cover: "http://www.rabstol.net/uploads/gallery/main/515/rabstol_net_sheep_02.jpg",
   categories: ["how-life-works", "economy", "business", "history"],
+  time_to_read: 1,
   views: "",
   comments: [],
 };

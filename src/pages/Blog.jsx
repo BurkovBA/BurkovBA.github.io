@@ -62,6 +62,7 @@ class Blog extends React.Component {
                       <small className="text-muted"><i className="fa fa-calendar"> </i> { post.date_created }</small>
                     </span>
                     <span className="pull-right">
+                      <small><i className="fa fa-clock-o"> </i> Time to read: { post.time_to_read } min</small>
                       <br />
                       <small>{ post.categories.map((category, index) =>
                         <span key={category}>

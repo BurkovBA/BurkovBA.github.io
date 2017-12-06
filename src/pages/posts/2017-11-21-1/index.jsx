@@ -19,6 +19,7 @@ let metadata = {
   "Если смерть Джорджа была мало кем замечена, то про Малькольма Янга сообщали во всех СМИ, ведь он - основатель легендарной австралийской рок-группы AC/DC.\n",
   cover: MalcolmYoung,
   categories: ["history", "music", "people"],
+  time_to_read: 10,
   views: "",
   comments: [],
 };
