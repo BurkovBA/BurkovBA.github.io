@@ -11,7 +11,7 @@ let metadata = {
   abstract: "Как устроена жизнь простого российского мол. биолога я примерно представляю. Денег нет - денег нет - денег нет - денег нет - да ну нафиг, пойду в Мерк... \n" +
   "Посмотрел, как она устроена у английского. В каком-то смысле совсем по-другому, в каком-то - точно так же...",
   cover: "https://www.babraham.ac.uk/files/thumb/6f0819afee3db8f4244897096b05058e.png/900/300/fit",  //"http://www.bbsrc.ac.uk/bbsrc/cache/file/88E08F57-8AD0-4735-9AF86EC73E19D8B0.jpg",
-  categories: ["Big Picture", "Biomed"],
+  categories: ["how-life-works", "biomed"],
   views: "",
   comments: [],
 };
