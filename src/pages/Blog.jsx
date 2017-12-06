@@ -23,24 +23,19 @@ class Blog extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props.location);
     // get category from get params, if any
     const search = this.props.location.search; // could be '?category=music'
     const params = new URLSearchParams(search);
     const category = params.get('category'); // bar
 
-    console.log(category);
-    console.log(posts);
     let filteredPosts, orderedPosts;
 
     // filter only those posts that belong to this cathegory
     if (category) filteredPosts = posts.filter((post) => { return !(post.categories.indexOf(category) === -1) });
     else filteredPosts = posts;
-    console.log(filteredPosts);
 
     // order posts by date - which actually corresponds to lexicographical order
     orderedPosts = filteredPosts.sort((a, b) => { return b.id.localeCompare(a.id) });
-    console.log(orderedPosts);
 
     this.setState({posts: orderedPosts})
   }

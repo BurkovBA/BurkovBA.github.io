@@ -19,11 +19,13 @@ class Navigation extends Component {
   }
 
   activeRoute(routeName) {
-    return this.props.location.pathname.indexOf(routeName) > -1 ? "active" : "";
+    let pathnameAndSearch = this.props.location.pathname + this.props.location.search;
+    return pathnameAndSearch.indexOf(routeName) > -1 ? "active" : "";
   }
 
   secondLevelActive(routeName) {
-    return this.props.location.pathname.indexOf(routeName) > -1 ? "nav nav-second-level collapse in" : "nav nav-second-level collapse";
+    let pathnameAndSearch = this.props.location.pathname + this.props.location.search;
+    return pathnameAndSearch.indexOf(routeName) > -1 ? "nav nav-second-level collapse in" : "nav nav-second-level collapse";
   }
 
   render() {
