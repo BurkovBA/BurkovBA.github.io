@@ -55,10 +55,12 @@ class Post extends React.Component {
       <div className="row">
         <div className="col-lg-12">
           <div className="hpanel blog-article-box">
-            <div className="panel-heading">
+            <div className="panel-heading blog-panel-heading">
               {/*<a className="pull-left">*/}
                 {/*<img src={this.state.authors_avatar} />*/}
               {/*</a>*/}
+              <img className="img-responsive" src={ this.state.cover } alt="" />
+              <br />
               <h4>{ this.state.title }</h4>
               <span className="font-bol">{ this.state.subtitle }</span>
               <div className="text-muted">
@@ -67,8 +69,6 @@ class Post extends React.Component {
               <div className="text-muted">
                 Дата: <span className="font-bold">{ this.state.date_created }</span>
               </div>
-              <br />
-              <img className="post-cover" src={ this.state.cover } alt="" />
             </div>
               <div className="panel-body">
                 <this.state.post onload={this.onContentLoad} />
