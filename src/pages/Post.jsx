@@ -80,7 +80,7 @@ class Post extends React.Component {
                 {/*<img src={this.state.authors_avatar} />*/}
               {/*</a>*/}
               <div className="panel-image">
-                <img className="img-responsive" src={ this.state.cover } alt="" />
+                <img className="img-responsive center-block" src={ this.state.cover } alt="" />
                 <div className="title">
                   <h4>{ this.state.title }</h4>
                   <span className="font-bold">{ this.state.subtitle }</span>

@@ -103,6 +103,7 @@
   border-left: 1px solid $border-color;
   border-right: 1px solid $border-color;
   position: relative;
+  display: inline-block; // added by me to position title relative to image
 }
 
 /* added by me */
