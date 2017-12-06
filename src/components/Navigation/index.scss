@@ -1,4 +1,5 @@
 // Color list
+$color-white:#ffffff;
 $color-navy-blue:#34495e;
 $color-violet:#9b59b6;
 $color-blue:#3498db;
@@ -7,6 +8,10 @@ $color-yellow:#ffb606;
 $color-orange:#e67e22;
 $color-red:#e74c3c;
 $color-red-deep:#c0392b;
+
+#side-menu .hwhite {
+  border-right: 2px solid $color-white;
+}
 
 #side-menu .hgreen {
   border-right: 2px solid $color-green;
@@ -38,4 +43,40 @@ $color-red-deep:#c0392b;
 
 #side-menu .hnavyblue {
   border-right: 2px solid $color-navy-blue;
+}
+
+.label-how-life-works {
+  background-color: $color-white;
+}
+
+.label-software-engineering {
+  background-color: $color-red;
+}
+
+.label-business {
+  background-color: $color-red-deep;
+}
+
+.label-economy {
+  background-color: $color-yellow;
+}
+
+.label-biomed {
+  background-color: $color-green;
+}
+
+.label-math {
+  background-color: $color-navy-blue;
+}
+
+.label-music {
+  background-color: $color-blue;
+}
+
+.label-history {
+  background-color: $color-orange;
+}
+
+.label-people {
+  background-color: $color-violet;
 }

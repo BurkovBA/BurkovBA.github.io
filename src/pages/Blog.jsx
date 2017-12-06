@@ -62,9 +62,17 @@ class Blog extends React.Component {
                       <small className="text-muted"><i className="fa fa-calendar"> </i> { post.date_created }</small>
                     </span>
                     <span className="pull-right">
-                      <small><i className="fa fa-eye"> </i> Просмотров: 62 </small>
                       <br />
-                      <small><i className="fa fa-comments-o"> </i> Комментариев: 10</small>
+                      <small>{ post.categories.map((category, index) =>
+                        <span key={category}>
+                          <span>{ !!index && ' ' }</span>
+                          <span className={`label label-${category}`}>{ category }</span>
+                        </span>
+                      )}
+                      </small>
+                      {/*<small><i className="fa fa-eye"> </i> Просмотров: 62 </small>*/}
+                      {/*<br />*/}
+                      {/*<small><i className="fa fa-comments-o"> </i> Комментариев: 10</small>*/}
                     </span>
                   </div>
                 </div>
