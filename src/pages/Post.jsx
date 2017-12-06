@@ -86,8 +86,6 @@ class Post extends React.Component {
                   <span className="font-bold">{ this.state.subtitle }</span>
                 </div>
               </div>
-              {/*<h4>{ this.state.title }</h4>*/}
-              {/*<span className="font-bold">{ this.state.subtitle }</span>*/}
               <div className="text-muted">
                 Автор: <span className="font-bold">{ this.state.author }</span>
               </div>
