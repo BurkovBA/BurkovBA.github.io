@@ -59,10 +59,15 @@ class Post extends React.Component {
               {/*<a className="pull-left">*/}
                 {/*<img src={this.state.authors_avatar} />*/}
               {/*</a>*/}
-              <img className="img-responsive" src={ this.state.cover } alt="" />
-              <br />
-              <h4>{ this.state.title }</h4>
-              <span className="font-bol">{ this.state.subtitle }</span>
+              <div className="panel-image">
+                <img className="img-responsive" src={ this.state.cover } alt="" />
+                <div className="title">
+                  <h4>{ this.state.title }</h4>
+                  <span className="font-bold">{ this.state.subtitle }</span>
+                </div>
+              </div>
+              {/*<h4>{ this.state.title }</h4>*/}
+              {/*<span className="font-bold">{ this.state.subtitle }</span>*/}
               <div className="text-muted">
                 Автор: <span className="font-bold">{ this.state.author }</span>
               </div>
