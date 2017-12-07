@@ -50,10 +50,19 @@ class Navigation extends Component {
             </div>
           </div>
 
+          <div>
+            <div className="language-link text-center">
+              <Link to="/blog" onClick={() => window.location.reload()} className="nav-label">Все</Link>
+            </div>
+            <div className="language-link text-center">
+              <span className="flag-icon flag-icon-us flag-icon-squared" />
+            </div>
+            <div className="language-link text-center">
+              <span className="flag-icon flag-icon-ru flag-icon-squared" />
+            </div>
+          </div>
+
           <ul className="nav" id="side-menu">
-            <li className={`${this.activeRoute("/blog")}`}>
-              <Link to="/blog" onClick={() => window.location.reload()}><span className="nav-label">Все категории</span></Link>
-            </li>
             <li className={`${this.activeRoute("/blog?category=how-life-works")} hwhite`}>
               <Link to="/blog?category=how-life-works" onClick={() => window.location.reload()}><span className="nav-label">Как устроена жизнь</span></Link>
             </li>
