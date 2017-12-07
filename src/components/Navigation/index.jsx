@@ -7,6 +7,13 @@ const photo = require('images/burkov_boris_web.jpg');
 
 
 class Navigation extends Component {
+  constructor(props) {
+    super(props);
+
+    this.setState({});
+
+    this.translate = this.translate.bind(this);
+  }
 
   componentDidMount() {
     const { menu } = this.refs;
@@ -19,6 +26,49 @@ class Navigation extends Component {
         $("body").toggleClass("show-sidebar");
       }
     });
+
+    if (localStorage.getItem('language')) {
+      this.setState({language: localStorage.getItem('language')});
+    } else {
+      this.setState({language: 'en'});
+    }
+  }
+
+  selectLanguage(language) {
+    if (language === 'en') {
+      localStorage.setItem('language', 'en');
+      this.setState({language: 'en'});
+
+      // if it's english, ask if user wants to hide posts in russian
+    }
+    else if (language === 'ru') {
+      localStorage.setItem('language', 'ru');
+      this.setState({language: 'ru'});
+    }
+  }
+
+  tr(word) {
+    let words = {
+      'Boris Burkov': 'Борис Бурков',
+      'About me': 'Обо мне',
+      'All': 'Все',
+      'How life works': 'Как устроена жизнь',
+      'Programming': 'Программирование',
+      'Business': 'Бизнес',
+      'Economy': 'Экономика',
+      'Biology and medicine': 'Биология и медицина',
+      'Mathematics': 'Математика',
+      'Music': 'Музыка',
+      'History': 'История',
+      'People': 'Люди'
+    };
+
+    if (words.keys().index(word) !== -1) {
+      if (this.state.language === 'en') return word;
+      else if (this.state.language === 'ru') return words[word];
+    } else {
+      console.log(`No word ${word} in translations list`);
+    }
   }
 
   activeRoute(routeName) {
@@ -55,10 +105,10 @@ class Navigation extends Component {
               <Link to="/blog" onClick={() => window.location.reload()} className="nav-label">Все</Link>
             </div>
             <div className="language-link text-center">
-              <span className="flag-icon flag-icon-us flag-icon-squared" />
+              <span onClick={ this.selectLanguage('en') } className="flag-icon flag-icon-us flag-icon-squared" />
             </div>
             <div className="language-link text-center">
-              <span className="flag-icon flag-icon-ru flag-icon-squared" />
+              <span onClick={ this.selectLanguage('ru') } className="flag-icon flag-icon-ru flag-icon-squared" />
             </div>
           </div>
 
