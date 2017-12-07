@@ -7,14 +7,14 @@ import MinimalizeMenu from "components/Header/components/MinimalizeMenu.jsx";
 class Header extends React.Component {
   render() {
     return (
-      <div id="header">
+      <div id="header" className="text-nowrap">
         {/*<div className="color-line"></div>*/}
         <div id="logo" className="light-version">
           <span>
             BurkovBA<font color="red">.github.io</font>
           </span>
         </div>
-        <nav role="navigation">
+        <nav role="navigation" className="clearfix">
           <MinimalizeMenu/>
           <div className="small-logo">
             <span className="text-primary">BurkovBA<font color="red">.github.io</font><br/></span>
