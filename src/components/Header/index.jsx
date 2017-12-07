@@ -26,10 +26,12 @@ class Header extends React.Component {
           {/*</form>*/}
           <MobileMenu/>
           <DesktopMenu/>
-          <span>
-            <span className="flag-icon flag-icon-us flag-icon-squared" /><br />
+          <div className="language-link pull-right">
+            <span className="flag-icon flag-icon-us flag-icon-squared" />
+          </div>
+          <div className="language-link pull-right">
             <span className="flag-icon flag-icon-ru flag-icon-squared" />
-          </span>
+          </div>
         </nav>
       </div>
     )

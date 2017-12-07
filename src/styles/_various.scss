@@ -305,6 +305,19 @@
   background: darken($color-bright,2%);
 }
 
+/* added by me */
+.language-link {
+  padding: 17px 26px 17px 26px; // padding-bottom now 17px, used to be 23 px
+  font-size: 14px;
+  //float: right;
+  border-left:1px solid $border-color;
+  background: $color-bright;
+  cursor: pointer;
+}
+
+.language-link:hover {
+  background: darken($color-bright,2%);
+}
 
 .navbar-nav > li,.navbar-nav > li > a {
   height: 56px;
