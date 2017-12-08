@@ -36,7 +36,7 @@ class Navigation extends Component {
       localStorage.setItem('language', 'ru');
     }
 
-    this.render();
+    this.forceUpdate();
   }
 
   activeRoute(routeName) {
