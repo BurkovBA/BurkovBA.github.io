@@ -82,31 +82,31 @@ class Navigation extends Component {
 
           <ul className="nav" id="side-menu">
             <li className={`${this.activeRoute("/blog?category=how-life-works")} hwhite`}>
-              <Link to="/blog?category=how-life-works" onClick={() => window.location.reload()}><span className="nav-label">{tr('How life works')}</span></Link>
+              <Link to="/blog?category=how-life-works" onClick={() => window.location.reload()}><span className="nav-label">{tr('how-life-works')}</span></Link>
             </li>
             <li className={`${this.activeRoute("/blog?category=software-engineering")} hred`}>
-              <Link to="/blog?category=software-engineering" onClick={() => window.location.reload()}><span className="nav-label">{tr('Programming')}</span></Link>
+              <Link to="/blog?category=software-engineering" onClick={() => window.location.reload()}><span className="nav-label">{tr('programming')}</span></Link>
             </li>
             <li className={`${this.activeRoute("/blog?category=business")} hreddeep`}>
-              <Link to="/blog?category=business" onClick={() => window.location.reload()}><span className="nav-label">{tr('Business')}</span></Link>
+              <Link to="/blog?category=business" onClick={() => window.location.reload()}><span className="nav-label">{tr('business')}</span></Link>
             </li>
             <li className={`${this.activeRoute("/blog?category=economy")} hyellow`}>
-              <Link to="/blog?category=economy" onClick={() => window.location.reload()}><span className="nav-label">{tr('Economy')}</span></Link>
+              <Link to="/blog?category=economy" onClick={() => window.location.reload()}><span className="nav-label">{tr('economy')}</span></Link>
             </li>
             <li className={`${this.activeRoute("/blog?category=biomed")} hgreen`}>
-              <Link to="/blog?category=biomed" onClick={() => window.location.reload()}><span className="nav-label">{tr('Biology and medicine')}</span></Link>
+              <Link to="/blog?category=biomed" onClick={() => window.location.reload()}><span className="nav-label">{tr('biomed')}</span></Link>
             </li>
             <li className={`${this.activeRoute("/blog?category=math")} hnavyblue`}>
-              <Link to="/blog?category=math" onClick={() => window.location.reload()}><span className="nav-label">{tr('Mathematics')}</span></Link>
+              <Link to="/blog?category=math" onClick={() => window.location.reload()}><span className="nav-label">{tr('mathematics')}</span></Link>
             </li>
             <li className={`${this.activeRoute("/blog?category=music")} hblue`}>
-              <Link to="/blog?category=music" onClick={() => window.location.reload()}><span className="nav-label">{tr('Music')}</span></Link>
+              <Link to="/blog?category=music" onClick={() => window.location.reload()}><span className="nav-label">{tr('music')}</span></Link>
             </li>
             <li className={`${this.activeRoute("/blog?category=history")} horange`}>
-              <Link to="/blog?category=history" onClick={() => window.location.reload()}><span className="nav-label">{tr('History')}</span></Link>
+              <Link to="/blog?category=history" onClick={() => window.location.reload()}><span className="nav-label">{tr('history')}</span></Link>
             </li>
             <li className={`${this.activeRoute("/blog?category=people")} hviolet`}>
-              <Link to="/blog?category=people" onClick={() => window.location.reload()}><span className="nav-label">{tr('People')}</span></Link>
+              <Link to="/blog?category=people" onClick={() => window.location.reload()}><span className="nav-label">{tr('people')}</span></Link>
             </li>
           </ul>
         </div>

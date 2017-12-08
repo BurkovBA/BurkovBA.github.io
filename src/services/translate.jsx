@@ -1,24 +1,26 @@
 function tr(word) {
   let words = {
-    'Boris Burkov': 'Борис Бурков',
-    'About me': 'Обо мне',
-    'All': 'Все',
-    'How life works': 'Как устроена жизнь',
-    'Programming': 'Программирование',
-    'Business': 'Бизнес',
-    'Economy': 'Экономика',
-    'Biology and medicine': 'Биология и медицина',
-    'Mathematics': 'Математика',
-    'Music': 'Музыка',
-    'History': 'История',
-    'People': 'Люди'
+    'Boris Burkov': {en: 'Boris Burkov', ru: 'Борис Бурков'},
+    'About me': {en: 'About me', ru: 'Обо мне'},
+    'All': {en: 'All', ru: 'Все'},
+
+    // translation for categories
+    'how-life-works': {en: 'How life works', ru: 'Как устроена жизнь'},
+    'programming': {en: 'Programming', ru: 'Программирование'},
+    'business': {en: 'Business', ru: 'Бизнес'},
+    'economy': {en: 'Economy', ru: 'Экономика'},
+    'biomed': {en: 'Biology and medicine', ru: 'Биология и медицина'},
+    'mathematics': {en: 'Mathematics', ru: 'Математика'},
+    'music': {en: 'Music', ru: 'Музыка'},
+    'history': {en: 'History', ru: 'История'},
+    'people': {en: 'People', ru: 'Люди'}
   };
 
   let language = localStorage.getItem('language');
 
   if (Object.keys(words).indexOf(word) !== -1) {
-    if (language === 'en') return word;
-    else if (language === 'ru') return words[word];
+    if (language === 'en') return words[word]['en'];
+    else if (language === 'ru') return words[word]['ru'];
   } else {
     console.log(`No word ${word} in translations list`);
   }
