@@ -2,19 +2,13 @@ import React, { Component } from 'react';
 import { Dropdown } from 'react-bootstrap';
 import { Link, Location } from 'react-router-dom';
 
+import tr from 'services/translate.jsx';
+
 require('./index.scss');
 const photo = require('images/burkov_boris_web.jpg');
 
 
 class Navigation extends Component {
-  constructor(props) {
-    super(props);
-
-    this.setState({});
-
-    this.translate = this.translate.bind(this);
-  }
-
   componentDidMount() {
     const { menu } = this.refs;
     $(menu).metisMenu();
@@ -26,48 +20,15 @@ class Navigation extends Component {
         $("body").toggleClass("show-sidebar");
       }
     });
-
-    if (localStorage.getItem('language')) {
-      this.setState({language: localStorage.getItem('language')});
-    } else {
-      this.setState({language: 'en'});
-    }
   }
 
   selectLanguage(language) {
     if (language === 'en') {
       localStorage.setItem('language', 'en');
-      this.setState({language: 'en'});
-
-      // if it's english, ask if user wants to hide posts in russian
+      // TODO: if it's english, ask if user wants to hide posts in russian
     }
     else if (language === 'ru') {
       localStorage.setItem('language', 'ru');
-      this.setState({language: 'ru'});
-    }
-  }
-
-  tr(word) {
-    let words = {
-      'Boris Burkov': 'Борис Бурков',
-      'About me': 'Обо мне',
-      'All': 'Все',
-      'How life works': 'Как устроена жизнь',
-      'Programming': 'Программирование',
-      'Business': 'Бизнес',
-      'Economy': 'Экономика',
-      'Biology and medicine': 'Биология и медицина',
-      'Mathematics': 'Математика',
-      'Music': 'Музыка',
-      'History': 'История',
-      'People': 'Люди'
-    };
-
-    if (words.keys().index(word) !== -1) {
-      if (this.state.language === 'en') return word;
-      else if (this.state.language === 'ru') return words[word];
-    } else {
-      console.log(`No word ${word} in translations list`);
     }
   }
 
@@ -91,10 +52,10 @@ class Navigation extends Component {
             </a>
 
             <div className="stats-label text-color">
-              <span className="font-extra-bold font-uppercase">Борис Бурков</span>
+              <span className="font-extra-bold font-uppercase">{tr('Boris Burkov')}</span>
               <div className="dropdown">
                 <a href="/about">
-                  <small className="text-muted">Обо мне</small>
+                  <small className="text-muted">{tr('About me')}</small>
                 </a>
               </div>
             </div>
@@ -114,31 +75,31 @@ class Navigation extends Component {
 
           <ul className="nav" id="side-menu">
             <li className={`${this.activeRoute("/blog?category=how-life-works")} hwhite`}>
-              <Link to="/blog?category=how-life-works" onClick={() => window.location.reload()}><span className="nav-label">Как устроена жизнь</span></Link>
+              <Link to="/blog?category=how-life-works" onClick={() => window.location.reload()}><span className="nav-label">tr('How life works')</span></Link>
             </li>
             <li className={`${this.activeRoute("/blog?category=software-engineering")} hred`}>
-              <Link to="/blog?category=software-engineering" onClick={() => window.location.reload()}><span className="nav-label">Программирование</span></Link>
+              <Link to="/blog?category=software-engineering" onClick={() => window.location.reload()}><span className="nav-label">tr('Programming')</span></Link>
             </li>
             <li className={`${this.activeRoute("/blog?category=business")} hreddeep`}>
-              <Link to="/blog?category=business" onClick={() => window.location.reload()}><span className="nav-label">Бизнес</span></Link>
+              <Link to="/blog?category=business" onClick={() => window.location.reload()}><span className="nav-label">tr('Business')</span></Link>
             </li>
             <li className={`${this.activeRoute("/blog?category=economy")} hyellow`}>
-              <Link to="/blog?category=economy" onClick={() => window.location.reload()}><span className="nav-label">Экономика</span></Link>
+              <Link to="/blog?category=economy" onClick={() => window.location.reload()}><span className="nav-label">tr('Economy')</span></Link>
             </li>
             <li className={`${this.activeRoute("/blog?category=biomed")} hgreen`}>
-              <Link to="/blog?category=biomed" onClick={() => window.location.reload()}><span className="nav-label">Биология и медицина</span></Link>
+              <Link to="/blog?category=biomed" onClick={() => window.location.reload()}><span className="nav-label">tr('Biology and medicine')</span></Link>
             </li>
             <li className={`${this.activeRoute("/blog?category=math")} hnavyblue`}>
-              <Link to="/blog?category=math" onClick={() => window.location.reload()}><span className="nav-label">Математика</span></Link>
+              <Link to="/blog?category=math" onClick={() => window.location.reload()}><span className="nav-label">tr('Mathematics')</span></Link>
             </li>
             <li className={`${this.activeRoute("/blog?category=music")} hblue`}>
-              <Link to="/blog?category=music" onClick={() => window.location.reload()}><span className="nav-label">Музыка</span></Link>
+              <Link to="/blog?category=music" onClick={() => window.location.reload()}><span className="nav-label">tr('Music')</span></Link>
             </li>
             <li className={`${this.activeRoute("/blog?category=history")} horange`}>
-              <Link to="/blog?category=history" onClick={() => window.location.reload()}><span className="nav-label">История</span></Link>
+              <Link to="/blog?category=history" onClick={() => window.location.reload()}><span className="nav-label">tr('History')</span></Link>
             </li>
             <li className={`${this.activeRoute("/blog?category=people")} hviolet`}>
-              <Link to="/blog?category=people" onClick={() => window.location.reload()}><span className="nav-label">Люди</span></Link>
+              <Link to="/blog?category=people" onClick={() => window.location.reload()}><span className="nav-label">tr('People')</span></Link>
             </li>
           </ul>
         </div>
