@@ -70,14 +70,12 @@ class Navigation extends Component {
           </div>
 
           <div>
-            <div className="language-link text-center">
-              <Link to="/blog" onClick={() => window.location.reload()} className="nav-label">{tr('All')}</Link>
+            <Link to="/blog" onClick={() => window.location.reload()} className="language-link text-center nav-label">{tr('All')}</Link>
+            <div onClick={ () => this.selectLanguage('en') } className="language-link text-center">
+              <span className="flag-icon flag-icon-us flag-icon-squared" />
             </div>
-            <div className="language-link text-center">
-              <span onClick={ () => this.selectLanguage('en') } className="flag-icon flag-icon-us flag-icon-squared" />
-            </div>
-            <div className="language-link text-center">
-              <span onClick={ () => this.selectLanguage('ru') } className="flag-icon flag-icon-ru flag-icon-squared" />
+            <div onClick={ () => this.selectLanguage('ru') } className="language-link text-center">
+              <span className="flag-icon flag-icon-ru flag-icon-squared" />
             </div>
           </div>
 
