@@ -5,16 +5,22 @@ import {Route, Link, Redirect, Switch} from 'react-router-dom';
 import Navigation from 'components/Navigation/index.jsx';
 import Header from 'components/Header/index.jsx';
 import Footer from 'components/Footer/index.jsx';
+import HidePostsInRussianModal from 'components/HidePostsInRussianModal/index.jsx';
 
 import Home from 'pages/Home.jsx';
 import Blog from 'pages/Blog.jsx';
 import Post from 'pages/Post.jsx';
 
 class Layout extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {hideRuPostsModalOpen: false};
+  }
+
   render() {
     return [
       <Header key="Header" />,
-      <Navigation location={this.props.location} key="Navigation" />,
+      <Navigation location={this.props.location} key="Navigation" onEnglishClick={() => this.setState({hideRuPostsModalOpen: true})} />,
       <div id="wrapper" key="div">
         <div className="content content-boxed">
           <Switch>
@@ -24,6 +30,7 @@ class Layout extends React.Component {
             <Redirect to="/blog" />
           </Switch>
         </div>
+        <HidePostsInRussianModal show={this.state.hideRuPostsModalOpen} onHide={() => this.setState({hideRuPostsModalOpen: false}) } />
         <Footer key="Footer" />
       </div>
     ]
@@ -86,7 +93,6 @@ class Layout extends React.Component {
         $('body').removeClass('show-sidebar');
     }
   }
-
 }
 
 export default Layout;

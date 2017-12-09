@@ -31,6 +31,7 @@ class Navigation extends Component {
     if (language === 'en') {
       localStorage.setItem('language', 'en');
       // TODO: if it's english, ask if user wants to hide posts in russian
+      this.props.onEnglishClick();
     }
     else if (language === 'ru') {
       localStorage.setItem('language', 'ru');
