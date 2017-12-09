@@ -1,5 +1,6 @@
 function tr(word) {
   let words = {
+    // translations for Navigation
     'Boris Burkov': {en: 'Boris Burkov', ru: 'Борис Бурков'},
     'About me': {en: 'About me', ru: 'Обо мне'},
     'All': {en: 'All', ru: 'Все'},
@@ -13,7 +14,11 @@ function tr(word) {
     'mathematics': {en: 'Mathematics', ru: 'Математика'},
     'music': {en: 'Music', ru: 'Музыка'},
     'history': {en: 'History', ru: 'История'},
-    'people': {en: 'People', ru: 'Люди'}
+    'people': {en: 'People', ru: 'Люди'},
+
+    // translations for Blog
+    'Time to read': {en: 'Time to read', ru: 'Время на чтение'},
+    'Continue': {en: 'Continue', ru: 'Продолжение'}
   };
 
   let language = localStorage.getItem('language');

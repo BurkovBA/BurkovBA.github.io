@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, Location } from 'react-router-dom';
+import tr from 'services/translate.jsx';
 
 require("pages/Blog.scss");
 
@@ -23,12 +24,12 @@ class Blog extends React.Component {
   }
 
   componentDidMount() {
-    // get category from get params, if any
-    const search = this.props.location.search; // could be '?category=music'
-    const params = new URLSearchParams(search);
-    const category = params.get('category'); // bar
-
     let filteredPosts, orderedPosts;
+
+    // get category from get params, if any
+    const search = this.props.location.search; // url search params, something like '?category=music'
+    const params = new URLSearchParams(search);
+    const category = params.get('category');
 
     // filter only those posts that belong to this cathegory
     if (category) filteredPosts = posts.filter((post) => { return !(post.categories.indexOf(category) === -1) });
@@ -68,17 +69,17 @@ class Blog extends React.Component {
                   </a>
                   <div className="media-body">
                     <span className="post-authorship">
-                      <small><span className="font-bold">{ post.author }</span> </small>
+                      <small><span className="font-bold">{ tr(post.author) }</span> </small>
                       <br />
                       <small className="text-muted"><i className="fa fa-calendar"> </i> { post.date_created }</small>
                     </span>
                     <span className="pull-right">
-                      <small><i className="fa fa-clock-o"> </i> Time to read: { post.time_to_read } min</small>
+                      <small><i className="fa fa-clock-o"> </i> {tr('Time to read')}: { post.time_to_read } min</small>
                       <br />
                       <small>{ post.categories.map((category, index) =>
                         <span key={category}>
                           <span>{ !!index && ' ' }</span>
-                          <span className={`label label-${category}`}>{ category }</span>
+                          <span className={`label label-${category}`}>{ tr(category) }</span>
                         </span>
                       )}
                       </small>
@@ -100,7 +101,7 @@ class Blog extends React.Component {
                 <p>
                   { post.abstract }
                 </p>
-                <Link to={`/blog/${post.id}`}> <h4>Продолжение...</h4></Link>
+                <Link to={`/blog/${post.id}`}> <h4>{tr('Continue')}...</h4></Link>
               </div>
             </div>
           </div>

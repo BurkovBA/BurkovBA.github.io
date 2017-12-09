@@ -3,7 +3,7 @@ import React from 'react';
 
 let metadata = {
   id: "2017-01-05-1",
-  author: "Борис Бурков",
+  author: "Boris Burkov",
   authors_avatar: require("images/burkov_boris_web.jpg"),
   date_created: "5.01.2017",
   language: "ru",

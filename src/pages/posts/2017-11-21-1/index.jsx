@@ -10,7 +10,7 @@ let MalcolmYoung = require('./Malcolm_Young.jpeg');
 
 let metadata = {
   id: "2017-11-21-1",
-  author: "Борис Бурков",
+  author: "Boris Burkov",
   authors_avatar: require("images/burkov_boris_web.jpg"),
   date_created: "21.11.2017",
   language: "ru",
