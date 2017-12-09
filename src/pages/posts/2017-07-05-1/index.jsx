@@ -6,6 +6,7 @@ let metadata = {
   author: "Борис Бурков",
   authors_avatar: require("images/burkov_boris_web.jpg"),
   date_created: "5.07.2017",
+  language: "ru",
   title: "Babraham Institute",
   subtitle: "",
   abstract: "Как устроена жизнь простого российского мол. биолога я примерно представляю. Денег нет - денег нет - денег нет - денег нет - да ну нафиг, пойду в Мерк... \n" +

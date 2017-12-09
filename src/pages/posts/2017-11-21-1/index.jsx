@@ -13,6 +13,7 @@ let metadata = {
   author: "Борис Бурков",
   authors_avatar: require("images/burkov_boris_web.jpg"),
   date_created: "21.11.2017",
+  language: "ru",
   title: "Back in Black",
   subtitle: "Памяти Малькольма Янга",
   abstract: "В течение последнего месяца умерли двое австралийских музыкантов - братья Джордж и Малькольм Янги.\n" +

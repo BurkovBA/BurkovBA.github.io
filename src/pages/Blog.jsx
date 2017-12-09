@@ -34,6 +34,17 @@ class Blog extends React.Component {
     if (category) filteredPosts = posts.filter((post) => { return !(post.categories.indexOf(category) === -1) });
     else filteredPosts = posts;
 
+    // filter-out posts in russian, if this option is set
+    try {
+      let language = localStorage.getItem('language');
+      let hidePostsInRussian = localStorage.getItem('hidePostsInRussian');
+      if (language !== 'ru' && hidePostsInRussian) {
+          filteredPosts = filteredPosts.filter((post) => {
+              return !(post.language === 'ru')
+          });
+      }
+    } catch (err) {}
+
     // order posts by date - which actually corresponds to lexicographical order
     orderedPosts = filteredPosts.sort((a, b) => { return b.id.localeCompare(a.id) });
 
