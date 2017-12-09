@@ -295,11 +295,12 @@
 }
 
 .header-link {
-  padding: 17px 26px 17px 26px; // padding-bottom now 17px, used to be 23 px
+  padding: 17px 26px 18px 26px; // padding-bottom now 17/18px, used to be 23 px
   font-size: 14px;
   float: left;
   border-right:1px solid $border-color;
   border-left:1px solid $border-color;
+  border-bottom: 1px solid $border-color; // added by me
   margin-right: 15px;
   background: $color-bright;
   cursor: pointer;

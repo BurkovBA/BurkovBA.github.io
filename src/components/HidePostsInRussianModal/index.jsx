@@ -17,10 +17,10 @@ class HidePostsInRussianModal extends Component {
       <Modal {...this.props} key="HidePostsInRussianModal" className="inmodal hmodal-info">
         <div className="color-line" />
         <Modal.Header className="modal-header">
-          <Modal.Title className="modal-title">Hide posts in Russian?</Modal.Title>
+          <Modal.Title className="modal-title">Hide posts in Russian from the list?</Modal.Title>
         </Modal.Header>
         <Modal.Body className="modal-body">
-          <p>Do you want to hide blog posts <strong>in russian</strong>?</p>
+          <p>Do you want to hide blog posts <strong>in Russian</strong>?</p>
         </Modal.Body>
         <Modal.Footer className="modal-footer">
           <Button bsStyle="default" onClick={() => this.yes()}>Yes</Button>
