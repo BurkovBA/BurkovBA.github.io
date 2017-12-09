@@ -38,7 +38,6 @@ class Layout extends React.Component {
           </Switch>
         </div>
         <HidePostsInRussianModal show={this.state.hideRuPostsModalOpen} onHide={this.onHide} />
-        <Footer key="Footer" />
       </div>
     ]
   }

@@ -24,7 +24,7 @@ class HidePostsInRussianModal extends Component {
         </Modal.Body>
         <Modal.Footer className="modal-footer">
           <Button bsStyle="default" onClick={() => this.yes()}>Yes</Button>
-          <Button bsStyle="primary"onClick={() => this.no()}>No</Button>
+          <Button bsStyle="primary" onClick={() => this.no()}>No</Button>
         </Modal.Footer>
       </Modal>
     )
