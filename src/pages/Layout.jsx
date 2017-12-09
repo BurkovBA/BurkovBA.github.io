@@ -15,12 +15,19 @@ class Layout extends React.Component {
   constructor(props) {
     super(props);
     this.state = {hideRuPostsModalOpen: false};
+
+    this.onHide = this.onHide.bind(this);
   }
 
   render() {
     return [
       <Header key="Header" />,
-      <Navigation location={this.props.location} key="Navigation" onEnglishClick={() => this.setState({hideRuPostsModalOpen: true})} />,
+      <Navigation
+          location={this.props.location}
+          key="Navigation"
+          onEnglishClick={ () => this.setState({hideRuPostsModalOpen: true })}
+          onRussianClick={ () => this.forceUpdate() }
+      />,
       <div id="wrapper" key="div">
         <div className="content content-boxed">
           <Switch>
@@ -30,7 +37,7 @@ class Layout extends React.Component {
             <Redirect to="/blog" />
           </Switch>
         </div>
-        <HidePostsInRussianModal show={this.state.hideRuPostsModalOpen} onHide={() => this.setState({hideRuPostsModalOpen: false}) } />
+        <HidePostsInRussianModal show={this.state.hideRuPostsModalOpen} onHide={this.onHide} />
         <Footer key="Footer" />
       </div>
     ]
@@ -93,6 +100,12 @@ class Layout extends React.Component {
         $('body').removeClass('show-sidebar');
     }
   }
+
+  onHide() {
+    this.setState({hideRuPostsModalOpen: false});
+    this.forceUpdate();
+  }
+
 }
 
 export default Layout;
