@@ -22,15 +22,6 @@ context.keys().forEach(function (path) {
   posts[id] = context(path);
 });
 
-// // import metadata of blog posts
-// let posts = [];
-// let context = require.context("./posts", true, /\.jsx/);
-//
-// context.keys().forEach(function (path) {
-//   let id = path.match(/\d{4}-\d{2}-\d{2}-\d/);
-//   posts.push(context(path).metadata);
-// });
-
 
 class Layout extends React.Component {
   constructor(props) {
@@ -160,9 +151,8 @@ class Layout extends React.Component {
       filteredPosts = postsToFilter;
     }
 
-    // order posts by date - which actually corresponds to lexicographical order
+    // keys in filteredPosts are automatically in lexicographical order, which corresponds to date. Or we can do:
     // orderedPosts = filteredPosts.sort((a, b) => { return b.id.localeCompare(a.id) });
-
     this.setState({posts: filteredPosts});
   }
 
@@ -171,8 +161,10 @@ class Layout extends React.Component {
     this.setState({hideRuPostsModalOpen: false});
   }
 
-  getCategory(category) {
-    // get category from get params, if any
+  /**
+   * Get posts category (e.g. 'software-engineering') from get params, if any.
+   */
+  getCategory() {
     const search = this.props.location.search; // url search params, something like '?category=music'
     const params = new URLSearchParams(search);
     return params.get('category');
