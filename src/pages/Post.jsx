@@ -1,5 +1,7 @@
-require('pages/Post.scss');
 import React from 'react';
+
+import tr from 'services/translate.jsx';
+require('pages/Post.scss');
 
 
 class Post extends React.Component {
@@ -77,10 +79,10 @@ class Post extends React.Component {
                 </div>
               </div>
               <div className="text-muted">
-                Автор: <span className="font-bold">{ this.state.author }</span>
+                { tr('Author') }: <span className="font-bold">{ tr(this.state.author) }</span>
               </div>
               <div className="text-muted">
-                Дата: <span className="font-bold">{ this.state.date_created }</span>
+                { tr('Date') }: <span className="font-bold">{ this.state.date_created }</span>
               </div>
             </div>
               <div className="panel-body">

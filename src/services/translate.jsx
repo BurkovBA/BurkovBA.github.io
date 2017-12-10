@@ -18,7 +18,11 @@ function tr(word) {
 
     // translations for Blog
     'Time to read': {en: 'Time to read', ru: 'Время на чтение'},
-    'Continue': {en: 'Continue', ru: 'Продолжение'}
+    'Continue': {en: 'Continue', ru: 'Продолжение'},
+
+    // translations for Post
+    'Author': {en: 'Author', ru: 'Автор'},
+    'Date': {en: 'Date', ru: 'Дата'}
   };
 
   let language = localStorage.getItem('language');
