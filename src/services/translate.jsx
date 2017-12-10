@@ -23,7 +23,10 @@ function tr(word) {
     // translations for Post
     'Author': {en: 'Author', ru: 'Автор'},
     'Date': {en: 'Date', ru: 'Дата'},
-    'Categories': {en: 'Categories', ru: 'Категории'}
+    'Categories': {en: 'Categories', ru: 'Категории'},
+    'Previous post': {en: 'Previous post', ru: 'Предыдущая запись'},
+    'Next post': {en: 'Next post', ru: 'Следующая запись'},
+    'All posts': {en: 'All posts', ru: 'Все записи'}
   };
 
   let language = localStorage.getItem('language');

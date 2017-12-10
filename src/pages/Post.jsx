@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 
 import tr from 'services/translate.jsx';
 require('pages/Post.scss');
@@ -27,9 +28,17 @@ class Post extends React.Component {
   componentWillMount() {
     let self = this;
 
+    // get next and previous posts
+    let sortedPostIds = Object.keys(this.props.posts);  // should be sorted by default
+    let postIndex = sortedPostIds.indexOf(this.props.match.params.id);
+    let nextPost = this.props.posts[sortedPostIds[postIndex+1]];
+    let previousPost = this.props.posts[sortedPostIds[postIndex-1]];
+
     self.setState({
       id: this.props.match.params.id,
-      post: this.props.posts[this.props.match.params.id].default
+      post: this.props.posts[this.props.match.params.id].default,
+      previousPost: previousPost,
+      nextPost: nextPost
     });
     // or do ajax requests with following setState invocation, e.g.:
     // http://mediatemple.net/blog/tips/loading-and-using-external-data-in-react/
@@ -94,11 +103,28 @@ class Post extends React.Component {
               <div className="panel-body">
                 <this.state.post onload={this.onContentLoad} />
               </div>
-              <div className="panel-footer">
-                <span className="pull-right">
-                  <i className="fa fa-comments-o"> </i> 22 comments
-                </span>
-                <i className="fa fa-eye"> </i> 142 views
+              <div className="panel-footer clearfix">
+                {/*<span className="pull-right">*/}
+                  {/*<i className="fa fa-comments-o"> </i> 22 comments*/}
+                {/*</span>*/}
+                {/*<i className="fa fa-eye"> </i> 142 views*/}
+                <div className="col-xs-4 text-center">
+                  { this.state.previousPost &&
+                    <span>{ tr('Next post') }:<br />
+                      <Link to={`/blog/${this.state.previousPost.metadata.id}`} onClick={() => window.location.reload()}>{this.state.previousPost.metadata.title}</Link>
+                    </span>
+                  }
+                </div>
+                <div className="col-xs-4 text-center">
+                  <Link to={`/blog`} onClick={() => window.location.reload()}>{tr('All posts')}</Link>
+                </div>
+                <div className="col-xs-4 text-center">
+                  { this.state.nextPost &&
+                    <span>{ tr('Previous post') }:<br />
+                      <Link to={`/blog/${this.state.nextPost.metadata.id}`} onClick={() => window.location.reload()}>{this.state.nextPost.metadata.title}</Link>
+                    </span>
+                  }
+                </div>
               </div>
           </div>
         </div>
