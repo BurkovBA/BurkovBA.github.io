@@ -110,7 +110,7 @@ class Post extends React.Component {
                 {/*<i className="fa fa-eye"> </i> 142 views*/}
                 <div className="col-xs-4 text-center">
                   { this.state.previousPost &&
-                    <span>{ tr('Next post') }:<br />
+                    <span>{ tr('Previous post') }:<br />
                       <Link to={`/blog/${this.state.previousPost.metadata.id}`} onClick={() => window.location.reload()}>{this.state.previousPost.metadata.title}</Link>
                     </span>
                   }
@@ -120,7 +120,7 @@ class Post extends React.Component {
                 </div>
                 <div className="col-xs-4 text-center">
                   { this.state.nextPost &&
-                    <span>{ tr('Previous post') }:<br />
+                    <span>{ tr('Next post') }:<br />
                       <Link to={`/blog/${this.state.nextPost.metadata.id}`} onClick={() => window.location.reload()}>{this.state.nextPost.metadata.title}</Link>
                     </span>
                   }
