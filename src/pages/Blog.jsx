@@ -6,17 +6,6 @@ require("pages/Blog.scss");
 
 
 class Blog extends React.Component {
-  componentDidMount() {
-    // get category from get params, if any and pass to parent
-    const search = this.props.location.search; // url search params, something like '?category=music'
-    const params = new URLSearchParams(search);
-    const category = params.get('category');
-
-    if (category) {
-      this.props.onSetCategory(category);
-    }
-  }
-
   render() {
     return (
       <div className="row">

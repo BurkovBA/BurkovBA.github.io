@@ -42,7 +42,7 @@ class Layout extends React.Component {
       hideRuPostsModalOpen: false,
     };
 
-    this.onHide = this.onHide.bind(this);
+    this.onHideRuPostsModalClose = this.onHideRuPostsModalClose.bind(this);
   }
 
   render() {
@@ -52,24 +52,26 @@ class Layout extends React.Component {
           location={this.props.location}
           key="Navigation"
           onEnglishClick={ () => this.setState({hideRuPostsModalOpen: true })}
-          onRussianClick={ () => this.forceUpdate() }
+          onRussianClick={ () => this.filterPosts() }
       />,
       <div id="wrapper" key="div">
         <div className="content content-boxed">
           <Switch>
-            <PropsRoute exact path="/blog" component={Blog} posts={ this.state.posts } onSetCategory={this.onSetCategory} />
+            <PropsRoute exact path="/blog" component={Blog} posts={ this.state.posts } />
             <PropsRoute path="/blog/:id" component={Post} posts={ this.state.posts } />
             {/*<Route exact path="/about" component={About} />*/}
             <Redirect to="/blog" />
           </Switch>
         </div>
-        <HidePostsInRussianModal show={this.state.hideRuPostsModalOpen} onHide={this.onHide} />
+        <HidePostsInRussianModal show={this.state.hideRuPostsModalOpen} onClose={this.onHideRuPostsModalClose} />
       </div>
     ]
   }
 
   componentDidMount() {
     let self = this;
+
+    self.filterPosts();
 
     $(window).bind("load", function () {
       // Remove splash screen after load
@@ -127,42 +129,53 @@ class Layout extends React.Component {
   }
 
   filterPosts() {
-    let filteredPosts, orderedPosts;
+    let postsToFilter = posts;
+    let filteredPosts = {};
+
+    let category = this.getCategory();
 
     // filter only those posts that belong to this category
-    if (this.state.category) {
-      for (const id of posts) {
-        if (posts[id].categories.indexOf(category) !== -1) filteredPosts[id] = posts[id];
+    if (category) {
+      for (let [id, post] of Object.entries(postsToFilter)) {
+        if (post.metadata.categories.indexOf(category) !== -1) filteredPosts[id] = post;
       }
     } else {
-      filteredPosts = posts;
+      filteredPosts = postsToFilter;
     }
 
     // filter-out posts in russian, if this option is set
+    postsToFilter = filteredPosts;
+    filteredPosts = {};
     try {
       let language = localStorage.getItem('language');
       let hidePostsInRussian = localStorage.getItem('hidePostsInRussian');
       if (language !== 'ru' && hidePostsInRussian) {
-        for (const id of posts) {
-          if (!(posts[id].language === 'ru')) filteredPosts[id] = posts[id];
+        for (let [id, post] of Object.entries(postsToFilter)) {
+          if (!(post.metadata.language === 'ru')) filteredPosts[id] = post;
         }
+      } else {
+        filteredPosts = postsToFilter;
       }
-    } catch (err) {}
+    } catch (err) {
+      filteredPosts = postsToFilter;
+    }
 
     // order posts by date - which actually corresponds to lexicographical order
-    orderedPosts = filteredPosts.sort((a, b) => { return b.id.localeCompare(a.id) });
+    // orderedPosts = filteredPosts.sort((a, b) => { return b.id.localeCompare(a.id) });
 
-    this.setState({posts: orderedPosts});
+    this.setState({posts: filteredPosts});
   }
 
-  onHide() {
+  onHideRuPostsModalClose() {
+    this.filterPosts();
     this.setState({hideRuPostsModalOpen: false});
-    this.forceUpdate();
   }
 
-  onSetCategory(category) {
-    this.setState({category: category});  // this should force render of all child components
-    this.filterPosts();  // this might cause second render, hopefully React is smart enough to schedule them together
+  getCategory(category) {
+    // get category from get params, if any
+    const search = this.props.location.search; // url search params, something like '?category=music'
+    const params = new URLSearchParams(search);
+    return params.get('category');
   }
 
 }
