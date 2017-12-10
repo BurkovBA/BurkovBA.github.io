@@ -54,7 +54,7 @@ class Blog extends React.Component {
               <div className="panel-image">
                 <img className="img-responsive" src={ post.metadata.cover } alt="" />
                 <div className="title">
-                  <Link to={`/blog/${post.id}`}> <h4>{ post.metadata.title }</h4></Link>
+                  <Link to={`/blog/${post.metadata.id}`}> <h4>{ post.metadata.title }</h4></Link>
                   <small>{ post.metadata.subtitle }</small>
                 </div>
               </div>

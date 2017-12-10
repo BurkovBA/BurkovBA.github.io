@@ -1,7 +1,9 @@
 import React from 'react';
 import {Route, Link, Redirect, Switch} from 'react-router-dom';
 
+
 // import Progress from 'components/Progress';
+import PropsRoute from 'components/PropsRoute.jsx'
 import Navigation from 'components/Navigation/index.jsx';
 import Header from 'components/Header/index.jsx';
 import Footer from 'components/Footer/index.jsx';
@@ -55,8 +57,8 @@ class Layout extends React.Component {
       <div id="wrapper" key="div">
         <div className="content content-boxed">
           <Switch>
-            <Route exact path="/blog" component={Blog} posts={ this.state.posts } onSetCategory={this.onSetCategory()} />
-            <Route path="/blog/:id" component={Post} posts={ this.state.posts } />
+            <PropsRoute exact path="/blog" component={Blog} posts={ this.state.posts } onSetCategory={this.onSetCategory} />
+            <PropsRoute path="/blog/:id" component={Post} posts={ this.state.posts } />
             {/*<Route exact path="/about" component={About} />*/}
             <Redirect to="/blog" />
           </Switch>
