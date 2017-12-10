@@ -81,6 +81,13 @@ class Post extends React.Component {
                   <div>{ tr('Author') }: { tr(this.state.author) }</div>
                   <div>{ tr('Date') }: { this.state.date_created }</div>
                   <div>{ tr('Time to read')}: {this.state.time_to_read} min</div>
+                  <div>{ tr('Categories')}:</div>
+                  <div><small>{ this.state.categories.map((category, index) =>
+                    <span key={category}>
+                      <span>{ !!index && ' ' }</span>
+                      <span className={`label label-${category}`}>{ tr(category) }</span>
+                    </span>
+                  )}</small></div>
                 </div>
               </div>
             </div>
