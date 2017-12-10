@@ -11,10 +11,34 @@ import Home from 'pages/Home.jsx';
 import Blog from 'pages/Blog.jsx';
 import Post from 'pages/Post.jsx';
 
+// import all blog posts (second argument means recursively)
+let posts = {};
+let context = require.context("./posts", true, /\.jsx/);
+
+context.keys().forEach(function (path) {
+  let id = path.match(/\d{4}-\d{2}-\d{2}-\d/);
+  posts[id] = context(path);
+});
+
+// // import metadata of blog posts
+// let posts = [];
+// let context = require.context("./posts", true, /\.jsx/);
+//
+// context.keys().forEach(function (path) {
+//   let id = path.match(/\d{4}-\d{2}-\d{2}-\d/);
+//   posts.push(context(path).metadata);
+// });
+
+
 class Layout extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {hideRuPostsModalOpen: false};
+
+    this.state = {
+      posts: posts,
+      category: null,
+      hideRuPostsModalOpen: false,
+    };
 
     this.onHide = this.onHide.bind(this);
   }
@@ -31,8 +55,8 @@ class Layout extends React.Component {
       <div id="wrapper" key="div">
         <div className="content content-boxed">
           <Switch>
-            <Route exact path="/blog" component={Blog} />
-            <Route path="/blog/:id" component={Post} />
+            <Route exact path="/blog" component={Blog} posts={ this.state.posts } onSetCategory={this.onSetCategory()} />
+            <Route path="/blog/:id" component={Post} posts={ this.state.posts } />
             {/*<Route exact path="/about" component={About} />*/}
             <Redirect to="/blog" />
           </Switch>
@@ -100,9 +124,43 @@ class Layout extends React.Component {
     }
   }
 
+  filterPosts() {
+    let filteredPosts, orderedPosts;
+
+    // filter only those posts that belong to this category
+    if (this.state.category) {
+      for (const id of posts) {
+        if (posts[id].categories.indexOf(category) !== -1) filteredPosts[id] = posts[id];
+      }
+    } else {
+      filteredPosts = posts;
+    }
+
+    // filter-out posts in russian, if this option is set
+    try {
+      let language = localStorage.getItem('language');
+      let hidePostsInRussian = localStorage.getItem('hidePostsInRussian');
+      if (language !== 'ru' && hidePostsInRussian) {
+        for (const id of posts) {
+          if (!(posts[id].language === 'ru')) filteredPosts[id] = posts[id];
+        }
+      }
+    } catch (err) {}
+
+    // order posts by date - which actually corresponds to lexicographical order
+    orderedPosts = filteredPosts.sort((a, b) => { return b.id.localeCompare(a.id) });
+
+    this.setState({posts: orderedPosts});
+  }
+
   onHide() {
     this.setState({hideRuPostsModalOpen: false});
     this.forceUpdate();
+  }
+
+  onSetCategory(category) {
+    this.setState({category: category});  // this should force render of all child components
+    this.filterPosts();  // this might cause second render, hopefully React is smart enough to schedule them together
   }
 
 }

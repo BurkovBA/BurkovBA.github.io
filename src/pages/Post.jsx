@@ -1,16 +1,6 @@
 require('pages/Post.scss');
 import React from 'react';
 
-// import all blog posts (second argument means recursively)
-let posts = {};
-let context = require.context("./posts", true, /\.*/);
-
-context.keys().forEach(function (path) {
-  let id = path.match(/\d{4}-\d{2}-\d{2}-\d/);
-  console.log(id);
-  posts[id] = context(path);
-});
-
 
 class Post extends React.Component {
   constructor(props) {
@@ -35,12 +25,12 @@ class Post extends React.Component {
   componentWillMount() {
     let self = this;
 
-    // do ajax requests with following setState invocation, e.g.:
-    // http://mediatemple.net/blog/tips/loading-and-using-external-data-in-react/
     self.setState({
       id: this.props.match.params.id,
-      post: posts[this.props.match.params.id].default
+      post: this.props.posts[this.props.match.params.id].default
     });
+    // or do ajax requests with following setState invocation, e.g.:
+    // http://mediatemple.net/blog/tips/loading-and-using-external-data-in-react/
 
     self.initializeDisqus();
   }
