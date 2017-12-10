@@ -125,6 +125,18 @@
 .blog-article-box a {
   text-decoration: underline;
 }
+/* added by me */
+.blog-article-box .metadata {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 10px 20px;
+  color: #fff;
+  font-weight: 700;
+  text-align: left;
+  background: rgba(0, 0, 0, 0.5);
+}
+
 
 .blog-article-box .panel-body p {
   font-family: "Open Sans", Helvetica, Verdana;

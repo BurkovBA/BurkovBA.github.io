@@ -77,12 +77,11 @@ class Post extends React.Component {
                   <h4>{ this.state.title }</h4>
                   <span className="font-bold">{ this.state.subtitle }</span>
                 </div>
-              </div>
-              <div className="text-muted">
-                { tr('Author') }: <span className="font-bold">{ tr(this.state.author) }</span>
-              </div>
-              <div className="text-muted">
-                { tr('Date') }: <span className="font-bold">{ this.state.date_created }</span>
+                <div className="metadata">
+                  <div>{ tr('Author') }: { tr(this.state.author) }</div>
+                  <div>{ tr('Date') }: { this.state.date_created }</div>
+                  <div>{ tr('Time to read')}: {this.state.time_to_read} min</div>
+                </div>
               </div>
             </div>
               <div className="panel-body">
