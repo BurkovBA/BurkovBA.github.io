@@ -8,7 +8,7 @@ module.exports = {
   output: {
     path: path.join(__dirname, 'dist'),
     publicPath: '/dist/',
-    filename: 'static/app.[hash:7].js'
+    filename: 'app.[hash:7].js'
   },
   resolve: {
     modules: [path.join(__dirname, 'src'), path.join(__dirname, 'node_modules')]
