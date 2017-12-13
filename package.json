@@ -6,7 +6,8 @@
     "clean": "rm -rf dist/*",
     "build": "node_modules/.bin/webpack -p",
     "serve": "node_modules/.bin/webpack-dev-server --progress --colors --history-api-fallback",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy": "npm run clean && npm run build && sed -i -- 's/\/dist\//dist\//g' index.html && git add dist && git commit -a -m 'deploy'"
   },
   "repository": {
     "type": "git",
