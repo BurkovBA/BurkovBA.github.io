@@ -7,7 +7,7 @@
     "build": "node_modules/.bin/webpack -p --env.prod",
     "serve": "node_modules/.bin/webpack-dev-server --progress --colors --history-api-fallback",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "deploy": "npm run clean && npm run build && git add dist && git commit -a -m 'deploy' && git push"
+    "deploy": "npm run clean && npm run build && git add dist && git add index.html && git commit -a -m 'deploy' && git push"
   },
   "repository": {
     "type": "git",

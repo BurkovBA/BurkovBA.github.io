@@ -4,7 +4,7 @@ var webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = function(env) {
-  var indexFilename = env.prod ? path.join(__dirname, "index.html") : "index.html";
+  var indexFilename = (env && env.prod) ? path.join(__dirname, "index.html") : "index.html";
 
   return {
     entry: path.join(__dirname, 'src', 'app.jsx'),
