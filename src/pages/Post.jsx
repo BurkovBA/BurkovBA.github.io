@@ -101,6 +101,10 @@ class Post extends React.Component {
               </div>
             </div>
               <div className="panel-body">
+                <p>
+                  { this.state.abstract }
+                </p>
+                <hr />
                 <this.state.post onload={this.onContentLoad} />
               </div>
               <div className="panel-footer clearfix">
