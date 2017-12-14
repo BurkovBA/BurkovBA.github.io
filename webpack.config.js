@@ -4,13 +4,15 @@ var webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = function(env) {
+  // set variables, depending on whether this is dev or prod, see: https://github.com/webpack/webpack/issues/2254
   var indexFilename = (env && env.prod) ? path.join(__dirname, "index.html") : "index.html";
+  var publicPath = (env && env.prod) ? '/dist/' : '/';
 
   return {
     entry: path.join(__dirname, 'src', 'app.jsx'),
     output: {
       path: path.join(__dirname, 'dist'),
-      publicPath: '/dist/',
+      publicPath: publicPath,
       filename: 'app.[hash:7].js'
     },
     resolve: {
@@ -66,8 +68,8 @@ module.exports = function(env) {
       ]
     },
     devServer: {
-      publicPath: '/dist/',
-      contentBase: './dist',
+      publicPath: '/',
+      contentBase: './',
       hot: true
     },
     devtool: "source-map"
