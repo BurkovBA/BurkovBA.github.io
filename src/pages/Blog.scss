@@ -1,3 +1,23 @@
 .post-authorship {
   display: inline-block;
 }
+
+.blog-2-col {
+  @media (min-width: 992px) {
+    display: block;
+  }
+
+  @media (max-width: 993px) {
+    display: none;
+  }
+}
+
+.blog-1-col {
+  @media (min-width: 992px) {
+    display: none;
+  }
+
+  @media (max-width: 993px) {
+    display: block;
+  }
+}
