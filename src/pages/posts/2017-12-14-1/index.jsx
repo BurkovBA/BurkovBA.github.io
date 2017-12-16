@@ -94,10 +94,11 @@ class Content extends React.Component {
         </h4>
         <p>
           Webpack 2 can consume environment variables from command line, in the form of arguments <code>--env.variable</code>. I
-          make use of them to conditionally switch some webpack configuration settings in production/development.
+          use them to conditionally switch some webpack configuration settings in production/development in npm scripts.
         </p>
-        <Gist id="c4caded6a26b0f85118419a28306915f" file="webpack.config.js"/>
-        <Gist id="c4caded6a26b0f85118419a28306915f" file="package.json" />
+        <div>
+          <Gist id="c4caded6a26b0f85118419a28306915f" />
+        </div>
         <h4>
           How to make Github serve direct links to SPA pages (e.g. <a href="BurkovBA.github.io/blog/2017-12-14-1">BurkovBA.github.io/blog/2017-12-14-1</a>)?
         </h4>
