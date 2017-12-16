@@ -1,4 +1,5 @@
 import React from 'react';
+import Gist from 'react-gist-burkov';
 
 
 let metadata = {
@@ -29,19 +30,6 @@ class Content extends React.Component {
 
   componentDidMount() {
     if (this.props.onload) this.props.onload(this.state);
-
-    // insert Github gists
-    let s = document.createElement('script');
-    s.type = 'text/javascript';
-    s.async = true;
-    s.src = "https://gist.github.com/BurkovBA/c4caded6a26b0f85118419a28306915f.js?file=webpack.config.js";
-    document.getElementById('gists').appendChild(s);
-
-    s = document.createElement('script');
-    s.type = 'text/javascript';
-    s.async = true;
-    s.src = "https://gist.github.com/BurkovBA/c4caded6a26b0f85118419a28306915f.js?file=package.json";
-    document.getElementById('gists').appendChild(s);
   }
 
   render() {
@@ -108,7 +96,8 @@ class Content extends React.Component {
           Webpack 2 can consume environment variables from command line, in the form of arguments <code>--env.variable</code>. I
           make use of them to conditionally switch some webpack configuration settings in production/development.
         </p>
-        <div id="gists"></div>
+        <Gist id="c4caded6a26b0f85118419a28306915f" file="webpack.config.js"/>
+        <Gist id="c4caded6a26b0f85118419a28306915f" file="package.json" />
         <h4>
           How to make Github serve direct links to SPA pages (e.g. <a href="BurkovBA.github.io/blog/2017-12-14-1">BurkovBA.github.io/blog/2017-12-14-1</a>)?
         </h4>
