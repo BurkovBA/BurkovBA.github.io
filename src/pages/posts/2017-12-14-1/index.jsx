@@ -14,7 +14,7 @@ let metadata = {
   "I've written it in Angular in early 2017 and have been re-writing everything in React for the last couple of weeks.\n" +
   "Probably the most challenging aspect of the whole work was to make Github pages play nice with React SPA - I'll tell you how.",
   cover: "https://shipitsquirrel.github.io/images/ship%20it%20squirrel.png",
-  categories: ["software-engineering"],
+  categories: ["programming", ],
   time_to_read: 10,
   views: "",
   comments: [],

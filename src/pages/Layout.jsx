@@ -162,7 +162,7 @@ class Layout extends React.Component {
   }
 
   /**
-   * Get posts category (e.g. 'software-engineering') from get params, if any.
+   * Get posts category (e.g. 'programming') from get params, if any.
    */
   getCategory() {
     const search = this.props.location.search; // url search params, something like '?category=music'
