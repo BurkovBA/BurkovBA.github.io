@@ -1,4 +1,11 @@
 /* Layout */
+
+/* added by me */
+@font-face {
+  font-family: "Montserrat";
+  src: url("../fonts/Montserrat-Regular.ttf") format("truetype");
+}
+
 html {
   margin: 0;
   padding: 0;
@@ -7,10 +14,12 @@ html {
 }
 
 body {
-  font-family: "Montserrat", "Helvetica Neue", "Open Sans", Helvetica, Arial, sans-serif; // used to be: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  background-color: #fff;
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 13px;
-  color: $color-text;
+  font-weight: 300; /* added by me */
+  background-color: #fff;
+  color: black;
+  //used to be: color: $color-text;
   margin: 0;
   padding: 0;
   height: 100%;
