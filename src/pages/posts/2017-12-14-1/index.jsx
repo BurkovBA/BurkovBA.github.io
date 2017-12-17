@@ -61,9 +61,9 @@ class Content extends React.Component {
         <p>
           This causes several problems.
         </p>
-        <h4>
+        <h3>
           How to serve <code>index.html</code> not from project root, but from <code>/dist</code> or <code>/build</code> folder?
-        </h4>
+        </h3>
         <p>
           My webpack setup works as follows: all the source files are located in <code>/src</code> folder, while files generated
           from them go to <code>/dist</code>. Those initially included <code>/dist/index.html</code>, generated from a template
@@ -93,9 +93,9 @@ class Content extends React.Component {
           folder instead of <code>/dist</code>, but that required additional tweaks of WebpackDevServer, which expected
           it in dist. Thus I had to create a conditional build and set configuration variables in webpack.
         </p>
-        <h4>
+        <h3>
           How to run different webpack configurations for production and development?
-        </h4>
+        </h3>
         <p>
           Webpack 2 can consume environment variables from command line, in the form of arguments <code>--env.variable</code>. I
           use them to conditionally switch some webpack configuration settings in production/development in npm scripts.
@@ -103,9 +103,9 @@ class Content extends React.Component {
         <div>
           <Gist id="c4caded6a26b0f85118419a28306915f" />
         </div>
-        <h4>
+        <h3>
           How to make Github serve direct links to SPA pages (e.g. <a href="BurkovBA.github.io/blog/2017-12-14-1">BurkovBA.github.io/blog/2017-12-14-1</a>)?
-        </h4>
+        </h3>
         <p>
           Ok, this still doesn't solve the problem of direct links. I found <a href="https://github.com/rafrex/spa-github-pages">a brilliant solution on Github by Rafael Pedicini</a>.
         </p>
