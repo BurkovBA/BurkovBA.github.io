@@ -59,6 +59,24 @@ class Layout extends React.Component {
     ]
   }
 
+  componentWillMount() {
+    this.initializeGoogleAnalytics();
+  }
+
+  initializeGoogleAnalytics() {
+    // Global Site Tag (gtag.js) - Google Analytics
+    let script = document.createElement('script');
+    script.src = 'https://www.googletagmanager.com/gtag/js?id=UA-111349824-1';
+    document.head.appendChild(script);
+
+    // inline script to embed in body
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments)};
+    gtag('js', new Date());
+
+    gtag('config', 'UA-111349824-1');
+  }
+
   componentDidMount() {
     let self = this;
 
