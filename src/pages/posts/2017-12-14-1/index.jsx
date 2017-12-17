@@ -61,13 +61,14 @@ class Content extends React.Component {
         <p>
           This causes several problems.
         </p>
+        <img className="img-responsive center-block" src="https://shipitsquirrel.github.io/images/ship%20it%20squirrel.png" />
         <h3>
           How to serve <code>index.html</code> not from project root, but from <code>/dist</code> or <code>/build</code> folder?
         </h3>
         <p>
           My webpack setup works as follows: all the source files are located in <code>/src</code> folder, while files generated
           from them go to <code>/dist</code>. Those initially included <code>/dist/index.html</code>, generated from a template
-          <code>in /src/index.html</code> by HtmlWebpackPlugin.
+          in <code>/src/index.html</code> by HtmlWebpackPlugin.
         </p>
         <p>
           Thing is, Github pages won't serve index.html from subdirectory and there's no way to customize its location
@@ -93,6 +94,7 @@ class Content extends React.Component {
           folder instead of <code>/dist</code>, but that required additional tweaks of WebpackDevServer, which expected
           it in dist. Thus I had to create a conditional build and set configuration variables in webpack.
         </p>
+        <img className="img-responsive center-block" src="https://shipitsquirrel.github.io/images/squirrel.png" />
         <h3>
           How to run different webpack configurations for production and development?
         </h3>
@@ -118,7 +120,7 @@ class Content extends React.Component {
           a script. That script parses url that you passed, transforms them into URL params (aka GET params) and
           redirects to <code>index.html</code>. <code>index.html</code> parses them back into a proper URL and initializes React SPA.
         </p>
-        <img className="img-responsive center-block" src="https://shipitsquirrel.github.io/images/ship%20it%20squirrel.png" />
+
       </div>
     )
   }
