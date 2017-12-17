@@ -1,6 +1,8 @@
 import React from 'react';
 import Gist from 'react-gist-burkov';
 
+let Squirrel = require('./2016-12-27-151422.png');
+
 
 let metadata = {
   id: "2017-12-14-1",
@@ -8,12 +10,13 @@ let metadata = {
   authors_avatar: require("images/burkov_boris_web.jpg"),
   date_created: "14.12.2017",
   language: "en",
-  title: "Ship it!",
-  subtitle: "BurkovBA,github.io online now",
-  abstract: "It's been almost a year since I started telling people that I'll do a blog.\n" +
-  "I've written it in Angular in early 2017 and have been re-writing everything in React for the last couple of weeks.\n" +
-  "Probably the most challenging aspect of the whole work was to make Github pages play nice with React SPA - I'll tell you how.",
-  cover: "https://shipitsquirrel.github.io/images/ship%20it%20squirrel.png",
+  title: "BurkovBA,github.io is online!",
+  subtitle: "How to serve your React SPA from Github pages",
+  abstract: "I've been procrastinating over my blog for almost a year.\n" +
+  "Initially I wrote it in Angular in early 2017 and re-wrote everything in React in the last couple of weeks.\n" +
+  "At last, following Github's \"ship early - ship often\" motto, I shipped it today.\n" +
+  "Probably the most challenging aspect of the whole work was to make Github pages play nice with React SPA - I'll tell you how in this post.",
+  cover: Squirrel,
   categories: ["programming", ],
   time_to_read: 10,
   views: "",
@@ -51,7 +54,8 @@ class Content extends React.Component {
           <li>Github pages to "host" and serve it</li>
         </ul>
         <p>
-          Project needs to be served in 2 environments. In development it needs to be rebuilt upon every change
+          Project needs to be served in 2 environments. In development it needs to be rebuilt upon every change (or, to
+          be precise, each part of it that )
           and served from local machine with WebpackDevServer. In production it is served with with Github pages web server.
         </p>
         <p>
@@ -114,6 +118,7 @@ class Content extends React.Component {
           a script. That script parses url that you passed, transforms them into URL params (aka GET params) and
           redirects to <code>index.html</code>. <code>index.html</code> parses them back into a proper URL and initializes React SPA.
         </p>
+        <img className="img-responsive center-block" src="https://shipitsquirrel.github.io/images/ship%20it%20squirrel.png" />
       </div>
     )
   }
