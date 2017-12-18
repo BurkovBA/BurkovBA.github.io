@@ -71,8 +71,8 @@ class Content extends React.Component {
           in <code>/src/index.html</code> by HtmlWebpackPlugin.
         </p>
         <p>
-          Thing is, Github pages won't serve index.html from subdirectory and there's no way to customize its location
-          for per-user or per-organisation sites (although, per-repository sites can serve files from <code>docs</code>
+          Thing is, Github pages won't serve <code>index.html</code> from subdirectory and there's no way to customize its location
+          for per-user or per-organisation sites (although, per-repository sites can serve files from <code>/docs</code>
           folder). Also project github pages can serve files from branches other than master, e.g. <code>gh-pages</code> branch,
           but again this is not an option for per-user or per-organiation sites.
         </p>
@@ -90,7 +90,7 @@ class Content extends React.Component {
           they'll get 404 error.
         </p>
         <p>
-          Thus, in production I configured HtmlWebpackPlugin to put the built <code>index.html</code> into the root
+          Hence, in production I configured HtmlWebpackPlugin to put the built <code>index.html</code> into the root
           folder instead of <code>/dist</code>, but that required additional tweaks of WebpackDevServer, which expected
           it in dist. Thus I had to create a conditional build and set configuration variables in webpack.
         </p>
@@ -117,8 +117,10 @@ class Content extends React.Component {
         </p>
         <p>
           Here's the catch: you can customize your <code>404.html</code> page! So, you create a custom 404 error with
-          a script. That script parses url that you passed, transforms them into URL params (aka GET params) and
-          redirects to <code>index.html</code>. <code>index.html</code> parses them back into a proper URL and initializes React SPA.
+          a script. That script parses url that you passed, transforms path components into URL params (aka GET params) and
+          redirects to <code>index.html</code>. For instance, <code>https://BurkovBA.github.io/blog?category=programming</code> is
+          transformed into <code>https://BurkovBA.github.io?p=blog&category=programming</code>. <code>index.html</code> parses
+          this path <code>p</code> parameter back into a proper URL and initializes React SPA.
         </p>
 
       </div>
