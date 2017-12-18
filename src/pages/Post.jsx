@@ -101,7 +101,7 @@ class Post extends React.Component {
               </div>
             </div>
               <div className="panel-body">
-                <p class="abstract">
+                <p className="abstract">
                   { this.state.abstract }
                 </p>
                 <hr />
