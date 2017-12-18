@@ -144,7 +144,7 @@
 }
 
 .blog-article-box .panel-body p {
-  font-family: "Helvetica Neue", "Open Sans", Helvetica, Verdana;
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Verdana; /* used to be: "Helvetica Neue", "Open Sans", Helvetica, Verdana; */
   font-size: 16px; /* 20px; */
   line-height: 28px; /* 32px; */
   color: darken($color-text, 100%);
@@ -158,7 +158,7 @@
   }
 
   .blog-article-box .panel-body p {
-    font-family: "Helvetica Neue", "Open Sans", Helvetica, Verdana;
+    font-family: "Open Sans", "Helvetica Neue", Helvetica, Verdana; /* used to be: "Helvetica Neue", "Open Sans", Helvetica, Verdana; */
     font-size: 16px;
     line-height: 28px;
     margin-bottom: 1.5em;
