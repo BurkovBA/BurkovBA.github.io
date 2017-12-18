@@ -14,7 +14,7 @@ let metadata = {
   "and give practical advices and examples of how this can be achieved.",
   cover: "http://t0.gstatic.com/images?q=tbn:ANd9GcRrs7XfZqihvWX-CCmLKp8R9Q0zncirJmWTOEVpa9oEFYQRXphz",
   categories: ["business", "programming", "people"],
-  time_to_read: 20,
+  time_to_read: 30,
   views: "",
   comments: [],
 };
@@ -92,6 +92,201 @@ class Content extends React.Component {
           <li><b>Speaking Engagements</b> - Eric Ries of Lean Startup, Dan Martell of Clarity</li>
           <li><b>Community Building</b> - Jeff Atwood of StackExchange</li>
         </ol>
+
+        <h3>Chapter 2. Traction Thinking</h3>
+        <p>
+          Mark Andreeson, founder of Netscape and Andreeson-Horowitz, says that in successful startups 50 percent of
+          engineering effort goes to traction. If founders don't have any idea of how to get traction or, even worse,
+          deny the need of active promotion or the project, claiming that it will get viral - it's a bad signal for
+          investor.
+        </p>
+        <p>
+          There's a great temptation to postpone traction efforts until your project is in a very mature state. Don't do
+          that: attempts to get traction actually help you get feedback and bring your attention to overlooked aspects
+          of your project.
+        </p>
+        <p>
+          For Dropbox Customer Acquisition cost was $230, while product was $99, so they had to rely on viral marketing.
+        </p>
+        <p>
+          Naval Ravikant, founder of AngelList:
+        </p>
+        <blockquote>
+          "In November 2010 you could've gotten daily deal startup founded pre-traction, 18 months later you couldn' get funded no matter what."
+        </blockquote>
+        <p>
+          DuckDuckGo had security in mind since 2009, but nobody cared since 2013 until Snowden. After that anonimity
+          became a major selling point for the project.
+        </p>
+
+        <h3>Chapter 3. Bullseye</h3>
+        <p>Noting interesting.</p>
+
+        <h3>Chapter 4. Traction Testing</h3>
+        <p>
+          Tools: Clicky, Mixpanel, Chartbeat.
+        </p>
+        <p>
+          Indicators of traction channel: total number of customers available, conversion rate,
+          cost to acquire a customer, lifetime value of a customer.
+        </p>
+
+        <h3>Chapter 5. Critical path</h3>
+        <p>
+          Your should envision a certain trajectory of your project, where at each step of its life you should strive
+          to achieve certain <b>Key Performance Indicators (KPI)</b>. For instance, DuckDuckGo at certain point had a
+          goal to get 1% of total search requests in the world.
+        </p>
+        <p>
+          All the traction channels bring users to you, but some are too slow. For instance, SEO and engineering as
+          marketing for DuckDuckGo were bringing users, but at the orders of magnitude slower than it was required.
+          You physically won't have time to work on all the traction channels available.
+        </p>
+        <p>Thus, you should focus only on those channels that are significant enough to help you achieve KPIs.</p>
+
+        <h3>Chapter 6. Targeting Blogs</h3>
+        <p>
+          Noah Kagan from Mint (personal finance service) was using blogs to reach early traction goal of 100 000 users
+          in first 6 months. He held the following table to quantify their efforts:
+        </p>
+        <div className="table-responsive">
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Source</th>
+                <th>Traffic</th>
+                <th>CTR</th>
+                <th>Conversion</th>
+                <th>Total users</th>
+                <th>Status</th>
+                <th>Confirmed</th>
+                <th>Confirmed users</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Tech Crunch</td>
+                <td>300,000</td>
+                <td>10%</td>
+                <td>25%</td>
+                <td>7,500</td>
+                <td>Friend</td>
+                <td>Yes</td>
+                <td>7,500</td>
+              </tr>
+              <tr>
+                <td>Dave McClure</td>
+                <td>30,000</td>
+                <td>10%</td>
+                <td>25%</td>
+                <td>750</td>
+                <td>Friend</td>
+                <td>Yes</td>
+                <td>750</td>
+              </tr>
+              <tr>
+                <td>Mashable</td>
+                <td>500,000</td>
+                <td>100%</td>
+                <td>25%</td>
+                <td>12,500</td>
+                <td>Email</td>
+                <td>No</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <td>reddit</td>
+                <td>25,000</td>
+                <td>100%</td>
+                <td>25%</td>
+                <td>6,250</td>
+                <td>Coordinated</td>
+                <td>Yes</td>
+                <td>6,250</td>
+              </tr>
+              <tr>
+                <td>Digg</td>
+                <td>100,000</td>
+                <td>100%</td>
+                <td>25%</td>
+                <td>25,000</td>
+                <td>Coordinated</td>
+                <td>Yes</td>
+                <td>25,000</td>
+              </tr>
+              <tr>
+                <td>Google organic</td>
+                <td>5000</td>
+                <td>100%</td>
+                <td>15%</td>
+                <td>750</td>
+                <td>Receiving</td>
+                <td>Yes</td>
+                <td>250</td>
+              </tr>
+              <tr>
+                <td>Google Ads</td>
+                <td>1,000,000</td>
+                <td>3%</td>
+                <td>35%</td>
+                <td>10,500</td>
+                <td>Bought</td>
+                <td>Yes</td>
+                <td>10,500</td>
+              </tr>
+              <tr>
+                <td>Paul Stamatiou</td>
+                <td>50,000</td>
+                <td>5%</td>
+                <td>50%</td>
+                <td>1,250</td>
+                <td>Friend</td>
+                <td>Yes</td>
+                <td>1,250</td>
+              </tr>
+              <tr>
+                <td>Personal Finance Sponsorships</td>
+                <td>200,000</td>
+                <td>10%</td>
+                <td>75%</td>
+                <td>52,000</td>
+                <td>Coordinated</td>
+                <td>Yes</td>
+                <td>52,000</td>
+              </tr>
+              <tr>
+                <td>Okdork.com</td>
+                <td>3,000</td>
+                <td>10%</td>
+                <td>75%</td>
+                <td>225</td>
+                <td>Self</td>
+                <td>Yes</td>
+                <td>225</td>
+              </tr>
+              <tr>
+                <td colSpan="4">Total:</td>
+                <td colSpan="3">116,725</td>
+                <td>104.225</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>
+          How to find blogs in you niche:
+        </p>
+        <ul>
+          <li>google "top X blogs" or "best blogs on X"</li>
+          <li>YouTube</li>
+          <li>Delicious</li>
+          <li>Twitter</li>
+          <li>Social Mention</li>
+          <li>Talk to People</li>
+        </ul>
+        <p>
+        Popular blogs you might not know about:
+        reddit, Product Hunt, Hacker News, Inbound.org, Digg, Quora, Codecademy, Gumroad, Lifehacker.
+        </p>
 
       </div>
     );
