@@ -287,7 +287,88 @@ class Content extends React.Component {
         Popular blogs you might not know about:
         reddit, Product Hunt, Hacker News, Inbound.org, Digg, Quora, Codecademy, Gumroad, Lifehacker.
         </p>
+        <h3>Chapter 7: Publicity, PR</h3>
+        <h4>Strategy:</h4>
+        <p>
+          Ryan Holiday, director of marketing at American Apparel, author of Trust me, I'm lying:
+        </p>
+        <blockquote>
+          If New York tells about you, they make you a huge favor (their space is limited), if
+          Business Insider posts about you, you make them a favor (their space is infinite).
+        </blockquote>
+        <p>
+          Huffington Post now churns out hundreds of hundreds of articles a day - more articles
+        - more page views - more ad money.
+        </p>
+        <p>
+          CNN, New York Times, the Today show now scout smaller outlets for captivating stories.
+        </p>
+        <p>Ryan Holiday:</p>
+        <blockquote>
+          It's better to start small when targeting big media outlets. So you find the blogs,
+          which TechCrunch reads and get story ideas from. Chances are, it will be easier to
+          get those blogs' attention. You pitch there, which leads TechCrunch to email you or
+          do a story about you based on the information [they've seen] on the news radar.
+        </blockquote>
+        <p>
+          Food chain: Hackernews/subreddits -> TechCrunch/LifeHacker -> New York Times
+        </p>
+        <p>
+          Case of Donors.org: Teachers in NYC often use it to raise money for their projects ->
+          Newsweek picked it -> Oprah's team found it in Newsweek in 2010 -> funding from Gates
+          foundation, major increase in donations.
+        </p>
+        <p>
+          Jason Kincaid, formerly reporter of TechCrunch, says he got pitched >50 times a day.
+        </p>
+        <p>
+          What gets attention: raising money, PR stunt, big partnership, special industry report.
+          But better is a mix of those.
+        </p>
+        <p>
+          No walls of text in emails to reporters!
+        </p>
+        <p>
+          Emotional reaction: they wrote a book about stock exchange, explaining technical details
+          and also noted that market is essentially rigged.
+        </p>
+        <p>
+          Help a Reporter Out (HARO) service
+        </p>
+        <p>
+          Reporter have Twitter accounts with surprisingly small numbers of followers.
+        </p>
+        <p>
+          Plan of action:
+        </p>
+        <ol>
+          <li>submit story to link-sharing sites (reddit, Hacker News) with larger audiences</li>
+          <li>share it on social networks to drive awareness + add social ads</li>
+          <li>email influencers in your industry for comment, some of them will share them with your audience</li>
+          <li>ping blogs in your space, tell them that you have a story that's getting buzz - they may want to jump in and cover you themselves</li>
+        </ol>
+        <p>E-mail template:</p>
+        <blockquote>
+          Hey [name],
 
+          I wanted to shoot you a note because I loved your post on [similar topic that did a lot of traffic]. I was going to give the following to
+          our publicist, but I thought I would go to you with the exclusive because I read and really enjoy your stuff. My [company built a user base
+          of 25000/book blows the lid of enormous XYZ scandal]. And I did it completely off the radar. This means you'll be first to have it.
+          I can write up any details you need to make it great. Do you think this might be a good fit?
+          If so, should I draft something around [their average] words and send it to you, or do you prefer a different process?
+          If not, totally understand and thanks for reading this much.
+
+                      All the best,
+                      [your name]
+        </blockquote>
+        <p>Ryan Holiday about investors:</p>
+        <blockquote>
+          When people gamble, but they don't tell themselves they're gambling (as investors do), they need information
+          to justify their decisions, and they need social proof and examples and evidence that thjey're doing the right
+          thing. They already know if they want to invest in you or not, and they're looking for information that they
+          made the right call. Press is one of the few things that push people over the edge and confirm they're doing
+          the right thing.
+        </blockquote>
       </div>
     );
   }
