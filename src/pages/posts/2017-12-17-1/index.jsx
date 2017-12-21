@@ -369,6 +369,42 @@ class Content extends React.Component {
           made the right call. Press is one of the few things that push people over the edge and confirm they're doing
           the right thing.
         </blockquote>
+        <h3>Chapter 8. Unconventional PR.</h3>
+        <p>Two main directions: publicity stunts and customer appreciation</p>
+        <h4>Publicity stunts</h4>
+        <p>
+          Richard Brenson was doing his press-conferences as outlandish as possible, dressing like a woman or
+        driving a tank.
+        </p>
+        <p>
+          In 1999 Half.com renamed a town called Halfway into Half.com for a year and hired a couple of employees there.
+          Josh Copelman launched Half.com on Today show with the mayor of Halfway, Oregon.
+          They received coverage from NY Times, PBS, Wall Street Journal and hundreds of other publications. This gave
+          them 40 mln customers and they were acquired by Ebay in 6 months for 300 million dollars.
+        </p>
+        <p>
+          WePay, Web payment startup, placed a 600-pound block of ice at the conference entrance - PayPal was criticized
+          for freezing some of its customers accounts - and WePay drove attention to that at PayPal's own conference!
+          1000s of signups.
+        </p>
+        <p>
+          DuckDuckGo brought a billboard in Google's backyard, highlighting its privacy focus. Billboard got press
+          at USA Today, Wired and other media outlets. This doubled their user base.
+        </p>
+        <p>
+          Blendtec, blender manufacturer in Utah, in 2007 created a series of videos "Willl it blend?",
+          where they blended a rake, golf balls and iPhone. iPhone video received over 8 million views , and series
+          became a top-100 most viewed on youtube.
+        </p>
+        <p>
+          Dollar Shave Club, subscription shaving startup, got similar attention by launching a video
+          "Our Blades are F**king Great". It also has millions of views on YouTube and was the main source of >12,000
+          customers it acquired within 2 days of launching. Video was shared 31,000+ times on Facebook, received
+          9,500+ comments, 12,000+ likes, 16,000+ tweets. They quickly ranked 3rd in Google search "shave".
+          This was largely thanks to 1500 sites, linking to the video. It also led to features in Forbes,
+          The Wall Street Journal and Wired.
+        </p>
+        <h4>Customer appreciation</h4>
       </div>
     );
   }
