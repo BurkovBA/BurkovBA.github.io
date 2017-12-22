@@ -377,8 +377,8 @@ class Content extends React.Component {
         driving a tank.
         </p>
         <p>
-          In 1999 Half.com renamed a town called Halfway into Half.com for a year and hired a couple of employees there.
-          Josh Copelman launched Half.com on Today show with the mayor of Halfway, Oregon.
+          In 1999 Half.com renamed a town called Halfway into Half.com for a year for $70k and hired a couple of
+          employees there. Josh Copelman launched Half.com on Today show with the mayor of Halfway, Oregon.
           They received coverage from NY Times, PBS, Wall Street Journal and hundreds of other publications. This gave
           them 40 mln customers and they were acquired by Ebay in 6 months for 300 million dollars.
         </p>
@@ -392,9 +392,9 @@ class Content extends React.Component {
           at USA Today, Wired and other media outlets. This doubled their user base.
         </p>
         <p>
-          Blendtec, blender manufacturer in Utah, in 2007 created a series of videos "Willl it blend?",
+          Blendtec, blender manufacturer in Utah, in 2007 created a series of videos "Will it blend?",
           where they blended a rake, golf balls and iPhone. iPhone video received over 8 million views , and series
-          became a top-100 most viewed on youtube.
+          became a top-100 most viewed on youtube. This increased sales by 500%.
         </p>
         <p>
           Dollar Shave Club, subscription shaving startup, got similar attention by launching a video
@@ -405,6 +405,34 @@ class Content extends React.Component {
           The Wall Street Journal and Wired.
         </p>
         <h4>Customer appreciation</h4>
+        <p>
+          Alexis Ohanian, founder of reddit and Hipmunk (travel booking site) was sending luggage tags with a chipmunk
+          and handwritten notes to first several hundred people, who mentioned the site on Twitter. Also gave away
+          T-shirts, stickers. Did same with reddit - T-shirts with alien, personally emailed users to thank them, those
+          emails became a central theme in reddit's press articles.
+        </p>
+        <p>
+          David Hauser used similar approach at Grasshopper.com. Was sending customers Skittles, homemade cookies,
+          Starbucks gift cards, books and handwritten notes. Had 2 full-time employees, working solely on customer
+          appreciation.
+        </p>
+        <p>
+          Holding contests is a great way to generate publicity. Shopify.com, a popular e-commerce platform, is famous
+          for its annual Build a Business competition and six-figure prize. Last year, the content drove 1,900 new
+          customers and more than $3.5 million in sales on its platform. Dropbox used to hold Dropquest competition -
+          users had to complete an intellectually challenging online scavenger hunt and were rewarded with online
+          recognition, brand items and free Dropbox packages for life. In the first year of the competition, almost
+          half a million people went through the quest. Hipmunk had Mother's Day Giveaway: asked to write, why you
+          love mother more than Hipmunk. Received hundreds of submissions via Twitter, sent flowers and chocolates to
+          the moms of happy winners. For $500 Hipmunk generated a lot of attention. Hipmunk has run other contests -
+          flying customers to Thanksgiving. Hired cartoonists to draw "chipmunked" portraits of customers - received
+          hundreds requests in less than 1 hour, increased Facebook fanbase by >350%.
+        </p>
+        <p>
+          Zappos support team was super-nice, they classified its expenses as marketing investment, average phone call
+          length was huge. They were assisting with returns, ordering pizzas, exchanging workout clothes for deep fat
+          fryer. This made Zappos famous among customers.
+        </p>
       </div>
     );
   }
