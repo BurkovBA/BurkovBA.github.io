@@ -433,6 +433,30 @@ class Content extends React.Component {
           length was huge. They were assisting with returns, ordering pizzas, exchanging workout clothes for deep fat
           fryer. This made Zappos famous among customers.
         </p>
+        <h4>More cases by David Hauser</h4>
+        <p>
+          While launching Grasshopper.com instead of a press release, they sent chocolate-covered grasshoppers to 5000
+          influencial people. With each grasshopper they sent a promotional video. After launching this campaign, they
+          got coverage from Fox News, tweets by Guy Kawasaki and Kevin Rose (who had millions of Twitter followers).
+          For $65,000 they became a well-known brand among entrepreneurs. This received major media coverage, created a
+          Youtube video, watched over 200,000 times, over 150 blog posts, increased number of visitors, coming from
+          Twitter and Facebook by over 3,000%.
+        </p>
+        <p>
+          Also they created a viral video "The New Dork" with startup-themed humor,
+          parody on Jay-Z and Alicia Keys song "Empire State of Mind", which received 1 mln views and mentions from
+          Ashton Kutcher, Mashable and TechCrunch. Consciously made references to Mashable in that video, gave a note
+          to them after video release, which gave them more incentive to give more exposure.
+        </p>
+        <p>
+          David's team at another startup Chargify attended SXFW conference and instead of paying $10-15k for
+          sponsorship, they hired a stuntman for $3,000 to run in a big green bull's dress, do backflips, drive Corvette
+          and draw attention otherwise.
+        </p>
+        <p>
+          David's failures: unsuccessful March Madness promotions, failed ticket giveaways, failed dancing grasshoppers
+          video. Anyways, his channel works for them and they leverage it more than any other.
+        </p>
       </div>
     );
   }
