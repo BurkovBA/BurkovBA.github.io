@@ -457,6 +457,29 @@ class Content extends React.Component {
           David's failures: unsuccessful March Madness promotions, failed ticket giveaways, failed dancing grasshoppers
           video. Anyways, his channel works for them and they leverage it more than any other.
         </p>
+        <h3>Chapter 9. Search Engine Marketing (SEM)</h3>
+        <p>
+          Online marketers spend over $100 million every day on Google's AdWords. Works in B2C, focuses on people, who
+          are already looking for what you're selling.
+        </p>
+        <p>Terms:</p>
+        <ul>
+          <li><b>Click-Through Rate (CTR)</b> - percentage of ad impressions that result in clicks to your site. If
+          100 people see your ad and 3 click it, CTR=3%.</li>
+          <li><b>Cost per Click (CPC)</b> - amount it costs to buy a click on an advertisement. CPC is the maximum
+          amount you're willing to pay for a potential customer to come to your site.</li>
+          <li><b>Cost per Acquisition (CPA)</b> - how much it costs to acquire a customer, not just a click. If you
+          buy clicks at $1 and 10% of those who clicked become customers ("convert"),
+          CPA = $10 = CPC / conversion percentage.</li>
+        </ul>
+        <p>
+          Matthew Monahan, CEO and cofounder of Inflection, was spending six figures per month on SEM. They were
+          acquired by Ancestry.com for $100 million. Initially they used SEM to get the initial user base and
+          validate their product (good feedback for just $500-5000).
+        </p>
+        <p>
+
+        </p>
       </div>
     );
   }
