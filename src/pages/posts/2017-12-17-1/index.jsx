@@ -475,11 +475,36 @@ class Content extends React.Component {
         <p>
           Matthew Monahan, CEO and cofounder of Inflection, was spending six figures per month on SEM. They were
           acquired by Ancestry.com for $100 million. Initially they used SEM to get the initial user base and
-          validate their product (good feedback for just $500-5000).
+          validate their product (good feedback for just $500-5000). This gave the ballpark of most important metrics:
+          conversions of landing pages, how well email captures are working, average customer acquisition cost (CAC),
+          customer lifetime value (LTV). They used AdWords to drive traffic to landings BEFORE investing into product development.
+          By measuring CTR for different keywords and conversion on those landings, they determined most interesting
+          aspects for customers. They were not sure about scenarios of how customer will use Ancestry.com and this gave
+          them idea. By the time they were building the product, they knew exactly what users wanted. Their initial SEM
+          campaign broke even in a few weeks, meaning that their CPA/CAC=LTV without optimizations of landings, thus
+          they started to spend $100,000 a month on this channel.
         </p>
+        <h4>Strategy</h4>
         <p>
-
+          Google AdWords is the major SEM platform, although BingsAds are also worth considering (they are running on
+          Yahoo!, Bing and DuckDuckGo).
         </p>
+        <p>Tools to find out, what keywords your audience is looking for and what keywords your rivals are using:</p>
+        <ul>
+          <li>Google's Keyword Planner</li>
+          <li>Keyword Spy</li>
+          <li>SEMrush</li>
+          <li>SpyFu</li>
+        </ul>
+        <p>
+          SEM gets more expensive the more popular your keywords are, thus for testing purposes it is ideal to use
+          "long-tail keywords", usch as "1990 census data" instead of just "census data". The ad itself should contain
+          a catchy and relevant title, a well-articulated Call To Action and keywords. After that you should use Google
+          Analytics URL Builder tool to create uniquie URLs pointing to your landing pages to track which ads are
+          converting, not only being clicked at. According to Matthew, just 4 ads are enough to get a baseline of SEM
+          performance and still testing messaging, demographics and landing pages.
+        </p>
+        <h3>WORK IN PROGRESS - TO BE CONCLUDED</h3>
       </div>
     );
   }
