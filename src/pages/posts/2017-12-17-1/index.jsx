@@ -504,6 +504,33 @@ class Content extends React.Component {
           converting, not only being clicked at. According to Matthew, just 4 ads are enough to get a baseline of SEM
           performance and still testing messaging, demographics and landing pages.
         </p>
+        <p>
+          If customer acquisition cost (CAC) was 15 cents and you make revenue of 13 cents per click, you're in minus.
+          But if you optimize your (sales - marketing) values, you can achieve huge profit margin improvements and
+          dramatically change you business.
+        </p>
+        <p>
+          Optimizely and Visual Website Optimizer are tools to run A/B tests on landing pages.
+        </p>
+        <p>
+          Ads and ad groups are assigned a quality score by Google. It primarily depends on CTR (average CTR is 2%,
+          if CTR is below 1.5%, Google assigns a low score) and time people spend on your website.
+          The higher your quality score, the better ad placings and pricing you get from Google.
+        </p>
+        <h4>Tactics</h4>
+        <p>
+          2 subtypes of AdWords are Google search network - paid search links - and Google content network - ads on
+          non-Google sites.
+        </p>
+        <p>
+          Retargeting with sites like AdRoll and Perfect Audience allows you to make people, who visited your site, see
+          your links on other sites and be driven back. This increases CTR by 3x or 10x - those users are already hot
+          and close to the center of your conversion funnel.
+        </p>
+        <p>
+          Google Conversion Optimizer is a tool that analyzes your conversion tracking data and automatically adjusts
+          your ads to perform better. You can also use scripts to dynamically manage large number of ads and keywords.
+        </p>
         <h3>WORK IN PROGRESS - TO BE CONCLUDED</h3>
       </div>
     );
