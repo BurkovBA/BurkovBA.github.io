@@ -715,6 +715,97 @@ class Content extends React.Component {
           incredible. ... And it changed over time - an ad might be good for a quarter, or a year, and then decay
           slowly until it wasn't valuable anymore.
         </blockquote>
+        <h3>Chapter 12. Search Engine Optimization (SEO)</h3>
+        <h4>Strategy</h4>
+        <p>
+          Read Moz Beginner's Guide to SEO for basics.
+        </p>
+        <p>
+          There are 2 high-level strategies: fat head and long tail. 30% of searches are made of 1-word or 2-word
+          queries, such as "Dishwashers", while 70% are longer searches that don't get searched as much, but in the
+          aggregate add up to the majority of searches made. Fat-head strategy means that you would try to focus on
+          short queries, such as "wooden toys", while long-tail - on long queries, such as "wood puzzles for 3 year olds".
+        </p>
+        <p>
+          Only ~10% of clicks occur beyond the first 10 links, so you want to be as high on the first page as possible.
+        </p>
+        <h4>Fat-head strategy</h4>
+        <ol>
+          <li>
+            Use Google AdWords Keyword Planner to find terms that best describe your product. You need such keywords
+            that if you captured 10% of search traffic, it still results in meaningful traffic.
+          </li>
+          <li>
+            Use Open Site Explorer to find the number of links, competitors use for a given term. This will give you
+            a rough idea of how dofficult it will be to rank high for a given term. If competitor has thousands links
+            to that term, it will take lots of focus on building links and optimizing SEO higher than them.
+          </li>
+          <li>
+            Use Google Trends to narrow down your keywords list to just a handful. Have certain terms been search more
+            or less often the last year? Is geography ok?
+          </li>
+          <li>Try SEM ads against your keywords. Do they convert well?</li>
+          <li>Make titles and headers of your site include your search terms of choice.</li>
+          <li>Get other sites link to your site, ideally, using exact links you're optimizing for.</li>
+        </ol>
+        <p>
+          For something totally new SEO doesn't work too well - e.g. search terms for Uber would sound like "alternatives
+          to taxicabs that I can hire via my phone".
+        </p>
+        <h3>Long-tail strategy</h3>
+        <p>
+          You can still start from Google Keyword Planner or go with Google Analytics/Clicky and analyze organic traffic
+          leading to your website. If you don't have enough content, drawing people through long-tail keywords, you
+          have 2 choices. You can either create Web pages and then after few months check analytics or you could look
+          at competitors sites for signs of meaningful long-tail SEO traffic: they have lots of landing pages (check
+          site:moz.com) or Alexa search rankings and look at the percentage of visitors your competitors are receiving
+          from search - if one competitor receives a lot more traffic from search than others, they are using some kind
+          of SEO strategy.
+        </p>
+        <p>
+          Patrick McKenzie, founder of Bingo Card Creator and Appointment Reminder:
+        </p>
+        <blockquote>
+          You build a machine that takes money on one end and spits rankings on the other. With Bingo Card Creator I pay
+          money to a freelancer to write bingo cards with associated content about them that get slapped up on a page
+          on the Web site. Because those bingo cards are far too niche for any educational publisher to target, I tend
+          to rank very well for them.
+        </blockquote>
+        <blockquote>
+          For $10-20 per search term, you can pay someone to write an article that you won't be embarrassed to put on
+          your Web site. For many SaaS startups, the lifetime value of a customer at the margin might be hundreds of
+          thousands of dollars. So they [articles and landing pages] don't need much traffic at all on an individual
+          basis to aggregate into a meaningful number to the business.
+        </blockquote>
+        <blockquote>
+          The reason my business works is fundamentally because this SEO strategy works phenomenally well.
+        </blockquote>
+        <p>
+          Patrick would hire freelancer to create a page for $3.5 and over 3 years it brings $60-100. At scale of
+          hundreds of such sorts, this is fairly good money. Subpages of his site target a bucket of keywords he wants
+          to rank for. For example, "plants and animals" bingo card category includes pages like "dog breeds bingo",
+          "cat breeds bingo". For each of those, he hired a freelancer to research the term and create a unique set of
+          bingo cards and associated landing pages. You can hire freelancers via oDesk/Elance to churn out targeted
+          articles for long-tail topics that your audience is interested in.
+        </p>
+        <p>
+          Another way to approach long-tail SEO is to use content that naturally flows from your business - just ask
+          yourself, what data pf ours might be interesting for users. Yelp, TripAdvisor, Wikipedia have all gained most
+          of their traffic by producing automated long-tail content. Gabriel's Names Database used this - people
+          searched for old friends and classmates and would find them on Names Database. Pages were auto-generated from
+          data gathered by the product. This generated tons of organic traffic.
+        </p>
+        <h4>Tactics</h4>
+        <p>
+          You need to be able to get links. This can be done via:
+        </p>
+        <ul>
+          <li>Publicity - reporters link to your site</li>
+          <li>Product - e.g. LinkedIn profile pages</li>
+          <li>Content marketing - creating strong content that people are willing to share</li>
+          <li>Widgets</li>
+        </ul>
+        <p>Don't buy links, don't do black hat SEO - it works short-term, but doesn't long-term.</p>
         <h3>WORK IN PROGRESS - TO BE CONCLUDED</h3>
       </div>
     );
