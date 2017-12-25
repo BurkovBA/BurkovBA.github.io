@@ -531,6 +531,90 @@ class Content extends React.Component {
           Google Conversion Optimizer is a tool that analyzes your conversion tracking data and automatically adjusts
           your ads to perform better. You can also use scripts to dynamically manage large number of ads and keywords.
         </p>
+        <h3>Chapter 10. Social and Display Ads.</h3>
+        <p>
+          Display ads (= banner ads) and social ads are often used both to increase brand awareness much like offline ads
+          and to elicit a direct response. One exclusive application of social ads is to build audience, engage with
+          it over time, eventually convert it into customers.
+        </p>
+        <h4>Display ads</h4>
+        <p>
+          Ad networks:
+        </p>
+          <ul>
+            <li>Google's Display Network (aka Google Content Network) - 4B daily pageviews, 700 unique monthly users, 80% of total online audience</li>
+            <li>Advertising.com (owned by AOL)</li>
+            <li>Tribal Fusion</li>
+            <li>Conversant</li>
+            <li>Adblade</li>
+          </ul>
+        <p>
+          Ad networks allow you to focus on different audience demographics, use images, video, interactive or text ads.
+          Unlike SEM, with display ads user doesn't have to search for your query exactly - e.g. if you're selling
+          a weight-loss product, you can display it on any sites, mentioning nutrition or carbohydrates.
+        </p>
+        <p>
+          There are niche ad networks, focused on smaller sites and a specific audience demographics.
+        </p>
+        <p>Other tools:</p>
+        <ul>
+          <li>the Deck - niche audience of Web creatives</li>
+          <li>BuySellAds - marketplaces for directly buying ads from advertisers</li>
+          <li>MixRank, Adbeat - show you what ads your competitors are running</li>
+          <li>Alexa and Quantcast - show you who visit sites that your competitors are using for their ads</li>
+        </ul>
+        <h4>Social ads</h4>
+        <p>
+          With social ads it often makes sense to create interest about a piece of content, rather than go for clicks
+          directly.
+        </p>
+        <p>
+          CareOne, debt consolidation and relief company, did a survey: social media connections filled out lead
+          generation form at 179% higher rate than typical customers, were 217% more likely to do first payment, came
+          back to fill sign-up form  after partially signing it and quitting at 680% higher rate, made first payment
+          at 732% higher rate.
+        </p>
+        <p>
+          Social ads are good to promote a piece of content that is already popular by itself - it's like organic
+          traffic on steroids. At Airbrake Justin Mares promoted some of their best content on Twitter and Facebook:
+          after spending $15 on Twitter ads, tehy received hundreds of organic retweets, tens of Facebook likes, 2
+          submissions on reddit and Hacker News, in total driving tens of thousands visitors to their site by paying $15
+          and creating and interview with Stripe's CTO.
+        </p>
+        <p>
+          Outbrain and Sharethrough are content distribution networks that promote your content on popular partner sites
+          such as Forbes, Thought Catalog, Vice, Gothamist and hundreds more. They make your content look life native
+          on target sites.
+        </p>
+        <p>
+          You can also create social experiences. Warby Parker was mailing eyeglasses for free trial, if you create a
+          photo and share it in social networks.
+        </p>
+        <p>Major social sites:</p>
+        <ul>
+          <li>LinkedIn - 250M professionals. Targeting: job title, company, industry, other business demographics.</li>
+          <li>Twitter - 250M users. Sponsored tweets in users feeds. Effective in right time, e.g. sell sportswear during Olympics.</li>
+          <li>
+            Facebook - over 1B active users. Targteting: user interests, pages they like, connections. Gabriel once
+            targeted just his wife by zip code, alma mater and interest affinities - showed her a picture of their son. It's
+            important that your customers might recommend you to their connections.
+          </li>
+          <li>StumbleUpon - 25M "stumblers", actively looking for something new. Ads are part of content. Users are very
+          likely to go away very quickly, so you have to engage them with blog posts, infographics and video.</li>
+          <li>Foursquare - over 45M users. Good for targeting local population.</li>
+          <li>Tumblr - 100M users. Sponsored posts.</li>
+          <li>
+            reddit - 5B monthly page views, 175M monthly unique users, over 500,000 communities. Ads are sponsored links
+            at the top or sponsored links along the sidebar. You can target communities, good ads are funny or
+            controversial and encourage users to engage.
+          </li>
+          <li>YouTube - over 1B monthly unique users, ads are pre-rolls (run before video) or banner ads.</li>
+          <li>Others: BuzzFeed, Scribd, SlideShare, Pinterest.</li>
+        </ul>
+        <p>
+          Display ads and social ads are similar in principle: they require that you understand your audience. They
+          can be used at any product phase as they have a low minimal price and scale.
+        </p>
         <h3>WORK IN PROGRESS - TO BE CONCLUDED</h3>
       </div>
     );
