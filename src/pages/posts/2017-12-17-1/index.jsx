@@ -498,7 +498,7 @@ class Content extends React.Component {
         </ul>
         <p>
           SEM gets more expensive the more popular your keywords are, thus for testing purposes it is ideal to use
-          "long-tail keywords", usch as "1990 census data" instead of just "census data". The ad itself should contain
+          "long-tail keywords", such as "1990 census data" instead of just "census data". The ad itself should contain
           a catchy and relevant title, a well-articulated Call To Action and keywords. After that you should use Google
           Analytics URL Builder tool to create uniquie URLs pointing to your landing pages to track which ads are
           converting, not only being clicked at. According to Matthew, just 4 ads are enough to get a baseline of SEM
@@ -615,6 +615,106 @@ class Content extends React.Component {
           Display ads and social ads are similar in principle: they require that you understand your audience. They
           can be used at any product phase as they have a low minimal price and scale.
         </p>
+        <h3>Chapter 11. Offline Ads.</h3>
+        <p>Offline ad market is still larger than online.</p>
+        <p>
+          Tim Ferris, author of "The 4-Hour Body" and "The 4-Hour Workweek":
+        </p>
+        <blockquote>
+          If dealing with national magazines, consider using "remnant ads" buying agency such as Manhattan Media
+          or Novous Media that specializes in negotiating discounted pricing of up to 90% off rate card.
+          Feel free to negotiate still lower them as a go-between.
+        </blockquote>
+        <p>
+          Offline ads efficiency is harder to track - you can use promo codes to do this, e.g. tractionbook.com/flyer.
+          Jason Cohen of Smart Bear Software was including a section "How did you hear about us?" in the questionary
+          for new customers. Also included an offer of a free book in Dr. Dobb's Journal.
+        </p>
+        <h4>Print advertisement</h4>
+        <p>
+          There are 7000 magazines in the US falling in 3 major categories: consumer publications for large audiences
+          (those in grocery stores), trade publications on particular industry and local magazines. To understand reader
+          demographics, circulation and publication frequency, ask for media package/media package/press kit.
+        </p>
+        <p>
+          Newspapers are similar to journals, but slant towards over-thirty demographic - many young people still buy
+          magazines, not many young people buy newspapers offline. Some ad campaigns are uniquely suited towards
+          newspapers, e.g. time-sensitive offers (for events/sales), awareness campaigns (often, multi-channel) and
+          widely publicized announcements (e.g. for product launch).
+        </p>
+        <p>
+          Direct mail can be surprisingly targeted. You can buy direct mail list for your audience from seller companies.
+          You can buy lists, grouped by demographic, geography or both. Prices are ~$100 per 1000 consumer names and
+          a bit more for business names and addresses. You can even buy a service that creates address list, prints
+          materials and assembles and mails everything for you.
+        </p>
+        <ul>
+          <li>if it's a postal direct response campaign, provide a self-addressed envelope to increase chances of respone</li>
+          <li>use handwritten envelopes</li>
+          <li>have a clear Call to Action</li>
+          <li>investigate bulk mail with local postal service to reduce pricing</li>
+        </ul>
+        <p>
+          Local print ads, such as flyers, directories, calendars or publications such as church bulletins, community
+          newsletters or coupon booklets are a worth ~$100s of dollars, but can expose you to thousands people. Nice
+          case: InstaCab hired cyclists to bike around San Francisco and hand out business cards to people trying to
+          hail a taxi.
+        </p>
+        <h4>Outdoor advertising</h4>
+        <p>
+          In the US Lamar, Clear Channel and Outfront Media are 3 most powerful players in this $6B industry. Their
+          sites provide PDFs with local available billboards.
+        </p>
+        <p>
+          Gabriel strategically placed a billboard in the startup-heavy SoMa district of San-Francisco to call out
+          the differences between the privacy practices of Google and DuckDuckGo. This received lots of media attention
+          from Wired, USA Today, Business Insider etc. and made DuckDuckGo user base double that month.
+        </p>
+        <p>
+          Billboard cost was $7,000 a month. Billboards in less prominent locations can cost $300-$2500 a month. Ads in
+          Times Square can run you $30,000-$100,000 a month. Billboards have a GRP score (Gross Ratings Points), based
+          on location, number of impressions, type of billboard (e.g. digital). Full score means that a given billbaord
+          should reach 100% of diving population a month.
+        </p>
+        <p>
+          Transit ads are better that billboards in terms of "actionability". Billboard are more about awareness - drivers
+          don't drop everything to go for your ads. Blue Line Media is a company, doing transit ads.
+        </p>
+        <h4>Radio and TV ads</h4>
+        <p>
+          Radio and TV ads are priced on a cost-per-point (CPP) basis, where each point represents what it will cost to
+          reach 1 percent of radio station's listeners. The higher the CPP, the more it will cost you to run ad on a
+          station. Cost depends on market, time and how many ads you bought. Ballpark is week of running ad might cost
+          $500-$1500 in a local market or $4,000-$8,000 in a larger market, such as Chicago.
+        </p>
+        <p>
+          Satellite radios, such as Sirius XM with over 50 million subscribers, are an option.
+        </p>
+        <p>
+          TV ads are often used as a branding mechanism. 90% consumers watch TV, average adult in the US watches
+          26 hours of TV/week. Production costs for actors, video equipment, editing, sound and effects, shooting etc.
+          can run to ~$10,000s with most expensive ones closer to $200,000.
+        </p>
+        <p>
+          National average for airtime is $350,000. However, there are 1,300-plus local TV stations in the US that
+          can be effective and reasonably priced. Prices for local commercials are $5-$50 per thousand viewers
+          per 30-second time slot. Buying TV ads is rather opaque, there's a lot of negotiations, no rate cards etc.
+          It's likely that you'll want to hire a media buyer or agency to do this.
+        </p>
+        <p>
+          Infomercials from Snuggie to ShamWow sell all sorts of knives, vacuum cleaners and workout and body care
+          products, work from home equipment. They were the main force behind P90X $400 million sales. Infomercials
+          can cost between $50,000 and $500,000 to make and last 2 minutes. Traditionally, they are inserted in
+          28-minute TV show episodes. They are almost always direct response ads. Require cheap testing in advance.
+        </p>
+        <p>Jason Cohen:</p>
+        <blockquote>
+          One thing I learnt at Smart Bear is that I have zero ability to predict, what's going to work. There'd be
+          a piddly magazine where I thought "This is just some piddly magazine, surely no one ready this", and sure
+          enough it was cheap (due to small circulation) and it'd do terrifically! Our ROI on some of those were
+          incredible. ... And it changed over time - an ad might be good for a quarter, or a year, and then decay
+          slowly until it wasn't valuable anymore.
+        </blockquote>
         <h3>WORK IN PROGRESS - TO BE CONCLUDED</h3>
       </div>
     );
