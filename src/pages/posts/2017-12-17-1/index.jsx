@@ -956,6 +956,66 @@ class Content extends React.Component {
           especially email timing (e.g. 9-12 or evening). Don't use noreply@example.com - feedback might be valuable.
           For email content, see <a href="copyhackers.com">Copy Hackers</a>.
         </p>
+        <h3>Chapter 15. Viral marketing</h3>
+        <p>
+          If every user brings in at least one other user, your project is "going viral". This was the main driving
+          force behind Facebook, Twitter, WhatsApp. Even if you can't get exponential growth, viral marketing can
+          greatly decrease your customer acquisition cost. Andrew Chen, founder of Muzy (app with over 25 million users),
+          says that with existing platforms, such as Facebook, it's very easy now to become viral.
+        </p>
+        <h3>Strategy</h3>
+        <p>
+          Some products have an inherent virality (e.g. messengers, social networks, Uber with someone), sometimes you
+          can encourage virality via discounts offers like Dropbox or AirBnB (sign up a friend and you both get
+          a discount). You can also promote virality by adding "sent via iPhone" or use of widgets and embeds like Youtube.
+        </p>
+        <p>
+          Your viral coefficient K = number of invitees * conversion percentage, e.g. K = 3 * 60% = 1.8. Also, take
+          into account your viral cycle time - make it as simple as possible, create urgency.
+        </p>
+        <h3>Tactics</h3>
+        <p>
+          Measure your initial viral coefficient and viral cycle time. According to Andrew, it takes 2-3 months and
+          an 1-2 engineers to create a good viral loop. Map all the steps within the loop, cut redundant, increase the
+          number of invitations, customers send. Ashish Kundra, founder of myZamana Indian dating network. When user
+          gets an invitation, it should be designed to have maximum conversion + maximum personal hooks. You can also
+          make "conversion pages", where new users land after getting an invitation, could be usable without login to
+          increase interest.
+        </p>
+        <p>Optimization directions</p>
+        <ul>
+          <li>Buttons vs text links</li>
+          <li>Locations of calls to action</li>
+          <li>Size, color and contrast of action buttons</li>
+          <li>Page speed</li>
+          <li>More images</li>
+          <li>Headlines</li>
+          <li>Site copy</li>
+          <li>Testimonials</li>
+          <li>Signs of social proofs (happy customers, case studies, press mentions, statistics of usage)</li>
+          <li>Number of form fields</li>
+          <li>Allow users to test the product before signup</li>
+          <li>Ease of signup - OAuth</li>
+          <li>Length of signup process</li>
+        </ul>
+        <p>
+          There could exist viral pockets - niches, where you liftoff faster - may be country, age or profession. If you
+          found such a niche - optimize for it - e.g. translate app to their language.
+        </p>
+        <p>
+          Don't forget to do seeding in new demographics - attract new cusomters in other channels with other
+          strategies, such as SEO, SEM or display/social ads - inexpensive for tests.
+        </p>
+        <p>Copy someone else's viral loop exactly, down to detail.</p>
+        <p>Possible mistakes:</p>
+        <ul>
+          <li>Product is not inherently viral, but tries to add viral features</li>
+          <li>Bad product in general, nobody cares about</li>
+          <li>Not enough A/B tests (assume that 1-3 out of 10 yield postive results)</li>
+          <li>Not understanding, how users are currently communicating</li>
+          <li>Not getting guidance from people, who already did this</li>
+          <li>Thinking of virality as a tactics, rather than a deep strategy</li>
+        </ul>
         <h3>WORK IN PROGRESS - TO BE CONCLUDED</h3>
       </div>
     );
