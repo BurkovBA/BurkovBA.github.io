@@ -805,7 +805,30 @@ class Content extends React.Component {
           <li>Content marketing - creating strong content that people are willing to share</li>
           <li>Widgets</li>
         </ul>
-        <p>Don't buy links, don't do black hat SEO - it works short-term, but doesn't long-term.</p>
+        <p>
+          Links are dominant factor in site ranking. Open Site Explorer can tell you, how many links you are getting and
+          where they are coming from. You can look at your competitors link profile to get the idea of where to get links.
+          There's a difference between quality content and cheap freelancer-generated content. First is good for
+          fat-head strategy and natural link building. Infographics, slideshows, images, original research - that's
+          what drives user's traffic.
+        </p>
+        <p>Don't buy links - you'll get heavilly penalized; don't do black hat SEO - it works short-term, but doesn't long-term.</p>
+        <p>
+          SEO is one of the cornerstones of "inbound" marketing - "inbound" marketing brings customers inbound from SEO
+          or social media - thus, unlike SEM or social media ads, money invested in it, stay with you. Rand Fishkin of
+          Moz says, 85% of their marketing is inbound.
+        </p>
+        <p>
+          Mike Volpe from HubSpot:
+        </p>
+        <blockquote>
+          Today we have 30 people in marketing and 120 in sales, all based in Cambridge, MA (no outside sales) and we
+          attract 45-50k new leads per month, 60-80 percent of which are from inbound marketing (not paid). The inbound
+          leads are 50% cheaper and close to 100% more than paid leads. My personal experience and industry knowledge
+          tells me that most other SaaS companies get more like 10% of their leads from inbound marketing, and generate
+          2-5k leads per month in total, whereas we get 70-80 percent of our leads from inbound, resulting in 45k+
+          new leads per month.
+        </blockquote>
         <h3>WORK IN PROGRESS - TO BE CONCLUDED</h3>
       </div>
     );
