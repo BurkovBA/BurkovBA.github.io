@@ -888,6 +888,74 @@ class Content extends React.Component {
           such companies as Salesforce. It's also helpful for 8 other traction channels: SEO, publicity, email marketing,
           targeting blogs, community building, offline events, existing platforms and business development.
         </p>
+        <h3>Email marketing</h3>
+        <p>
+          Groupon, JackTreads, Thrillist and Zappos use email marketing as their core traction channel.
+        </p>
+        <p>
+          Email marketing is good for building familiarity with prospects, acquiring customers and retaining customers.
+        </p>
+        <h4>Email marketing for finding customers</h4>
+        <p>
+          Don't spam your users with bulk, unsolicited email. Instead, create interested users lists - just ask for
+          emails for delivery of premium content (such as videos, textbooks or white papers, short mini-courses on your
+          area of expertise) on the bottom of blog posts and landing pages.
+        </p>
+        <p>You can also consider advertising on email newsletters.</p>
+        <h4>Email marketing for engaging customers</h4>
+        <p>
+          Customer activation is an important and often overlooked part of building a successful product. E.g. for
+          Twitter activated cusomters are those, who actively send Tweets or follow more than 5 people, for Dropbox -
+          those, who uploaded at least 1 file.
+        </p>
+        <p>
+          A popular approach to activate cusomters is to create a series of email, exposing cusomters to new features
+          like "Hey, did you know we have this feature?". Colin Nederkoorn, CEO of Customer.io (company that offers
+          to send email based on actions their customers' users take):
+        </p>
+        <blockquote>
+          You create the ideal experience for your users when they sign up for your trial. You then create all of the
+          paths they can go down when they fail to go through the ideal experience. And you have an email to catch them
+          and help them get back on that [ideal] path.
+        </blockquote>
+        <p>
+          E.g. Dropbox will email newly signed-up users to remind them to upload a file. You can use tools like Vero and
+          Customer.io to automate those messages. E.g. Cusomter.io will send an email to customers 30 minutes after
+          registration and ask, if they need any help. Those emails recieve 17% reply rate.
+        </p>
+        <h3>Email marketing for retaining customers</h3>
+        <p>
+          Digest or notification emails are great for customer retention. Mint sends you weekly financial summaries,
+          BillGuard, service that monitors your credit cards for suspicious transactions, sends a similar monthly report.
+          Planscope (project planning tool for freelancers) sends a weekly email to freelancers, telling how much they
+          made this week. These are "you are awesome" emails, which are pleasant to read. Similary, photo sites will
+          send you photos you took a week ago.
+        </p>
+        <h3>Email marketing for revenue</h3>
+        <p>
+          Patrick McKenzie says that email subscribers are 70x more likely to buy one of his courses than
+          targeting blog/SEO/content marketing subscribers. Emails are good for upselling customers, e.g. WP Engine,
+          WordPress hosting company, gets customers on premium plans via series of emails. They've built a blog speed
+          testing tool (speed.wpengine.com), which measures site performance. They will send 3 emails over a month with
+          an email course about WordPress speed and scalability with 3 quick ways to improve site speed, including payed
+          hosting. If they see that customer is not ready to convert, they switch them to a less frequent monthly mailing
+          list.
+        </p>
+        <p>
+          Email retargeting is also good for customers, who filled in their cart, but left the site before checkout.
+        </p>
+        <h3>Email marketing for referrals</h3>
+        <p>
+          Groupon doesn't give you a discount, unless you mail several friends. Dropbox gives you and your friend whom
+          you brought in extra space. Even some B2B products like Asana will ask customers to import their address books
+          to share with their friends.
+        </p>
+        <h3>Tactics</h3>
+        <p>
+          MailChimp, ConstantlyContact and similar providers ensure email delivery. A/B test every aspect for campaign,
+          especially email timing (e.g. 9-12 or evening). Don't use noreply@example.com - feedback might be valuable.
+          For email content, see <a href="copyhackers.com">Copy Hackers</a>.
+        </p>
         <h3>WORK IN PROGRESS - TO BE CONCLUDED</h3>
       </div>
     );
