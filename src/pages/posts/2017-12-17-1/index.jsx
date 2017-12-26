@@ -829,6 +829,65 @@ class Content extends React.Component {
           2-5k leads per month in total, whereas we get 70-80 percent of our leads from inbound, resulting in 45k+
           new leads per month.
         </blockquote>
+        <h3>Chapter 13 - Content Marketing</h3>
+        <p>
+          Blog is an important way to attract new customers to your business.
+        </p>
+        <p>
+          Rick Perreault, founder and CEO of Unbounce, service for building Landing Pages and optimizing conversions.
+          They started blogging a year before launch.
+          Sam Yagan, cofounder of OkCupid, popular dating service, launched in 2004, started blogging in 2009. That's
+          when they started to take off.
+        </p>
+        <p>Rick Perreault hired a blogger as the first employee:</p>
+        <blockquote>
+          If we had not started blogging at the beginning the way we did, Unbounce would not be here today. ... Our
+          content still drives customers. Something we wrote in January 2010 still drives customers today. Wherease, if
+          I had spent money on advertising in January, that's it. That money is spent. If you invest in content, it gets
+          picked up by Google. People find it, they share it, and it refers customers almost indefinitely.
+        </blockquote>
+        <blockquote>
+          By the time we launched in the summer of 2010, we were doing 20,00 unique visitors per month to the
+          blog. ... Now our blog is our primary source of customer acquisition. People write about Unbounce. Other
+          people tweet about our posts. Our blog i scenterpiece of all our marketing.
+        </blockquote>
+        <p>
+          Unbounce created a mailing list of 5,000. This wasn't your typical startup product launch. They relied heavily
+          on social media, driving opinion leaders to their blog by pinging them on Twitter asking for feedback.
+          It took their blog a while though: after 6 months they were getting only 800 monthly visits. To speed up
+          visitors acquisition, they started to engage with communities in their field, writing useful answers on
+          targeted forums like Quora, reaching out to influential people on Twitter (this was particularly effective).
+          This is not scalable, but ok for kick-off to make the content start spreading organically. It was often hard
+          to predict, which posts would resonate with the audience, thus keeping a blog schedule was good.
+        </p>
+        <p>
+          OkCupid was acquired by Match.com for $50 million. OkCupid approached its blog differently from Unbounce. They
+          were writing longer posts once a month, studying the usage patterns of their members, headlined with
+          intentionally controversial titles, e.g. "How your race affects the messages you get" to generated traffic and
+          conversation. They are free site, so they couldn't afford high customer acquisition costs, thus were limited
+          to publicity, content marketing, SEO and viral marketing to dirve their growth. They received more traffic
+          from blog than from PR firms. CNN, Rachael Ray, the New York Times and many other outlets wrote about blog
+          topics they covered. As a result, in a year they were near the top of search results for "online dating".
+        </p>
+        <h4>Tactics</h4>
+        <p>
+          According to Unbounce, infographics is shared 20 times more often than text and are more likely to get picked
+          up by other online publications. Their <a href="https://unbounce.com/noob-guide-to-online-marketing-infographic/">Noob Guide to Online Marketing"</a>
+          infographic drove ~10,000s of paying customers and in a year it was shared on Twitter ~ once and hour.
+        </p>
+        <p>
+          One of the secrets of shareable content: show the readers that they have a problem they didn't know about
+          or couldn't articulate. Solution is nice, but anxiety about the problem is what drives them to your post.
+        </p>
+        <p>
+          Quick: name 3 venture capitalists or ask your friends to do so. Many people will mention Fred Wilson, Brad Feld
+          and Mark Suster, because they have popular blogs. Blog can help you position yourself as an indsutry leader in
+          a competitive field. This recognition leads to huge opportunities, such as speaking on major conferences,
+          giving press quotes to journalists, even influencing industry direction. That means, your content is shared
+          even more and your opportunities for business development expand greatly. E.g. Unbounce got integrations with
+          such companies as Salesforce. It's also helpful for 8 other traction channels: SEO, publicity, email marketing,
+          targeting blogs, community building, offline events, existing platforms and business development.
+        </p>
         <h3>WORK IN PROGRESS - TO BE CONCLUDED</h3>
       </div>
     );
