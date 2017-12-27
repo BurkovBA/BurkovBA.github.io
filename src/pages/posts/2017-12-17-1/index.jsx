@@ -1162,6 +1162,139 @@ class Content extends React.Component {
           There can be low-touch BD - e.g. through utilization of public APIs, e.g. Disqus, SlideShare or SoundCloud.
           Those can work, but you'd better start with landing a few traditional deals.
         </p>
+        <h3>Chapter 18. Sales</h3>
+        <h4>Strategy</h4>
+        <p>
+          Sean Murphy, owner of customer development and sales consulting firm SKMurphy says that first customer is
+          someone the startup knows or they know. He suggests that startup does a lunch pitch (over a coffee or
+          something) with 5-10 key points. Early conversation is about prospect's problem and pain points.
+        </p>
+        <p>
+          John Raguin, cofounder of insurance company Guidewire Software explains:
+        </p>
+        <blockquote>
+          We went to our potential customers, insurance companies, and proposed to do a short free consulting study that
+          would provide [an assessment] of their operation. We would spend approximately 7-10 man-days of effort
+          understanding their operations and in the end we would give them a high-level presentation, benchmarking them
+          as compared to their peers. In return, we asked for a feedback on what would make the best system that would
+          meet their needs. In the end, we were able to work with over 40 insurance companies this way. We were honest
+          about our motives all the time, and we made sure to provide quality output.
+        </blockquote>
+        <p>Sales conversation structure (Neil Rackham), called SPIN progression:</p>
+        <ul>
+          <li>
+            <b>Situation questions</b> - e.g. "How many employees do you have?" or "How is your organisation structured?" -
+            no more then 1-2 or they'll feel like they're giving information and not getting anything in return, especially
+            executive directors - you ask this to check if you're talking to a likely candidate for sale.
+          </li>
+          <li>
+            <b>Problem questions</b> - e.g. "Are you happy with your current solution?" or "What problems do you face with it?"
+          </li>
+          <li>
+            <b>Implication questions</b> - e.g. "Does this problem hurt your productivity?", this is meant to emphasize
+            that the problem is not a necessary cost of doing business or a nuisance, but actually an avoidable cost.
+          </li>
+          <li>
+            <b>Need-payoff questions</b> - e.g. "How do you feel this solution would help you?"
+          </li>
+        </ul>
+        <p>
+          Steve Barsh, former CEO of SECA, acquired by MCI: "You get your first customers by picking up the phone".
+          Good if you have a warm introduction, but you may have to do cold calling or emailing.
+        </p>
+        <p>
+          Todd Vollmer, enterprise sales professional with 20 years of experience: set daily/weekly targets, be
+          judicious about whom to contact - you might be scared to call senior employees - don't.
+        </p>
+        <p>Sean Murphy:</p>
+        <blockquote>
+          Ordinarily, it's somebody who is one level or two levels up in the organisation; they've got enough perspective
+          on the problem and on the organization to understand what's going to be involved in bringing change
+          to organization. As we work with them they may take up the hierarchy to sell to more senior folks. We don't
+          tend to start at the top unless we are calling on a very small business, in which case you've got to call
+          on the CEO or one of the key execs because no one else can make any decisions.
+        </blockquote>
+        <p>
+          Todd suggests to ask 5 questions:
+        </p>
+        <ul>
+          <li><b>Process</b> - how does company buy solutions like the one you're offering?</li>
+          <li><b>Need</b> - how badly does this company need a solution like yours?</li>
+          <li><b>Authority</b> - which individuals have the authority to make the purchase happen?</li>
+          <li><b>Money</b> - do they have the funds to buy what you're selling? how much does NOT solving the problem cost them?</li>
+          <li><b>Estimated Timing</b> - what are the budget and decision time lines for a purchase?</li>
+        </ul>
+        <p>
+          After a call don't forget to send an email with questions, such as "Will you agree to this closing time line?"
+        </p>
+        <p>
+          Two common situations when you contact a wrong person in organization: 1) a person invites you, but isn't
+          interested in your product, but wants a free consultancy; 2) person thinks about self as a change agent,
+          but has no power - you ask them "Have you ever brought other technology into your company?" - "Well, no, but
+          you know, I've only been here 6 months nad this is what's going to let me make a big difference."
+        </p>
+        <h3>Tactics</h3>
+        <p>
+          David Skok, general partner at Matrix Partners has taken 3 companies public and 1 was acquired. He says that
+          doing cold calls is very expensive and it's better to do marketing first, get relatively hot prospects and
+          pass them on to sales to close. Then try to qualify the prospects by likelihood to close - e.g. if they left
+          e-mail, when accessing your free courses on site, they are hotter. If they are some tiny business on Etsy or
+          Ebay, they are less likely to buy a big package.
+        </p>
+        <p>
+          Mark Suster from Upfront Ventures classifies deals into A, B and C, A are likely to close in 3 months,
+          B - within 3 to 12 months, C - unlikely to close in a year. A deals take 66-75% of salesperson's time,
+          B - depends on sales pipeline, C - no time at all - they go to marketing. Marketing's job is (1) to arm
+          sales reps with presentations, ROI calculators, competitive analysis etc. and (2) to aim at best leads.
+        </p>
+        <p>
+          Finally, you convert prospects and close the deals. Lay out purchasing timeline and ask "yes" or "no" - e.g.
+          "We'll set up a pilot system for you within 2 weeks After 2 weeks, if you like the system we've built and it
+          meets your needs, you'll buy from us. Yes or no?". Binary answer helps you to waste less time on cusomters who
+          are just unwilling to buy. You may have a field sales team or inside one.
+        </p>
+        <p>
+          Remember to put yourself in place of your customer and don't forget about questions they might have and be
+          blocked by, e.g. "is this the best solution on the market?" or "am I sure this works for me?". Possible
+          solutions for those:
+        </p>
+        <ul>
+          <li>Remove the needs for installing software with SaaS</li>
+          <li>Free trials</li>
+            <li>Channel partners (resellers)</li>
+            <li>Demo videos</li>
+            <li>FAQs</li>
+            <li>Reference customers (testimonials, case studies)</li>
+            <li>Email campaigns</li>
+            <li>Webinars or personal demos</li>
+            <li>Ease of installatino and ease of use</li>
+            <li>Low introductory price (less than $250/month for SMB, $10,00 for enerprises)</li>
+            <li>Eliminating committee decision making</li>
+        </ul>
+        <h4>Case study: JBoss</h4>
+        <p>
+          Middleware software provider, created a sales funnel that drove $65 million in revenue just 2 years after
+          founding (and were later acquired by RedHat for $350 million).
+        </p>
+        <p>
+          JBoss initially focused on generating leads, over 5 million people downloaded its free software through
+          SourceForge, but JBoss had no contact information of those people. To get it, they gave away their
+          documentation for free (previouslly they used to charge for it), in exchange for contact details.
+          This generated over 10,000 leads per month.
+        </p>
+        <p>
+          Then they qualified those leads to determine most likely to buy. The company used Eloqua, marketing automation
+          software, to determine the pages and links a prospect engaged with before accessing documentation. Prospects,
+          who spent a lot of time on support pages were good candidates for payed JBoss support service - main source of
+          income. Marketing team would further contact those to determine, if they had a desire to get deal done.
+        </p>
+        <p>
+          Finally, marketing would pass those prospects to sales with their calls, demos, white papers etc. The sales
+          team was able to close about 25% of leads, whereas industry average is 7-10%. Unqualified leads, not ready for
+          sales yet, were put into nurturing campagins, received JBoss Newsletter, invitations to webinars, were
+          encouraged to subscribe to JBoss blog. After a certain time of nurturing, they were brought back into sales
+          pipeline. Each deal's cost was about $10,000.
+        </p>
         <h3>WORK IN PROGRESS - TO BE CONCLUDED</h3>
       </div>
     );
