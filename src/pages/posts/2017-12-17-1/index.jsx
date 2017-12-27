@@ -1072,6 +1072,96 @@ class Content extends React.Component {
           translating SQL queries to Mongo. They look for high ROI on engineering time: if a few days of engineering
           drive hundreds of leads - it's worth it.
         </p>
+        <h3>Chapter 17. Business Development</h3>
+        <p>
+          Chris Fralic, former senior business development executive at AOL, Half.con, eBay and Delicious, currently
+          a partner at first round capital described business development at each of his startups.
+        </p>
+        <p>
+          Google had 2 key partnerships: in 1999 they partnered with Netscape to be default search engine in Netscape
+          Navigator. Then Google achieved key partnership with Yahoo!
+        </p>
+        <h4>Strategy</h4>
+        <ul>
+          <li>Standard partnerships - e.g. Apple/Nike Nike+ shoe, communicating with iPod or iPhone</li>
+          <li>Joint ventures - Starbucks Frappuccino or Doubleshot Espresso - entirely new product from Starbucks/Pepsi</li>
+          <li>
+            Licensing - Starbucks lent its brand to an ice cream manufacturer for Starbucks-flavoured ice cream or Spotify
+            and Grooveshark forced into licensing agreements by the nature of their business - they have to license
+            music content from record labels.
+          </li>
+          <li>
+            Distribution deals - Groupon gets discount to its mailing list from a restaurant. Or Kayak signed a
+            distribution deal with AOL - Kayak used its search technology to power an AOL-owned travel search engine.
+          </li>
+          <li>Supply partnerships - Half.com bought books, Hulu and Wallmart getting stock from channel partners.</li>
+        </ul>
+        <p>
+          Business development requirs discipline and strategic thinking. It's tempting to go for partnership with big
+          brand, but this might require you to go off your Critical Path - don't!
+        </p>
+        <p>Chris Fralic from Half.com:</p>
+        <blockquote>
+          In the case of Half.com, there were three key things that we needed before we launched. Number one, the site
+          had to work (this was pre-Amazon Cloud days) to ensure that people actually use the site. Then there was
+          inventory. We decided, we needed one million books, movies, etc. at launch, because it sounded like a nice big
+          number. So my team and I worked on how we get product on the shelves. It was our job (prior to launch) to find
+          inventory and get it listed no the site. The third was to get distribution. So we went out and created one of
+          the early affiliate programs and did distribution and marketing partnerships.
+        </blockquote>
+        <p>
+          Charlie O'Donnell, partner at VC firm Brooklyn Bridge Ventures:
+        </p>
+        <blockquote>
+          Create an exhaustive list of all your possible [partners]. ... Make a very simple spreadsheet: Company,
+          Partner Type (Publisher, Carrier, Reseller etc.), Contact Person/Email, Size, Relevance, Ease of Use, and then
+          a subjective prioirty score. There's no reason why a company shouldn't have 50 potential business development
+          partners in their pipeline, maybe one hundred, and be actively working the phones, inboxes, and pounding the
+          pavement to get the deals you need to get - be it for distribution, revenue, PR, or just to outflank the
+          competitor. The latter is totally underutilized. If you go in and impress the top 50 folks in your space, it
+          makes it that much harder for a competitor to get a deal done - because you're seen as the category leader.
+        </blockquote>
+        <p>
+          Once you have a list of potential partners, send it to your investors, friends and advisers for warm
+          introductions. Don't prioritize based just on brand name - instead, say "I want to go for Internet retailers
+          that are between 20 and 250 on the IR (Internet Retailer) 500 - because this puts them in this kind of revenue
+          range - and have a director of e-commerce."
+        </p>
+        <p>
+          Chris at Delicious worked on deals with The Washington Post, Mozilla, Wikipedia. Delicious approached its
+          potential partners with a clear idea of how each of them would benefit from partnership. For
+          <i>The Washington Post</i> the value proposition was to use Delicious's social bookmarks to optimize content
+          for social media. <i>The Washington Post</i> agreed because it was a simple integration with little downside.
+          After that the nunmber of sites, willing to partner with Delicious skyrocketed. It made possible other
+          partnerships, such as with Mozilla, which released 2.0 at that point, so that one of the first new things that
+          upgrading users were seeing was Delicious extension. This more than tripled Delicious user base. At the same
+          time, most deals won't close - e.g. they pursued integration with Wikipedia deal, which failed.
+        </p>
+        <h4>Tactics</h4>
+        <p>
+          Brenda Spoonemore, former senior VP of interactive services at NBA:
+        </p>
+        <blockquote>
+          What do you have that they [big companies] need? You're more focused than they are. You have an idea and
+          you're slolving a problem. You've developed content or technology and you have a focus. That is very difficult
+          to do at a big corporation.
+        </blockquote>
+        <p>
+          You need to identify a right contact in company that you're going to work with. There could be a business
+          development department or you could approach someone like a product director or C-level executive you want to
+          engage with. Find, who's in charge of metric, you're interested in, e.g. selling more T-shirts and put your
+          stake on that person. Just because you're offering a Web site widget doesn't mean that Web site team is ideal
+          set of stakeholders. Then try to get warm introduction through a mutual contact with an overview of your
+          proposal that can be easily forwarded. Then be sure to follow up and set time lines for next steps. Chris
+          Fralic mentioned that it was key for him to get a meeting or phone call set up as quickly as possible,
+          sometimes even on the same day. Then start negotiations - both Chris and Brenda suggest that you make your
+          term sheet as simple as possible - often just 1 page - so that deal requires less lawyers and engineers. After
+          the deal is done, create a memo "how the deal was done" to repeat the process.
+        </p>
+        <p>
+          There can be low-touch BD - e.g. through utilization of public APIs, e.g. Disqus, SlideShare or SoundCloud.
+          Those can work, but you'd better start with landing a few traditional deals.
+        </p>
         <h3>WORK IN PROGRESS - TO BE CONCLUDED</h3>
       </div>
     );
