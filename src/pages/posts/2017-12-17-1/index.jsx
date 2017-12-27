@@ -1016,6 +1016,62 @@ class Content extends React.Component {
           <li>Not getting guidance from people, who already did this</li>
           <li>Thinking of virality as a tactics, rather than a deep strategy</li>
         </ul>
+        <h3>Chapter 16. Engineering as Marketing</h3>
+        <h3>Strategy</h3>
+        <p>
+          HubSpot, a marketing automation software company, has reached ~$10s millions in revenue in a few short years.
+          One of the keys to its success was a free marketing review tool Marketing Grader. It reports, how well you're
+          doing with your online marketing (socical media mentions, blog post shares, basic SEO). It's free for users
+          and gives HubSpot some idea about you as a potential customer.
+        </p>
+        <p>Dharmesh Shah, HubSpot founder:</p>
+        <blockquote>
+          The early story of Marketing Grader is interesting. There were only 3 people at Hubspot at that time. My
+          cofounder and I would regularly "sell" (in the early days a lot of those sales calls were with friends and
+          friends of friends). One of the initial steps in the sales process was for me to get a sense for how good
+          a given company's Web site was at inbound marketing. My cofounder [Brian Halligan] would constantly send me
+          Web sites he wanted me to take a look at so we could determine if they were a good fit.
+        </blockquote>
+        <blockquote>
+          After a few days of this, I got tired of going through the manual steps (look at Alexa, look at their page
+          titles, check out their domains etc.). So I built an application to automate that process for me. On a related
+          note I also started angel investing at the time, and I used the same process to assess the markting savviness
+          of potential startups I was considering investing in. Once the app was built (it didn't take more than a few
+          days for the initial version), I thought it might be useful for other pople, so I registered "websitegrader.com"
+          and made the app available publicly. We eventually started collecting email addresses in the app, and kept
+          iterating on it.
+        </blockquote>
+        <p>
+          More than 3 million sites used Marketing Grader. It accounts for a large portion of 50k+ leads HubSpot gets
+          each month. Its users are at the same time potential HubSpot customers. And inbound marketing works like an
+          asset - once you  spent money on it, it continues to bring returns.
+        </p>
+        <p>
+          Another example is SEO company Moz - their free tools Followerwonk and Open Site Explorer, have driven
+          ~10,000s of leads to Moz. Followerwonk allows to analyze Twitter audience and get tips on growing it.
+          Open Site Explorer shows, where sites are getting links, which is a valuable competitive advantage.
+        </p>
+        <p>WP Engine, a WordPress hosting provider, asks for email for checking how fast your WordPress site loads.</p>
+        <h3>Tactics</h3>
+        <p>You can take advantage of cyclical and seasonal behaviour.</p>
+        <ul>
+          <li>Codecademy's Code Year free course with lessons, sent by email weekly, got them 450,000 new users during 2012.</li>
+          <li>Patrick McKenzie, Bingo Card Creator, makes Halloween and Christmas-themed cards.</li>
+          <li>In 2011 Gabriel built a microsite DontTrack.us, which showed, how Google tracks you and how this can be harmful.
+          NSA tracking news or Data Privacy Day increase awareness about this website. Strategy works so well that
+          DuckDuckGo now has multiple such microsites with different domain names, which is good for SEO and just
+          memorable.</li>
+          <li>Chris Fralic of Delicious and Half.com says that Delicious bookmark widget more than trippled adoption of
+          their social bookmarking product.</li>
+          <li>Facebook, StumbleUpon, Google+, Twitter share buttons</li>
+        </ul>
+        <p>
+          Robert Moore of RJMetrics (e-commerce analytics company) uses its own products to discover interesting
+          trends on some of the most popular media sites like Twitter, Tumblr, Instagram and Pinterest. They started
+          to build microsites on those hot topics, like cohortanalysis.com or querymongo.com. The last one was
+          translating SQL queries to Mongo. They look for high ROI on engineering time: if a few days of engineering
+          drive hundreds of leads - it's worth it.
+        </p>
         <h3>WORK IN PROGRESS - TO BE CONCLUDED</h3>
       </div>
     );
