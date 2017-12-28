@@ -1506,6 +1506,73 @@ class Content extends React.Component {
           featured and number 1 in Education category for a month and brought 500,000 new users to Evernote's main
           business, which was one of the main drivers of growth for the project in 2012.
         </p>
+        <h3>Trade shows</h3>
+        <h4>Strategy</h4>
+        <p>
+          How to decide, which trade shows to attend? Visit a year before as a guest or ask those who did "How crowded
+          was it? How high was the quality of the attendees? Would you go again?". Plan of actions from Brad Feld,
+          partner at Foundry Group:
+        </p>
+        <ul>
+          <li>Set your goals for a year: press, investors, major customers, partnerships?</li>
+          <li>Write down all events in your industry</li>
+          <li>
+            Evaluate events in terms of your goals: if you need to personally interact with few major prospects,
+            go for shows with more intimate atmosphere, if you just need more interaction - go for crowded ones.
+          </li>
+          <li>Figure out your budget, remember that your goals might change over time.</li>
+          <li>
+            Estimate CAC: take attendee list (ask organisers, if it's not available). E.g. if there are 10,000 people
+            coming, 30% of them fit the profile of potential customer and attendance cost is $10,000 it's highly
+            profitable to go if your LTV is $5k, but not so, if it's $50.
+          </li>
+        </ul>
+        <p>
+          SureStop did conversations with prospect partner companies, figured out what features they wanted from them,
+          focused on them and only after that increased their expenses.
+        </p>
+        <h4>Tactics</h4>
+        <p>
+          Your preparations determine how successful you will be. Arrange meetings beforehand. E.g. Brian Riley sent
+          well-researched emails beforehand with explanation of how SureStop and its technology can benefit them +
+          a one-pager about the company. Jason Cohen of WP Engine/Smart Bear Software says that you should arrange
+          meetings by sending emails like "At [Trade show X]: can we chat for 5 minutes?", at least 5 per day, you can
+          also organise dinner/drinks afterwards. You can meet:
+        </p>
+        <ul>
+          <li>
+            Editors of online and offline magazines. Often overlooked, editors are your key to real press. I've
+            been published in every major programming magazine; almost all of that I can directly attribute to talking
+            with editors at trade shows! It wors.
+          </li>
+          <li>Blogger you like, especially if they are willing to write about you</li>
+          <li>Existing customers</li>
+          <li>Potential customers, currently trialing your stuff</li>
+          <li>Your vendors</li>
+          <li>Your competition</li>
+          <li>Potential partners</li>
+        </ul>
+        <p>
+          Media guys are attending trade shows specifically to see, what's going on in industry - give them something
+          to write about!
+        </p>
+        <p>
+          Mark Suster from Upfront Ventures suggests hosting dinners for journalists, potential
+          customers/partners. You should start with inviting a few interesting friends, then work hard to bag a brand
+          name person who others will want to meet. Just one. After that mention him to everyone else (along with others)
+          and they'll come. Same with customers - invite several customers and several prospects with a few employees
+          of yours - potential customers like to talk to existing cusomters for reference. Final tip: picking a hot
+          venue is one of the best ways to bag high-profile people. However, this can be too costly, so you can split
+          the costs with couple of other companies and extend your network that way.
+        </p>
+        <p>
+          Don't forget about good booth location at the show and giveaways. Coffee mugs and stress balls are proven, but
+          you can go with something more creative rleated to your proposition, such as yo-yos, coconuts, cigar cutters,
+          sunglasses, key chains. You can give away as many bags with your company's name as possible to put tons of
+          other giveaways into. Don't forget about specific Call To Action on your giveaways. Also, make your booth
+          exciting, bring attention to it - show videos or make demonstrations of your product. SureStop managed to
+          work out a relationship with Jamis, one of the largest players, and now make tons of sales through them.
+        </p>
         <h3>WORK IN PROGRESS - TO BE CONCLUDED</h3>
       </div>
     );
