@@ -131,7 +131,7 @@ class Content extends React.Component {
           cost to acquire a customer, lifetime value of a customer.
         </p>
 
-        <h3>Chapter 5. Critical path</h3>
+        <h3>Chapter 5. Critical Path</h3>
         <p>
           Your should envision a certain trajectory of your project, where at each step of its life you should strive
           to achieve certain <b>Key Performance Indicators (KPI)</b>. For instance, DuckDuckGo at certain point had a
@@ -956,7 +956,7 @@ class Content extends React.Component {
           especially email timing (e.g. 9-12 or evening). Don't use noreply@example.com - feedback might be valuable.
           For email content, see <a href="copyhackers.com">Copy Hackers</a>.
         </p>
-        <h3>Chapter 15. Viral marketing</h3>
+        <h3>Chapter 15. Viral Marketing</h3>
         <p>
           If every user brings in at least one other user, your project is "going viral". This was the main driving
           force behind Facebook, Twitter, WhatsApp. Even if you can't get exponential growth, viral marketing can
@@ -1427,6 +1427,84 @@ class Content extends React.Component {
         <p>
           Affiliate networks are a bit nicer than SEM/PPC, because you don't risk. If your campaign is bad, you don't
           lose money - you just don't receive customers.
+        </p>
+        <h3>Chapter 20. Existing Platforms</h3>
+        <p>
+          Web sites, apps or networks with uge amounts of users. Apple and Android app stores, Mozilla and Chrome
+          browser extensions, social platofrms like Facebook, Twitter and Pinterest, new rapidly growing platforms like
+          Tumblr, Snapchat.
+        </p>
+        <p>
+          Mobile video-sharing app Socialcam suggested users sign up with Facebook and Twitter, promoted user videos
+          on both platforms and encouraged to invite friends from each site. It went on to hit 60 million users within
+          12 months.
+        </p>
+        <h4>Strategy: app stores</h4>
+        <p>
+          Apps get easily discovered in App store, when they are top in rankings or featured. Rankings group apps by
+          category, country, popularity and editor's choice.
+        </p>
+        <p>
+          Trainyard, a paid iOS game developed by Matt Rix wasn't growing the way he hoped. He tried creating a free
+          version (Trainyard Express). An editor at a popular Italian blog wrote a glowing piece on it almost immediately.
+          This propelled the app to number-one free app in Italy - netting more than 22,000 downloads on the day alone!
+          The app then hit the top spot in the UK and was downloaded more than 450,000 times in a week. 7 days later
+          Appled decided to feature it and that dwarfed everything that was before. Downloads skyrocketed by 50x and
+          persisted there while feature was live. Even after that downloads remained significantly elevated.
+        </p>
+        <p>
+          Mark Johnson, founder of Focused Aps LLC tells how promotions work:
+        </p>
+        <ol>
+          <li>Ads get the [app] somewhere into the charts</li>
+          <li>Now it's in the charts, more people see it</li>
+          <li>So it gets more organic downloads</li>
+          <li>Which makes it go a bit higher up in the charts</li>
+          <li>Now even more people see it and it gets more organic downloads</li>
+          <li>People like it and it get more organic downloads</li>
+          <li>It goes up higher in the charts</li>
+          <li>Repeat from 5</li>
+        </ol>
+        <p>
+          To get apps to top, they buy ads from AdMob, installs from Tapjoy, cross-promote their apps through networks
+          or even buy their way through FreeAppADay. High ratings are important - editors choose apps to feature based
+          on them - that's why even top apps are continually asking to rate them. Promotion tricks are good, but good UX
+          is what's most important - Instagram, Path, Google Maps, Pandora, Spotify.
+        </p>
+        <p>
+          Browser extensions in Chrome and add-ons in Firefox - e.g. Adblock Plus and YouTube video saving, bookmarks and
+          passwords managers. Evernote said that its usage went up by 205% thanks to extension - and they already had
+          6 million users. Again, portals with extensions and add-ons have features and rankings.
+        </p>
+        <h4>Strategy: social sites</h4>
+        <p>
+          New social platforms like Snapchat and Vine are emerging all the time. Sometimes you can find your place by
+          filling in a gap in such platoform's functionality. E.g. in mid-2000s MySpace was the most visited social
+          network in the world and YouTube filled the niche of videa sharing by allowing users to embed videos and users
+          were directed back to YouTube by those embeds, which led to YouTube explosive growth. Bitly fulfilled the
+          need for shorter links on Twitter. Imgur complemented image sharing functionality for reddit users. Airbnb saw
+          much of its early growth from Craigslist customers and designed a special "Post to Craigslist" button, which
+          drove 10,000s customers. PayPal targeted eBay users as its first customers - it purchased goods from eBay and
+          required selleres to accept PayPal - this made them more popular than eBay's own payment system.
+        </p>
+        <h3>Case study: Evernote</h3>
+        <p>
+          Evernote (valued over $1 billion now) focused on every new and existing platforms to ride the bandwagon of
+          that platoform's initial marketing push and increase chances of being featured. Evernote CEO Phil Libin says
+          that they wanted Evernote to support every new device or platform from day 1. When iPhone launched, they were
+          one of the very first iPhone apps, for iPod, Android and Kindle Fire they created a version specifically
+          designed for the platform and available from the day 1.
+          Evernote was featured in the Android store for 6 straight weeks in the early days which gave
+          it 100,000s new customers. When Verizon picked up Android phones and started its marketing push, Evernote
+          benefited from its effort. Alex Pachikov of Evernote says that big companies take new platforms as a gamble
+          and want to wait and see, if it succeeds or not, which is not an option for a startup - you have to gamble.
+          Evernote flopped doing the same on Nokia, Windows and BlackBerry - that's ok, wins justify losses.
+        </p>
+        <p>
+          They thought: what can we do with our apps to make Apple/Google/Microsoft AppStore/whatever editors feature us?
+          They crafted Evernote Peek which looked like magic and was showcased by Apple itself in their commercial,
+          featured and number 1 in Education category for a month and brought 500,000 new users to Evernote's main
+          business, which was one of the main drivers of growth for the project in 2012.
         </p>
         <h3>WORK IN PROGRESS - TO BE CONCLUDED</h3>
       </div>
