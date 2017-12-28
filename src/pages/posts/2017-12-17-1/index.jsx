@@ -1573,6 +1573,77 @@ class Content extends React.Component {
           exciting, bring attention to it - show videos or make demonstrations of your product. SureStop managed to
           work out a relationship with Jamis, one of the largest players, and now make tons of sales through them.
         </p>
+        <h3>Offline Events</h3>
+        <p>
+          Twilio, a tool that makes it easy to integrate with phone calls or sms messages, sponsors hackathons,
+          conferences, meetups, large and small. Larger companies like Oracle or Box throw huge events to maintain
+          their position as market leaders. Salesforce's Dreamforce conference has over 100,000 attendees. Offline
+          events allow you to talk with your customers about their problems at the phase I of your startup. In phase II
+          larger conferences like TechCrunch Disrupt, Launch Conference and SXSW can help you build on your existing
+          traction.
+        </p>
+        <h4>Strategy</h4>
+        <p>
+          Twitter launched 9 months before SXSW in 2007 and was seeing decent amount of traction,
+          several thousand users. Many of its users were going to SXSW, so it went too. Ev Williams says they created
+          a Twitter visualizer and negotiated with the festival to put flat panel screens in the hallways. They paid
+          $11K for this and set up the TVs (those were the only money Twitter ever spent on marketing). They created
+          an event-specific feature where you could text "join sxsw" to 40404 and you would show up on screens and
+          if you were not a Twitter user already, you would automatically be following ~6 "ambassadors" who were already
+          on Twitter and attended SXSW - they advertised this on the screens in the hallways. By the end of the
+          conference, Twitter jumped from 12k tweets a day to 60k and also won the SXSW Web Award leading to press
+          coverage and more users.
+        </p>
+        <p>
+          Eric Ries wanted to broaden the audience of Lean Startup and organized his own conference (as he was afraid
+          that his message would be lost at larger confs like SXSW). He tested demand by asking his readers, whether
+          they are interested in a conference or not. After a resounding yes, he sold conference tickets through his
+          site and other popular startup blogs. He ran a small one-day conference at San-Francisco, called Startup
+          Lessons Learned, avoiding hassle with hotel stays, flying speakers etc. He streamed conference to multiple
+          meetup groups across the country so that those who didn't travel to Frisco could attend nation-wide.
+        </p>
+        <p>
+          Enservio, a company that sells expensive software for Insurance companies, was struggling to reach top
+          executives. To get traction through offline events, they went all out to organize the Claims Innovation Summit
+          at Ritz-Carlton hotel in Dove Mountain, Arizona for multiple days. They mad esure event didn't look like
+          a sales pitch, puled out individuals from major consulting firms, respected individuals in insurance industry,
+          founders of hot startups. Then they used this groups of speakers to attract industry executives who were their
+          prospective customers, so that they could network and vacation at the same time. The event attracted top
+          decision makers and established Enservio as industry leader overnight, now it's an annual conference.
+        </p>
+        <p>
+          MicroConf is a smaller conferece for self-funded startups, attracting 100s of founder and selling out in days.
+          When Rob Walling of HitTail started MicroConf, he had troubles with attracting people to the conference they've
+          never heard of. Facebook ads and AdWords didn't work. Nothing that wan't relational didn't work. They created
+          an e-book with quotes of some speakers and it went pretty viral, but didn't sell the tickets. Initially people
+          used to say, it was too expensive ($500 + airfare and hotels), but after conference proved itself, they started
+          to say it's too cheap. HitTail isn't the best example of a company that can throw a good conference - their
+          clients are doctors, real estate, startups - all over the place, so throwing a SEO conference for them wasn't
+          the best solution. Niche conferences are a better way.
+        </p>
+        <p>
+           Meetup group are very effective. Seth Godin launched his book "Linchpin" through a series of meetups across
+           the country, which 10,000 people attended. "Lean Startup Circle" sprouted regular meetups in 20 cities. Nick
+           Pinkston, founder of automated manufacturing startup Plethora Labs run a Hardware Stratup Meetup group in
+           Tech Shop in SF and only expenses were $70 for pizza. His group has now over 2,600 members. Evite threw a large
+           party for Internet celebrity Mahir Cagri, which promoted Evite to its audience, making attendees more likely
+           to use Evite to organize their own events. Yelp launched by throwing parties for Yelp Elites (first users),
+           who were getting free food, merchandise and treated like VIPs. This drew more users.
+        </p>
+        <h4>Tactics</h4>
+        <p>
+          One-day microconferences are good for startups to get traction. You can invite founders of local companies for
+          such a conference, or can follow "unconference" approach and let them suggest topics for round-table discussion.
+          Local universities might be willing to host such events, especially if it's for education purposes. The cost
+          of the conference might be less than $500.
+        </p>
+        <p>
+          If the initial event was successful, consider scaling up. Sponsors might be interested to cover a part of
+          event's costs. Keeing high quality of attendees is important according to Rob of MicroConf, so keep prices
+          relatively high. He also says that tyou need to figure place and time, so that everybody talks to everybody
+          and let speakers sit near attendees between the talks. You need to try more things, iterate quickly, be
+          creative and do things that don't scale (or just have more money).
+        </p>
         <h3>WORK IN PROGRESS - TO BE CONCLUDED</h3>
       </div>
     );
