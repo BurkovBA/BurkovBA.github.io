@@ -1295,6 +1295,139 @@ class Content extends React.Component {
           encouraged to subscribe to JBoss blog. After a certain time of nurturing, they were brought back into sales
           pipeline. Each deal's cost was about $10,000.
         </p>
+        <h3>Chapter 19. Affiliate Programs</h3>
+        <p>
+          Amazon, Zappos, eBay, Orbitz, Netflix use affiliate programs to drive significant portions of their revenue.
+          Interviewed Kris Jones, founder of Pepperjam, which became the 4th largest affiliate network and was acquired
+          by eBay in 2009. At one point, it had a single advertiser, generating $50 million annually through its network.
+        </p>
+        <h4>Strategy</h4>
+        <p>
+          Affiliate programs are frequently found in retail, information products and lead generation. In retail
+          the market size is over $2 billion annually with largest programs being Amazon, Target and Walmart. Amazon pays
+          4-8.5% of each sale, depending on how many items affiliate sells per month. Amazon and eBay have their own
+          affiliate programs, but this is far too expensive. More often online retailers, such as Walmart, Apple,
+          Starbucks, The North Face, The Home Depot, Verizon, Best Buy and others go through affiliate
+          networks, such as Comission Junction (CJ), Pepperjam and LinkShare.
+        </p>
+        <p>Main categories of affiliate programs:</p>
+        <ul>
+          <li>
+            <b>Coupon/deal sites</b> - RetailMeNot, CouponCabin, Brad's Deals, Slickdeals - offer discounts and take a share;
+            e.g. when you search for "Zappos discount", RetailMeNot is likely to rank highly in search. When you visit
+            RetailMeNot, you get coupon codes for Zappos; if you click through and buy something using a code, RetailMeNot
+            gets a percentage.
+          </li>
+          <li>
+            <b>Loyalty programs</b> - Upromise or Ebates have reward programs that offer cash back on purchases made
+            through their partner networks. They earn money based on the amount their members spend through retail
+            affiliate programs. E.g. if 1000 members buy gift certificates to Olive Garden, Upromise will get a
+            percentage of every dollar spent. Then they pay part of what they earned back to their members.
+          </li>
+          <li>
+            <b>Aggregators</b> - Nextag or PriceGrabber aggregate products from retailers. They often add information
+            to product listings, like additional ratings or price comparisons.
+          </li>
+          <li>
+            <b>Email lists</b> - many affiliates have large email lists to which they will recommend products
+          </li>
+          <li>
+            <b>Vertical sites</b> - many 100,000s of sites (including vertical blogs) have amassed significant
+            audiences geared toward a vertical, such as parenting, sports or electronics.
+          </li>
+        </ul>
+        <p>
+          Selling information products (e-books, software, music and education) through these is increasingly popular
+          as creation of another digital copy has 0 cost. By far the largest affiliate network for info products is
+          ClickBank, where affiliate commissions often reach 75%. ClickBank has more than 100,000 affiliates and
+          millions of products.
+        </p>
+        <p>
+          Lead generation is $26 billion industry. Insurance companies, law firms, mortgage brokers all pay hefty
+          commissions to get customer leads. Depending on the industry, lead may include working email address, home
+          address, phone number or even a credit score. Popular lead-gen networks are Affiliate.com, Clickbooth,
+          Neverblue and Adknowledge.
+        </p>
+        <p>
+          Affiliate programs are popular with financial services and insurance companies because the value of each
+          customer is so high. Health or auto insurance is very expensive, thus leads are expensive, too. Insurance
+          companies are top Google AdWords spenders, often paying $50-100 for a single click.
+        </p>
+        <h4>Tactics</h4>
+        <p>
+          How much of a CAC are you willing to pay? You'd better go with affiliate networks, such as Commission Junction,
+          Pepperjam, ShareASale instead of recruiting affiliates on your own. At Commission Junction you'll have to pay
+          over $2,000 upfront. However, affiliate sales will quickly cover these costs. Or you can build your own
+          affiliate network, recruiting partners from your customer base or people, who have access to a group of
+          customers you want to reach. In this case you don't have to pay all in cash, but can e.g. give away premium
+          accounts, if you're based on Freemium model. E.g. Dropbox referral program was giving away free storage space;
+          QuiBids, top penny auction site, built out a referral program for its current customers, giving free bids to
+          people who refer other customers.
+        </p>
+        <p>
+          The first place to look for affiliates is your own customer base. After that conteact content creators,
+          bloggers, publishers, social media influencers, email list curators. Monetizing blogs is not easy, so those
+          content creators might often look for $.
+        </p>
+        <p>
+          Maneesh Sethi, popular blogger at HacktheSystem has long been an affiliate for many products.
+          He was a cusomter of a product that taught SEO tactics. He loved the program, so he contacted the company
+          himself and worked out a deal with them to give him a commission for each new customer he sent their way.
+          After agreeing to terms, Maneesh sent out an email to his list, mentioning how the SEO program had helped
+          him get better rankings on Google. That single offer has made him nearly $30,000 in 2 years and has made
+          the company much more. He was also recommending RescueTime time-tracking app to more than 3,000 people,
+          being one of its top affiliates. He says that building relationship with content creators is key: give
+          them free access to product, help create content.
+        </p>
+        <p>
+          Larger companies like Amazon or Netflix optimized how much they pay to affiliates for each lead. Startup
+          will be less sure about underlying business and should start with a simpler approach like $5 flat fee or
+          5% of the price. More complex affiliate programs segment products and reward top affiliates. eBay gives
+          seasonal coupon codes to products it wants to push. Tiered payout programs are also popular - if you drive
+          more transactions, your rate goes up and you make more money.
+        </p>
+        <h4>Major affiliate networks</h4>
+        <ul>
+          <li>
+            <b>Commission Junction</b> - $2,000 upward minimum to sell your prodcut through it, but it curates affiliates and
+          publishers
+          </li>
+          <li><b>ClickBank</b> - leader in infoproducts, cheap to start ($50 to list a product)</li>
+          <li><b>Affiiliate.com</b> - very strict affiliate approval, claims higher-quality traffic</li>
+          <li>
+              <b>Pepperjam</b> - started by Kris Jones, the Pepperjam Exchange encompasses mobile, social, offline retail, print etc.
+              Promotes customer support and transparency as selling points for its network, which costs $1,000 to join.
+          </li>
+          <li><b>ShareASale</b> - over 2,500 merchants, flexible commission structures, $500 to start</li>
+          <li>
+            <b>Adknowledge</b> - offers ad-buying services in addition to affiliate campaigns;
+            works in mobile, search, social media and display ads, so you have affiliates and CPC in one platform
+          </li>
+          <li>
+            <b>LinkShare</b> - helps companies find affiliates and build lead-gen programs for them. Macy's, Avon and
+            Champion manage affiliates through them
+          </li>
+          <li>
+            <b>MobAff</b> - mobile affiliate network, utilizes SMS, push notifications, click to call, mobile display
+            and mobile search
+          </li>
+          <li>
+            <b>Neverblue</b> - targeted towards advertisers, who spend more than $20,000 per month, works with
+            advertising partners on their advertisement and campaigns.
+          </li>
+          <li>
+            <b>Clickbooth</b> - uses search, email and many Web sites to promote brands like DirecTV, Dish Network and
+            QuiBids.
+          </li>
+          <li>
+            <b>RetailMeNot, Inc. (formerly WhaleShark Media)</b> - owns some of the most popular coupon sites in the
+            world, including RetailMeNot and Deals2Buy.com. Google search requests to "term + coupon" often lead here.
+          </li>
+        </ul>
+        <p>
+          Affiliate networks are a bit nicer than SEM/PPC, because you don't risk. If your campaign is bad, you don't
+          lose money - you just don't receive customers.
+        </p>
         <h3>WORK IN PROGRESS - TO BE CONCLUDED</h3>
       </div>
     );
