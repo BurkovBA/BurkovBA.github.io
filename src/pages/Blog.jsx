@@ -10,7 +10,7 @@ class Blog extends React.Component {
     return (
       <div className="row">
         <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 blog-2-col">
-          { Object.values(this.props.posts).filter((el, i) => { return i % 2 === 0; }).sort((a, b) => { return b.metadata.id.localeCompare(a.metadata.id) }).map((post) =>
+          { Object.values(this.props.posts).sort((a, b) => { return b.metadata.id.localeCompare(a.metadata.id) }).filter((el, i) => { return i % 2 === 0; }).map((post) =>
             <div key={post.metadata.id} className="hpanel blog-box">
               <div className="panel-heading">
                 <div className="media clearfix">
@@ -57,7 +57,7 @@ class Blog extends React.Component {
           )}
         </div>
         <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 blog-2-col">
-          { Object.values(this.props.posts).filter((el, i) => { return i % 2 === 1; }).sort((a, b) => { return b.metadata.id.localeCompare(a.metadata.id) }).map((post) =>
+          { Object.values(this.props.posts).sort((a, b) => { return b.metadata.id.localeCompare(a.metadata.id) }).filter((el, i) => { return i % 2 === 1; }).map((post) =>
             <div key={post.metadata.id} className="hpanel blog-box">
               <div className="panel-heading">
                 <div className="media clearfix">
