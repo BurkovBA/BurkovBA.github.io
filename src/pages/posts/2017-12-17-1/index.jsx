@@ -1644,6 +1644,47 @@ class Content extends React.Component {
           and let speakers sit near attendees between the talks. You need to try more things, iterate quickly, be
           creative and do things that don't scale (or just have more money).
         </p>
+        <h3>Chapter 23. Speaking Engagements</h3>
+        <p>
+          Mark Zuckerberg said improving his public speaking has improved his management abilities. Dan Martell, founder
+          of Clarity, ad advice platform that connects founders with successful entrepreneurs, said that teching sells.
+          Opportunity to teach in front of a room for 45 minutes introducing your company and your story to potential
+          customers is time well spent. This is especially valuable traction channel in enterprise and B2B.
+        </p>
+        <h4>Strategy</h4>
+        <p>
+          Event organizers NEED to fill time. If you have a good idea of a talk that aligns well with an area of your
+          expertise, simply pitch your talk to event organizers. They'll want you, especially if your ideas are solid.
+        </p>
+        <p>
+          Steve Barsh, a serial entrepreneur and former CEO of PackLate suggests that rather than pitching conference
+          organizers directly, he contacts them and asks baout the ideal topics they want the speakers cover. Than he
+          crafts the perfect pitch.
+        </p>
+        <p>Conference types:</p>
+        <ul>
+          <li>Premier nation-wide events - 6-12 months after talk proposal</li>
+          <li>Regional events - up to day's drive - 2-4 months</li>
+          <li>Local events - 1-3 months</li>
+        </ul>
+        <p>
+          Event organisers will consider your credibility - both experience in an area and your resume as a speaker.
+          Start speaking at smaller-scale events, run a blog, refine your talks. If you're speaking well, you're likely
+          to find that you're being invited to give talks elsewhere.
+        </p>
+        <h3>Tactics</h3>
+        <p>
+          From the beginning of your talk, audience will have 2 questions: "Why are you important enough to be the one
+          giving a talk? What value can you offer me?" They won't start listening until you address these questions. Dan
+          tells about his previous companies, Flowtown and Spheric and how he sold them for millions.
+        </p>
+        <p>
+          All successful talks are stories. Your story is about what your startup is doing, why you're doing it and
+          how you got to where you are or where things are going. Reach out to people outside the conference - record
+          your talk, tweet slides before every presentation like Rand Fishkin of Moz; like Dan Martell add Twitter
+          handles to the slides and ask the audience to Tweet the content to you, people like the most. Also, in the
+          beginning give the audience a call to action. After conferences, attend speakers' dinners or arrange ones.
+        </p>
         <h3>WORK IN PROGRESS - TO BE CONCLUDED</h3>
       </div>
     );
