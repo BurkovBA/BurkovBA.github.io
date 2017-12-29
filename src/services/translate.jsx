@@ -11,7 +11,7 @@ function tr(word) {
     'business': {en: 'Business', ru: 'Бизнес'},
     'economy': {en: 'Economy', ru: 'Экономика'},
     'biomed': {en: 'Biology and medicine', ru: 'Биология и медицина'},
-    'mathematics': {en: 'Mathematics', ru: 'Математика'},
+    'math': {en: 'Mathematics', ru: 'Математика'},
     'music': {en: 'Music', ru: 'Музыка'},
     'history': {en: 'History', ru: 'История'},
     'people': {en: 'People', ru: 'Люди'},
