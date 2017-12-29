@@ -1685,7 +1685,35 @@ class Content extends React.Component {
           handles to the slides and ask the audience to Tweet the content to you, people like the most. Also, in the
           beginning give the audience a call to action. After conferences, attend speakers' dinners or arrange ones.
         </p>
-        <h3>WORK IN PROGRESS - TO BE CONCLUDED</h3>
+        <h3>Chapter 24. Community building</h3>
+        <p>
+          Interviewed the founders of reddit, Wikipedia, Stack Exchange, Startup Digest, Quibb. You rely upon
+          evangelists - early users, who e.g. wouldn't stop talking about how amazing Yelp is and after a third time
+          heading about it, you're tempted to try it.
+        </p>
+        <h4>Strategy</h4>
+        <p>
+          Having early traction from previous projects is key. Wikipedia had people from Nupedia, earlier online
+          encyclopedia, Stack Exchange had well-trafficked blogs of Joe Spoelsky from Fog Creek Software and
+          Jeff Atwood as a writer at codinghorror.com - they even had a community vote for StackOverflow and received
+          nearly 7,000 submissions in 2008. Chris McCann started Startup Digest by emailing 22 fiends in the Bay Area
+          about local tech events. To grow the list more, Chris started giving 20-second Startup Digest pitches at
+          events he attended. Pitches proved effective: membership grew into low thousands in a matter of months. Today
+          there are 250,000 members of the Startup Digest community.
+        </p>
+        <p>
+          Users should feel that they are a part of something big - write a mission statement, allow cross-connections
+          (e.g. Joel didn't initially see use in Meta - effectively saying people who cared about the community
+          most to go f**k themselves). They should also feel close to founder - as was the case with Alexis Ohanian and
+          Reddit, who personally wrote to people, who spoke about it, even created an open bar tour for redditors.
+        </p>
+        <p>
+          It's crucial to keep quality high - otherwise evangelists will leave, this will make quality drop even more,
+          more evangelist will leave etc. - positive feedback loop.
+        </p>
+        <p>
+          Having a community is great for hiring - you draw people from it.
+        </p>
       </div>
     );
   }
