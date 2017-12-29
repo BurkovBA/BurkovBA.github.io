@@ -752,7 +752,7 @@ class Content extends React.Component {
           For something totally new SEO doesn't work too well - e.g. search terms for Uber would sound like "alternatives
           to taxicabs that I can hire via my phone".
         </p>
-        <h3>Long-tail strategy</h3>
+        <h4>Long-tail strategy</h4>
         <p>
           You can still start from Google Keyword Planner or go with Google Analytics/Clicky and analyze organic traffic
           leading to your website. If you don't have enough content, drawing people through long-tail keywords, you
@@ -829,7 +829,7 @@ class Content extends React.Component {
           2-5k leads per month in total, whereas we get 70-80 percent of our leads from inbound, resulting in 45k+
           new leads per month.
         </blockquote>
-        <h3>Chapter 13 - Content Marketing</h3>
+        <h3>Chapter 13. Content Marketing</h3>
         <p>
           Blog is an important way to attract new customers to your business.
         </p>
@@ -888,7 +888,7 @@ class Content extends React.Component {
           such companies as Salesforce. It's also helpful for 8 other traction channels: SEO, publicity, email marketing,
           targeting blogs, community building, offline events, existing platforms and business development.
         </p>
-        <h3>Email marketing</h3>
+        <h3>Chapter 14. Email marketing</h3>
         <p>
           Groupon, JackTreads, Thrillist and Zappos use email marketing as their core traction channel.
         </p>
@@ -923,7 +923,7 @@ class Content extends React.Component {
           Customer.io to automate those messages. E.g. Cusomter.io will send an email to customers 30 minutes after
           registration and ask, if they need any help. Those emails recieve 17% reply rate.
         </p>
-        <h3>Email marketing for retaining customers</h3>
+        <h4>Email marketing for retaining customers</h4>
         <p>
           Digest or notification emails are great for customer retention. Mint sends you weekly financial summaries,
           BillGuard, service that monitors your credit cards for suspicious transactions, sends a similar monthly report.
@@ -931,7 +931,7 @@ class Content extends React.Component {
           made this week. These are "you are awesome" emails, which are pleasant to read. Similary, photo sites will
           send you photos you took a week ago.
         </p>
-        <h3>Email marketing for revenue</h3>
+        <h4>Email marketing for revenue</h4>
         <p>
           Patrick McKenzie says that email subscribers are 70x more likely to buy one of his courses than
           targeting blog/SEO/content marketing subscribers. Emails are good for upselling customers, e.g. WP Engine,
@@ -944,13 +944,13 @@ class Content extends React.Component {
         <p>
           Email retargeting is also good for customers, who filled in their cart, but left the site before checkout.
         </p>
-        <h3>Email marketing for referrals</h3>
+        <h4>Email marketing for referrals</h4>
         <p>
           Groupon doesn't give you a discount, unless you mail several friends. Dropbox gives you and your friend whom
           you brought in extra space. Even some B2B products like Asana will ask customers to import their address books
           to share with their friends.
         </p>
-        <h3>Tactics</h3>
+        <h4>Tactics</h4>
         <p>
           MailChimp, ConstantlyContact and similar providers ensure email delivery. A/B test every aspect for campaign,
           especially email timing (e.g. 9-12 or evening). Don't use noreply@example.com - feedback might be valuable.
@@ -963,7 +963,7 @@ class Content extends React.Component {
           greatly decrease your customer acquisition cost. Andrew Chen, founder of Muzy (app with over 25 million users),
           says that with existing platforms, such as Facebook, it's very easy now to become viral.
         </p>
-        <h3>Strategy</h3>
+        <h4>Strategy</h4>
         <p>
           Some products have an inherent virality (e.g. messengers, social networks, Uber with someone), sometimes you
           can encourage virality via discounts offers like Dropbox or AirBnB (sign up a friend and you both get
@@ -973,7 +973,7 @@ class Content extends React.Component {
           Your viral coefficient K = number of invitees * conversion percentage, e.g. K = 3 * 60% = 1.8. Also, take
           into account your viral cycle time - make it as simple as possible, create urgency.
         </p>
-        <h3>Tactics</h3>
+        <h4>Tactics</h4>
         <p>
           Measure your initial viral coefficient and viral cycle time. According to Andrew, it takes 2-3 months and
           an 1-2 engineers to create a good viral loop. Map all the steps within the loop, cut redundant, increase the
@@ -1017,7 +1017,7 @@ class Content extends React.Component {
           <li>Thinking of virality as a tactics, rather than a deep strategy</li>
         </ul>
         <h3>Chapter 16. Engineering as Marketing</h3>
-        <h3>Strategy</h3>
+        <h4>Strategy</h4>
         <p>
           HubSpot, a marketing automation software company, has reached ~$10s millions in revenue in a few short years.
           One of the keys to its success was a free marketing review tool Marketing Grader. It reports, how well you're
@@ -1052,7 +1052,7 @@ class Content extends React.Component {
           Open Site Explorer shows, where sites are getting links, which is a valuable competitive advantage.
         </p>
         <p>WP Engine, a WordPress hosting provider, asks for email for checking how fast your WordPress site loads.</p>
-        <h3>Tactics</h3>
+        <h4>Tactics</h4>
         <p>You can take advantage of cyclical and seasonal behaviour.</p>
         <ul>
           <li>Codecademy's Code Year free course with lessons, sent by email weekly, got them 450,000 new users during 2012.</li>
@@ -1074,33 +1074,32 @@ class Content extends React.Component {
         </p>
         <h3>Chapter 17. Business Development</h3>
         <p>
-          Chris Fralic, former senior business development executive at AOL, Half.con, eBay and Delicious, currently
-          a partner at first round capital described business development at each of his startups.
-        </p>
-        <p>
           Google had 2 key partnerships: in 1999 they partnered with Netscape to be default search engine in Netscape
           Navigator. Then Google achieved key partnership with Yahoo!
         </p>
         <h4>Strategy</h4>
         <ul>
-          <li>Standard partnerships - e.g. Apple/Nike Nike+ shoe, communicating with iPod or iPhone</li>
-          <li>Joint ventures - Starbucks Frappuccino or Doubleshot Espresso - entirely new product from Starbucks/Pepsi</li>
+          <li><b>Standard partnerships</b> - e.g. Apple/Nike Nike+ shoe, communicating with iPod or iPhone</li>
+          <li><b>Joint ventures</b> - Starbucks Frappuccino or Doubleshot Espresso - entirely new product from Starbucks/Pepsi</li>
           <li>
-            Licensing - Starbucks lent its brand to an ice cream manufacturer for Starbucks-flavoured ice cream or Spotify
+            <b>Licensing</b> - Starbucks lent its brand to an ice cream manufacturer for Starbucks-flavoured ice cream or Spotify
             and Grooveshark forced into licensing agreements by the nature of their business - they have to license
             music content from record labels.
           </li>
           <li>
-            Distribution deals - Groupon gets discount to its mailing list from a restaurant. Or Kayak signed a
+            <b>Distribution deals</b> - Groupon gets discount to its mailing list from a restaurant. Or Kayak signed a
             distribution deal with AOL - Kayak used its search technology to power an AOL-owned travel search engine.
           </li>
-          <li>Supply partnerships - Half.com bought books, Hulu and Wallmart getting stock from channel partners.</li>
+          <li><b>Supply partnerships</b> - Half.com bought books, Hulu and Wallmart getting stock from channel partners.</li>
         </ul>
         <p>
           Business development requirs discipline and strategic thinking. It's tempting to go for partnership with big
           brand, but this might require you to go off your Critical Path - don't!
         </p>
-        <p>Chris Fralic from Half.com:</p>
+        <p>
+          Chris Fralic, former senior business development executive at AOL, Half.com, eBay and Delicious, currently
+          a partner at first round capital described business development at each of his startups:
+        </p>
         <blockquote>
           In the case of Half.com, there were three key things that we needed before we launched. Number one, the site
           had to work (this was pre-Amazon Cloud days) to ensure that people actually use the site. Then there was
@@ -1233,7 +1232,7 @@ class Content extends React.Component {
           but has no power - you ask them "Have you ever brought other technology into your company?" - "Well, no, but
           you know, I've only been here 6 months nad this is what's going to let me make a big difference."
         </p>
-        <h3>Tactics</h3>
+        <h4>Tactics</h4>
         <p>
           David Skok, general partner at Matrix Partners has taken 3 companies public and 1 was acquired. He says that
           doing cold calls is very expensive and it's better to do marketing first, get relatively hot prospects and
@@ -1487,7 +1486,7 @@ class Content extends React.Component {
           drove 10,000s customers. PayPal targeted eBay users as its first customers - it purchased goods from eBay and
           required selleres to accept PayPal - this made them more popular than eBay's own payment system.
         </p>
-        <h3>Case study: Evernote</h3>
+        <h4>Case study: Evernote</h4>
         <p>
           Evernote (valued over $1 billion now) focused on every new and existing platforms to ride the bandwagon of
           that platoform's initial marketing push and increase chances of being featured. Evernote CEO Phil Libin says
@@ -1506,7 +1505,7 @@ class Content extends React.Component {
           featured and number 1 in Education category for a month and brought 500,000 new users to Evernote's main
           business, which was one of the main drivers of growth for the project in 2012.
         </p>
-        <h3>Trade shows</h3>
+        <h3>Chapter 21. Trade shows</h3>
         <h4>Strategy</h4>
         <p>
           How to decide, which trade shows to attend? Visit a year before as a guest or ask those who did "How crowded
@@ -1573,7 +1572,7 @@ class Content extends React.Component {
           exciting, bring attention to it - show videos or make demonstrations of your product. SureStop managed to
           work out a relationship with Jamis, one of the largest players, and now make tons of sales through them.
         </p>
-        <h3>Offline Events</h3>
+        <h3>Chapter 22. Offline Events</h3>
         <p>
           Twilio, a tool that makes it easy to integrate with phone calls or sms messages, sponsors hackathons,
           conferences, meetups, large and small. Larger companies like Oracle or Box throw huge events to maintain
