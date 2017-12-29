@@ -1,5 +1,6 @@
 import React from 'react';
 
+let Enigma = require('./photo_2017-12-29_23-39-24.jpg');
 
 let metadata = {
   id: "2017-10-21-1",
@@ -8,11 +9,12 @@ let metadata = {
   date_created: "21.10.2017",
   language: "ru",
   title: "Энигма",
-  subtitle: "Про Блетчли-парк, вотчину Алана Тьюринга, где во Вторую Мировую была вскрыта немецкая система шифрования.",
-  abstract: "",
-  cover: "http://t0.gstatic.com/images?q=tbn:ANd9GcRrs7XfZqihvWX-CCmLKp8R9Q0zncirJmWTOEVpa9oEFYQRXphz",
-  categories: ["business", "programming", "people"],
-  time_to_read: 120,
+  subtitle: "Про Блетчли-парк, вотчину Алана Тьюринга, где во Вторую Мировую была вскрыта немецкая система шифрования \"Энигма\".",
+  abstract: "Все смотрели \"Игру в Имитацию\"? Камбербетч, конечно, прекрасен, а в жизни, конечно, всё было не так. " +
+    "В этом посте расскажу о том, что узнал истории крипотграфии в ходе экскурсии в Блетчли-парк.",
+  cover: Enigma,
+  categories: ["history", "programming", "math", "people"],
+  time_to_read: 30,
   views: "",
   comments: [],
 };
