@@ -14,7 +14,7 @@ let metadata = {
   "and give practical advices and examples of how this can be achieved.",
   cover: "http://t0.gstatic.com/images?q=tbn:ANd9GcRrs7XfZqihvWX-CCmLKp8R9Q0zncirJmWTOEVpa9oEFYQRXphz",
   categories: ["business", "programming", "people"],
-  time_to_read: 30,
+  time_to_read: 120,
   views: "",
   comments: [],
 };
