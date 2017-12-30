@@ -94,7 +94,7 @@ class Navigation extends Component {
               <Link to="/blog?category=biomed" onClick={() => window.location.reload()}><span className="nav-label">{tr('biomed')}</span></Link>
             </li>
             <li className={`${this.activeRoute("/blog?category=math")} hnavyblue`}>
-              <Link to="/blog?category=math" onClick={() => window.location.reload()}><span className="nav-label">{tr('mathematics')}</span></Link>
+              <Link to="/blog?category=math" onClick={() => window.location.reload()}><span className="nav-label">{tr('math')}</span></Link>
             </li>
             <li className={`${this.activeRoute("/blog?category=music")} hblue`}>
               <Link to="/blog?category=music" onClick={() => window.location.reload()}><span className="nav-label">{tr('music')}</span></Link>
