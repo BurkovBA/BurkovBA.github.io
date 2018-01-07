@@ -1,17 +1,15 @@
 import React from 'react';
 
-let Enigma = require('./photo_2017-12-29_23-39-24.jpg');
-
 let metadata = {
   id: "2017-11-1-1",
   author: "Boris Burkov",
   authors_avatar: require("images/burkov_boris_web.jpg"),
-  date_created: "1.11.2017",
+  date_created: "01.11.2017",
   language: "ru",
-  title: "Энигма",
-  subtitle: "Часть 1. Что такое \"Энигма\"?",
+  title: "Энигма, часть 1",
+  subtitle: "Что такое \"Энигма\"?",
   abstract: "Что вообще такое эта знаменитая \"Энигма\", которую все так стремились взломать, и зачем она была нужна?",
-  cover: Enigma,
+  cover: "http://wiki.franklinheath.co.uk/images/3/31/PaperEnigmaAssembled.jpg",
   categories: ["history", "programming", "math", "people"],
   time_to_read: 5,
   views: "",
@@ -32,6 +30,7 @@ class Content extends React.Component {
   render() {
     return (
       <div>
+        <h3>Часть 1. Что такое "Энигма"?</h3>
         <p>
           Что вообще такое эта знаменитая "Энигма", которую все так стремились взломать, и зачем она была нужна?
         </p><p>
