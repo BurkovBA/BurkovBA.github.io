@@ -58,7 +58,7 @@ class Content extends React.Component {
         </p>
         <p>
           <a href="https://kubernetes.io/">Google Kubernetes</a> is the winner of orchestration solutions race according
-          to what I read, hear at meetups and talks from tech consultancies (notable rivals being <a href="https://docs.docker.com/engine/swarm/">Docker Swarm</a>, <a href="http://mesos.apache.org/">Apache Mesos</a> and <a href="https://www.nomadproject.io/">Hashicorp Nomad</a>).
+          to what I read and hear at meetups and talks from tech consultancies (notable rivals being <a href="https://docs.docker.com/engine/swarm/">Docker Swarm</a>, <a href="http://mesos.apache.org/">Apache Mesos</a> and <a href="https://www.nomadproject.io/">Hashicorp Nomad</a>).
         </p>
         <p>
           Kubernetes allows you to declaratively configure deployment of your
@@ -75,17 +75,18 @@ class Content extends React.Component {
           So, I believe we could use both for different purposes.
         </p>
         <p>
-          OpenShift is perfect for website deployments. For instance, in RNAcentral.org deployment we shall have multiple
-          microservices, running background worker processes for sequence search or export. Kuberneter will handle
-          their orchestration, redundancy/horizontal scaling, disaster recovery, monitoring and partially automate CI/CD.
-          (of course, we can try running Kubernetes on top of OpenStack, but OpenShift seems to be doing exactly that
-          in a nicer fashion)
+          OpenShift is perfect for website deployments. For instance, in <a href="rnacentral.org">RNAcentral.org</a> deployment
+          we shall have multiple microservices, running background worker processes for sequence search or export.
+
+          Kubernetes will handle their orchestration, redundancy/horizontal scaling, disaster recovery, monitoring and
+          partially automate CI/CD. (Of course, we can try running Kubernetes on top of OpenStack, but OpenShift seems
+          to be doing exactly that in a nicer fashion)
         </p>
         <p>
           OpenStack is more suited for running bioinformatical pipelines of release jobs (like we do for Rfam and
-          RNAcentral). We might not need Kubernetes: we can deploy some existing pipeline solution like Toil or Arvados
-          on top of OpenStack as computational resources backend (or just replace LSF commands in our existing scripts
-          with calls to OpenStack APIs).
+          RNAcentral). We might not need Kubernetes: we can deploy some existing pipeline solution like <a href="https://toil.readthedocs.io/en/3.12.0/">Toil</a>
+          or <a href="https://arvados.org/">Arvados</a> on top of OpenStack as computational resources backend
+          (or just replace LSF cluster commands in our existing scripts with calls to OpenStack APIs).
         </p>
         <a href="https://www.openstack.org/software/">OpenStack</a>
       </div>
