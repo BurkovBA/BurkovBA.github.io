@@ -7,13 +7,13 @@ let metadata = {
   date_created: "18.01.2018",
   language: "en",
   title: "OpenStack, Kubernetes and OpenShift crash course for impatient",
-  subtitle: "",
+  subtitle: "Part 0: introduction",
   abstract: "Much like a junkie from a russian anecdote, who started shouting \"Jiggers, cops!\" " +
     "when they brought him to the police station, EBI in 2018 suddenly discovered the existence of " +
     "cloud technologies.",
-  cover: "https://cdn.thenewstack.io/media/2014/05/openstack.png",
+  cover: "https://assets.pcmag.com/media/images/417346-back-up-your-cloud-how-to-download-all-your-data.jpg?thumb=y&width=810&height=456",
   categories: ["programming"],
-  time_to_read: 20,
+  time_to_read: 7,
   views: "",
   comments: [],
 };
@@ -32,9 +32,7 @@ class Content extends React.Component {
   render() {
     return (
       <div>
-        <p>
-          This is a brief crash course on OpenStack, Kubernetes and OpenShift for the purposes of bioinformatics.
-        </p>
+        <h3>What solutions are available and which one to use in your particular case?</h3>
         <p>
           Currently, 2 cloud solutions are being adopted by EBI at the same time:
         </p>
@@ -72,11 +70,12 @@ class Content extends React.Component {
           off the shelf.
         </p>
         <p>
-          So, I believe we could use both for different purposes.
+          So, I believe, EBI could use both for different purposes.
         </p>
         <p>
-          OpenShift is perfect for website deployments. For instance, in <a href="rnacentral.org">RNAcentral.org</a> deployment
-          we shall have multiple microservices, running background worker processes for sequence search or export.
+          OpenShift is perfect for website deployments. For instance, in <a href="http://rnacentral.org">RNAcentral.org</a> deployment
+          we shall have multiple microservices: at least the web server itself and background worker processes for sequence search and
+          text search results export.
 
           Kubernetes will handle their orchestration, redundancy/horizontal scaling, disaster recovery, monitoring and
           partially automate CI/CD. (Of course, we can try running Kubernetes on top of OpenStack, but OpenShift seems
@@ -84,11 +83,14 @@ class Content extends React.Component {
         </p>
         <p>
           OpenStack is more suited for running bioinformatical pipelines of release jobs (like we do for Rfam and
-          RNAcentral). We might not need Kubernetes: we can deploy some existing pipeline solution like <a href="https://toil.readthedocs.io/en/3.12.0/">Toil</a>
-          or <a href="https://arvados.org/">Arvados</a> on top of OpenStack as computational resources backend
+          RNAcentral). We might not need Kubernetes: we can deploy some existing pipeline solution like <a href="https://toil.readthedocs.io/en/3.12.0/">Toil</a> or
+          <a href="https://arvados.org/">Arvados</a> on top of OpenStack as computational resources backend
           (or just replace LSF cluster commands in our existing scripts with calls to OpenStack APIs).
         </p>
-        <a href="https://www.openstack.org/software/">OpenStack</a>
+        <p>
+          This is a brief crash course on OpenStack, Kubernetes and OpenShift for the purposes of bioinformatics.
+        </p>
+        <a href="/blog/2018-01-19-1">Part 1. OpenStack</a>
       </div>
     )
   }
