@@ -9,7 +9,10 @@ let metadata = {
   language: "en",
   title: "OpenStack, Kubernetes and OpenShift crash course for impatient",
   subtitle: "Part 2: Kubernetes",
-  abstract: "",
+  abstract: "Kubernetes is a system for orchestration of containerized\n" +
+  "applications that can be used to deploy your microservice-based websites to the cloud. Kubernetes is created by Google, based\n" +
+  "on their internal orchestration system Borg (although, codebase is re-written completely from scratch).\n" +
+  "Kubernetes is written mostly in Go programming languages and is open-source.",
   cover: "https://kubernetes.io/images/favicon.png",
   categories: ["programming"],
   time_to_read: 10,
@@ -33,13 +36,9 @@ class Content extends React.Component {
       <div>
         <h3>Kubernetes</h3>
         <p>
-          <a href="https://kubernetes.io/">Kubernetes</a> is a system for orchestration of containerized
-          applications that can be used to deploy your <a href="http://microservices.io/patterns/microservices.html">microservice</a>-based websites to the cloud. Kubernetes is created by Google, based
-          on their internal orchestration system Borg (although, codebase is re-written completely from scratch).
-          Kubernetes is written mostly in Go programming languages and is <a href="https://github.com/kubernetes/kubernetes">open-source</a>.
-        </p>
-        <p>
-          Kubernetes assumes that your application is represented by a set of containers, currently specifically <a href="https://www.docker.com/">Docker</a> containers
+          <a href="https://kubernetes.io/">Kubernetes</a> assumes that
+          each <a href="http://microservices.io/patterns/microservices.html">microservice</a> of your application is
+          represented by a set of containers, currently specifically <a href="https://www.docker.com/">Docker</a> containers
           (but integration with other containerization systems are underway, e.g. see <a href="https://coreos.com/rkt/">CoreOS rkt</a> and <a href="https://bobcares.com/blog/docker-vs-rkt-rocket/">its differences from Docker</a>).
         </p>
         <p>
@@ -78,14 +77,14 @@ class Content extends React.Component {
             same way as Pod consumes Node resources.
           </li>
           <li>
-            <b>Contorllers</b> - orchestrators that determine, how multi-pod configurations are deployed on you
+            <b>Controllers</b> - orchestrators that determine, how multi-pod configurations are deployed on you
             Kubernetes cluster. Possible controller types are called Deployment, ReplicationController, ReplicaSet,
             StatefulSet, DaemonSet, GarbageCollection and Jobs.
           </li>
         </ul>
         <p>
           To be a part of Kubernetes Cluster a Node has to run
-          <a href="https://github.com/kubernetes/community/blob/master/contributors/design-proposals/architecture/architecture.md#the-kubernetes-node">at least the following processes</a>:
+          at least <a href="https://github.com/kubernetes/community/blob/master/contributors/design-proposals/architecture/architecture.md#the-kubernetes-node">the following processes</a>:
         </p>
         <ul>
           <li><b>kubelet</b> - agent program similar to what Jenkins or OpenStack run, that communicates with master</li>
