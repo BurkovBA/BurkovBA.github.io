@@ -36,13 +36,7 @@ class Content extends React.Component {
       <div>
         <h3>OpenStack</h3>
         <p>
-          <a href="https://www.openstack.org/software/">OpenStack</a> is a pretty old standard for describing cloud
-          resources and interacting with them. Most of its APIs were suggested around 2012. It is "open" because
-          multiple vendors that provide cloud services (including Rackspace and Red Hat) agreed to use the same
-          API - OpenStack.
-        </p>
-        <p>
-          OpenStack evolves over time and has seen many <a href="https://releases.openstack.org/">releases</a>.
+          <a href="https://www.openstack.org/software/">OpenStack</a> evolves over time and has seen many <a href="https://releases.openstack.org/">releases</a>.
           OpenStack consists of a <a href="https://www.openstack.org/software/project-navigator/">list of APIs, called Projects</a> for
           managing different aspects of you cloud infrastructure. Arguably the most important among them are <a href="https://www.openstack.org/software/releases/ocata/components/nova">Nova</a> used
           to create new virtual machines and <a href="https://www.openstack.org/software/releases/ocata/components/cinder">Cinder</a> used
