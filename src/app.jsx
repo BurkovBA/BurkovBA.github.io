@@ -10,6 +10,14 @@ import 'flag-icon-css/css/flag-icon.css';
 import './styles/style.scss';
 import metismenu from 'metismenu';
 
+// load favicons with file loader
+const faviconsContext = require.context(
+  '!!file-loader?name=favicons/[name].[ext]!.',
+  true,
+  /\.(svg|png|ico|xml|json)$/
+);
+faviconsContext.keys().forEach(faviconsContext);
+
 import Layout from 'pages/Layout.jsx'
 
 
