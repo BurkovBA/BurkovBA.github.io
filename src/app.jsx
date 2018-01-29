@@ -10,7 +10,8 @@ import 'flag-icon-css/css/flag-icon.css';
 import './styles/style.scss';
 import metismenu from 'metismenu';
 
-// load favicons with file loader
+// load favicons with file loader, snippet of code is stolen from:
+// https://medium.com/tech-angels-publications/bundle-your-favicons-with-webpack-b69d834b2f53
 const faviconsContext = require.context(
   '!!file-loader?name=favicons/[name].[ext]!.',
   true,
