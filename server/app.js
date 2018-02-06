@@ -1,5 +1,7 @@
 import express from 'express';
 import path from 'path';
+import { renderToString } from 'react-dom/server';
+import StaticRouter from 'react-router-dom/StaticRouter';
 // import favicon from 'serve-favicon'
 
 // Mostly stolen from:
