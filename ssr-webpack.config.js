@@ -1,4 +1,4 @@
-const nodeExternals = require('webpack-node-externals');
+// const nodeExternals = require('webpack-node-externals');
 const path = require('path');
 
 
@@ -6,7 +6,7 @@ const path = require('path');
 // https://medium.com/front-end-hacking/adding-a-server-side-rendering-support-for-an-existing-react-application-using-express-and-webpack-5a3d60cf9762
 module.exports = {
   target: 'node',
-  entry: path.resolve(__dirname, 'server/app.jsx'),
+  entry: path.resolve(__dirname, 'src', 'server', 'app.jsx'),
   output: {
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/dist/',
