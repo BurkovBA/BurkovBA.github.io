@@ -1,11 +1,12 @@
-// const nodeExternals = require('webpack-node-externals');
+const nodeExternals = require('webpack-node-externals');
 const path = require('path');
 
 
 // config idea mainly take from here:
 // https://medium.com/front-end-hacking/adding-a-server-side-rendering-support-for-an-existing-react-application-using-express-and-webpack-5a3d60cf9762
 module.exports = {
-  target: 'node',
+  target: 'node', // ignores built-in modules, creates output for node.js
+  externals: [nodeExternals()], // in order to ignore all modules in node_modules folder
   entry: path.resolve(__dirname, 'src', 'server', 'app.jsx'),
   output: {
     path: path.resolve(__dirname, 'dist'),
