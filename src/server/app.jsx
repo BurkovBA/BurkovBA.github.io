@@ -6,6 +6,8 @@ import { renderToString } from 'react-dom/server';
 import { renderRoutes } from 'react-router-config';
 import StaticRouter from 'react-router-dom/StaticRouter';
 
+import Layout from 'pages/Layout.jsx';
+
 
 // Mostly stolen from:
 // https://medium.com/@phoebe.greig/headache-free-isomorphic-app-tutorial-react-js-react-router-node-js-ssr-with-state-and-es6-797a8d8e493a
