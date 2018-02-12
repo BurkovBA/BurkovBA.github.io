@@ -59,11 +59,6 @@ class Layout extends React.Component {
     ]
   }
 
-  componentWillMount() {
-    this.initializeGoogleAnalytics();
-    this.initializeHotjar();
-  }
-
   initializeGoogleAnalytics() {
     // Global Site Tag (gtag.js) - Google Analytics
     let script = document.createElement('script');
@@ -91,6 +86,9 @@ class Layout extends React.Component {
   }
 
   componentDidMount() {
+    this.initializeGoogleAnalytics();
+    this.initializeHotjar();
+
     let self = this;
 
     self.filterPosts();
@@ -169,8 +167,16 @@ class Layout extends React.Component {
     postsToFilter = filteredPosts;
     filteredPosts = {};
     try {
-      let language = localStorage.getItem('language');
-      let hidePostsInRussian = localStorage.getItem('hidePostsInRussian');
+      // localStorage might not be available on server side or in older browsers
+      let language, hidePostsInRussian;
+      if (typeof localStorage !== 'undefined') {
+        language = localStorage.getItem('language');
+        hidePostsInRussian = localStorage.getItem('hidePostsInRussian');
+      } else {
+        language = 'en';
+        hidePostsInRussian = false
+      }
+
       if (language !== 'ru' && hidePostsInRussian) {
         for (let [id, post] of Object.entries(postsToFilter)) {
           if (!(post.metadata.language === 'ru')) filteredPosts[id] = post;

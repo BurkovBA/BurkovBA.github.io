@@ -29,11 +29,13 @@ class Navigation extends Component {
 
   selectLanguage(language) {
     if (language === 'en') {
-      localStorage.setItem('language', 'en');
+      // on server side localStorage is not available
+      if (typeof localStorage !== 'undefined') localStorage.setItem('language', 'en');
       this.props.onEnglishClick();
     }
     else if (language === 'ru') {
-      localStorage.setItem('language', 'ru');
+      // on server side localStorage is not available
+      if (typeof localStorage !== 'undefined') localStorage.setItem('language', 'ru');
       this.props.onRussianClick();
     }
   }

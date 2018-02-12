@@ -3,12 +3,12 @@ import {Modal, Button} from 'react-bootstrap';
 
 class HidePostsInRussianModal extends Component {
   yes() {
-      localStorage.setItem('hidePostsInRussian', true);
+      if (typeof localStorage !== 'undefined') localStorage.setItem('hidePostsInRussian', true);
       this.props.onClose();
   }
 
   no() {
-      localStorage.removeItem('hidePostsInRussian');
+      if (typeof localStorage !== 'undefined') localStorage.removeItem('hidePostsInRussian');
       this.props.onClose();
   }
 

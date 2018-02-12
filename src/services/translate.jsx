@@ -29,7 +29,10 @@ function tr(word) {
     'All posts': {en: 'All posts', ru: 'Все записи'}
   };
 
-  let language = localStorage.getItem('language');
+  // localStorage might not be available, if it's server side
+  let language;
+  if (typeof localStorage !== 'undefined') language = localStorage.getItem('language');
+  else language = 'en';
 
   if (Object.keys(words).indexOf(word) !== -1) {
     if (language === 'en') return words[word]['en'];
