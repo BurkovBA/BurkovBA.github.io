@@ -2,6 +2,7 @@ import express from 'express';
 import path from 'path';
 // import favicon from 'serve-favicon'
 
+import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { renderRoutes } from 'react-router-config';
 import StaticRouter from 'react-router-dom/StaticRouter';
