@@ -7,6 +7,9 @@ import { renderRoutes } from 'react-router-config';
 import StaticRouter from 'react-router-dom/StaticRouter';
 
 import Layout from 'pages/Layout.jsx';
+// import About from 'pages/About.jsx';
+import Blog from 'pages/Blog.jsx';
+import Post from 'pages/Post.jsx';
 
 
 // Mostly stolen from:
@@ -19,12 +22,12 @@ const routes = [
     routes: [
       { path: "/blog", component: Blog, exact: true },
       { path: "/blog/:id", component: Post},
-      { path: "/about", component: About }
+      // { path: "/about", component: About }
     ]
   }
 ];
 
-const port = process.env.PORT || 80;
+const port = process.env.PORT || 8080;
 
 const app = express();
 const assets = express.static(path.join(__dirname, '../dist'));
