@@ -43,7 +43,7 @@ app.get('*', (req, res) => {
     </StaticRouter>
   );
 
-  res.render('index', {title: 'Express', data: false, content })
+  res.status(200).send(content)
 });
 
 app.listen(port);
