@@ -1,3 +1,4 @@
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
 const path = require('path');
 
@@ -16,6 +17,9 @@ module.exports = {
   resolve: {
     modules: [path.join(__dirname, 'src'), path.join(__dirname, 'node_modules')]
   },
+  plugins: [
+    new ExtractTextPlugin('server.css')
+  ],
   module: {
     rules: [
       {
@@ -29,15 +33,16 @@ module.exports = {
       },
       {
         test: /\.(scss|sass)$/,
-        use: [
-          { loader: 'style-loader' },
-          { loader: 'css-loader', options: {sourceMap: true} },
-          { loader: 'sass-loader', options: {sourceMap: true} }
-        ]
+        use: ExtractTextPlugin.extract({
+          use: [
+            { loader: 'css-loader', options: {sourceMap: true} },
+            { loader: 'sass-loader', options: {sourceMap: true} }
+          ]
+        })
       },
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader']
+        use: ExtractTextPlugin.extract({ use: ['style-loader', 'css-loader']})
       },
       {
         test: /\.(png|jpe?g|gif)(\?v=\d+\.\d+\.\d+)?$/,
