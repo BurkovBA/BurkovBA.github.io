@@ -67,7 +67,8 @@ function renderFullPage (html) {
 const port = process.env.PORT || 8080;
 
 const app = express();
-app.use('/dist', express.static(path.join(__dirname, '../')));
+const pathToStatic = path.join(".", "dist");
+app.use('/dist', express.static(pathToStatic));
 
 app.get('*', (req, res) => {
   let context = {};
@@ -84,4 +85,4 @@ app.get('*', (req, res) => {
 app.listen(port);
 
 console.log(`Listening at http://localhost:${port}`);
-console.log(`Serving statics from ${path.join(__dirname, '../')}`);
+console.log(`Serving statics from ${pathToStatic}`);
