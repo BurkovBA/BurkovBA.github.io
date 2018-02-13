@@ -1,6 +1,8 @@
+const path = require('path');
+
+const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
-const path = require('path');
 
 
 // config idea mainly take from here:
@@ -42,7 +44,11 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ExtractTextPlugin.extract({ use: ['style-loader', 'css-loader']})
+        use: ExtractTextPlugin.extract({
+          use: [
+            { loader: 'css-loader', options: {sourceMap: true} }
+          ]
+        })
       },
       {
         test: /\.(png|jpe?g|gif)(\?v=\d+\.\d+\.\d+)?$/,
