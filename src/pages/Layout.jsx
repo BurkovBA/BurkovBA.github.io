@@ -7,7 +7,7 @@ import 'pixeden-stroke-7-icon/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css';
 import 'animate.css/animate.min.css';
 import 'flag-icon-css/css/flag-icon.css';
 import 'styles/style.scss';
-import metismenu from 'metismenu';
+// import metismenu from 'metismenu';
 
 
 // import Progress from 'components/Progress';
