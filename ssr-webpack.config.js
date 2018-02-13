@@ -9,7 +9,10 @@ const nodeExternals = require('webpack-node-externals');
 // https://medium.com/front-end-hacking/adding-a-server-side-rendering-support-for-an-existing-react-application-using-express-and-webpack-5a3d60cf9762
 module.exports = {
   target: 'node', // ignores built-in modules, creates output for node.js
-  externals: [nodeExternals()], // in order to ignore all modules in node_modules folder
+  externals: [nodeExternals({
+    // load non-javascript files with extensions, presumably via loaders
+    whitelist: ['jquery', 'webpack/hot/dev-server', 'metismenu', /\.(?!(?:jsx?|json)$).{1,5}$/i],
+  })], // in order to ignore all modules in node_modules folder
   entry: path.resolve(__dirname, 'src', 'server', 'app.jsx'),
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -20,7 +23,11 @@ module.exports = {
     modules: [path.join(__dirname, 'src'), path.join(__dirname, 'node_modules')]
   },
   plugins: [
-    new ExtractTextPlugin('server.css')
+    new ExtractTextPlugin('server.css'),
+    new webpack.ProvidePlugin({
+      $: 'jquery',
+      jQuery: 'jquery'
+    })
   ],
   module: {
     rules: [
