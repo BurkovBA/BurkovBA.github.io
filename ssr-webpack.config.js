@@ -11,7 +11,11 @@ module.exports = {
   target: 'node', // ignores built-in modules, creates output for node.js
   externals: [nodeExternals({
     // load non-javascript files with extensions, presumably via loaders
-    whitelist: ['jquery', 'webpack/hot/dev-server', 'metismenu', /\.(?!(?:jsx?|json)$).{1,5}$/i],
+    whitelist: [
+      'webpack/hot/dev-server',
+      // 'metismenu-burkov',
+      /\.(?!(?:jsx?|json)$).{1,5}$/i
+    ],
   })], // in order to ignore all modules in node_modules folder
   entry: path.resolve(__dirname, 'src', 'server', 'app.jsx'),
   output: {
@@ -24,10 +28,11 @@ module.exports = {
   },
   plugins: [
     new ExtractTextPlugin('server.css'),
-    new webpack.ProvidePlugin({
-      $: 'jquery',
-      jQuery: 'jquery'
-    })
+    // new webpack.ProvidePlugin({
+    //   $: 'jquery',
+    //   jquery: 'jquery',
+    //   jQuery: 'jquery'
+    // })
   ],
   module: {
     rules: [

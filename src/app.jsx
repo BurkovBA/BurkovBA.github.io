@@ -1,6 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {BrowserRouter as Router, Route, Link, browserHistory} from 'react-router-dom';
+import 'jquery/dist/jquery.js';
+import metismenu from 'metismenu';
+
 
 // load favicons with file loader, snippet of code is stolen from:
 // https://medium.com/tech-angels-publications/bundle-your-favicons-with-webpack-b69d834b2f53

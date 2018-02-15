@@ -60,6 +60,7 @@ function renderFullPage (html) {
       </head>  
       <body class="fixed-navbar fixed-sidebar">
         <div id="main">${html}</div>
+        <script src="/dist/app.js"></script>
       </body>
     </html>`;
 }

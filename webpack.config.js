@@ -13,7 +13,7 @@ module.exports = function(env) {
     output: {
       path: path.join(__dirname, 'dist'),
       publicPath: publicPath,
-      filename: 'app.[hash:7].js'
+      filename: 'app.js' //'app.[hash:7].js'
     },
     resolve: {
       modules: [path.join(__dirname, 'src'), path.join(__dirname, 'node_modules')]
@@ -27,7 +27,8 @@ module.exports = function(env) {
       }),
       new webpack.ProvidePlugin({
         $: 'jquery',
-        jQuery: 'jquery'
+        jQuery: 'jquery',
+        jquery: 'jquery'
       })
     ],
     module: {
