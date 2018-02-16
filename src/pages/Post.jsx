@@ -42,8 +42,10 @@ class Post extends React.Component {
     });
     // or do ajax requests with following setState invocation, e.g.:
     // http://mediatemple.net/blog/tips/loading-and-using-external-data-in-react/
+  }
 
-    self.initializeDisqus();
+  componentDidMount() {
+    this.initializeDisqus();
   }
 
   initializeDisqus() {
