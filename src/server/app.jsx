@@ -56,7 +56,7 @@ function renderFullPage (html) {
         <meta name="msapplication-TileImage" content="/dist/favicons/ms-icon-144x144.png">
         <meta name="theme-color" content="#ffffff">
         
-        <link rel="stylesheet" href="/dist/server.css">
+        <link rel="stylesheet" href="/dist/app.css">
       </head>  
       <body class="fixed-navbar fixed-sidebar">
         <div id="main">${html}</div>

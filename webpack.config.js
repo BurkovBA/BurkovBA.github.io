@@ -1,36 +1,67 @@
-var path = require('path');
-var webpack = require('webpack');
+const path = require('path');
+const webpack = require('webpack');
 
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const nodeExternals = require('webpack-node-externals');
 
 module.exports = function(env) {
-  // set variables, depending on whether this is dev or prod, see: https://github.com/webpack/webpack/issues/2254
-  var indexFilename = (env && env.prod) ? path.join(__dirname, "index.html") : "index.html";
-  var publicPath = (env && env.prod) ? '/dist/' : '/';
+  // set variables, modifying the config for dev, prod and ssr
+  // see: https://github.com/webpack/webpack/issues/2254
+  let environment;
+  if (env && env.prod) environment = 'production';
+  else if (env && env.ssr) environment = 'server';
+  else environment = 'development';
+
+  let target, externals, entry, plugins, publicPath, outputFilename;
+  if (environment === 'production') {
+    target = 'web';
+    externals = [];
+    entry = path.join(__dirname, 'src', 'app.jsx');
+    plugins = [
+      new webpack.HotModuleReplacementPlugin(),
+      new ExtractTextPlugin('app.css'), // app.[hash:7].css
+      new HtmlWebpackPlugin({ inject: "body", template: "src/index.html", filename: path.join(__dirname, "index.html") }),
+      new webpack.ProvidePlugin({ $: 'jquery', jQuery: 'jquery', jquery: 'jquery' })
+    ];
+    publicPath = '/dist/';
+    outputFilename = 'app.js'; //'app.[hash:7]'
+
+  } else if (environment === 'development') {
+    target = 'web';
+    externals = [];
+    entry = path.join(__dirname, 'src', 'app.jsx');
+    plugins = [
+      new webpack.HotModuleReplacementPlugin(),
+      new ExtractTextPlugin('app.css'), // app.[hash:7].css
+      new HtmlWebpackPlugin({ inject: "body", template: "src/index.html", filename: "index.html" }),
+      new webpack.ProvidePlugin({ $: 'jquery', jQuery: 'jquery', jquery: 'jquery' })
+    ];
+    publicPath = '/';
+    outputFilename = 'app.js'; //'app.[hash:7].js'
+  } else { // 'server'
+    target = 'node';
+    // load non-javascript files with extensions, presumably via loaders
+    externals = [ nodeExternals({ whitelist: ['webpack/hot/dev-server', /\.(?!(?:jsx?|json)$).{1,5}$/i] }) ];
+    entry = path.join(__dirname, 'src', 'server', 'app.jsx');
+    plugins = [ new ExtractTextPlugin('app.css') ];
+    publicPath = '/dist/';
+    outputFilename = 'server.js';
+  }
 
   return {
-    entry: path.join(__dirname, 'src', 'app.jsx'),
+    target: target,
+    externals: externals,
+    entry: entry,
     output: {
       path: path.join(__dirname, 'dist'),
       publicPath: publicPath,
-      filename: 'app.js' //'app.[hash:7].js'
+      filename: outputFilename
     },
     resolve: {
       modules: [path.join(__dirname, 'src'), path.join(__dirname, 'node_modules')]
     },
-    plugins: [
-      new webpack.HotModuleReplacementPlugin(),
-      new HtmlWebpackPlugin({
-        inject: "body",
-        template: "src/index.html",
-        filename: indexFilename
-      }),
-      new webpack.ProvidePlugin({
-        $: 'jquery',
-        jQuery: 'jquery',
-        jquery: 'jquery'
-      })
-    ],
+    plugins: plugins,
     module: {
       rules: [
         {
@@ -43,28 +74,25 @@ module.exports = function(env) {
           }
         },
         {
-          test: /\.(scss|sass)$/,
-          use: [
-            { loader: 'style-loader' },
-            { loader: 'css-loader', options: {sourceMap: true} },
-            { loader: 'sass-loader', options: {sourceMap: true} }
-          ]
-        },
-        {
-          test: /\.css$/,
-          use: ['style-loader', 'css-loader']
+          test: /\.(s?css|sass)$/,
+          use: ExtractTextPlugin.extract({
+            use: [
+              { loader: 'css-loader', options: {sourceMap: true} },
+              { loader: 'sass-loader', options: {sourceMap: true} }
+            ]
+          })
         },
         {
           test: /\.(png|jpe?g|gif)(\?v=\d+\.\d+\.\d+)?$/,
-          loader: 'url-loader?limit=10000'
+          loader: 'file-loader' // 'url-loader?limit=10000'
         },
         {
           test: /\.(eot|com|json|ttf|woff|woff2)(\?v=\d+\.\d+\.\d+)?$/,
-          loader: 'url-loader?limit=10000&mimetype=application/octet-stream'
+          loader: 'file-loader' // 'url-loader?limit=10000&mimetype=application/octet-stream'
         },
         {
           test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-          loader: 'url-loader?limit=10000&mimetype=image/svg+xml'
+          loader: 'file-loader' // 'url-loader?limit=10000&mimetype=image/svg+xml'
         }
       ]
     },

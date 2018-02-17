@@ -7,7 +7,7 @@
     "build": "node_modules/.bin/webpack -p --env.prod",
     "profile:build": "node_modules/.bin/webpack -p --env.prod --profile --json > webpack-stats.json",
     "serve": "node_modules/.bin/webpack-dev-server --progress --colors --history-api-fallback",
-    "ssr": "node_modules/webpack/bin/webpack.js --config ssr-webpack.config.js && node dist/server.js",
+    "ssr": "node_modules/.bin/webpack -p --env.ssr && node dist/server.js",
     "profile:ssr": "node_modules/.bin/webpack -p --env.prod --config ssr-webpack.config.js --profile --json > webpack-stats.json",
     "test": "echo \"Error: no test specified\" && exit 1",
     "deploy": "npm run clean && npm run build && git add dist && git add index.html && git commit -a -m 'deploy' && git push"
