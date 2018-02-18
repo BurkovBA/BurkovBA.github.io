@@ -1,7 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
 
@@ -20,12 +20,12 @@ module.exports = function(env) {
     entry = path.join(__dirname, 'src', 'app.jsx');
     plugins = [
       new webpack.HotModuleReplacementPlugin(),
-      new ExtractTextPlugin('app.css'), // app.[hash:7].css
+      new ExtractTextPlugin('app.[hash:7].css'),
       new HtmlWebpackPlugin({ inject: "body", template: "src/index.html", filename: path.join(__dirname, "index.html") }),
       new webpack.ProvidePlugin({ $: 'jquery', jQuery: 'jquery', jquery: 'jquery' })
     ];
     publicPath = '/dist/';
-    outputFilename = 'app.js'; //'app.[hash:7]'
+    outputFilename = 'app.[hash:7].js';
 
   } else if (environment === 'development') {
     target = 'web';
@@ -33,18 +33,18 @@ module.exports = function(env) {
     entry = path.join(__dirname, 'src', 'app.jsx');
     plugins = [
       new webpack.HotModuleReplacementPlugin(),
-      new ExtractTextPlugin('app.css'), // app.[hash:7].css
+      new ExtractTextPlugin('app.[hash:7].css'),
       new HtmlWebpackPlugin({ inject: "body", template: "src/index.html", filename: "index.html" }),
       new webpack.ProvidePlugin({ $: 'jquery', jQuery: 'jquery', jquery: 'jquery' })
     ];
     publicPath = '/';
-    outputFilename = 'app.js'; //'app.[hash:7].js'
+    outputFilename = 'app.[hash:7].js';
   } else { // 'server'
     target = 'node';
     // load non-javascript files with extensions, presumably via loaders
     externals = [ nodeExternals({ whitelist: ['webpack/hot/dev-server', /\.(?!(?:jsx?|json)$).{1,5}$/i] }) ];
     entry = path.join(__dirname, 'src', 'server', 'app.jsx');
-    plugins = [ new ExtractTextPlugin('app.css') ];
+    plugins = [ new ExtractTextPlugin('app.[hash:7].css') ];
     publicPath = '/dist/';
     outputFilename = 'server.js';
   }
