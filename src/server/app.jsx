@@ -1,5 +1,6 @@
 import express from 'express';
 import path from 'path';
+import fs from 'fs';
 // import favicon from 'serve-favicon'
 
 import React from 'react';
@@ -16,6 +17,7 @@ import Post from 'pages/Post.jsx';
 // Mostly stolen from:
 // https://medium.com/@phoebe.greig/headache-free-isomorphic-app-tutorial-react-js-react-router-node-js-ssr-with-state-and-es6-797a8d8e493a
 // https://crypt.codemancers.com/posts/2017-06-03-reactjs-server-side-rendering-with-router-v4-and-redux/
+const pathToStatic = path.join(".", "dist");
 
 const routes = [
   {
@@ -29,7 +31,41 @@ const routes = [
 ];
 
 
-function renderFullPage (html) {
+let jsBundle, cssBundle;
+fs.readdir(pathToStatic, function(err, files) {
+    if (err) { throw err; }
+
+    let jsFiles = files
+                   .filter((file) => file.match(/app(\..+)?\.js$/))
+                   .map((file) => path.join(pathToStatic, file));
+    console.log(`jsFiles = ${jsFiles}`);
+    jsBundle = getNewestFile(jsFiles, 'js');
+    console.log(`jsBundle = ${jsBundle}`);
+
+    let cssFiles = files
+                    .filter((file) => file.match(/app(\..+)?\.css$/))
+                    .map((file) => path.join(pathToStatic, file));
+    console.log(`cssFiles = ${cssFiles}`);
+    cssBundle = getNewestFile(cssFiles, 'css');
+    console.log(`cssBundle = ${cssBundle}`);
+});
+
+function getNewestFile(files, path) {
+    let out = [];
+    files.forEach(function(file) {
+        let stats = fs.statSync(file);
+        if(stats.isFile()) {
+            out.push({"file":file, "mtime": stats.mtime.getTime()});
+        }
+    });
+    out.sort(function(a,b) {
+        return b.mtime - a.mtime;
+    });
+    return (out.length > 0) ? out[0].file : undefined;
+}
+
+
+function renderFullPage (html, jsBundle, cssBundle) {
   return `
     <!DOCTYPE html>
     <html>
@@ -56,11 +92,11 @@ function renderFullPage (html) {
         <meta name="msapplication-TileImage" content="/dist/favicons/ms-icon-144x144.png">
         <meta name="theme-color" content="#ffffff">
         
-        <link rel="stylesheet" href="/dist/app.css">
+        <link rel="stylesheet" href=${cssBundle}>
       </head>  
       <body class="fixed-navbar fixed-sidebar">
         <div id="main">${html}</div>
-        <script src="/dist/app.js"></script>
+        <script src=${jsBundle}></script>
       </body>
     </html>`;
 }
@@ -68,7 +104,6 @@ function renderFullPage (html) {
 const port = process.env.PORT || 8080;
 
 const app = express();
-const pathToStatic = path.join(".", "dist");
 app.use('/dist', express.static(pathToStatic));
 
 app.get('*', (req, res) => {
@@ -80,7 +115,7 @@ app.get('*', (req, res) => {
     </StaticRouter>
   );
 
-  res.status(200).send(renderFullPage(content))
+  res.status(200).send(renderFullPage(content, jsBundle, cssBundle))
 });
 
 app.listen(port);
