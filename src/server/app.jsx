@@ -62,7 +62,9 @@ function getNewestFile(files, path) {
     out.sort(function(a,b) {
         return b.mtime - a.mtime;
     });
-    return (out.length > 0) ? out[0].file : undefined;
+
+    // add slash before filename to make path absolute
+    return (out.length > 0) ? '/' + out[0].file : undefined;
 }
 
 
