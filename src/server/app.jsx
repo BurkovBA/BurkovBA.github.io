@@ -31,6 +31,7 @@ const routes = [
 ];
 
 
+// get the latest javascript and css bundles in /dist and request them from generated html
 let jsBundle, cssBundle;
 fs.readdir(pathToStatic, function(err, files) {
     if (err) { throw err; }

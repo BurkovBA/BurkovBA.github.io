@@ -10,7 +10,7 @@
     "profile:build": "node_modules/.bin/webpack -p --env.prod --profile --json > webpack-stats.json",
     "serve": "node_modules/.bin/webpack-dev-server --progress --colors --history-api-fallback",
     "ssr": "node_modules/.bin/webpack -p --env.ssr && node dist/server.js",
-    "start": "node dist/server.js",
+    "start": "PORT=80 node dist/server.js",
     "profile:ssr": "node_modules/.bin/webpack -p --env.prod --config ssr-webpack.config.js --profile --json > webpack-stats.json",
     "test": "echo \"Error: no test specified\" && exit 1",
     "deploy": "npm run clean && npm run build && git add dist && git add index.html && git commit -a -m 'deploy' && git push"
@@ -68,6 +68,7 @@
     "jsdom": "^11.6.2",
     "navigator": "~1.0.1",
     "node-sass": "^4.5.3",
+    "now": "^9.3.3",
     "react-router-config": "^1.0.0-beta.4",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.18.2",
