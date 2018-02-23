@@ -104,7 +104,7 @@ function renderFullPage (html, jsBundle, cssBundle) {
     </html>`;
 }
 
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 8888;
 
 const app = express();
 app.use('/dist', express.static(pathToStatic));
