@@ -11,7 +11,7 @@ class Header extends React.Component {
         {/*<div className="color-line"></div>*/}
         <div id="logo" className="light-version">
           <span>
-            BurkovBA<font color="red">.github.io</font>
+            BorisBurkov<font color="red">.net</font>
           </span>
         </div>
         <nav role="navigation" className="clearfix">
