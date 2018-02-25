@@ -5,6 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
 
+
 module.exports = function(env) {
   // set variables, modifying the config for dev, prod and ssr
   // see: https://github.com/webpack/webpack/issues/2254
