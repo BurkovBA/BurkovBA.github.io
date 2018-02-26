@@ -40,6 +40,7 @@ module.exports = function(env) {
     ];
     publicPath = '/';
     outputFilename = 'app.[hash:7].js';
+
   } else { // 'server'
     target = 'node';
     // load non-javascript files with extensions, presumably via loaders
