@@ -9,25 +9,6 @@ class Post extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      "author": "",
-      "authors_avatar": "",
-      "date_created": "",
-      "title": "",
-      "subtitle": "",
-      "abstract": "",
-      "cover": "",
-      "categories": [],
-      "views": "",
-      "comments": [],
-    };
-
-    this.onContentLoad = this.onContentLoad.bind(this);
-  }
-
-  componentWillMount() {
-    let self = this;
-
     // get next and previous posts
     let sortedPostIds = Object.keys(this.props.posts);  // should be sorted by default
     let postIndex = sortedPostIds.indexOf(this.props.match.params.id);
@@ -37,8 +18,7 @@ class Post extends React.Component {
     let post = this.props.posts[this.props.match.params.id].default;
     let metadata = this.props.posts[this.props.match.params.id].metadata;
 
-
-    self.setState({
+    this.state = {
       id: this.props.match.params.id,
       post: post,
       previousPost: previousPost,
@@ -54,8 +34,11 @@ class Post extends React.Component {
       categories: metadata.categories,
       views: metadata.views,
       comments: metadata.comments
-    });
+    };
 
+  }
+
+  componentWillMount() {
     // or do ajax requests with following setState invocation, e.g.:
     // http://mediatemple.net/blog/tips/loading-and-using-external-data-in-react/
   }
@@ -80,13 +63,6 @@ class Post extends React.Component {
     s.src = 'https://burkovba.disqus.com/embed.js';
     s.setAttribute('data-timestamp', +new Date());
     (d.head || d.body).appendChild(s);
-  }
-
-  /**
-   * This method runs when Content is loaded to pass state from it to Post.
-   */
-  onContentLoad(state) {
-    this.setState(state);
   }
 
   render () {
