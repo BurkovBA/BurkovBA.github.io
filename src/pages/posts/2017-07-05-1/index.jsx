@@ -26,10 +26,6 @@ class Content extends React.Component {
 
   }
 
-  componentDidMount() {
-    if (this.props.onload) this.props.onload(this.state);
-  }
-
   render() {
     return (
         <div>

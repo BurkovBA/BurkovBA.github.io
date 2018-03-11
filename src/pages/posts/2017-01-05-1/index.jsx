@@ -25,7 +25,7 @@ class Content extends React.Component {
 
   }
 
-  componentDidMount() {
+  componentWillMount() {
     if (this.props.onload) this.props.onload(this.state);
   }
 

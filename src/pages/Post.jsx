@@ -34,12 +34,28 @@ class Post extends React.Component {
     let nextPost = this.props.posts[sortedPostIds[postIndex+1]];
     let previousPost = this.props.posts[sortedPostIds[postIndex-1]];
 
+    let post = this.props.posts[this.props.match.params.id].default;
+    let metadata = this.props.posts[this.props.match.params.id].metadata;
+
+
     self.setState({
       id: this.props.match.params.id,
-      post: this.props.posts[this.props.match.params.id].default,
+      post: post,
       previousPost: previousPost,
-      nextPost: nextPost
+      nextPost: nextPost,
+
+      author: metadata.author,
+      authors_avatar: metadata.authors_avatar,
+      date_created: metadata.date_created,
+      title: metadata.title,
+      subtitle: metadata.subtitle,
+      abstract: metadata.abstract,
+      cover: metadata.cover,
+      categories: metadata.categories,
+      views: metadata.views,
+      comments: metadata.comments
     });
+
     // or do ajax requests with following setState invocation, e.g.:
     // http://mediatemple.net/blog/tips/loading-and-using-external-data-in-react/
   }
@@ -107,7 +123,7 @@ class Post extends React.Component {
                   { this.state.abstract }
                 </p>
                 <hr />
-                <this.state.post onload={this.onContentLoad} />
+                <this.state.post />
               </div>
               <div className="panel-footer clearfix">
                 {/*<span className="pull-right">*/}
