@@ -32,6 +32,7 @@ class Post extends React.Component {
       abstract: metadata.abstract,
       cover: metadata.cover,
       categories: metadata.categories,
+      time_to_read: metadata.time_to_read,
       views: metadata.views,
       comments: metadata.comments
     };
