@@ -16,6 +16,7 @@ faviconsContext.keys().forEach(faviconsContext);
 
 import Layout from 'pages/Layout.jsx'
 
+import configureStore from 'store'
 
 ReactDOM.render(
   <Router history={browserHistory}>
