@@ -1,5 +1,7 @@
 import React from 'react';
 
+let rnacentral_consortium_meeting_2018 = require('./rnacentral_consortium_meeting_2018.jpg');
+
 let metadata = {
   id: "2018-10-19-1",
   author: "Boris Burkov",
@@ -11,7 +13,7 @@ let metadata = {
   abstract: "Только что прошел мой второй RNAcentral consortium meeting," +
     " и это было интересное мероприятие с точки зрения понимания того, как устроен мир," +
     " что я не могу не поделиться этой информацией.",
-  cover: "",
+  cover: rnacentral_consortium_meeting_2018,
   categories: ["how-life-works", "biology", "economy"],
   time_to_read: 20,
   views: "",
@@ -62,27 +64,39 @@ class Content extends React.Component {
           разными бэкграундами. Мне хочется рассказать немного о каждом, потому что посмотреть на этот винегрет было
           потрясающе важно и информативно.
         </p>
+        <hr />
+        <img width="200px" src="https://pbs.twimg.com/profile_images/497459109797851136/KhT9unf2_400x400.jpeg" className="img-responsive center-block"></img>
+        <div className="caption text-center">Сэм Гриффитс-Джонс</div>
         <p>
           Сэм Гриффитс-Джонс когда-то работал в EBI и за неделю создал базу данных семейств РНК Rfam на основе базы
           даных белковых семейств Pfam. Процесс создания выглядел примерно так: <code>r/Pfam/Rfam/gc</code>. После этого
           Сэм перебрался в университет Манчестера (там сейчас обитают наши Гейм с Новоселовым, открывшие графен), где
           создал базу данных микроРНК miRBase, которая до сих пор является самым посещаемым сайтом университета
-          Манчестера с 60 тысячами посетителей в месяц.
+          Манчестера с 60 тысячами посетителей в месяц. При этом денег у него, похоже, особенно не водится, и средства
+          на найм разработчика для интерграции с нами он будет изыскивать, когда я закончу писать наш (как бы общий)
+          микросервис поиска.
         </p>
+        <hr />
+        <img width="200px" src="https://pbs.twimg.com/profile_images/879006761860173824/760oniPs_400x400.jpg" className="img-responsive center-block"></img>
+        <div className="caption text-center">Януш Буйницкий</div>
         <p>
           Восхитительный Януш Буйницкий сделал ослепительную карьеру в Польше, сначала работая в университете Адама
           Мицкевича в Познани, а потом перебравшись в Варшаву и сделавшись большим начальником. Я встетил его впервые
           в Познани 10 лет назад, и уже тогда он считался большим человеком и был одним из членов редколлегии NAR.
           На что у меня ушли эти 10 лет я так и не понял, а Януш с виду почти не изменился, все такой же моложавый,
-          шустрый и энергичный.
+          шустрый и энергичный. У Януша довольно крупная группа, и он уже что-то вроде доктора или член-корра и советник
+          при миинстерстве науки в свои 43.
         </p>
+        <hr />
+        <img width="200px" src="https://i1.rgstatic.net/ii/profile.image/573372938375169-1513714169843_Q512/Robin_Gutell2.jpg" className="img-responsive center-block"></img>
+        <div className="caption text-center">Робин Гутелл</div>
         <p>
           Робин Гутелл из университета Техаса в Остине в начале 1980-ых ручками строил выравнивания 16s рРНК в текстовом
           редакторе. Его группа заметила, что если у вас есть 2 позиции выравнивания, и в одной РНК в ней стоят C и G,
           а в другой они заменились на T и A, то возможно эти нуклеотиды спарены между собой:
         </p>
         <pre>
-          aaaaCgggGuu
+          aaaaCgggGuu<br/>
           aaaaTgggAuu
         </pre>
         <p>
@@ -98,9 +112,13 @@ class Content extends React.Component {
           распадается в пробе, за что на нее долго орали, что она сапожница и не может аккуратно поставить эксперимент,
           а это оказалось не багом, а фичей и привело к большому открытию, но технишн кажется так и осталась ни при чем.
         </p>
+        <hr />
         <p>
           Стивен Мериголд из университета Кембриджа - FlyBase маленькая группа человек 5.
         </p>
+        <hr />
+        <img width="200px" src="https://www.ebi.ac.uk/sites/ebi.ac.uk/files/styles/medium/public/person/image/Simon_Kay.jpeg" className="img-responsive center-block"></img>
+        <div className="caption text-center">Саймон Кей</div>
         <p>
           Саймон Кей из ENA пользуется Internet Explorer.
         </p>
@@ -111,11 +129,19 @@ class Content extends React.Component {
           сделали импорт напрямую через JSON'ы, и все стали с радостью работать в обход ENA. Чаще всего я слышу от
           Саймона и его коллеги Гая Кохрейна фразы вроде "зачем это все новье?"
         </p>
+        <hr />
+        <img width="200px" src="https://publons.com/media/thumbs/academic/photos/61755eaa1a4346fdb81eeee1ab448971.jpg.200x200_q95_crop_detail_upscale.jpg" className="img-responsive center-block"></img>
+        <div className="caption text-center">Питер-Ян Волдерс</div>
         <p>
-          Pieter-Jan Volders, LNCipedia, университет Гента.
+          Питер-Ян Волдерс из университета Гента - моложавый постдок лет 35, тащит свою базу
+          данных LNCipedia в одиночку, написана она на смеси перла и питона, все там довольно грустненько. Профессор
+          обещает ему полторы ставки в помощь, но пока нет ничего и люди из лаборатории только уходят.
         </p>
+        <hr />
+        <img width="200px" src="https://www.weser-kurier.de/cms_media/module_img/3271/1635554_1_articlefancybox_54f0edd341781.jpg" className="img-responsive center-block"></img>
+        <div className="caption text-center">Кристиан Кваст (слева)</div>
         <p>
-          Программист Себастьян Кваст из Silva никогда не хотел быть профессором. В Германии ты работаешь в академии
+          Программист Кристиан Кваст из Бремена никогда не хотел быть профессором. В Германии ты работаешь в академии
           не более 12 лет - начал аспер - и после этого либо 2 постдока и в профессора, либо иди в индустрию. Себастьян
           провел как раз все свои 12 лет и нашел какой-то обход: он устроился в частный университет на свой очередной
           вечный постдок. Финансирование его базы данных осуществляется через 3 источника: общество Макса Планка, Elixir
@@ -125,45 +151,79 @@ class Content extends React.Component {
           теперь они вступили в Эликсир, и данные общедоступны.
         </p>
         <p>
-          Себастьян руками проверяет код своих сотрудников, доучивает "зеленых" бакалавров лучшим практикам, сравнивает
-          дистрибутивы линукса, раскладки клавиатур, прикольные планшеты для рисования и т.п. Короче, наш человек.
+          Кристиан руками проверяет код своих сотрудников, доучивает "зеленых" бакалавров лучшим практикам, сравнивает
+          дистрибутивы линукса, раскладки клавиатур, прикольные планшеты для рисования и т.п. Короче, наш человек. У
+          него 5 человек в группе, один уходит, двое - салаги.
         </p>
+        <hr />
+        <img width="200px" src="https://i1.rgstatic.net/ii/profile.image/272431348711438-1441964103302_Q128/Eva_Huala.jpg" className="img-responsive center-block"></img>
+        <div className="caption text-center">Эва Хуала</div>
         <p>
-          Эва Хуала из TAIR - главной базы данных по арабидопсису - получала гранты NSF в течение около 15 лет, но потом
-          их  лишили финансирования, и им пришлось решать, что делать. Каким-то образом, они смогли закрыть часть
+          Эва Хуала ведет с 3 другими людьми главную базу данных по Арабидопсису (резуховидке Таля).
+          В течение 15 лет они существовали на гранты NSF, но потом их  лишили финансирования, и им пришлось решать,
+          что делать. Им пришлось сильно подсуетиться, пустить в ход все свои контакты, закрыть часть
           данных, а часть поставлять в открытом доступе, и заключить контракты с индустрией, а также напрямую с
-          правительствами Китая и Канады, и этого хватило им на финансирование несольких позиций. Когда я сказал Эве,
+          правительствами Китая и Швейцарии, и этого им хватает на финансирование своих позиций. Когда я сказал Эве,
           что впечатлен ее мужеством и готовностью тащить проект без денег, она сказала, что у них не было выбора. Хм,
-          означает ли это, что ничего кроме арабидопсиса они делать не умеют и деваться им было некуда?
+          означает ли это, что ничего кроме Арабидопсиса они делать не умеют и деваться им было некуда?
         </p>
+        <hr />
+        <img width="200px" src="https://www.ebi.ac.uk/sites/ebi.ac.uk/files/styles/medium/public/person/image/kalvani_iona_web_2015.jpg" className="img-responsive center-block"></img>
+        <div className="caption text-center">Иоанна Калвари</div>
         <p>
           Британская BBSRC не продлила нам финансирование 2-3 позиций на Rfam, и теперь народ суетится, пытаясь
           обосновать значимость базы данных для сообщества и собирая letters of support от всех крупных ресурсов,
-          до кого удается достучаться.
+          до кого удается достучаться. Если до марта новая заявка на грант не выстрелит, Иоанне Калвари, которая
+          является основным ее разработчиком, придется отправиться обратно на Кипр (или двинуться в индустрию, что
+          ее, впрочем, вполне устраивает).
         </p>
+        <hr />
+        <img width="200px" src="https://www.ensembl.org/img/ensembl_logo.png" className="img-responsive center-block"></img>
         <p>
           Ensembl недавно переехал из Wellcome Trust Sanger Institute в EBI. Это огромный по местным меркам проект с
           70-80 сотрудниками и добрым десятком подпроектов и команд. Кровавый перл, масса жуткого старья, и все же они
           незаменимы со своими ручными и машинными аннотаторами, genome browser'ом и т.п. Выступали представители 3 их
           подпроектов.
         </p>
+        <hr />
+        <img width="200px" src="https://www.e-ce.uth.gr/wp-content/uploads/formidable/37/arhatzig-150x150.jpg" className="img-responsive center-block"></img>
+        <div className="caption text-center">Artemis Hatzigeorgiou</div>
+
+        <img width="200px" src="https://media.licdn.com/dms/image/C4E03AQFYKtnxGbk-dw/profile-displayphoto-shrink_200_200/0?e=1545264000&v=beta&t=BKwnnplF-ZZK3mGx08ZGJuJrhL_bSEslJIXAzjYUKgk" className="img-responsive center-block"></img>
+        <div className="caption text-center">Dimitra Karagkouni</div>
         <p>
-          Артемис Hatzigeorgiou и Димитра Karagkouni из Univ. of Thessaly, Hellenic Pasteur Institute работают в Греции
+          Artemis Hatzigeorgiou и Dimitra Karagkouni из Univ. of Thessaly, Hellenic Pasteur Institute работают в Греции
           над базами данных TarBase и LncBase.
         </p>
+        <hr />
+        <img width="200px" src="https://www.soe.ucsc.edu/people/lowe/photo/1" className="img-responsive center-block"></img>
+        <div className="caption text-center">Тодд Лоу</div>
         <p>
-          Тодд Лоу из Университета Калифорнии Санта-Круз со своей верной оруженосцем Партишей Чан, gtRNAdb, тоже группа
-          4-6 человек.
+          Тодд Лоу из Университета Калифорнии Санта-Круз со своей верной оруженосцем Партишей Чан, ведет базу данных
+          gtRNAdb, у них тоже группа 4-6 человек.
         </p>
+        <hr />
+        <img width="200px" src="https://www.ebi.ac.uk/sites/ebi.ac.uk/files/styles/medium/public/person/image/seal_ruth_web.jpg" className="img-responsive center-block"></img>
+        <div className="caption text-center">Рут Сил</div>
+
+        <img width="200px" src="https://www.ebi.ac.uk/sites/ebi.ac.uk/files/styles/medium/public/person/image/bruford_elspeth_web.jpg" className="img-responsive center-block"></img>
+        <div className="caption text-center">Элспет Бруфорд</div>
         <p>
-          Дамы-кураторши из HGNC Рут Сил и Элспет Бруфорд, их всего четверо.
+          Дамы-кураторши из HGNC Рут Сил и Элспет Бруфорд представляют группу из 4 таких вот дам-кураторш, которые со
+          скрипом наскребают деньги на свои 4 ставки, чтобы вести Human Genome Nomenclature, вообще-то довольно важную.
         </p>
+        <hr />
+        <img width="200px" src="http://ibmib.home.amu.edu.pl/wp-content/uploads/2016/04/maciej-szymanski.jpg" className="img-responsive center-block"></img>
+        <div className="caption text-center">Мацей Шыманский</div>
         <p>
           Трое мокрых биологов и трое программистов в Познани у Мацея Шыманского из t-Rex. Его жена - директор
-          прекрасного местного ботсада.
+          прекрасного местного ботсада. У них очень красивый сайт, красивый город и вообще все здорово. Молодцы, поляки.
         </p>
+        <hr />
+        <img width="200px" src="http://bigd.big.ac.cn/pic/show/16" className="img-responsive center-block"></img>
+        <div className="caption text-center">Лина Ма</div>
         <p>
-          Лина Ма - LncBook и LncWiki - хороший проект в Китае буквально с 3 программистами.
+          Лина Ма ведет в Китае хороший проект LncWiki, превратившийся позднее в LncBook. У них 3 программиста.
         </p>
       </div>
     )
