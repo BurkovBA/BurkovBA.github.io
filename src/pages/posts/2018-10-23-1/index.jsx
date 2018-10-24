@@ -18,7 +18,7 @@ let metadata = {
   " воскресенье я получил подтверждение его слов от Марека Романовича, дата инженера в Фейсбуке в Нью-Йорке.",
   cover: firstSlide,
   categories: ["how-life-works", "programming", "economy"],
-  time_to_read: 20,
+  time_to_read: 10,
   views: "",
   comments: [],
 };

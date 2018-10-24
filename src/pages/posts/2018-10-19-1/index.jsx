@@ -11,10 +11,10 @@ let metadata = {
   title: "20 примеров: как и на что живут РНК-биоинформатики?",
   subtitle: "По следам RNAcentral consortium meeting",
   abstract: "Только что прошел мой второй RNAcentral consortium meeting," +
-    " и это было интересное мероприятие с точки зрения понимания того, как устроен мир," +
+    " и это было настолько интересное мероприятие с точки зрения понимания того, как устроен мир," +
     " что я не могу не поделиться этой информацией.",
   cover: rnacentral_consortium_meeting_2018,
-  categories: ["how-life-works", "biology", "economy"],
+  categories: ["how-life-works", "biomed", "economy"],
   time_to_read: 20,
   views: "",
   comments: [],
