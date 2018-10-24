@@ -9,9 +9,9 @@ that I run on the machine and proxy the traffic to it through an Nginx proxy.
 
 The build process is as follows:
 
-`docker stop blog`
-`docker build -t blog .`
-`docker run -p <port>:<port> -rm -d --name blog blog`
+ - `docker stop blog`
+ - `docker build -t blog .`
+ - `docker run -p <port>:<port> -rm -d --name blog blog`
 
 ## Building the frontend
 
