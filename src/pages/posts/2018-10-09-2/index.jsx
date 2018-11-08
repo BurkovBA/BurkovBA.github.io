@@ -50,16 +50,46 @@ class Content extends React.Component {
           Potentially available permissions are listed <a href="https://severalnines.com/blog/postgresql-privileges-user-management-what-you-should-know">here</a>.
         </p>
         <p>
+          Postgres configuration typically consists of 3 files and a <code>conf.d</code> folder: the main file,
+          <code>postgresql.conf</code>, specifies locations of two other files, <code>pg_hba.conf</code> and
+          <code>pb_ident.conf</code> and reads them. It also imports the contents of <code>conf.d</code> directory.
+        </p>
+        <p>
           Role authentication supports <a href="https://www.postgresql.org/docs/9.1/static/auth-methods.html">a number of mechanisms</a>,
-          which can be configured in <code>pg_hba.conf</code>.
+          which can be configured in <code>pg_hba.conf</code>. "hba" part stands for "Host-based authentication", this
+          is the main configuration file, responsible for authentication settings.
         </p>
         <p>
-          Typically, a trusted authentication mechanism is enabled that allows users on the local machine to login to postgres
-          without a password. E.g. <a href="https://hub.docker.com/_/postgres/">within a docker container</a> the database is accessible with psql, but not outside.
+          Typically, a trusted authentication mechanism is enabled that allows users on the local machine to login to
+          postgres without a password. E.g. <a href="https://hub.docker.com/_/postgres/">within a docker container</a> the
+          database is accessible with psql, but not outside.
         </p>
         <p>
-          Still, <code>psql</code> client is supposed to pass a certain username to the database. If you don't do this,
-           <code>psql database</code> command is equivalent to <code>psql -U $USER database</code>. Attempt to login as
+          Mapping between the unix system users and postgres users is governed by <code>pg_ident.conf</code> configuration
+          file. Records in it are of the form:
+        </p>
+        <pre>
+          # MAPNAME  SYSTEM-USERNAME  PG-USERNAME<br/>
+          # root is allowed to login as postgres<br/>
+          root_as_postgres  postgres  postgres<br/>
+          User123           LinuxUser PGUser
+        </pre>
+        <p>
+          MAPNAME is the (otherwise freely chosen) map name that was used in <code>pg_hba.conf</code>.  SYSTEM-USERNAME
+          is the detected user name of the client.  PG-USERNAME is the requested PostgreSQL user name.  The existence
+          of a record specifies that SYSTEM-USERNAME may connect as PG-USERNAME.
+        </p>
+        <p>
+          If SYSTEM-USERNAME starts with a slash (/), it will be treated as a regular expression. Optionally this can
+          contain a capture (a parenthesized subexpression).  The substring matching the capture will be substituted for
+          \1 (backslash-one) if present in PG-USERNAME.
+        </p>
+        <p>
+          Multiple maps may be specified in <code>pg_ident.conf</code> and used by <code>pg_hba.conf</code>. See <a href="https://www.dbrnd.com/2016/12/postgresql-pg_ident-conf-to-map-operating-system-username-and-database-username-external-authentication-password/">more examples on pg_ident.conf</a>.
+        </p>
+        <p>
+          Still, <code>psql</code> client is supposed to pass a certain username to the database. If you don't do this, <code>psql database</code>
+          command is equivalent to <code>psql -U $USER database</code>. Attempt to login as
           a root <a href="https://serverfault.com/questions/515277/difference-of-postgresqls-trust-and-ident">will cause an error.</a>
         </p>
         <h4>Links:</h4>
