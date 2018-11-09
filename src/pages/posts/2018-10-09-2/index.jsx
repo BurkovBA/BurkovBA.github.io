@@ -88,6 +88,42 @@ class Content extends React.Component {
           Multiple maps may be specified in <code>pg_ident.conf</code> and used by <code>pg_hba.conf</code>. See <a href="https://www.dbrnd.com/2016/12/postgresql-pg_ident-conf-to-map-operating-system-username-and-database-username-external-authentication-password/">more examples on pg_ident.conf</a>.
         </p>
         <p>
+          Maps, specified in <code>pg_ident.conf</code>, are then used in <code>pg_hba.conf</code> to determine, who can
+          access the database over what kind of connection. Records in <code>pg_hba.conf</code> are of the form:
+        </p>
+        <pre>
+          # This file controls: which hosts are allowed to connect, how clients<br/>
+          # are authenticated, which PostgreSQL user names they can use, which<br/>
+          # databases they can access.  Records take one of these forms:<br/>
+          #<br/>
+          # local      DATABASE  USER  METHOD  [OPTIONS]<br/>
+          # host       DATABASE  USER  ADDRESS  METHOD  [OPTIONS]<br/>
+          # hostssl    DATABASE  USER  ADDRESS  METHOD  [OPTIONS]<br/>
+          # hostnossl  DATABASE  USER  ADDRESS  METHOD  [OPTIONS]
+        </pre>
+        <p>
+          For example, <code>pg_hba.conf</code> configuration could look like this:
+        </p>
+        <pre>
+          # Default:<br/>
+          local  all  postgres    trust<br/>
+          <br/>
+          # "local" is for Unix domain socket connections only<br/>
+          local  all  all    trust<br/>
+          <br/>
+          # IPv4 local connections:<br/>
+          host  all  all  127.0.0.1/32  trust<br/>
+          <br/>
+          # IPv6 local connections:<br/>
+          host  all  all  ::1/128  trust<br/>
+          <br/>
+          # Local root Unix user, passwordless access<br/>
+          local  all  postgres    peer map=root_as_postgres<br/>
+          <br/>
+          # Password hosts<br/>
+          host  all  all  0.0.0.0/0  password
+        </pre>
+        <p>
           Still, <code>psql</code> client is supposed to pass a certain username to the database. If you don't do this, <code>psql database</code>
           command is equivalent to <code>psql -U $USER database</code>. Attempt to login as
           a root <a href="https://serverfault.com/questions/515277/difference-of-postgresqls-trust-and-ident">will cause an error.</a>
@@ -100,6 +136,7 @@ class Content extends React.Component {
           <li><a href="https://www.postgresql.org/docs/9.1/static/auth-methods.html">Authentication mechanisms</a></li>
           <li><a href="https://severalnines.com/blog/postgresql-privileges-user-management-what-you-should-know">Permissions</a></li>
           <li><a href="https://serverfault.com/questions/515277/difference-of-postgresqls-trust-and-ident">psql and system user</a></li>
+          <li><a href="https://github.com/ANXS/postgresql">Comments in Postgres config files, created by this Ansible role, are very helpful</a></li>
         </ul>
       </div>
     )
