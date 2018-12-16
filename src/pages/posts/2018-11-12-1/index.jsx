@@ -28,6 +28,7 @@ class Content extends React.Component {
     return (
       <div>
         <p>
+          I've joined a Kaggle competition on classification of protein locations on photographs.
           Разибрался в 2 метриках, которые часто используют для классификации со множеством классов как у нас (например, на одной фотографии клетки белок может быть и в цитоплазме, и в лизосомах, и в аппарате Голдьжи - 3 класса присутствуют) - Focal Loss и Mean Average Precision (mAP) / Average Precision (AP).
         </p>
         <p>
