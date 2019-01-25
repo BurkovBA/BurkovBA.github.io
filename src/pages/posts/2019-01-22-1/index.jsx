@@ -34,6 +34,7 @@ class Content extends React.Component {
           Уильямса, а также несколько сайтиков за их же авторством и ряд постов в блогах с отсылками к ним.
         </p>
         <img src="http://mlg.eng.cam.ac.uk/carl/icons/carl3.jpg" className="img-responsive center-block"></img>
+        <div className="caption text-center">Карл Расмуссен</div>
         <p>
           Карл Расмуссен - это профессор инженерного факультета Кебмриджа и архиепископ англиканский байезианской церкви,
           в которой по-моему состоит 2/3 Кембриджа.
@@ -41,9 +42,10 @@ class Content extends React.Component {
         <img src={churchOfBayes} className="img-responsive center-block"></img>
         <p>
           Сегодня выступал его бывший ученик и со-основатель самого модного кембриджского стартапа в области машинного
-          обучения Prowler.io Алексей Тукиайин. Forbes <a href="https://www.forbes.com/sites/parmyolson/2018/07/16/ai-startup-deepmind-google-prowler/">назвал Праулер</a> "следующим Deep Mind".
+          обучения Prowler.io Алексей Тукиайнен. Forbes <a href="https://www.forbes.com/sites/parmyolson/2018/07/16/ai-startup-deepmind-google-prowler/">назвал Праулер</a> "следующим Deep Mind".
         </p>
         <img src={aleksi} className="img-responsive center-block"></img>
+        <div className="caption text-center">Алексей Тукиайнен</div>
         <p>
           На момент основания Праулера в начале 2016 Алексею было 25 лет, двум другим сооснователям -
           35 и 45 соответственно.
