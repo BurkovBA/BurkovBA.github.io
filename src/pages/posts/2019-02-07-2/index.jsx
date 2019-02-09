@@ -143,22 +143,22 @@ class Content extends React.Component {
           Проблемы в работе с базой знаний:
         </p>
         <ul>
-          <li>storage/retrieval</li>
-          <li>consistency: ingestion checks, stale facts</li>
-          <li>querying: efficient graph traversal, generated facts</li>
+          <li>хранение/запросы</li>
+          <li>целостность: ingestion checks, устаревшие факты</li>
+          <li>запросы: эффективный обход графа, сгенерированные факты</li>
         </ul>
         <p>
           Проблемы исследований
         </p>
         <ul>
-          <li>completeness: demand-weighted, defined wrt a given application</li>
-          <li>extraction: structured vs unstructured sources, ontology alignment, multiple source languages</li>
-          <li>verification: fact correctess assessment, justification in the form of evidence</li>
+          <li>полнота: веса фактов должны задаваться с учетом спроса на них со стороны данного приложения</li>
+          <li>экстракция: структурированные и неструктурированные источники, унификация онтологий, источники на множестве языков</li>
+          <li>верификация: оценка корректрости фактов, поиск подтверждений</li>
         </ul>
         <p>
           Зачем автоматизировать верификацию?
-          More frequent updates (match the scale/speed of fact extraction), increased number of facts checked,
-          wides variety of sources, provide justification of answers.
+          Чаще обновления (чтобы успевать за скоростью/масштабом данных экстракции), пополнение базы проверенных фактов,
+          расширение списка источников, возможность выдавать подтверждения фактов.
         </p>
         <p>
           Христос рассказывал про их последнюю статью: они с интерном и толпой аннотаторов в Бостоне
