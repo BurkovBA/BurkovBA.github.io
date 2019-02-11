@@ -23,7 +23,7 @@ let metadata = {
   "разобраться в деталях - а между тем в EBI приехал наводить мосты ведущий инженер проекта Эндрю Сеньор из DeepMind.",
   cover: folding,
   categories: ["how-life-works", "math", "biomed", "programming"],
-  time_to_read: 20,
+  time_to_read: 15,
   views: "",
   comments: [],
 };

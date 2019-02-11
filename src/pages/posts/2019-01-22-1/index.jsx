@@ -14,7 +14,7 @@ let metadata = {
   abstract: "Побывал на презентации Prowler.io - самого модного кембриджского стартапа.",
   cover: "https://images.startups.co.uk/wp-content/uploads/2016/10/PROWLER.png",
   categories: ["how-life-works", "math", "business"],
-  time_to_read: 10,
+  time_to_read: 5,
   views: "",
   comments: [],
 };
