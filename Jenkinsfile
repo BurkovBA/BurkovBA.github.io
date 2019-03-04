@@ -10,9 +10,13 @@ pipeline {
         }
         stage("Stop an old docker container") {
             steps {
-                sh '''
-                    docker stop blog
-                '''
+                script {
+                    try {
+                        sh 'docker stop blog'
+                    } catch (err) {
+                        echo err
+                    }
+                }
             }
         }
         stage("Start a new docker container") {
