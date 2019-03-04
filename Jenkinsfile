@@ -13,9 +13,7 @@ pipeline {
                 script {
                     try {
                         sh 'docker stop blog'
-                    } catch (err) {
-                        echo err
-                    }
+                    } catch (err) {}
                 }
             }
         }
