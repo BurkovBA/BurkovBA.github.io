@@ -20,7 +20,7 @@ pipeline {
         stage("Start a new docker container") {
             steps {
                 sh '''
-                    docker run -p 8888:8888 -rm -d --name blog blog
+                    docker run -p 8888:8888 --rm -d --name blog blog
                 '''
             }
         }
