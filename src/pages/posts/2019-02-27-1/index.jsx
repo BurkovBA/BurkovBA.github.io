@@ -6,6 +6,20 @@ let liverpool = require('./liverpool_dock_and_church.jpg');
 let novelty = require('./photo_2019-03-01 20.52.50.jpeg');
 let sansPareil = require('./photo_2019-03-01 20.52.46.jpeg');
 let cycloped = require('./photo_2019-03-01 20.52.44.jpeg');
+let cotton1 = require('./photo_2019-03-09 23.23.44.jpeg');
+let cotton2 = require('./photo_2019-03-09 23.23.50.jpeg');
+let cotton3 = require('./photo_2019-03-09 23.23.54.jpeg');
+let cotton4 = require('./photo_2019-03-09 23.23.58.jpeg');
+let stage1 = require('./20190226_113115.jpg');
+let stage2 = require('./20190226_113227.jpg');
+let stage3 = require('./20190226_113251.jpg');
+let stage4 = require('./20190226_113322.jpg');
+let stage5 = require('./20190226_113437.jpg');
+
+const rotate180Style = {
+  transform: "rotate(180deg)"
+};
+
 
 let metadata = {
   id: "2019-02-27-1",
@@ -123,20 +137,38 @@ class Content extends React.Component {
           техпроцесс, каким он был в самом начале 20-ого века.
         </p>
         <p>
-          Веялка - первый этап конвейера. Она отделяет шелк от грязи и плевел.
+          Хлопок, снятый с цветов, попадает на веялку, где его отделяют от частичек грязи и плевел.
         </p>
+        <img src={cotton1} className="img-responsive center-block"/>
+        <div className="caption text-center">Хлопок</div>
+        <img src={stage1} style={rotate180Style} className="img-responsive center-block"/>
+        <div className="caption text-center">Веялка</div>
         <p>
-          Распушалка расплетает волокна шелка.
+          Специальная распушалка затем расплетает волокна шелка.
         </p>
+        <img src={cotton2} className="img-responsive center-block"/>
+        <div className="caption text-center">Распушенный хлопок</div>
+        <img src={stage2} style={rotate180Style} className="img-responsive center-block"/>
+        <div className="caption text-center">Распушалка</div>
         <p>
           Отделялка длинных волокон позволяет взять только длинные волокна, пригодные для создания длинных нитей.
         </p>
+        <img src={cotton3} className="img-responsive center-block"/>
+        <div className="caption text-center">Волокна</div>
+        <img src={stage3} style={rotate180Style} className="img-responsive center-block"/>
+        <div className="caption text-center">Отделялка</div>
         <p>
-          Сплеталка длинных волокон
+          Сплеталка длинных волокон сплетает вместе волокна по 6, а затем такие шестерки - еще по 3.
         </p>
+        <img src={cotton4} className="img-responsive center-block"/>
+        <div className="caption text-center">Сплетенный волокна</div>
+        <img src={stage4} className="img-responsive center-block"/>
+        <div className="caption text-center">Сплеталка</div>
         <p>
-          Прялка нитей
+          Прялка тянет конечный продует - нить - из полученных на прошлом этапе нитей.
         </p>
+        <img src={stage5} className="img-responsive center-block"/>
+        <div className="caption text-center">Прялка</div>
       </div>
     )
   }
