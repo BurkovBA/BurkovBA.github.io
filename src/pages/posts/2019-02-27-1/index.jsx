@@ -25,7 +25,7 @@ let metadata = {
   id: "2019-02-27-1",
   author: "Boris Burkov",
   authors_avatar: require("images/burkov_boris_web.jpg"),
-  date_created: "07.02.2019",
+  date_created: "27.02.2019",
   language: "ru",
   title: "Манчестер: хлопок и паровозы",
   subtitle: "Как Манчестер стал центром промышленной революции в XIX веке",
