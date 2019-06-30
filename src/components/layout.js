@@ -28,7 +28,7 @@ class Layout extends React.Component {
             to={`/`}
           >
             {title}
-            !!cover ? <Img sizes={cover.childImageSharp.sizes} /> : null
+            {!!cover ? <Img sizes={cover.childImageSharp.sizes} /> : null}
           </Link>
         </h1>
       )
@@ -49,7 +49,7 @@ class Layout extends React.Component {
             to={`/`}
           >
             {title}
-            !!cover ? <Img sizes={cover.childImageSharp.sizes} /> : null
+            {!!cover ? <Img sizes={cover.childImageSharp.sizes} /> : null}
           </Link>
         </h3>
       )

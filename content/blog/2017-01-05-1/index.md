@@ -2,7 +2,7 @@
 title: Об овцах и стартапщиках
 date: "2017-01-05T00:00:00.284Z"
 tags: ["how-life-works", "economy", "business", "history"]
-cover: "http://www.rabstol.net/uploads/gallery/main/515/rabstol_net_sheep_02.jpg"
+cover: "./salty_egg.jpg"
 ---
 
 Сегодня я добирался на работу в Хинкстон на поезде и проезжал овечью ферму возле деревни Грейт Честерфорд.
