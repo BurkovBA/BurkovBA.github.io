@@ -1,11 +1,11 @@
 {
-  "name": "gatsby-starter-blog",
+  "name": "borisburkov.net",
   "private": true,
   "description": "A starter for a blog powered by Gatsby and Markdown",
-  "version": "0.1.0",
-  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
+  "version": "4.0.0",
+  "author": "Boris A. Burkov <vasjaforutube@gmail.com>",
   "bugs": {
-    "url": "https://github.com/gatsbyjs/gatsby/issues"
+    "url": "https://github.com/BurkovBA/BurkovBA.github.io/issues"
   },
   "dependencies": {
     "gatsby": "^2.10.4",
@@ -46,7 +46,7 @@
   "main": "n/a",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gatsbyjs/gatsby-starter-blog.git"
+    "url": "https://github.com/BurkovBA/BurkovBA.github.io#readme"
   },
   "scripts": {
     "build": "gatsby build",
