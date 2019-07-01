@@ -45,8 +45,8 @@ const Quote = styled.span`
 export default ({ text }) => (
   <Header>
     <div>
-      <NameLink href="https://twitter.com/alexandrtovmach" target="_blank">
-        @alexandrtovmach:
+      <NameLink href="https://t.me/BorisBurkov" target="_blank">
+        @BorisBurkov:
       </NameLink>
       <Quote>
         {text || 'Nothing special, only header'}
@@ -57,7 +57,7 @@ export default ({ text }) => (
         RU
       </Link>
       <Link to="/ua" css={langLink} >
-        UA
+        UK
       </Link>
     </div>
   </Header>

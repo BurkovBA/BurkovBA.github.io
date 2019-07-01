@@ -10,22 +10,27 @@ import { queryPoints } from "../utils/vars";
 
 
 const Main = styled.main`
-  margin-left: 16.8rem;
   display: flex;
+  flex-wrap: wrap; // added by me
   justify-content: center;
   padding-top: 5em;
-  @media screen and (max-width: ${queryPoints.pc}) {
-    margin-left: 14rem;
-  }
-  @media screen and (max-width: ${queryPoints.mid}) {
-    margin-left: 0;
-  }
-  @media screen and (max-width: ${queryPoints.small}) {
-    padding-top: 7em;
-  }
+
+  // Commented-out by me: 
+  // margin-left: 16.8rem;
+  //
+  // @media screen and (max-width: ${queryPoints.pc}) {
+  //   margin-left: 14rem;
+  // }
+  // @media screen and (max-width: ${queryPoints.mid}) {
+  //   margin-left: 0;
+  // }
+  // @media screen and (max-width: ${queryPoints.small}) {
+  //   padding-top: 7em;
+  // }
 `;
 
 const Wrapper = styled.div`
+  display: flexbox; // added by me
   @media screen and (max-width: ${queryPoints.mid}) {
     background-color: lavender;
     width: 100%;
@@ -33,9 +38,11 @@ const Wrapper = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    
     &:before {
       content: "Resolution support is in progress"
     }
+    
     > * {
       display: none;
     }
@@ -94,7 +101,7 @@ class Layout extends React.Component {
     }
     return (
       <Wrapper>
-        <Header text={"Personal blog of Boris Burkov"}></Header>
+        <Header text={"Personal blog of Boris Burkov"} />
         <Sidebar />
         <Main>{children}</Main>
         <footer>
