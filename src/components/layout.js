@@ -20,9 +20,11 @@ const Main = styled.main`
   }
   margin-left: 16.8rem;
 
-  // @media screen and (max-width: ${queryPoints.pc}) {
-  //   margin-left: 14rem;
-  // }
+  margin-right: 14rem;
+  @media screen and (max-width: ${queryPoints.pc}) {
+    margin-right: 0rem;    
+  }
+  
   // @media screen and (max-width: ${queryPoints.mid}) {
   //   margin-left: 0;
   // }
