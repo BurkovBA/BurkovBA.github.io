@@ -11,13 +11,10 @@ const Header = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: ${colors.main};
-  color: ${colors.textSecond};
+  background-color: ${colors.second};
+  color: ${colors.text};
   padding: 0.5em;
-  
-  @media screen and (max-width: ${queryPoints.small}) {
-    font-size: 100%;
-  }
+  border-bottom: 0.05em solid ${colors.main25}
 `;
 
 const langLink = `
@@ -45,12 +42,12 @@ const Quote = styled.span`
 export default ({ text }) => (
   <Header>
     <div>
-      <NameLink href="https://t.me/BorisBurkov" target="_blank">
-        @BorisBurkov:
-      </NameLink>
       <Quote>
-        {text || 'Nothing special, only header'}
+        {text || 'Personal blog of Boris Burkov'}&nbsp;&nbsp;&nbsp;
       </Quote>
+      <NameLink href="https://t.me/BorisBurkov" target="_blank">
+        @BorisBurkov
+      </NameLink>
     </div>
     <div>
       <Link to="/ru" css={langLink} >

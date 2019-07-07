@@ -8,29 +8,31 @@ import photo from "../../content/assets/burkov-boris-web.jpg";
 
 
 const Sidebar = styled.section`
-  left: 0;
-  width: 16.8rem;
+  position: fixed;
+  width: 250px;
+  @media screen and (max-width: ${queryPoints.mid}) {
+    width: 0;
+  }
   height: 100%;
+  z-index: 1;
   padding-top: 5em;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
+  margin-right: 2em;
   background-color: ${colors.second};
   color: ${colors.textMain};
   border-right: 0.05em solid ${colors.main25};
   transition: 0.5s;
   overflow: auto;
-  @media screen and (max-width: ${queryPoints.pc}) {
-    width: 14rem;
-  }
-  @media screen and (max-width: ${queryPoints.mid}) {
-    width: 100%;
-    left: -100%;
-  }
-  @media screen and (max-width: ${queryPoints.small}) {
-    padding-top: 7em;
-  }
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+
+  // @media screen and (max-width: ${queryPoints.small}) {
+  //   padding-top: 7em;
+  //   width: 0;
+  // }
+  
 `;
 
 const navItem = `
