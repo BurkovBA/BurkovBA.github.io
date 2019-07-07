@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, graphql } from "gatsby";
+import Img from "gatsby-image";
 
 import Bio from "../components/bio";
 import Layout from "../components/layout";
@@ -12,6 +13,7 @@ class BlogPostTemplate extends React.Component {
     const siteTitle = this.props.data.site.siteMetadata.title;
     const cover = this.props.data.markdownRemark.frontmatter.cover;
     const { previous, next } = this.props.pageContext;
+    console.log(this.props.pageContext);
 
     return (
       <Layout location={this.props.location} title={siteTitle} cover={cover}>
@@ -19,6 +21,7 @@ class BlogPostTemplate extends React.Component {
           title={post.frontmatter.title}
           description={post.frontmatter.description || post.excerpt}
         />
+        {!!cover ? <Img sizes={cover.childImageSharp.sizes} style={{marginLeft: '-20px'}} /> : null}
         <h1
           style={{
             marginTop: rhythm(1),
@@ -36,6 +39,7 @@ class BlogPostTemplate extends React.Component {
         >
           {post.frontmatter.date}
         </p>
+        <p>{post.frontmatter.description}</p>
         <div dangerouslySetInnerHTML={{ __html: post.html }} />
         <hr
           style={{
