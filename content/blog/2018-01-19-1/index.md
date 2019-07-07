@@ -2,7 +2,7 @@
 title: OpenStack, Kubernetes and OpenShift crash course for impatient - OpenStack
 date: "2018-01-19T00:00:00.284Z"
 tags: ["programming"]
-cover: "./openstack.jpg"
+cover: "./openstack.png"
 description: OpenStack is a pretty old standard for describing cloud resources and interacting with them. Most of its APIs were suggested around 2012. It is "Open" because multiple vendors that provide cloud services (including Rackspace and Red Hat) agreed to use the same API for interaction with them and called it OpenStack.
 ---
 

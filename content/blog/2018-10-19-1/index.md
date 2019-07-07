@@ -1,5 +1,5 @@
 ---
-title: 20 примеров: как и на что живут РНК-биоинформатики?
+title: 20 примеров - как и на что живут РНК-биоинформатики?
 date: "2018-10-19T00:00:00.284Z"
 tags: ["how-life-works", "biomed", "economy"]
 cover: "./rnacentral_consortium_meeting_2018.jpg"

@@ -1,13 +1,18 @@
 ---
-title: Traction - "MOST STARTUPS DON'T FAIL BECAUSE THEY CAN'T BUILD THE PRODUCT. MOST STARTUPS FAIL BECAUSE THEY CAN'T GET TRACTION."
+title: Traction
 date: "2017-12-17T00:00:00.284Z"
 tags: ["business", "programming", "people"]
 cover: "./Traction.jpeg"
-description: This is a digest of 2013 book by the creator of DuckDuckGo search engine Gabriel Weinberg and business writer Justin Mares. In this book they explain how vital for an aspiring entrepreneur is to create customer/media awareness of their product and give practical advices and examples of how this can be achieved.
+description: "MOST STARTUPS DON'T FAIL BECAUSE THEY CAN'T BUILD THE PRODUCT. MOST STARTUPS FAIL BECAUSE THEY CAN'T GET TRACTION."
 ---
 
 <!-- http://t0.gstatic.com/images?q=tbn:ANd9GcRrs7XfZqihvWX-CCmLKp8R9Q0zncirJmWTOEVpa9oEFYQRXphz -->
 <div>
+  <p>
+    This is a digest of 2013 book by the creator of DuckDuckGo search engine Gabriel Weinberg and 
+    business writer Justin Mares. In this book they explain how vital for an aspiring entrepreneur is to create 
+    customer/media awareness of their product and give practical advices and examples of how this can be achieved.
+  </p>
   <h3>Preface</h3>
   <p>
     Authors of the book are 2 people:<br />
