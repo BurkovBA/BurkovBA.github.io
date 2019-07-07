@@ -118,7 +118,7 @@ const activeButtonStyle = `
 
 const showSidebar = `
   @media screen and (max-width: ${queryPoints.mid}) {
-    left: 0;
+    width: 250px;
   }
 `;
 
