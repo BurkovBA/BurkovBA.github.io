@@ -17,7 +17,7 @@ const Sidebar = styled.section`
   z-index: 1;
   padding-top: 5em;
   margin-right: 2em;
-  background-color: ${colors.second};
+  background-color: ${colors.textSecond};
   color: ${colors.textMain};
   border-right: 0.05em solid ${colors.main25};
   transition: 0.5s;
@@ -39,7 +39,7 @@ const navItem = `
   display: flex;
   align-items: center;
   // margin-left: 2em;
-  padding: 0.5em 1em 0.5em 0;
+  padding: 0.5em 1em 0.5em 2em;
   border-bottom: 0.05em solid ${colors.main25};
   postion: relative;
   color: ${colors.textBody};
@@ -94,6 +94,7 @@ const AboutSection = styled.div`
     margin-left: 0;
     padding-left: 1em;
   }
+  border-bottom: 1px solid ${colors.main25};
 `;
 
 const buttonStyle = `
@@ -173,7 +174,7 @@ class SidebarComponent extends React.Component {
             You can follow me on Telegram
           </a>
         </AboutSection>
-        <div>
+        <div style={{backgroundColor: colors.second}}>
           {
             edges.map(({
               node: {
