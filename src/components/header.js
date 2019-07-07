@@ -13,7 +13,6 @@ const Header = styled.header`
   align-items: center;
   background-color: ${colors.second};
   color: ${colors.text};
-  padding: 0.5em;
   border-bottom: 0.05em solid ${colors.main25}
 `;
 
@@ -41,13 +40,8 @@ const Quote = styled.span`
 
 export default ({ text }) => (
   <Header>
-    <div>
-      <Quote>
-        {text || 'Personal blog of Boris Burkov'}&nbsp;&nbsp;&nbsp;
-      </Quote>
-      <NameLink href="https://t.me/BorisBurkov" target="_blank">
-        @BorisBurkov
-      </NameLink>
+    <div style={{width: '250px', borderRight: `1px solid ${colors.main25}`, textAlign: 'center', padding: '0.5em'}}>
+        <a href="/">BorisBurkov.net</a>
     </div>
     <div>
       <Link to="/ru" css={langLink} >
