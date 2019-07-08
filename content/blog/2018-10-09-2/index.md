@@ -1,7 +1,7 @@
 ---
 title: Postgres roles
 date: "2018-10-09T12:00:00.284Z"
-tags: Postgres roles
+tags: ["programming"]
 cover: "./postgres.jpeg"
 description: Postgres authentication and permission system sometimes feels like a total mess to me. This is a recap of how it works.
 ---

@@ -1,7 +1,7 @@
 ---
 title: BurkovBA,github.io is online!
 date: "2017-12-14T00:00:00.284Z"
-tags: ["programming", ]
+tags: ["programming"]
 cover: "./2016-12-27-151422.png"
 description: I've been procrastinating over my blog for almost a year. Initially I wrote it in Angular in early 2017 and re-wrote everything in React in the last couple of weeks. At last, following Github's "ship early - ship often" motto, I shipped it today. Probably the most challenging aspect of the whole work was to make Github pages play nice with React SPA - I'll tell you how in this post.
 ---
