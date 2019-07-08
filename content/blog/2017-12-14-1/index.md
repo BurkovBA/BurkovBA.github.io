@@ -1,5 +1,5 @@
 ---
-title: BurkovBA,github.io is online!
+title: BurkovBA.github.io is online!
 date: "2017-12-14T00:00:00.284Z"
 tags: ["programming"]
 cover: "./2016-12-27-151422.png"
