@@ -133,12 +133,12 @@ class SidebarComponent extends React.Component {
   }
 
   render() {
-
     // Destructuring assignments
     const {
       data: {
         allMarkdownRemark: {
-          edges
+          edges,
+          group
         },
         allFile: {
           edges: files
@@ -176,14 +176,17 @@ class SidebarComponent extends React.Component {
         </AboutSection>
         <div style={{backgroundColor: colors.second}}>
           {
-            edges.map(({
-              node: {
-                frontmatter: {
-                  title
-                },
-              }
-            }) => (
-              <Link activeStyle={{ color: colors.main, fontWeight: 800 }} to={`${title}`} key={title} css={navItem}>{title}</Link>
+            // edges.map(({
+            //   node: {
+            //     frontmatter: {
+            //       title
+            //     },
+            //   }
+            // }) => (
+            //   <Link activeStyle={{ color: colors.main, fontWeight: 800 }} to={`${title}`} key={title} css={navItem}>{title}</Link>
+            // ))
+            group.map(g => (
+              <Link to={`tags/${g.fieldValue}`} key={g.fieldValue} css={navItem}>{g.fieldValue} ({g.totalCount})</Link>
             ))
           }
         </div>
@@ -201,6 +204,10 @@ export default ({ locale }) => (
           sort: { fields: [frontmatter___date], order: DESC }
           limit: 1000
         ) {
+          group(field: frontmatter___tags) {
+            fieldValue
+            totalCount
+          }
           edges {
             node {
               frontmatter {
