@@ -184,7 +184,7 @@ class SidebarComponent extends React.Component {
           styles={[buttonStyle, active && activeButtonStyle]}
           onClick={() => this.setState({ active: !active })}
         />
-        <AboutLink href="https://borisburkov.net/about">
+        <AboutLink href="/">
           <img src={photo} alt="my photo" />
         </AboutLink>
         <AboutSection>
