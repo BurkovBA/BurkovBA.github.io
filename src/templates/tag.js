@@ -25,7 +25,6 @@ const Tags = ({ pageContext, data }) => {
         const { title } = node.frontmatter;
         return (
           <div key={node.fields.slug}>
-            <Link to="/tags">All tags</Link>
             <h3 style={{ marginBottom: rhythm(1 / 4),}}>
               <Link style={{ boxShadow: `none` }} to={node.fields.slug}>
                 {title}

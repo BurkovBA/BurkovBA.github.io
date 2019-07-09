@@ -75,6 +75,27 @@ const navItem = `
   }
 `;
 
+const navHeader = `
+  display: flex;
+  align-items: center;
+  padding: 14px 1em 10px 2em;
+  border-bottom: 0.05em solid ${colors.main25};
+  postion: relative;
+  color: ${colors.textBody};
+  text-decoration: none;
+  transition: 0.5s;
+  margin-top: 0;
+  margin-bottom: 0;
+
+  @media screen and (max-width: ${queryPoints.mid}) {
+    margin-left: 0;
+    padding-left: 1em;
+    &:before {
+      display: none;
+    }
+  }
+`;
+
 const AboutLink = styled.a`
   width: 50%;
   > img {
@@ -185,9 +206,10 @@ class SidebarComponent extends React.Component {
             // }) => (
             //   <Link activeStyle={{ color: colors.main, fontWeight: 800 }} to={`${title}`} key={title} css={navItem}>{title}</Link>
             // ))
+            [<h4 key={'categories header'} css={navHeader}>Categories:</h4>,
             group.map(g => (
               <Link to={`tags/${g.fieldValue}`} key={g.fieldValue} css={navItem}>{g.fieldValue} ({g.totalCount})</Link>
-            ))
+            ))]
           }
         </div>
       </Sidebar>
