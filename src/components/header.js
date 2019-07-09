@@ -47,7 +47,7 @@ export default ({ text }) => (
       <Link to="/ru" css={langLink} >
         RU
       </Link>
-      <Link to="/ua" css={langLink} >
+      <Link to="/ua" css={langLink} style={{paddingRight: '10px'}} >
         UK
       </Link>
     </div>

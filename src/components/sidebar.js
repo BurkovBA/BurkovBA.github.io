@@ -174,7 +174,7 @@ class SidebarComponent extends React.Component {
             You can follow me on Telegram
           </a>
         </AboutSection>
-        <div style={{backgroundColor: colors.second}}>
+        <div style={{backgroundColor: colors.second, width: "100%"}}>
           {
             // edges.map(({
             //   node: {
