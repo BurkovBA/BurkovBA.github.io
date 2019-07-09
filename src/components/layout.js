@@ -16,9 +16,9 @@ const Main = styled.main`
   padding-top: 1em;
 
   @media screen and (max-width: ${queryPoints.mid}) {
-    margin-left: 0.8rem;
+    margin-left: 2.8rem; // 0.8rem + 2 rem;
   }
-  margin-left: 16.8rem;
+  margin-left: 18.8rem; // 16.8rem + 2rem;
 
   margin-right: 14rem;
   @media screen and (max-width: ${queryPoints.pc}) {
