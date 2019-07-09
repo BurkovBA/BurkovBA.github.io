@@ -43,13 +43,13 @@ export default ({ text }) => (
     <div style={{width: '250px', borderRight: `1px solid ${colors.main25}`, textAlign: 'center', padding: '0.5em'}}>
         <a href="/">BorisBurkov.net</a>
     </div>
-    <div>
-      <Link to="/ru" css={langLink} >
-        RU
-      </Link>
-      <Link to="/ua" css={langLink} style={{paddingRight: '10px'}} >
-        UK
-      </Link>
-    </div>
+    {/*<div>*/}
+    {/*  <Link to="/ru" css={langLink} >*/}
+    {/*    RU*/}
+    {/*  </Link>*/}
+    {/*  <Link to="/ua" css={langLink} style={{paddingRight: '10px'}} >*/}
+    {/*    UK*/}
+    {/*  </Link>*/}
+    {/*</div>*/}
   </Header>
 )
