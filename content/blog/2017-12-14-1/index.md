@@ -6,7 +6,6 @@ cover: "./2016-12-27-151422.png"
 description: I've been procrastinating over my blog for almost a year. Initially I wrote it in Angular in early 2017 and re-wrote everything in React in the last couple of weeks. At last, following Github's "ship early - ship often" motto, I shipped it today. Probably the most challenging aspect of the whole work was to make Github pages play nice with React SPA - I'll tell you how in this post.
 ---
 
-<!-- -->
 <div>
   <p>
     My blog makes use of a pretty minimalistic toolchain by modern standards:
@@ -31,7 +30,7 @@ description: I've been procrastinating over my blog for almost a year. Initially
   <p>
     This causes several problems.
   </p>
-  <img className="img-responsive center-block" src="https://shipitsquirrel.github.io/images/ship%20it%20squirrel.png" />
+  <img class="img-responsive center-block" src="https://shipitsquirrel.github.io/images/ship%20it%20squirrel.png" />
   <h3>
     How to serve <code>index.html</code> not from project root, but from <code>/dist</code> or <code>/build</code> folder?
   </h3>
@@ -50,13 +49,15 @@ description: I've been procrastinating over my blog for almost a year. Initially
     Thus my first solution was to create a proxy <code>/index.html</code> file in root folder of repository that
     redirected to <code>/dist/index.html</code>
   </p>
-  <pre>
-    {`<html>
+
+  ```html
+    <html>
       <head>
         <meta http-equiv="refresh" content="0; url=https://BurkovBA.github.io/dist/index.html" />
       </head>
-    </html>`}
-  </pre>
+    </html>
+  ```
+
   <p>
     However, this solution is not optimal: if somebody wanted to share a url, such as <a href="BurkovBA.github.io/blog/2017-12-14-1">BurkovBA.github.io/blog/2017-12-14-1</a>,
     they'll get 404 error.
@@ -66,7 +67,7 @@ description: I've been procrastinating over my blog for almost a year. Initially
     folder instead of <code>/dist</code>, but that required additional tweaks of WebpackDevServer, which expected
     it in dist. Thus I had to create a conditional build and set configuration variables in webpack.
   </p>
-  <img className="img-responsive center-block" src="https://shipitsquirrel.github.io/images/squirrel.png" />
+  <img class="img-responsive center-block" src="https://shipitsquirrel.github.io/images/squirrel.png" />
   <h3>
     How to run different webpack configurations for production and development?
   </h3>
@@ -74,9 +75,9 @@ description: I've been procrastinating over my blog for almost a year. Initially
     Webpack 2 can consume environment variables from command line, in the form of arguments <code>--env.variable</code>. I
     use them to conditionally switch some webpack configuration settings in production/development in npm scripts.
   </p>
-  <div>
-    <Gist id="c4caded6a26b0f85118419a28306915f" />
-  </div>
+
+`gist:BurkovBA/c4caded6a26b0f85118419a28306915f#webpack.config.js`
+
   <h3>
     How to make Github serve direct links to SPA pages (e.g. <a href="BurkovBA.github.io/blog/2017-12-14-1">BurkovBA.github.io/blog/2017-12-14-1</a>)?
   </h3>
