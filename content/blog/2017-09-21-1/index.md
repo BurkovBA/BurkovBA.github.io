@@ -9,8 +9,8 @@ description: Вчера был на семинаре основателей Cong
 <!-- http://www.uk-pgx-stratmed.co.uk/media/com_jbusinessdirectory/pictures/companies/180/cong-1478531631.gif -->
 
 <div>
-  <img src="https://www.congenica.com/wp-content/uploads/2015/12/andy-r-200x200.jpg" className="img-responsive center-block" />
-  <div className="caption text-center">Энди Ричардс</div>
+  <img src="https://www.congenica.com/wp-content/uploads/2015/12/andy-r-200x200.jpg" class="img-responsive center-block" />
+  <div class="caption text-center">Энди Ричардс</div>
   <p>
     Он невероятно яркий и энергичный серийный предприниматель, основавший уже около 25 бизнесов. Ему что-то в районе 55-60 лет, он химик-энзимолог по образованию, начавший заниматься биотехнологическим бизнесом ещё в одну из первых волн венчурного инвестирования в биотех в Великобритании в 1991. Говорит, что те компании сожгли кучу инвестиций и с трудом могли сделать что-то реально практически значимое.
   </p><p>
@@ -26,8 +26,8 @@ description: Вчера был на семинаре основателей Cong
   </p><p>
     Однако для старта понадобилось аж <a href="https://www.congenica.com/about-us/">5 основателей</a>, не считая технических и бизнесовых директоров:
   </p>
-  <img src="http://cdn.frontlinegenomics.com/wp-content/uploads/Congenica_team-300x200.jpg" className="img-responsive center-block" />
-  <div className="caption text-center">Энди Ричардс, Ричард Дурбин, Том Уивер, Ник Ленч, Мэттью Хёрлс</div>
+  <img src="http://cdn.frontlinegenomics.com/wp-content/uploads/Congenica_team-300x200.jpg" class="img-responsive center-block" />
+  <div class="caption text-center">Энди Ричардс, Ричард Дурбин, Том Уивер, Ник Ленч, Мэттью Хёрлс</div>
   <p></p>
   <ul>
     <li> Ник Ленч был человеком, который умел работать с государственными чиновниками, поскольку он долго трудился в госкомпаниях, имел контакты и знал, как мыслят госслужащие</li>
@@ -36,8 +36,8 @@ description: Вчера был на семинаре основателей Cong
     <li> Фил Билс, ещё один сооснователь, был человеком со стороны медицины, имевшим контакты с врачами</li>
   </ul>
   <p></p>
-  <img src="https://www.cicplc.co.uk/media/1168/congenica-team-banner-bottom.jpg" className="img-responsive center-block" />
-  <div className="caption text-center">Энди Ричардс, Ричард Дурбин, Том Уивер, Ник Ленч, Мэттью Хёрлс (с молодёжью)</div>
+  <img src="https://www.cicplc.co.uk/media/1168/congenica-team-banner-bottom.jpg" class="img-responsive center-block" />
+  <div class="caption text-center">Энди Ричардс, Ричард Дурбин, Том Уивер, Ник Ленч, Мэттью Хёрлс (с молодёжью)</div>
   <p>
     Первое финансирование компании основатели делали из собственных накоплений, однако они сразу знали, что им понадобятся большие деньги. Как думаете, при таком составе участников, трудно ли им было их получить?
   </p><p>
@@ -63,7 +63,7 @@ description: Вчера был на семинаре основателей Cong
   </p><p>
     Там никто не будет сдерживать твою фантазию - придумай и делай что хочешь, например, какой-нибудь Sentry, SouceLabs, Hotjar или Docker. Биология - это невозвратные инвестиции - эти знания понижают рыночную стоимость технаря, а не повышают и затрудняют самореализацию, а не облегчают. Спасибо Энди, что окончательно меня в этом убедил.
   </p>
-  <img src={congenica} className="img-responsive center-block" />
+  <img src="photo_2018-01-27_00-12-53.jpg" class="img-responsive center-block" />
   <p>
       При этом, на мой взгляд, Congenica безбожно завышает объём рынка в своей презентации: может по Штатам и пишут про 3% людей с врождёнными болезнями (а Congenica - про 1 больного / 17 человек) - но <a href="https://en.wikipedia.org/wiki/Congenital_disorder">частота трёх самых популярных наследственных болезней - порядка пары случаев на тысячу человек</a>.
   </p>

@@ -12,8 +12,8 @@ description: В течение последнего месяца умерли д
 Австралией помощи. Не берусь считать, сколько братьев было всего, и какая часть этой оравы занималась музыкой, но AC/DC 
 создали двое: ритм-гитарист Малькольм и соло-гитарист Ангус.
 
-<img src="Angus-Young-AC-DC-016.jpg" className="img-responsive center-block" />
-<div className="caption text-center">Angus Young of AC/DC</div>
+<img src="Angus-Young-AC-DC-016.jpg" class="img-responsive center-block" />
+<div class="caption text-center">Angus Young of AC/DC</div>
 
 Конечно, именно Ангус Янг - первый образ, что всплывает в голове, когда вы слышите словосочетание AC/DC.
 
@@ -29,8 +29,8 @@ AC/DC добились первых крупных успехов к 1979 год
 В этот долгожданный момент всё могло и закончиться: погиб вокалист группы, Бон Скотт, тоже "бывший шотландец", как и 
 Янги. Стиль Скотта скорее выкрикивавшего ноты, чем певшего, стал визитной карточкой австралийской банды.
 
-<img src="Bon_Scott.jpg" className="img-responsive center-block" />
-<div className="caption text-center">Bon Scott, AC/DC vocalist (1974-1980)</div>
+<img src="Bon_Scott.jpg" class="img-responsive center-block" />
+<div class="caption text-center">Bon Scott, AC/DC vocalist (1974-1980)</div>
 
 Братья Янги были шокированы случившимся. И всё же они не захотели останавливаться, ведь самое интересное только 
 начиналось. Они стали искать нового вокалиста на замену харизматичному Скотту.
@@ -40,8 +40,8 @@ AC/DC добились первых крупных успехов к 1979 год
 кумира Скотта - <a href="https://www.youtube.com/watch?v=LVIttmFAzek">Литл Ричарда</a>. Янги успели перепобовать 
 нескольких кандидатов, когда в студию явился Брайан и спел пару песен...
 
-<img src="Brian_Johnson.jpg" className="img-responsive center-block" />
-<div className="caption text-center">Brian Johnson, AC/DC vocalist (1980-2016)</div>
+<img src="Brian_Johnson.jpg" class="img-responsive center-block" />
+<div class="caption text-center">Brian Johnson, AC/DC vocalist (1980-2016)</div>
 
 Лучшее - враг хорошего. Джонсон действительно был похож на Скотта по стилю.. скажем так, "пения", но ярче и жёстче! Янги
  сразу поняли, что перед ними новый вокалист AC/DC.
@@ -56,18 +56,18 @@ AC/DC добились первых крупных успехов к 1979 год
 AC/DC стали флагманами хард-рока 80-ых, выдав массу бодрых хитов вроде <i>"Thunderstruck"</i> или <i>"Big gun"</i>. В 
 1991-ом советские граждане могли лицезреть их вместе с Металликой на памятном многим концерте в Тушино.
 
-<img src="ACDC.jpg" className="img-responsive center-block" />
-<div className="caption text-center">AC/DC</div>
+<img src="ACDC.jpg" class="img-responsive center-block" />
+<div class="caption text-center">AC/DC</div>
 
 (Этот концерт немного отразился даже на жизни четырёхлетнего Бори: в 1992-ом на стене возле лифта в руинах здания,
 где распологалась школа искусств им. Балакирева, появлиась накарябанная маркером надпись "Metallica". Мама, конечно, 
 объяснила, что её оставили какие-то плохие люди, но слово звучало завораживающе... Хе-хе, зуб даю, что если бы Гайдн 
 родился века на 2 позже, у AC/DC был бы клавишник!)
 
-<div className="video-container">
+<div class="video-container">
   <iframe width="560" height="315" src="https://www.youtube.com/embed/uT3SBzmDxGk" frameBorder="0" gesture="media" allow="encrypted-media" allowFullScreen></iframe>
 </div>
-<div className="caption text-center">XVIII century Thunderstruck by 2Cello</div>
+<div class="caption text-center">XVIII century Thunderstruck by 2Cello</div>
 
 Увы, ничто не вечно: Малькольм Янг начал испытывать проблемы со здоровьем в начале 2010-ых.
 До того самый организованный человек в составе AC/DC, он вдруг начал забывать материал и срывать репетиции.
@@ -83,13 +83,13 @@ AC/DC стали флагманами хард-рока 80-ых, выдав ма
 Брайана Джонсона с 2016 временно подменяет некто... Аксель Роуз из Guns'n'Roses!
 Аксель тоже не молодеет, но, на мой взгляд, справляется просто блестяще.
   
-<img src="Axl_Rose.jpg" className="img-responsive center-block" />
-<div className="caption text-center">Axl Rose of Guns'n/DC (or AC/Roses?)</div>
+<img src="Axl_Rose.jpg" class="img-responsive center-block" />
+<div class="caption text-center">Axl Rose of Guns'n/DC (or AC/Roses?)</div>
 
 Что ж, здоровья фанатичному Ангусу Янгу и ушедшим на покой ветераном.
 И спасибо Малькольму Янгу за его необузданное творчество.
 
-<div className="video-container">
+<div class="video-container">
   <iframe width="560" height="315" src="https://www.youtube.com/embed/pAgnJDJN4VA" frameBorder="0" gesture="media" allow="encrypted-media" allowFullScreen></iframe>
 </div>
-<div className="caption text-center">AC/DC - Back in Black (1980)</div>
+<div class="caption text-center">AC/DC - Back in Black (1980)</div>
