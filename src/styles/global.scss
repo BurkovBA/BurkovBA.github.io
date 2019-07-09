@@ -51,6 +51,15 @@ tt, code, kbd {
   min-width: 100%; /* 2 */
 }
 
+.text-center {
+  text-align: center !important;
+}
+
+.caption {
+  padding: 9px;
+  font-size: 120%;
+}
+
 ul, ol {
   margin-left: 1.75rem;
 }

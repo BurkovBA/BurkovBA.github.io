@@ -23,7 +23,7 @@ description: Подобно тому, как между современными
     оттуда на конных подводах в Манчестер, где его обрабатывали ткачи, изготавливая ткань. Город даже получил
     прозвище "Cottonopolis", столица хлопка. На дорогу из Ливерпуля в Манчестер уходит 8 часов.
   </p>
-  <img src={liverpool} className="img-responsive center-block"/>
+  <img src="liverpool_dock_and_church.jpg" className="img-responsive center-block"/>
   <div className="caption text-center">Доки Ливерпуля в начале XIX века</div>
   <p>
     К 1820-ым годам качество металлообработки достигает такого уровня, что несколько конкурирующих инженеров
@@ -38,11 +38,11 @@ description: Подобно тому, как между современными
     "Sans Pareil" ("Бесподобный") Уильяма Хедли и Тимоти Хакворта и... "Cycloped" - лошадь, поставленная на
     пандус, и приводящая его в движение бегом.
   </p>
-  <img src={novelty} className="img-responsive center-block"/>
+  <img src="photo_2019-03-01 20.52.50.jpeg" className="img-responsive center-block"/>
   <div className="caption text-center">Novelty</div>
-  <img src={sansPareil} className="img-responsive center-block"/>
+  <img src="photo_2019-03-01 20.52.46.jpeg" className="img-responsive center-block"/>
   <div className="caption text-center">Sans Pareil</div>
-  <img src={cycloped} className="img-responsive center-block"/>
+  <img src="photo_2019-03-01 20.52.44.jpeg" className="img-responsive center-block"/>
   <div className="caption text-center">Лошадь-2.0</div>
   <p>
     Первой с дистанции сходит лошадь. Бедное животное провалилось под поверхность, на которую оно было
@@ -73,7 +73,7 @@ description: Подобно тому, как между современными
     150 лет и превратилась в музей науки и промышленности Манчестера. А в феврале этого года впервые за прошедшие
     180 лет и "Ракета" вернулась в Манчестер.
   </p>
-  <img src={station} className="img-responsive center-block"/>
+  <img src="photo_2019-03-01 20.52.33.jpeg" className="img-responsive center-block"/>
   <div className="caption text-center">Железнодорожная станция 1830 года в Манчестере</div>
   <p>
     Мне очень интересно, почему именно Манчестер стал центом ткацкого промысла. Сотрудники музея говорят, это один из
@@ -98,34 +98,34 @@ description: Подобно тому, как между современными
   <p>
     Хлопок, снятый с цветов, попадает на веялку, где его отделяют от частичек грязи и плевел.
   </p>
-  <img src={cotton1} className="img-responsive center-block"/>
+  <img src="photo_2019-03-09 23.23.44.jpeg" className="img-responsive center-block"/>
   <div className="caption text-center">Хлопок</div>
-  <img src={stage1} style={rotate180Style} className="img-responsive center-block"/>
+  <img src="20190226_113115.jpg" style={rotate180Style} className="img-responsive center-block"/>
   <div className="caption text-center">Веялка</div>
   <p>
     Специальная распушалка затем расплетает волокна шелка.
   </p>
-  <img src={cotton2} className="img-responsive center-block"/>
+  <img src="photo_2019-03-09 23.23.50.jpeg" className="img-responsive center-block"/>
   <div className="caption text-center">Распушенный хлопок</div>
-  <img src={stage2} style={rotate180Style} className="img-responsive center-block"/>
+  <img src="20190226_113227.jpg" style={rotate180Style} className="img-responsive center-block"/>
   <div className="caption text-center">Распушалка</div>
   <p>
     Отделялка длинных волокон позволяет взять только длинные волокна, пригодные для создания длинных нитей.
   </p>
-  <img src={cotton3} className="img-responsive center-block"/>
+  <img src="photo_2019-03-09 23.23.54.jpeg" className="img-responsive center-block"/>
   <div className="caption text-center">Волокна</div>
-  <img src={stage3} style={rotate180Style} className="img-responsive center-block"/>
+  <img src="20190226_113251.jpg" style={rotate180Style} className="img-responsive center-block"/>
   <div className="caption text-center">Отделялка</div>
   <p>
     Сплеталка длинных волокон сплетает вместе волокна по 6, а затем такие шестерки - еще по 3.
   </p>
-  <img src={cotton4} className="img-responsive center-block"/>
+  <img src="photo_2019-03-09 23.23.58.jpeg" className="img-responsive center-block"/>
   <div className="caption text-center">Сплетенный волокна</div>
-  <img src={stage4} className="img-responsive center-block"/>
+  <img src="20190226_113322.jpg" className="img-responsive center-block"/>
   <div className="caption text-center">Сплеталка</div>
   <p>
     Прялка тянет конечный продует - нить - из полученных на прошлом этапе нитей.
   </p>
-  <img src={stage5} className="img-responsive center-block"/>
+  <img src="20190226_113437.jpg" className="img-responsive center-block"/>
   <div className="caption text-center">Прялка</div>
 </div>
