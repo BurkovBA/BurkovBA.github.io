@@ -3,31 +3,45 @@ import PropTypes from "prop-types"
 
 // Components
 import { Link, graphql } from "gatsby"
+import Layout from "../components/layout";
+import SEO from "../components/seo";
+import {rhythm} from "../utils/typography";
+import Img from "gatsby-image";
 
 
 const Tags = ({ pageContext, data }) => {
   const { tag } = pageContext;
+  const siteTitle = data.site.siteMetadata.title;
   const { edges, totalCount } = data.allMarkdownRemark;
   const tagHeader = `${totalCount} post${
     totalCount === 1 ? "" : "s"
   } tagged with "${tag}"`;
 
   return (
-    <div>
-      <h1>{tagHeader}</h1>
-      <ul>
-        {edges.map(({ node }) => {
-          const { slug } = node.fields;
-          const { title } = node.frontmatter;
-          return (
-            <li key={slug}>
-              <Link to={slug}>{title}</Link>
-            </li>
-          )
-        })}
-      </ul>
-      <Link to="/tags">All tags</Link>
-    </div>
+    <Layout location={pageContext.location} title={siteTitle}>
+      <SEO title={tagHeader} />
+      {edges.map(({ node }) => {
+        const { slug } = node.fields;
+        const { title } = node.frontmatter;
+        return (
+          <div key={node.fields.slug}>
+            <Link to="/tags">All tags</Link>
+            <h3 style={{ marginBottom: rhythm(1 / 4),}}>
+              <Link style={{ boxShadow: `none` }} to={node.fields.slug}>
+                {title}
+              </Link>
+            </h3>
+            <Img sizes={node.frontmatter.cover.childImageSharp.sizes} />
+            <small>{node.frontmatter.date}</small>
+            <p
+              dangerouslySetInnerHTML={{
+                __html: node.frontmatter.description || node.excerpt,
+              }}
+            />
+          </div>
+        )
+      })}
+    </Layout>
   )
 };
 
@@ -58,6 +72,12 @@ export default Tags;
 
 export const pageQuery = graphql`
   query($tag: String) {
+    site {
+      siteMetadata {
+        title
+        author
+      }
+    }  
     allMarkdownRemark(
       limit: 2000
       sort: { fields: [frontmatter___date], order: DESC }
@@ -70,7 +90,16 @@ export const pageQuery = graphql`
             slug
           }
           frontmatter {
+            date(formatString: "MMMM DD, YYYY")
             title
+            cover {
+              childImageSharp {
+                sizes(maxWidth: 2000) {
+                  ...GatsbyImageSharpSizes
+                }
+              }
+            }
+            description
           }
         }
       }

@@ -75,6 +75,7 @@ exports.createPages = ({ graphql, actions }) => {
         component: tagTemplate,
         context: {
           tag,
+          location: {pathname: `/tags/${_.kebabCase(tag)}/`}
         },
       })
     });
