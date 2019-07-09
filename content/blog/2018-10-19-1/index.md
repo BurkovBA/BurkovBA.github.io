@@ -6,7 +6,6 @@ cover: "./rnacentral_consortium_meeting_2018.jpg"
 description: Только что прошел мой второй RNAcentral consortium meeting, и это было настолько интересное мероприятие с точки зрения понимания того, как устроен мир, что я не могу не поделиться этой информацией.
 ---
 
-<!-- -->
 <div>
   <p>
     Начну с начала. Моя основная работа состоит в том, что я с 1.5 другими людьми занимаюсь тем, что поддерживаю
@@ -43,8 +42,8 @@ description: Только что прошел мой второй RNAcentral con
     потрясающе важно и информативно.
   </p>
   <hr />
-  <img width="200px" src="https://pbs.twimg.com/profile_images/497459109797851136/KhT9unf2_400x400.jpeg" className="img-responsive center-block"></img>
-  <div className="caption text-center">Сэм Гриффитс-Джонс</div>
+  <img width="200px" src="https://pbs.twimg.com/profile_images/497459109797851136/KhT9unf2_400x400.jpeg" class="img-responsive center-block"></img>
+  <div class="caption text-center">Сэм Гриффитс-Джонс</div>
   <p>
     Сэм Гриффитс-Джонс когда-то работал в EBI и за неделю создал базу данных семейств РНК Rfam на основе базы
     даных белковых семейств Pfam. Процесс создания выглядел примерно так: <code>r/Pfam/Rfam/gc</code>. После этого
@@ -55,8 +54,8 @@ description: Только что прошел мой второй RNAcentral con
     микросервис поиска.
   </p>
   <hr />
-  <img width="200px" src="https://pbs.twimg.com/profile_images/879006761860173824/760oniPs_400x400.jpg" className="img-responsive center-block"></img>
-  <div className="caption text-center">Януш Буйницкий</div>
+  <img width="200px" src="https://pbs.twimg.com/profile_images/879006761860173824/760oniPs_400x400.jpg" class="img-responsive center-block"></img>
+  <div class="caption text-center">Януш Буйницкий</div>
   <p>
     Восхитительный Януш Буйницкий сделал ослепительную карьеру в Польше, сначала работая в университете Адама
     Мицкевича в Познани, а потом перебравшись в Варшаву и сделавшись большим начальником. Я встетил его впервые
@@ -66,8 +65,8 @@ description: Только что прошел мой второй RNAcentral con
     при миинстерстве науки в свои 43.
   </p>
   <hr />
-  <img width="200px" src="https://i1.rgstatic.net/ii/profile.image/573372938375169-1513714169843_Q512/Robin_Gutell2.jpg" className="img-responsive center-block"></img>
-  <div className="caption text-center">Робин Гутелл</div>
+  <img width="200px" src="https://i1.rgstatic.net/ii/profile.image/573372938375169-1513714169843_Q512/Robin_Gutell2.jpg" class="img-responsive center-block"></img>
+  <div class="caption text-center">Робин Гутелл</div>
   <p>
     Робин Гутелл из университета Техаса в Остине в начале 1980-ых ручками строил выравнивания 16s рРНК в текстовом
     редакторе. Его группа заметила, что если у вас есть 2 позиции выравнивания, и в одной РНК в ней стоят C и G,
@@ -95,8 +94,8 @@ description: Только что прошел мой второй RNAcentral con
     Стивен Мериголд из университета Кембриджа - FlyBase маленькая группа человек 5.
   </p>
   <hr />
-  <img width="200px" src="https://www.ebi.ac.uk/sites/ebi.ac.uk/files/styles/medium/public/person/image/Simon_Kay.jpeg" className="img-responsive center-block"></img>
-  <div className="caption text-center">Саймон Кей</div>
+  <img width="200px" src="https://www.ebi.ac.uk/sites/ebi.ac.uk/files/styles/medium/public/person/image/Simon_Kay.jpeg" class="img-responsive center-block"></img>
+  <div class="caption text-center">Саймон Кей</div>
   <p>
     Саймон Кей из ENA пользуется Internet Explorer.
   </p>
@@ -108,16 +107,16 @@ description: Только что прошел мой второй RNAcentral con
     Саймона и его коллеги Гая Кохрейна фразы вроде "зачем это все новье?"
   </p>
   <hr />
-  <img width="200px" src="https://publons.com/media/thumbs/academic/photos/61755eaa1a4346fdb81eeee1ab448971.jpg.200x200_q95_crop_detail_upscale.jpg" className="img-responsive center-block"></img>
-  <div className="caption text-center">Питер-Ян Волдерс</div>
+  <img width="200px" src="https://publons.com/media/thumbs/academic/photos/61755eaa1a4346fdb81eeee1ab448971.jpg.200x200_q95_crop_detail_upscale.jpg" class="img-responsive center-block"></img>
+  <div class="caption text-center">Питер-Ян Волдерс</div>
   <p>
     Питер-Ян Волдерс из университета Гента - моложавый постдок лет 35, тащит свою базу
     данных LNCipedia в одиночку, написана она на смеси перла и питона, все там довольно грустненько. Профессор
     обещает ему полторы ставки в помощь, но пока нет ничего и люди из лаборатории только уходят.
   </p>
   <hr />
-  <img width="200px" src="https://www.weser-kurier.de/cms_media/module_img/3271/1635554_1_articlefancybox_54f0edd341781.jpg" className="img-responsive center-block"></img>
-  <div className="caption text-center">Кристиан Кваст (слева)</div>
+  <img width="200px" src="https://www.weser-kurier.de/cms_media/module_img/3271/1635554_1_articlefancybox_54f0edd341781.jpg" class="img-responsive center-block"></img>
+  <div class="caption text-center">Кристиан Кваст (слева)</div>
   <p>
     Программист Кристиан Кваст из Бремена никогда не хотел быть профессором. В Германии ты работаешь в академии
     не более 12 лет - начал аспер - и после этого либо 2 постдока и в профессора, либо иди в индустрию. Себастьян
@@ -134,8 +133,8 @@ description: Только что прошел мой второй RNAcentral con
     него 5 человек в группе, один уходит, двое - салаги.
   </p>
   <hr />
-  <img width="200px" src="https://i1.rgstatic.net/ii/profile.image/272431348711438-1441964103302_Q128/Eva_Huala.jpg" className="img-responsive center-block"></img>
-  <div className="caption text-center">Эва Хуала</div>
+  <img width="200px" src="https://i1.rgstatic.net/ii/profile.image/272431348711438-1441964103302_Q128/Eva_Huala.jpg" class="img-responsive center-block"></img>
+  <div class="caption text-center">Эва Хуала</div>
   <p>
     Эва Хуала ведет с 3 другими людьми главную базу данных по Арабидопсису (резуховидке Таля).
     В течение 15 лет они существовали на гранты NSF, но потом их  лишили финансирования, и им пришлось решать,
@@ -146,8 +145,8 @@ description: Только что прошел мой второй RNAcentral con
     означает ли это, что ничего кроме Арабидопсиса они делать не умеют и деваться им было некуда?
   </p>
   <hr />
-  <img width="200px" src="https://www.ebi.ac.uk/sites/ebi.ac.uk/files/styles/medium/public/person/image/kalvani_iona_web_2015.jpg" className="img-responsive center-block"></img>
-  <div className="caption text-center">Иоанна Калвари</div>
+  <img width="200px" src="https://www.ebi.ac.uk/sites/ebi.ac.uk/files/styles/medium/public/person/image/kalvani_iona_web_2015.jpg" class="img-responsive center-block"></img>
+  <div class="caption text-center">Иоанна Калвари</div>
   <p>
     Британская BBSRC не продлила нам финансирование 2-3 позиций на Rfam, и теперь народ суетится, пытаясь
     обосновать значимость базы данных для сообщества и собирая letters of support от всех крупных ресурсов,
@@ -156,7 +155,7 @@ description: Только что прошел мой второй RNAcentral con
     ее, впрочем, вполне устраивает).
   </p>
   <hr />
-  <img width="200px" src="https://www.ensembl.org/img/ensembl_logo.png" className="img-responsive center-block"></img>
+  <img width="200px" src="https://www.ensembl.org/img/ensembl_logo.png" class="img-responsive center-block"></img>
   <p>
     Ensembl недавно переехал из Wellcome Trust Sanger Institute в EBI. Это огромный по местным меркам проект с
     70-80 сотрудниками и добрым десятком подпроектов и команд. Кровавый перл, масса жуткого старья, и все же они
@@ -164,42 +163,42 @@ description: Только что прошел мой второй RNAcentral con
     подпроектов.
   </p>
   <hr />
-  <img width="200px" src="https://www.e-ce.uth.gr/wp-content/uploads/formidable/37/arhatzig-150x150.jpg" className="img-responsive center-block"></img>
-  <div className="caption text-center">Artemis Hatzigeorgiou</div>
+  <img width="200px" src="https://www.e-ce.uth.gr/wp-content/uploads/formidable/37/arhatzig-150x150.jpg" class="img-responsive center-block"></img>
+  <div class="caption text-center">Artemis Hatzigeorgiou</div>
 
-  <img width="200px" src="https://media.licdn.com/dms/image/C4E03AQFYKtnxGbk-dw/profile-displayphoto-shrink_200_200/0?e=1545264000&v=beta&t=BKwnnplF-ZZK3mGx08ZGJuJrhL_bSEslJIXAzjYUKgk" className="img-responsive center-block"></img>
-  <div className="caption text-center">Dimitra Karagkouni</div>
+  <img width="200px" src="https://media.licdn.com/dms/image/C4E03AQFYKtnxGbk-dw/profile-displayphoto-shrink_200_200/0?e=1545264000&v=beta&t=BKwnnplF-ZZK3mGx08ZGJuJrhL_bSEslJIXAzjYUKgk" class="img-responsive center-block"></img>
+  <div class="caption text-center">Dimitra Karagkouni</div>
   <p>
     Artemis Hatzigeorgiou и Dimitra Karagkouni из Univ. of Thessaly, Hellenic Pasteur Institute работают в Греции
     над базами данных TarBase и LncBase.
   </p>
   <hr />
-  <img width="200px" src="https://www.soe.ucsc.edu/people/lowe/photo/1" className="img-responsive center-block"></img>
-  <div className="caption text-center">Тодд Лоу</div>
+  <img width="200px" src="https://www.soe.ucsc.edu/people/lowe/photo/1" class="img-responsive center-block"></img>
+  <div class="caption text-center">Тодд Лоу</div>
   <p>
     Тодд Лоу из Университета Калифорнии Санта-Круз со своей верной оруженосцем Партишей Чан, ведет базу данных
     gtRNAdb, у них тоже группа 4-6 человек.
   </p>
   <hr />
-  <img width="200px" src="https://www.ebi.ac.uk/sites/ebi.ac.uk/files/styles/medium/public/person/image/seal_ruth_web.jpg" className="img-responsive center-block"></img>
-  <div className="caption text-center">Рут Сил</div>
+  <img width="200px" src="https://www.ebi.ac.uk/sites/ebi.ac.uk/files/styles/medium/public/person/image/seal_ruth_web.jpg" class="img-responsive center-block"></img>
+  <div class="caption text-center">Рут Сил</div>
 
-  <img width="200px" src="https://www.ebi.ac.uk/sites/ebi.ac.uk/files/styles/medium/public/person/image/bruford_elspeth_web.jpg" className="img-responsive center-block"></img>
-  <div className="caption text-center">Элспет Бруфорд</div>
+  <img width="200px" src="https://www.ebi.ac.uk/sites/ebi.ac.uk/files/styles/medium/public/person/image/bruford_elspeth_web.jpg" class="img-responsive center-block"></img>
+  <div class="caption text-center">Элспет Бруфорд</div>
   <p>
     Дамы-кураторши из HGNC Рут Сил и Элспет Бруфорд представляют группу из 4 таких вот дам-кураторш, которые со
     скрипом наскребают деньги на свои 4 ставки, чтобы вести Human Genome Nomenclature, вообще-то довольно важную.
   </p>
   <hr />
-  <img width="200px" src="http://ibmib.home.amu.edu.pl/wp-content/uploads/2016/04/maciej-szymanski.jpg" className="img-responsive center-block"></img>
-  <div className="caption text-center">Мацей Шыманский</div>
+  <img width="200px" src="http://ibmib.home.amu.edu.pl/wp-content/uploads/2016/04/maciej-szymanski.jpg" class="img-responsive center-block"></img>
+  <div class="caption text-center">Мацей Шыманский</div>
   <p>
     Трое мокрых биологов и трое программистов в Познани у Мацея Шыманского из t-Rex. Его жена - директор
     прекрасного местного ботсада. У них очень красивый сайт, красивый город и вообще все здорово. Молодцы, поляки.
   </p>
   <hr />
-  <img width="200px" src="http://bigd.big.ac.cn/pic/show/16" className="img-responsive center-block"></img>
-  <div className="caption text-center">Лина Ма</div>
+  <img width="200px" src="http://bigd.big.ac.cn/pic/show/16" class="img-responsive center-block"></img>
+  <div class="caption text-center">Лина Ма</div>
   <p>
     Лина Ма ведет в Китае хороший проект LncWiki, превратившийся позднее в LncBook. У них 3 программиста.
   </p>

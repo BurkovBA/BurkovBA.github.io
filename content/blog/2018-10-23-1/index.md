@@ -41,5 +41,6 @@ description: Этой весной на ML/AI-конференции в Microsof
     утверждает, что личный референс - существенная составляющая для попадания в компанию. Вот вам, кстати, его
     почта: <code>mrom@fb.com</code>.
   </p>
-  <img src={vacancies} className="img-responsive center-block"></img>
+  <img src="2018-10-23-21.19.27.jpg" className="img-responsive center-block"></img>
+  <div class="caption text-center">Вакансии Фейсбука</div>
 </div>

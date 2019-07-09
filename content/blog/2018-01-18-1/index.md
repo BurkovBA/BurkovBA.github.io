@@ -19,7 +19,7 @@ description: Much like a junkie from a russian anecdote, who started shouting "J
   <p>
     I'm using terms IaaS, PaaS, SaaS as summarised here:
   </p>
-  <img className="img-responsive center-block" src="https://cdn-images-1.medium.com/max/1200/1*JacqOl2kjyTYzv31v0xITw.png"/>
+  <img class="img-responsive center-block" src="https://cdn-images-1.medium.com/max/1200/1*JacqOl2kjyTYzv31v0xITw.png"/>
   <p>
     OpenStack is a lower-level IaaS solution, it allows you to provision VMs on demand from images
     that you make, mount data volumes and monitor the state of your VMs via a web dashboard.
@@ -52,7 +52,8 @@ description: Much like a junkie from a russian anecdote, who started shouting "J
     OpenShift is perfect for website deployments. For instance, in <a href="http://rnacentral.org">RNAcentral.org</a> deployment
     we shall have multiple microservices: at least the web server itself and background worker processes for sequence search and
     text search results export.
-
+  </p>
+  <p>
     Kubernetes will handle their orchestration, redundancy/horizontal scaling, disaster recovery, monitoring and
     partially automate CI/CD. (Of course, we can try running Kubernetes on top of OpenStack, but OpenShift seems
     to be doing exactly that in a nicer fashion)

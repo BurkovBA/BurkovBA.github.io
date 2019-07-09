@@ -36,7 +36,7 @@ description: "MOST STARTUPS DON'T FAIL BECAUSE THEY CAN'T BUILD THE PRODUCT. MOS
     also needs to choose their trajectory to the bullseye of their marketing efforts, crossing 3 concentric rings to
     reach explosive customer growth.
   </p>
-  <img className="image-responsive center-block" src="https://images-na.ssl-images-amazon.com/images/I/51mHSdQVlfL._SL500_AC_SS350_.jpg" />
+  <img class="image-responsive center-block" src="https://images-na.ssl-images-amazon.com/images/I/51mHSdQVlfL._SL500_AC_SS350_.jpg" />
   <p>
     3 rings are:
   </p>
@@ -129,8 +129,8 @@ description: "MOST STARTUPS DON'T FAIL BECAUSE THEY CAN'T BUILD THE PRODUCT. MOS
     Noah Kagan from Mint (personal finance service) was using blogs to reach early traction goal of 100 000 users
     in first 6 months. He held the following table to quantify their efforts:
   </p>
-  <div className="table-responsive">
-    <table className="table">
+  <div class="table-responsive">
+    <table class="table">
       <thead>
         <tr>
           <th>Source</th>
