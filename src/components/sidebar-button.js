@@ -34,7 +34,7 @@ const rotated90 = `
 
 const SidebarButton = ({ styles, onClick }) => (
   <Button css={[rotated90, styles]} onClick={onClick}>
-    <Icon src={chevronSvg} css={rotated180} />
+    <Icon src={chevronSvg} css={{transform: 'rotateZ(180deg)'}} />
     <Icon src={chevronSvg} />
   </Button>
 );

@@ -98,34 +98,44 @@ description: Подобно тому, как между современными
   <p>
     Хлопок, снятый с цветов, попадает на веялку, где его отделяют от частичек грязи и плевел.
   </p>
+  <!--
   <img src="photo_2019-03-09 23.23.44.jpeg" class="img-responsive center-block"/>
   <div class="caption text-center">Хлопок</div>
   <img src="20190226_113115.jpg" style={rotate180Style} class="img-responsive center-block"/>
   <div class="caption text-center">Веялка</div>
+  -->
   <p>
     Специальная распушалка затем расплетает волокна шелка.
   </p>
+  <!--
   <img src="photo_2019-03-09 23.23.50.jpeg" class="img-responsive center-block"/>
   <div class="caption text-center">Распушенный хлопок</div>
   <img src="20190226_113227.jpg" style={rotate180Style} class="img-responsive center-block"/>
   <div class="caption text-center">Распушалка</div>
+  -->
   <p>
     Отделялка длинных волокон позволяет взять только длинные волокна, пригодные для создания длинных нитей.
   </p>
+  <!--
   <img src="photo_2019-03-09 23.23.54.jpeg" class="img-responsive center-block"/>
   <div class="caption text-center">Волокна</div>
   <img src="20190226_113251.jpg" style={rotate180Style} class="img-responsive center-block"/>
   <div class="caption text-center">Отделялка</div>
+  -->
   <p>
     Сплеталка длинных волокон сплетает вместе волокна по 6, а затем такие шестерки - еще по 3.
   </p>
+  <!--
   <img src="photo_2019-03-09 23.23.58.jpeg" class="img-responsive center-block"/>
   <div class="caption text-center">Сплетенный волокна</div>
   <img src="20190226_113322.jpg" class="img-responsive center-block"/>
   <div class="caption text-center">Сплеталка</div>
+  -->
   <p>
     Прялка тянет конечный продует - нить - из полученных на прошлом этапе нитей.
   </p>
+  <!--
   <img src="20190226_113437.jpg" class="img-responsive center-block"/>
   <div class="caption text-center">Прялка</div>
+  -->
 </div>
