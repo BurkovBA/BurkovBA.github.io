@@ -1,10 +1,12 @@
 import React from "react";
 import { Link, graphql } from "gatsby";
 import Img from 'gatsby-image';
+import { IoIosTime, IoIosCalendar } from 'react-icons/io';
 
 import Layout from "../components/layout";
 import SEO from "../components/seo";
 import { rhythm } from "../utils/typography";
+import {colors} from "../utils/vars";
 
 
 class BlogIndex extends React.Component {
@@ -20,17 +22,16 @@ class BlogIndex extends React.Component {
           const title = node.frontmatter.title || node.fields.slug;
           return (
             <div key={node.fields.slug}>
-              <h3
-                style={{
-                  marginBottom: rhythm(1 / 4),
-                }}
-              >
+              <h3 style={{marginBottom: rhythm(1 / 4)}}>
                 <Link style={{ boxShadow: `none` }} to={node.fields.slug}>
                   {title}
                 </Link>
+                <small style={{fontSize: '50%', paddingLeft: '50px', color: colors.main50}}>
+                  <span style={{paddingRight: '50px'}}><IoIosCalendar/>&nbsp;{node.frontmatter.date}</span>
+                  <span><IoIosTime />&nbsp;{node.timeToRead}&nbsp;min&nbsp;read</span>
+                </small>
               </h3>
               <Img sizes={node.frontmatter.cover.childImageSharp.sizes} />
-              <small>{node.frontmatter.date}</small>
               <p
                 dangerouslySetInnerHTML={{
                   __html: node.frontmatter.description || node.excerpt,
@@ -60,6 +61,7 @@ export const pageQuery = graphql`
           fields {
             slug
           }
+          timeToRead
           frontmatter {
             date(formatString: "MMMM DD, YYYY")
             title

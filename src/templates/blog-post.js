@@ -1,6 +1,8 @@
 import React from "react";
 import { Link, graphql } from "gatsby";
 import Img from "gatsby-image";
+import { IoIosTime, IoIosCalendar } from 'react-icons/io';
+
 
 import Bio from "../components/bio";
 import Layout from "../components/layout";
@@ -13,7 +15,6 @@ class BlogPostTemplate extends React.Component {
     const siteTitle = this.props.data.site.siteMetadata.title;
     const cover = this.props.data.markdownRemark.frontmatter.cover;
     const { previous, next } = this.props.pageContext;
-    console.log(this.props.pageContext);
 
     return (
       <Layout location={this.props.location} title={siteTitle} cover={cover}>
@@ -30,15 +31,11 @@ class BlogPostTemplate extends React.Component {
         >
           {post.frontmatter.title}
         </h1>
-        <p
-          style={{
-            ...scale(-1 / 5),
-            display: `block`,
-            marginBottom: rhythm(1),
-          }}
-        >
-          {post.frontmatter.date}
+        <p style={{...scale(-1 / 5), display: `block`, marginBottom: rhythm(1)}}>
+          <span style={{paddingRight: '50px'}}><IoIosCalendar/> {post.frontmatter.date}</span>
+          <span><IoIosTime /> {post.timeToRead} min read</span>
         </p>
+
         <p>{post.frontmatter.description}</p>
         <div dangerouslySetInnerHTML={{ __html: post.html }} />
         <hr
@@ -91,6 +88,7 @@ export const pageQuery = graphql`
       id
       excerpt(pruneLength: 160)
       html
+      timeToRead
       frontmatter {
         title
         date(formatString: "MMMM DD, YYYY")        
