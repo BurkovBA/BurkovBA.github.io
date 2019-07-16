@@ -15,14 +15,16 @@ const Main = styled.main`
   justify-content: center;
   padding-top: 1em;
 
-  @media screen and (max-width: ${queryPoints.mid}) {
-    margin-left: 2.8rem; // 0.8rem + 2 rem;
-  }
   margin-left: 18.8rem; // 16.8rem + 2rem;
-
   margin-right: 14rem;
+  
   @media screen and (max-width: ${queryPoints.pc}) {
     margin-right: 0rem;    
+  }
+
+  @media screen and (max-width: ${queryPoints.mid}) {
+    margin-left: 0.8rem;
+    margin-right: 0.8rem;
   }
   
   // @media screen and (max-width: ${queryPoints.mid}) {
