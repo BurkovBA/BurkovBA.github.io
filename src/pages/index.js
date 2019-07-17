@@ -26,7 +26,8 @@ class BlogIndex extends React.Component {
                 <Link style={{ boxShadow: `none` }} to={node.fields.slug}>
                   {title}
                 </Link>
-                <small style={{fontSize: '50%', paddingLeft: '50px', color: colors.main50}}>
+                <br/>
+                <small style={{fontSize: '50%', color: colors.main50}}>
                   <span style={{paddingRight: '50px'}}><IoIosCalendar/>&nbsp;{node.frontmatter.date}</span>
                   <span><IoIosTime />&nbsp;{node.timeToRead}&nbsp;min&nbsp;read</span>
                 </small>
