@@ -188,11 +188,13 @@ class SidebarComponent extends React.Component {
           <img src={photo} alt="my photo" />
         </AboutLink>
         <AboutSection>
-          Written by <strong>{author}</strong> who lives in Moscow, Russia and Cambridge, UK, loves to think about
-          future, build our present and admire heroes of the past.
+          Written by <strong>{author}</strong> who lives in Moscow, Russia and Cambridge, UK, loves to take part in
+          development of cutting-edge technologies, reflects on how the world works and admires the giants of the past.
+          <br />
+          <br />
           {` `}
           <a href={`https://t.me/${telegram}`}>
-            You can follow me on Telegram
+            You can follow me in Telegram
           </a>
         </AboutSection>
         <div style={{backgroundColor: colors.second, width: "100%"}}>

@@ -55,8 +55,7 @@ const Bio = () => {
       />
       <p>
         Written by <strong>{author}</strong> who lives in Moscow, Russia and Cambridge, UK, loves to take part in
-        building future technologies, think about the world, we're living in at present and admires the giants of the
-        past.
+        development of cutting-edge technologies, reflects on how the world works and admires the giants of the past.
         {` `}
         <a href={`https://t.me/${social.telegram}`}>
           You can follow me on Telegram
