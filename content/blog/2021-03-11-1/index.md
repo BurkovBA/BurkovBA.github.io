@@ -24,7 +24,6 @@ Here I'll describe the design of an installation that achieves almost 100GB/s th
 
 ![Ceph design](./ceph-design.png)
 
-<picture><source sizes="(max-width:700px) 100vw, 700px></source></picture>
 
 Technical requirements
 ----------------------
@@ -108,6 +107,8 @@ real 250MB/s, achieved with linear writes.
 
 Thus we had to tweak the object size to 16MB to attain a slight throughput boost of ~1.5 times.
 
+![Throughput](./throughput.png)
+*Up to 100GB/s*
 
 Fine-tuning the network stack
 -----------------------------
@@ -275,11 +276,11 @@ Don't forget to make sure that layer-2 RX/TX buffers are at least 8192 on your s
 be able to perform at its best.
 
 
-Fine-tuning the hardware
-------------------------
-#### active/active multipath
+Fine-tuning the OS config
+-------------------------
+#### Active/active multipath
 
-By default multipath failback mode is manual, not immediate. 
+By default multipath failback mode on disk enclosures is manual, not immediate. So, we had to turn it on.
 
 Also, `path_selector` should be set to `"service-time 0"` on Ubuntu 20.04 to enable active-active mode, otherwise 
 multipath is in active-enabled mode, which limits the enclosure throughput to 6 GB/s instead of the full 12GB/s.
@@ -345,16 +346,60 @@ so that they detect and report network storms or ping loss between hosts in Slac
 * * * * * /usr/bin/python3 /etc/ceph/scripts/oping-ceph-hosts.py > /dev/null 2>&1
 ```
 
+#### Ubuntu 20.04
+We used Ubuntu 20.04 as the operating system on our hosts, as IBM just announced
+that it would discontinue CentOS after version 8.
 
+There's a difference in the initial LVM recognition process between Ubuntu and CentOS,
+so it makes servicing the cluster slightly more different, but that's fine.
 
 Fine-tuning Ceph
 ----------------
- - Octopus
- - multiple active MDS
- - 10+4 erasure code data pool and replicated metadata pool with 5x redundancy
- - OSD memory target
- - scrubbing schedule 
- - object size: 4MB -> 16MB for longer sequential writes
+#### Octopus
+As our project is supposed to last for a few more years we went for a newer, riskier Ceph 15,
+which is deemed stable for 1 year. 
+
+We had terrible stability issues with it, when we tried it in May 2020, but apparently, most of the bugs
+have been fixed since.
+
+We noticed that the dashboard has become a bit more powerful since Ceph 14 (Nautilus) and now allows to create pools right from the GUI.
+
+
+#### disable multiple active MDS
+In Ceph Octopus you can run multiple active metadata servers for your file system. 
+
+Unfortunately, we ran into bugs with this setup, when `rsync` to/from Ceph with multiple
+MDS gets stuck for no apparent reason. So we kept a single active MDS and every other in standby.
+
+#### erasure coding
+
+We used [Facebook-esque](https://arxiv.org/pdf/1709.05365.pdf) 10+4 erasure code data pool with host failure domain.
+Having 4 servers per rack this allows us to survive a rack crash. 
+
+Initially we wanted to go with 7+3 and rack crush domain, but this was not possible
+due to 1 stale OSD appearing in that setup.
+
+If we assume for a second that HDD failures were independent, then probability of
+a failure of X drives at the same time corresponds to Poisson distribution:
+
+$$
+p(failure of 1 HDD) = 10^{-5}
+$$
+
+$N(HDD) = 2400$
+$\lambda = N \cdot p = 0.024$
+$p(failure of k HDD) = \frac{\lambda^k}\cdot{e^{-\lambda}}{k!}$
+$p(k=1) = 0.023 - once in 40-45 days$
+$p(k=2) = 0.0002 - once in 5-10 years$
+$p(k=3) \to 0$
+
+As for the metadata, we went for a replicated pool with 5x redundancy.
+
+#### OSD memory target
+OSD memory target was left 4MB
+
+#### scrubbing schedule
+Scrubbing schedule was left to its default value.
 
 ---
 
