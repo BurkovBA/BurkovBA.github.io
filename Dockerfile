@@ -9,6 +9,13 @@ RUN apk add --update \
     python-dev \
     py-pip \
     build-base \
+    autoconf \
+    automake \
+    make \
+    gcc \
+    g++ \
+    libtool \
+    pkgconfig \
   && pip install virtualenv \
   && rm -rf /var/cache/apk/*
 
