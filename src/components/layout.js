@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "gatsby";
-import Img from "gatsby-image";
+import { GatsbyImage } from "gatsby-plugin-image";
 import styled from "styled-components";
 
 import { rhythm, scale } from "../utils/typography";
@@ -76,7 +76,7 @@ class Layout extends React.Component {
             to={`/`}
           >
             {title}
-            {!!cover ? <Img sizes={cover.childImageSharp.sizes} /> : null}
+            {!!cover ? <GatsbyImage image={cover.childImageSharp.gatsbyImageData} /> : null}
           </Link>
         </h1>
       )
@@ -97,7 +97,7 @@ class Layout extends React.Component {
             to={`/`}
           >
             {title}
-            {!!cover ? <Img sizes={cover.childImageSharp.sizes} /> : null}
+            {!!cover ? <GatsbyImage image={cover.childImageSharp.gatsbyImageData} /> : null}
           </Link>
         </h3>
       )

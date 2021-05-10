@@ -2,7 +2,7 @@ module.exports = {
   siteMetadata: {
     title: `Personal blog of Boris Burkov`,
     author: `Boris Burkov`,
-    description: `A personal blog of Boris Burkov, version 4.0, this time written in Gatsby.`,
+    description: `A personal blog of Boris Burkov, version 4.1, this time written in Gatsby.`,
     siteUrl: `https://borisburkov.net/`,
     social: {
       telegram: `BorisBurkov`,
@@ -63,12 +63,13 @@ module.exports = {
         ],
       },
     },
-    `gatsby-transformer-sharp`,
+    `gatsby-plugin-image`,
     `gatsby-plugin-sharp`,
+    `gatsby-transformer-sharp`,
     {
       resolve: `gatsby-plugin-google-analytics`,
       options: {
-        //trackingId: `ADD YOUR TRACKING ID HERE`,
+        trackingId: `271884361`,
       },
     },
     `gatsby-plugin-feed`,

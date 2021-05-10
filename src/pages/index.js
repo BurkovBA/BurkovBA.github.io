@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, graphql } from "gatsby";
-import Img from 'gatsby-image';
+import { GatsbyImage } from 'gatsby-plugin-image';
 import { IoIosTime, IoIosCalendar } from 'react-icons/io';
 
 import Layout from "../components/layout";
@@ -32,7 +32,7 @@ class BlogIndex extends React.Component {
                   <span><IoIosTime />&nbsp;{node.timeToRead}&nbsp;min&nbsp;read</span>
                 </small>
               </h3>
-              <Img sizes={node.frontmatter.cover.childImageSharp.sizes} />
+              <GatsbyImage image={node.frontmatter.cover.childImageSharp.gatsbyImageData} />
               <p
                 dangerouslySetInnerHTML={{
                   __html: node.frontmatter.description || node.excerpt,
@@ -68,9 +68,7 @@ export const pageQuery = graphql`
             title
             cover {
               childImageSharp {
-                sizes(maxWidth: 2000) {
-                  ...GatsbyImageSharpSizes
-                }
+                gatsbyImageData(layout: FULL_WIDTH)
               }
             }
             description

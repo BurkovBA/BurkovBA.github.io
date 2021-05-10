@@ -6,7 +6,7 @@ import { Link, graphql } from "gatsby"
 import Layout from "../components/layout";
 import SEO from "../components/seo";
 import {rhythm} from "../utils/typography";
-import Img from "gatsby-image";
+import { GatsbyImage } from "gatsby-plugin-image";
 
 
 const Tags = ({ pageContext, data }) => {
@@ -30,7 +30,7 @@ const Tags = ({ pageContext, data }) => {
                 {title}
               </Link>
             </h3>
-            <Img sizes={node.frontmatter.cover.childImageSharp.sizes} />
+            <GatsbyImage image={data.file.childImageSharp.gatsbyImageData} />
             <small>{node.frontmatter.date}</small>
             <p
               dangerouslySetInnerHTML={{
@@ -93,9 +93,7 @@ export const pageQuery = graphql`
             title
             cover {
               childImageSharp {
-                sizes(maxWidth: 2000) {
-                  ...GatsbyImageSharpSizes
-                }
+                gatsbyImageData(layout: FIXED)
               }
             }
             description

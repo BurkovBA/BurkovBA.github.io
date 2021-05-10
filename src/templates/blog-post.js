@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, graphql } from "gatsby";
-import Img from "gatsby-image";
+import { GatsbyImage } from "gatsby-plugin-image";
 import { IoIosTime, IoIosCalendar } from 'react-icons/io';
 
 import Bio from "../components/bio";
@@ -9,6 +9,7 @@ import SEO from "../components/seo";
 import { rhythm, scale } from "../utils/typography";
 
 import "katex/dist/katex.min.css";
+
 
 class BlogPostTemplate extends React.Component {
   render() {
@@ -23,7 +24,7 @@ class BlogPostTemplate extends React.Component {
           title={post.frontmatter.title}
           description={post.frontmatter.description || post.excerpt}
         />
-        {!!cover ? <Img sizes={cover.childImageSharp.sizes} style={{marginLeft: '-20px'}} /> : null}
+        {!!cover ? <GatsbyImage image={cover.childImageSharp.gatsbyImageData} style={{marginLeft: '-20px'}} /> : null}
         <h1
           style={{
             marginTop: rhythm(1),
@@ -95,9 +96,7 @@ export const pageQuery = graphql`
         date(formatString: "MMMM DD, YYYY")        
         cover {
           childImageSharp {
-            sizes(maxWidth: 2000) {
-              ...GatsbyImageSharpSizes
-            }
+            gatsbyImageData(layout: FULL_WIDTH)
           }
         }
         description
