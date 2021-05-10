@@ -23,6 +23,7 @@ The hierarchy of possible failure domains is modeled by a CRUSH algorithm.
 Here I'll describe the design of an installation that achieves almost 100GB/s throughput and 20PiB storage capacity.
 
 ![Ceph design](./ceph-design.png)
+<center><i>A schematic design of Ceph cluster. 10 racks, 40 OSD servers, 5 MON servers, 40 disk enclosures, 4 leaf and 2 spine switches.</i></center>
 
 
 Technical requirements
@@ -30,10 +31,10 @@ Technical requirements
 
 Technical requirements for the storage system were as follows:
  - <u>filesystem abstraction</u> was highly desirable, so that our storage could be mounted directly from the hosts and accessed as a local filesystem
- - <u>latency</u> was not an issue, so supercomputing solutions like GPFS are not really necessary
+ - <u>latency</u> was not an issue, so supercomputing solutions like GPFS were not really necessary
  - <u>throughput</u> - around 100 GB/s: we had to build a system able to exchange ~5 Petabytes of data a day, being accessed by hundreds of compute nodes 
  - <u>storage capacity</u> of at least 20PiB was required
- - <u>usable/raw space ratio</u> was important; by no means was this installation cheap, but we didn't want it to become more costly than it had to be
+ - <u>usable/raw space ratio</u> was important; by no means was this installation cheap, but we didn't want it to get more costly than it had to be
  - <u>Kubernetes</u> integration that allowed to create volumes within our filesystem was a huge perk
  - <u>fault tolerance</u> to a simultaneous crash of several hard drives or several hosts was a must; electrical problems within a rack, or a room were a second-thought 
 
@@ -103,12 +104,14 @@ real 250MB/s, achieved with linear writes.
 
 
 ![iostat -xk 1](./iostat.png)
-*The output of `iostat -xk`: the rightmost column shows the total utilization of hard drives, which is close to 100%*
+<center><i>The output of `iostat -xk`: the rightmost column shows the total utilization of hard drives, which is close to 100%</i></center>
 
-Thus we had to tweak the object size to 16MB to attain a slight throughput boost of ~1.5 times.
+<br />
+
+Thus we had to tweak the object size to 16MB to attain a slight throughput boost of ~1.5 times:
 
 ![Throughput](./throughput.png)
-*Up to 100GB/s*
+<center><i>Up to 100GB/s</i></center>
 
 Fine-tuning the network stack
 -----------------------------
@@ -161,7 +164,7 @@ network:
 On OSD hosts we also have a separate VLAN for the backend cluster network:
 
 ```
-# /etc/netplan/01-netcfg.yaml
+# /etc/netplan/01-netcfg.yaml on OSD nodes:
 
 # This file describes the network interfaces available on your system
 # For more information, see netplan(5).
@@ -314,8 +317,8 @@ blacklist {
 #### LVM filters
 
 LVM filters should be set in order to ensure that LVM runs only on top of multipath devices. 
-You don't want your server to start LVM devices on top of a disk seen on top of just a single path, e.g. /dev/sdaa,
-instead of a multipath device, e.g. /dev/mapper/mpathaa.
+You don't want your server to start LVM devices on top of a disk seen on top of just a single path, e.g. `/dev/sdaa`,
+instead of a multipath device, e.g. `/dev/mapper/mpathaa`.
 
 ```
 # /etc/lvm/lvm.conf

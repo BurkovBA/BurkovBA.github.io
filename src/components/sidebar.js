@@ -210,7 +210,7 @@ class SidebarComponent extends React.Component {
             // ))
             [<h4 key={'categories header'} css={navHeader}>Categories:</h4>,
             group.map(g => (
-              <Link to={`tags/${g.fieldValue}`} key={g.fieldValue} css={navItem}>{g.fieldValue} ({g.totalCount})</Link>
+              <Link to={`/tags/${g.fieldValue}`} key={g.fieldValue} css={navItem}>{g.fieldValue} ({g.totalCount})</Link>
             ))]
           }
         </div>

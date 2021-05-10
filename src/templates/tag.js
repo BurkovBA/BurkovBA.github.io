@@ -30,7 +30,7 @@ const Tags = ({ pageContext, data }) => {
                 {title}
               </Link>
             </h3>
-            <GatsbyImage image={data.file.childImageSharp.gatsbyImageData} />
+            <GatsbyImage image={node.frontmatter.cover.childImageSharp.gatsbyImageData} />
             <small>{node.frontmatter.date}</small>
             <p
               dangerouslySetInnerHTML={{
@@ -93,7 +93,7 @@ export const pageQuery = graphql`
             title
             cover {
               childImageSharp {
-                gatsbyImageData(layout: FIXED)
+                gatsbyImageData(layout: FULL_WIDTH)
               }
             }
             description
