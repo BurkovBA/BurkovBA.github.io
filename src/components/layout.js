@@ -97,7 +97,7 @@ class Layout extends React.Component {
             to={`/`}
           >
             {title}
-            {!!cover ? <GatsbyImage image={cover.childImageSharp.gatsbyImageData} /> : null}
+            {!!cover ? <GatsbyImage image={cover.childImageSharp.gatsbyImageData} alt="cover" /> : null}
           </Link>
         </h3>
       )

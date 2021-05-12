@@ -22,7 +22,7 @@ The hierarchy of possible failure domains is modeled by a CRUSH algorithm.
 
 Here I'll describe the design of an installation that achieves almost 100GB/s throughput and 20PiB storage capacity.
 
-![Ceph design](./ceph-design.png)
+![Ceph design](./ceph-design.png "ceph design")
 <center><i>A schematic design of Ceph cluster. 10 racks, 40 OSD servers, 5 MON servers, 40 disk enclosures, 4 leaf and 2 spine switches.</i></center>
 
 
@@ -103,14 +103,14 @@ of data written had a length of 400KB, so that HDD head was capable of writing 2
 real 250MB/s, achieved with linear writes.
 
 
-![iostat -xk 1](./iostat.png)
+![iostat -xk 1](./iostat.png "iostat")
 <center><i>The output of `iostat -xk`: the rightmost column shows the total utilization of hard drives, which is close to 100%</i></center>
 
 <br />
 
 Thus we had to tweak the object size to 16MB to attain a slight throughput boost of ~1.5 times:
 
-![Throughput](./throughput.png)
+![Throughput](./throughput.png "throughput")
 <center><i>Up to 100GB/s</i></center>
 
 Fine-tuning the network stack
