@@ -32,7 +32,7 @@ class BlogIndex extends React.Component {
                   <span><IoIosTime />&nbsp;{node.timeToRead}&nbsp;min&nbsp;read</span>
                 </small>
               </h3>
-              <GatsbyImage image={node.frontmatter.cover.childImageSharp.gatsbyImageData} />
+              <GatsbyImage image={node.frontmatter.cover.childImageSharp.gatsbyImageData} alt="cover" />
               <p
                 dangerouslySetInnerHTML={{
                   __html: node.frontmatter.description || node.excerpt,
