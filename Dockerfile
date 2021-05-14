@@ -16,6 +16,7 @@ RUN apk add --update \
     g++ \
     libtool \
     pkgconfig \
+    nasm \
   && pip install virtualenv \
   && rm -rf /var/cache/apk/*
 
