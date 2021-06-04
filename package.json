@@ -8,6 +8,7 @@
     "url": "https://github.com/BurkovBA/BurkovBA.github.io/issues"
   },
   "dependencies": {
+    "@burkov/gatsby-remark-katex": "^5.4.1-next.1",
     "babel-eslint": "^10.1.0",
     "gatsby": "^3.4.2",
     "gatsby-plugin-feed": "^3.4.0",
@@ -23,14 +24,12 @@
     "gatsby-remark-copy-linked-files": "^4.1.0",
     "gatsby-remark-embed-gist": "^1.2.1",
     "gatsby-remark-images": "^5.1.0",
-    "gatsby-remark-katex": "^5.1.0",
     "gatsby-remark-prismjs": "^5.1.0",
     "gatsby-remark-responsive-iframe": "^4.1.0",
     "gatsby-remark-smartypants": "^4.1.0",
     "gatsby-source-filesystem": "^3.4.0",
     "gatsby-transformer-remark": "^4.1.0",
     "gatsby-transformer-sharp": "^3.4.0",
-    "katex": "^0.12.0",
     "lodash": "^4.17.11",
     "postcss": "^8.2.14",
     "prismjs": "^1.16.0",

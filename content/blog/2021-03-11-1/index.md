@@ -67,8 +67,8 @@ Experiments showed that even without any load from clients, CPUs were >60% busy 
 
 Thus, we figured, we need more compute power, and went for the high-end Intel Xeon Gold 6258R. These 28-core monsters
 are essentially a rebranding of [Intel Xeon Platinum 8280](https://ark.intel.com/content/www/ru/ru/ark/products/192478/intel-xeon-platinum-8280-processor-38-5m-cache-2-70-ghz.html) 
-that was worth $10k last year. After AMD's breakthrough Intel was forced to offer huge discounts, renaming those processors
-into [Intel Xeon Gold 6258R](https://ark.intel.com/content/www/ru/ru/ark/products/199350/intel-xeon-gold-6258r-processor-38-5m-cache-2-70-ghz.html) and selling them for just $3950 each. They show a great [Passmark score of 63059](https://www.cpubenchmark.net/cpu.php?cpu=Intel+Xeon+Gold+6258R+%40+2.70GHz&id=3860&cpuCount=2),
+that was worth \$10k last year. After AMD's breakthrough Intel was forced to offer huge discounts, renaming those processors
+into [Intel Xeon Gold 6258R](https://ark.intel.com/content/www/ru/ru/ark/products/199350/intel-xeon-gold-6258r-processor-38-5m-cache-2-70-ghz.html) and selling them for just \$3950 each. They show a great [Passmark score of 63059](https://www.cpubenchmark.net/cpu.php?cpu=Intel+Xeon+Gold+6258R+%40+2.70GHz&id=3860&cpuCount=2),
 which is more than enough for running >60 OSD daemons.
 
 #### 250GB/s HDD linear read/write
@@ -385,16 +385,13 @@ due to 1 stale OSD appearing in that setup.
 If we assume for a second that HDD failures were independent, then probability of
 a failure of X drives at the same time corresponds to Poisson distribution:
 
-$$
-p(failure of 1 HDD) = 10^{-5}
-$$
-
-$N(HDD) = 2400$
-$\lambda = N \cdot p = 0.024$
-$p(failure of k HDD) = \frac{\lambda^k}\cdot{e^{-\lambda}}{k!}$
-$p(k=1) = 0.023 - once in 40-45 days$
-$p(k=2) = 0.0002 - once in 5-10 years$
-$p(k=3) \to 0$
+ * Probability of a single hard drive failure p(failure of 1 HDD) = $10^{-5}$
+ * Number of HDDs we have $N = 2400$
+ * Parameter Lambda of Poisson distribution $\lambda = N \cdot p = 0.024$
+ * p(failure of k HDDs) $= \frac{\lambda^k\cdot{e^{-\lambda}}}{k!}$
+ * p(k=1) $= 0.023$ - one drive a day fails once in 40-45 days
+ * p(k=2) $= 0.0002$ - two drives a day fail once in 5-10 years
+ * p(k=3) $\to 0$
 
 As for the metadata, we went for a replicated pool with 5x redundancy.
 
