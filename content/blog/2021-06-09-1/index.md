@@ -97,7 +97,7 @@ p(person 1 took 2 minutes) * p(person 2 took 3 minutes) +
 p(person 1 took 3 minutes) * p(person 2 took 2 minutes) +
 p(person 1 took 4 minutes) * p(person 2 took 1 minutes).
 
-Or in matrix notation:
+Or in a matrix notation:
 
 $$
 \begin{bmatrix}
@@ -164,7 +164,19 @@ distribution from the previous paragraph.
 
 Chi-square distribution is ubiquitous in mathematical statistics, especially, in its applications to medicine and biology. 
 
-TODO.
+The most classical situation, where it arises is when we are studying the distribution of a sum of squares of gaussian
+random variables:
+
+$ \xi_1^2 + \xi_2^2 + ... + \xi_k^2 \sim \chi^2 $, where $\xi_i \sim \mathcal{N}(0, 1)$
+
+The easiest way to prove this fact is to notice that $\xi_i^2$ is actually an exponentially distributed random variable:
+
+$p(\xi^2 \geq x) = \int \limits_{t=-\infty}^{x} e^{-t/2}dt$
+
+So what we have here as $\chi^2$ is again a sum of i.i.d. exponential variables, which is distributed as an Erlang distribution,
+as we just showed in the previous paragraph.
+
+So the threadbare $\chi^2$ is nothing more than a special case of Erlang distribution with a specific value of $\alpha = 1/2$.
 
 ### Weibull distribution
 
