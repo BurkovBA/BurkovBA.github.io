@@ -6,18 +6,19 @@ cover: "./gamma_function.jpeg"
 description: Probably the most important distribution in the whole field of mathematical statistics is Gamma distribution. Its special cases arise in various branches of mathematics under different names - Chi-square, Erlang or Weibull - but essentially are the same distribution, and this post is supposed to provide some intuition about them.
 ---
 
-Gamma and Poisson distributions: same process, different questions
-==================================================================
+I'll first explain how Gamma distribution relates to Poisson distribution using a practical example of calculation of a distributed file system crash probability. After that I'll describe the special cases of Gamma distribution, providing statements of the problems, in which they occur.
 
-Suppose you have an array of really cheap unreliable hard drives like [WD Caviar Green](https://forums.tomshardware.com/threads/2tb-wd-green-failure-rate.646764/#:~:text=The%20failure%20rate%20is%202.9,of%20the%20other%202TB%20drives.) with probability of failure of each individual hard drive at any
+Gamma and Poisson distributions: same process, different questions
+------------------------------------------------------------------
+
+Suppose you have an array of inexpensive unreliable hard drives like [WD Caviar Green](https://forums.tomshardware.com/threads/2tb-wd-green-failure-rate.646764/#:~:text=The%20failure%20rate%20is%202.9,of%20the%20other%202TB%20drives.) with probability of failure of each individual hard drive at any
 day of $10^{-4}$.
 
 You are planning to build a distributed file system with 1000 disks like these, and you need to decide, whether you will
 use [RAID5](https://en.wikipedia.org/wiki/RAID) or [RAID6](https://en.wikipedia.org/wiki/RAID) array for it. RAID5 allows for a failure of 1 disk (so if 2 disks crash at the same day, your cluster is dead), while RAID6 allows for a simultaneous 
 failure of 2 disks (so if 3 disks crash at the same day, your cluster is dead).
 
-Poisson distribution
---------------------
+### Poisson distribution
 
 Let us calculate the probability of a failure of k=3 drives, given N=1000 disks total. This probability is approximated by
 Poisson distribution, which we will derive from binomial distribution:
@@ -42,8 +43,7 @@ Hence, our RAID6 will go south due to a simultaneous failure of 3 hard drives in
 
 Seems small, but probability of this happening in 5 years is around 25%: $1 - (1 - 0.00015)^{365*5} = 0.24061$. So the described cluster isn't really viable.
 
-Gamma distribution
-------------------
+### Gamma distribution
 
 We've already found out that 1000 Caviar Green HDDs is too much for RAID6. Now, we might want to ask a different (somewhat contrived in this case) question. 
 
@@ -51,7 +51,7 @@ Suppose that we know that a RAID6 cluster went down due to a failure of 3 drives
 
 Note that in previous case the number of disks N was a fixed parameter and number of crashes k was a variable, and this time its the other way around: number of crashes k is a fixed parameter, while the total number of disks N is a variable. We're solving a very similar problem, which the Bayesians would call [conjugate](https://en.wikipedia.org/wiki/Conjugate_prior).
 
-Let's keep the notation, and show that the probability in question is described by gamma distribution.
+Let's keep the notation, and show that the probability in question is described by Gamma distribution.
 
 $ p(N=1000 | k=3) = \frac{C_N^k \cdot p^k \cdot (1-p)^{N-k}}{\sum\limits_{n=k}^{\infty}C_n^k \cdot p^k \cdot (1-p)^{n-k}} = \frac{\frac{N!}{N-k!} \cdot (1-p)^N }{ \sum \limits_{n=k}^{\infty} \frac{n!}{n-k!} \cdot (1-p)^n } \approx \frac{N^k \cdot (1-p)^N}{ \sum \limits_{n=k}^{\infty} n^k \cdot (1-p)^n }$.
 
@@ -62,17 +62,110 @@ Let's change the notation $\ln(1-p) = -\frac{1}{\theta}$, so that $(1 - p)^n = e
 I wasn't accurate here with the transition from a sum to an integral, with sum/integral limits and with $\theta^{-k}$ multiplier; this technical debt remains a TODO until the next version.
 
 
-Chi-square distribution
------------------------
+Special cases of Gamma distribution
+-----------------------------------
 
-Mathematical statistics, especially, applied to medicine and biology. TODO.
+### Erlang distribution
 
-Erlang distribution
--------------------
+Erlang distribution is a special case of basically the same Gamma distribution that arises in mass service theory, with
+a special condition that k is an integer number (as in case we considered above). 
 
-Mass service theory. TODO.
+[Agner Krarup Erlang](https://en.wikipedia.org/wiki/Agner_Krarup_Erlang) was a Danish mathematician and engineer, who used to work on mathematical models of reliability of
+service in the early days of telephony in the 1900-1910s. He was studying the probability of denial of service or poor quality
+of service for in case of a telephone network of limited bandwidth. He actually came up with multiple models, which I won't
+consider in full here, but they are [nicely described in this paper by Hideaki Takagi](https://onlinelibrary.wiley.com/doi/pdf/10.1002/9780470758946.app1).
 
-Weibull distribution
---------------------
+Suppose that you join a queue with 1 cashier, where k people are ahead of you. The time that is takes the cashier to
+service a single person is described by an exponential distribution, so that probability density function that describes
+the chance that servicing a single person takes $t$ time is: $f(t) = \alpha \cdot e^{-\alpha t}$, and probability that
+the service would take time more than t equals $p(T \geq t) = e^{-\alpha t}$. What is the probability that you'll be 
+serviced in t minutes? This example is stolen from [this post](https://www.math.unl.edu/~scohn1/428s05/queue3.pdf).
+
+So, essentially we are dealing with a sum of independently identically distributed exponential variables, and as any sum
+of i.i.d. variables it will converge to normal distribution. But prior to that it will first converge to an Erlang/Gamma
+distribution.
+
+To show that we'll have to make use of convolutions. I prefer thinking of them in a discrete matrix form, but same logic 
+can be applied in continuous case, replacing sum with integral. 
+
+What is the probability that service of 2 persons will take the cashier 5 minutes? It can be calculated as a sum of 
+probabilities: 
+
+p(servicing 2 persons took 5 minutes) = 
+p(person 1 took 1 minute) * p(person 2 took 4 minutes) + 
+p(person 1 took 2 minutes) * p(person 2 took 3 minutes) + 
+p(person 1 took 3 minutes) * p(person 2 took 2 minutes) +
+p(person 1 took 4 minutes) * p(person 2 took 1 minutes).
+
+Or in matrix notation:
+
+$$
+\begin{bmatrix}
+p(\xi_1 + \xi_2=1) \\
+p(\xi_1 + \xi_2=2) \\
+p(\xi_1 + \xi_2=3) \\
+p(\xi_1 + \xi_2=4) \\
+\end{bmatrix}
+=
+\begin{pmatrix}
+p(\xi_1 = 0) & p(\xi_1 = -1) & p(\xi_1 = -2) & p(\xi_1 = -3) \\
+p(\xi_1 = 1) & p(\xi_1 = 0) & p(\xi_1 = -1) & p(\xi_1 = -2) \\
+p(\xi_1 = 2) & p(\xi_1 = 1) & p(\xi_1 = 0) & p(\xi_1 = -1) \\
+p(\xi_1 = 3) & p(\xi_1 = 2) & p(\xi_1 = 1) & p(\xi_1 = 0) \\
+\end{pmatrix}
+\cdot
+\begin{bmatrix}
+p(\xi_2=1) \\
+p(\xi_2=2) \\
+p(\xi_2=3) \\
+p(\xi_2=4)
+\end{bmatrix}
+=
+\begin{pmatrix}
+0 & 0 & 0 & 0 \\
+p(\xi_1 = 1) & 0 & 0 & 0 \\
+p(\xi_1 = 2) & p(\xi_1 = 1) & 0 & 0 \\
+p(\xi_1 = 3) & p(\xi_1 = 2) & p(\xi_1 = 1) & 0 \\
+\end{pmatrix}
+\cdot
+\begin{bmatrix}
+p(\xi_2=1) \\
+p(\xi_2=2) \\
+p(\xi_2=3) \\
+p(\xi_2=4)
+\end{bmatrix}
+$$
+
+Or to write it in a short formula:
+
+$p(\xi_1 + \xi_2 = t) = (p_\xi * p_\xi)(t) = \sum \limits_{s=0}^{t} p_\xi(t-s) p_\xi(s)$
+
+Now, in continuous case instead of summing over the probabilities, we will be integrating over probability density functions (think of it
+as if your probability vectors and convolution matrices have become infinity-dimensional):
+
+$$ (f * f) (t) = \int \limits_{0}^{t} f(t-s)f(s)dt $$
+
+In case of $f(t) = \alpha \cdot e^{-\alpha t}$, we get:
+
+$$ (f * f) (t) = \alpha^2 t e^{-\alpha t} $$
+
+$$ (f * f * f) (t) = \frac{\alpha^3 t^2}{2} e^{-\alpha t} $$
+
+$$ (f * f * f * f) (t) = \frac{\alpha^4 t^3}{3!} e^{-\alpha t} $$
+
+$$ \underbrace{(f * ... * f)(t)}_\text{k times} = \frac{\alpha^k t^{k-1}}{(k-1)!} e^{-\alpha t}$$
+
+TODO: need to manually write out integration by parts once to prove these formulae.
+
+Now, if we recall that $\Gamma(k) = (k-1)!$ for integer $k$, $N = t$ and $\alpha = \frac{1}{\theta}$, we've gotten a Gamma 
+distribution from the previous paragraph.
+
+### Chi-square distribution
+
+Chi-square distribution is ubiquitous in mathematical statistics, especially, in its applications to medicine and biology. 
+
+TODO.
+
+### Weibull distribution
 
 Extreme Value Theory, a.k.a Extreme Value Distribution of type 3. TODO.
