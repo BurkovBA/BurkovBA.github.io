@@ -1,5 +1,5 @@
 ---
-title: Gamma, Erlang, Chi-square, Weibull distributions... all the same beast
+title: Gamma, Erlang, Chi-square distributions... all the same beast
 date: "2021-06-09T00:00:00.284Z"
 tags: ["math"]
 cover: "./gamma_function_upscaled.jpeg"
@@ -193,7 +193,9 @@ If you take a look at [Weibull distribution](https://en.wikipedia.org/wiki/Weibu
 because $x$ in $e^{-x^m}$ is taken to the power of m. However, it is a special case of [Generalized Gamma Distribution](https://en.wikipedia.org/wiki/Generalized_gamma_distribution)
 family, so I decided to write about it here too.
 
-Weibull distribution arises in the Extreme Value Theory and is known as [Type III Extreme Value Distribution](https://www.weibull.com/hotwire/issue128/relbasics128.htm).
+Weibull distribution arises in the Extreme Value Theory and is known as [Type III Extreme Value Distribution](https://www.weibull.com/hotwire/issue128/relbasics128.htm). 
+There's a [theorem](https://en.wikipedia.org/wiki/Fisher%E2%80%93Tippett%E2%80%93Gnedenko_theorem) that states that a maximum of a set of i.i.d. normalized random variables can only converge to one of three types of
+distributions, and Weibull is one of them (the other two being Gumbel and Fréchet). [Here](https://www.dataanalysisclassroom.com/lesson58/) is a nice introduction.
 
 [Waloddi Weibull](https://en.wikipedia.org/wiki/Waloddi_Weibull) was a Swedish engineer and mathematician, who started 
 working in the field of strengths of materials, particle size upon grinding etc. in the 1930s and
@@ -219,4 +221,4 @@ find out when a chain breaks, it breaks whenever any link of it breaks. If every
 strength of the chain as a whole is Weibull-distributed, too. Let's look at the cumulative distribution function. 
 
 Basically it says that p(chain link survives application of a force $\leq x$) = $e^{-x^m}$. So, the whole chain of k links survives
-with probability $(e^{-x^m})^k = e^{-kx^m}$, which is still Weibull distributed.
+with probability $(e^{-x^m})^k = e^{-kx^m}$, which is still Weibull-distributed.
