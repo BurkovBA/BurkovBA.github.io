@@ -1,5 +1,5 @@
 ---
-title: Data structures for NGS mapping - suffix tree, suffix array, BWT, FM-index
+title: Data structures for efficient NGS read mapping - suffix tree, suffix array, BWT, FM-index
 date: "2021-06-10T00:00:00.284Z"
 tags: ["programming"]
 cover: "./suffix_tree.jpeg"
@@ -10,9 +10,9 @@ Domain problem statement
 ------------------------
 
 In Next-Generation Sequencing bioinformatics there is a common problem: due to the specifics of the sequencing technologies,
-a complete sequenced genome of a parson is typically done as follows:
+a complete sequenced genome of a person is typically obtained in a following multi-step protocol:
 
- * genomes of a single person (3*10^9 letters) is amplified to 30-100 copies
+ * genome of a single person ($3*10^9$ letters) is amplified to 30-100 copies
  * each of those copies is randomly cut into so called reads - fragments of ~150-300 letters long each
  * as a result several hundred million - a few billion reads are sequenced 
 
@@ -87,7 +87,7 @@ From [wikipedia](https://en.wikipedia.org/wiki/Burrows%E2%80%93Wheeler_transform
 
 #### How computationally effective is it?
 
-Naive BWT requires O(N^2 ln N) operations (N ln N comparisons of length N), but in practice
+Naive BWT requires $O(N^2 \log N)$ operations ($N \log N$ comparisons of strings of length N), but in practice
 a suffix array can be used to construct BWT in O(N). 
 
 [Suffix array](https://en.wikipedia.org/wiki/Suffix_array), in turn, can be constructed in no more than O(N) operations, because it can be

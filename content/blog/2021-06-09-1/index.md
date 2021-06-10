@@ -78,7 +78,7 @@ consider in full here, but they are [nicely described in this paper by Hideaki T
 Suppose that you join a queue with 1 cashier, where k people are ahead of you. The time that is takes the cashier to
 service a single person is described by an exponential distribution, so that probability density function that describes
 the chance that servicing a single person takes $t$ time is: $f(t) = \alpha \cdot e^{-\alpha t}$, and probability that
-the service would take time more than t equals $p(T \geq t) = e^{-\alpha t}$. What is the probability that you'll be 
+the service would take time more than t equals $p(T \leq t) = e^{-\alpha t}$. What is the probability that you'll be 
 serviced in t minutes? This example is stolen from [this post](https://www.math.unl.edu/~scohn1/428s05/queue3.pdf).
 
 So, essentially we are dealing with a sum of independently identically distributed exponential variables, and as any sum
@@ -176,9 +176,11 @@ random variables:
 
 $ \xi_1^2 + \xi_2^2 + ... + \xi_k^2 \sim \chi^2 $, where $\xi_i \sim \mathcal{N}(0, 1)$
 
-The easiest way to prove this fact is to notice that $\xi_i^2$ is actually an exponentially distributed random variable:
+The easiest way to prove this fact is to notice that if $\xi_i$ is a Gaussian-distributed random variable, $\xi_i^2$ is actually an exponentially distributed random variable:
 
-$p(\xi^2 \geq x) = \int \limits_{t=-\infty}^{x} e^{-t/2}dt$
+$p(\xi \leq \sqrt{x}) = \frac{1}{\sqrt{2\pi}} \int \limits_{t=-\infty}^{\sqrt{x}} e^{\frac{-t^2}{2}}dt$
+
+$p(\xi^2 \leq x) = \frac{1}{\sqrt{2\pi}} \int \limits_{t=0}^{x} e^{-t/2}dt$
 
 So what we have here as $\chi^2$ is again a sum of i.i.d. exponential variables, which is distributed as an Erlang distribution,
 as we just showed in the previous paragraph.
@@ -187,21 +189,34 @@ So the threadbare $\chi^2$ is nothing more than a special case of Erlang distrib
 
 ### Weibull distribution
 
-If you take a look at [Weibull distribution](https://en.wikipedia.org/wiki/Weibull_distribution) PDF/CPF, you'll figure out that it is NOT a special case of Gamma distribution,
-because $x$ in $e^{-x^k}$ is taken to the power of k. However, it is a special case of [Generalized Gamma Distribution](https://en.wikipedia.org/wiki/Generalized_gamma_distribution)
+If you take a look at [Weibull distribution](https://en.wikipedia.org/wiki/Weibull_distribution) PDF/CDF, you'll figure out that it is NOT a special case of Gamma distribution,
+because $x$ in $e^{-x^m}$ is taken to the power of m. However, it is a special case of [Generalized Gamma Distribution](https://en.wikipedia.org/wiki/Generalized_gamma_distribution)
 family, so I decided to write about it here too.
 
 Weibull distribution arises in the Extreme Value Theory and is known as [Type III Extreme Value Distribution](https://www.weibull.com/hotwire/issue128/relbasics128.htm).
 
 [Waloddi Weibull](https://en.wikipedia.org/wiki/Waloddi_Weibull) was a Swedish engineer and mathematician, who started 
 working in the field of strengths of materials, particle size upon grinding etc. in the 1930s and
-thoroughly described Weibull distribution in [his 1951 paper](http://web.cecs.pdx.edu/~cgshirl/Documents/Weibull-ASME-Paper-1951.pdf), although its
-properties were studies much earlier by Frechet, Rosin & Rammler, von Mises, Fisher, Tippet and Gnedenko and others.
+thoroughly described Weibull distribution in 1951, although its properties were studies much earlier by Frechet, 
+Rosin & Rammler, von Mises, Fisher, Tippet and Gnedenko and others.
 
-The motivation for it is pretty clear from the strengths of materials standpoint: if you have a chain, and you want to
-find out when it breaks, it breaks whenever any link of it breaks.
+Unfortunately, the theoretical motivation for Weibull distribution does not exist, and the physical interpretation of k 
+parameter is unclear. The only rationale that Weibull himself provides for the shape of his distribution is that
+$\frac{(x-x_0)^m}{x_0}$ is the simplest function, satisfying the condition of being positive, non-decreasing and vanishing at $x_m$.
+I quote Weibull's [1951 paper](http://web.cecs.pdx.edu/~cgshirl/Documents/Weibull-ASME-Paper-1951.pdf):
 
-The logic behind Weibull distribution is easier understood, when looking at its cumulative probability function. 
+>The objection has been stated that this distribution function
+>has no theoretical basis. But in so far as the author understands,
+>there are - with very few exceptions - the same objections
+>against all other df, applied to real populations from natural
+>biological fields, at .least in so far as the theoretical has anything to do with the population in question. Furthermore, it
+>is utterly hopeless to expect a theoretical basis for distribution
+>functions of random variables such as strength of materials or of machine parts or particle sizes, the "particles" being
+>fly ash, Cyrtoideae, or even adult males, born in the British Isles.
 
-Basically it says that p(chain can hold a force $\geq x$) = $p^{x^k}$. So, for instance, if p=1/2 and k=3, by applying 
-just one unit of extra force to a chain, we increase the risk of it breaking enormously.
+Weibull distribution is often applied to the problem of strength of a chain. If you want to
+find out when a chain breaks, it breaks whenever any link of it breaks. If every link's strength is Weibull-distributed,
+strength of the chain as a whole is Weibull-distributed, too. Let's look at the cumulative distribution function. 
+
+Basically it says that p(chain link breaks upon application of a force $\leq x$) = $1 - e^{-x^m}$. So, the whole chain of k links breaks
+with probability $1 - (1-e^{-x^m})^k = e^{-kx^m}$, which is still Weibull distributed.
