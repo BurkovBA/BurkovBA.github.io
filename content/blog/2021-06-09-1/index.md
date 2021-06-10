@@ -1,5 +1,5 @@
 ---
-title: Gamma, Chi-square, Erlang, Weibull distributions... all the same beast
+title: Gamma, Erlang, Chi-square, Weibull distributions... all the same beast
 date: "2021-06-09T00:00:00.284Z"
 tags: ["math"]
 cover: "./gamma_function.jpeg"
@@ -49,7 +49,7 @@ We've already found out that 1000 Caviar Green HDDs is too much for RAID6. Now, 
 
 Suppose that we know that a RAID6 cluster went down due to a failure of 3 drives. What was the probability that there were 1000 (or 100 or 10000) hard drives in that cluster?
 
-Note that in previous case the number of disks N was a fixed parameter and number of crashes k was a variable, and this time its the other way around: number of crashes k is a fixed parameter, while the total number of disks N is a variable. We're solving a very similar problem, which the Bayesians would call [conjugate](https://en.wikipedia.org/wiki/Conjugate_prior).
+Note that in previous case the number of disks N was a fixed parameter and number of crashes k was a variable, and this time it's the other way around: number of crashes k is a fixed parameter, while the total number of disks N is a variable. We're solving a very similar problem, which the Bayesians would call [conjugate](https://en.wikipedia.org/wiki/Conjugate_prior).
 
 Let's keep the notation, and show that the probability in question is described by Gamma distribution.
 
@@ -180,4 +180,20 @@ So the threadbare $\chi^2$ is nothing more than a special case of Erlang distrib
 
 ### Weibull distribution
 
-Extreme Value Theory, a.k.a Extreme Value Distribution of type 3. TODO.
+[Waloddi Weibull](https://en.wikipedia.org/wiki/Waloddi_Weibull) was a Swedish engineer and mathematician, who started 
+working in the field of strengths of materials, particle grinding etc. in the 1930s and
+[thoroughly described Weibull distribution in 1950s](https://en.wikipedia.org/wiki/Weibull_distribution), although its
+properties were studies much earlier by Frechet, von Mises, Fisher, Tippet and Gnedenko.
+
+In Extreme Value Theory, Weibull distribution is known as [Type III Extreme Value Distribution](https://www.weibull.com/hotwire/issue128/relbasics128.htm).
+
+The motivation for it is pretty clear from the strengths of materials standpoint: if you have a chain, and you want to
+find out when it breaks, it breaks whenever any link of it breaks.
+
+Weibull distribution is not a special case of Gamma distribution, but a special case of [Generalized Gamma Distribution](https://en.wikipedia.org/wiki/Generalized_gamma_distribution),
+because $x$ in $e^{-x^k}$ is taken to the power of k.
+
+The logic behind Weibull distribution is easier understood, when looking at its cumulative probability function. 
+
+Basically it says that p(chain can hold a force $\geq x$) = $p^{x^k}$. So, for instance, if p=1/2 and k=3, by applying 
+just one unit of extra force to a chain, we increase the risk of it breaking enormously.
