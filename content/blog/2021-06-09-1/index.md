@@ -214,9 +214,9 @@ I quote Weibull's [1951 paper](http://web.cecs.pdx.edu/~cgshirl/Documents/Weibul
 >functions of random variables such as strength of materials or of machine parts or particle sizes, the "particles" being
 >fly ash, Cyrtoideae, or even adult males, born in the British Isles.
 
-Weibull distribution is often applied to the problem of strength of a chain. If you want to
+Weibull distribution is often applied to the problem of [strength of a chain](https://www.byggmek.lth.se/fileadmin/byggnadsmekanik/publications/tvsm7000/web7161.pdf). If you want to
 find out when a chain breaks, it breaks whenever any link of it breaks. If every link's strength is Weibull-distributed,
 strength of the chain as a whole is Weibull-distributed, too. Let's look at the cumulative distribution function. 
 
-Basically it says that p(chain link breaks upon application of a force $\leq x$) = $1 - e^{-x^m}$. So, the whole chain of k links breaks
-with probability $1 - (1-e^{-x^m})^k = e^{-kx^m}$, which is still Weibull distributed.
+Basically it says that p(chain link survives application of a force $\leq x$) = $e^{-x^m}$. So, the whole chain of k links survives
+with probability $(e^{-x^m})^k = e^{-kx^m}$, which is still Weibull distributed.
