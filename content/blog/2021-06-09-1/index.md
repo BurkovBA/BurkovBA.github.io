@@ -2,8 +2,8 @@
 title: Gamma, Erlang, Chi-square, Weibull distributions... all the same beast
 date: "2021-06-09T00:00:00.284Z"
 tags: ["math"]
-cover: "./gamma_function.jpeg"
-description: Probably the most important distribution in the whole field of mathematical statistics is Gamma distribution. Its special cases arise in various branches of mathematics under different names - Chi-square, Erlang or Weibull - but essentially are the same distribution, and this post is supposed to provide some intuition about them.
+cover: "./gamma_function_upscaled.jpeg"
+description: Probably the most important distribution in the whole field of mathematical statistics is Gamma distribution. Its special cases arise in various branches of mathematics under different names - e.g. Erlang or Chi-square (and Weibull distribution is also strongly related) - but essentially are the same family of distribution, and this post is supposed to provide some intuition about them.
 ---
 
 I'll first explain how Gamma distribution relates to Poisson distribution using a practical example of calculation of a distributed file system crash probability. After that I'll describe the special cases of Gamma distribution, providing statements of the problems, in which they occur.
@@ -143,7 +143,7 @@ $p(\xi_1 + \xi_2 = t) = (p_\xi * p_\xi)(t) = \sum \limits_{s=0}^{t} p_\xi(t-s) p
 Now, in continuous case instead of summing over the probabilities, we will be integrating over probability density functions (think of it
 as if your probability vectors and convolution matrices have become infinity-dimensional):
 
-$$ (f * f) (t) = \int \limits_{0}^{t} f(t-s)f(s)dt $$
+$$ (f * f) (t) = \int \limits_{0}^{t} f(t-s)f(s)ds $$
 
 In case of $f(t) = \alpha \cdot e^{-\alpha t}$, we get:
 
@@ -155,16 +155,23 @@ $$ (f * f * f * f) (t) = \frac{\alpha^4 t^3}{3!} e^{-\alpha t} $$
 
 $$ \underbrace{(f * ... * f)(t)}_\text{k times} = \frac{\alpha^k t^{k-1}}{(k-1)!} e^{-\alpha t}$$
 
-TODO: need to manually write out integration by parts once to prove these formulae.
-
 Now, if we recall that $\Gamma(k) = (k-1)!$ for integer $k$, $N = t$ and $\alpha = \frac{1}{\theta}$, we've gotten a Gamma 
 distribution from the previous paragraph.
+
+Let us show that these formulae are correct by induction. First, let's derive Erlang distribution with 1 degree of freedom:
+
+$$ (f * f) (t) = \int \limits_{0}^{t} f(t-s)f(s)ds = \int \limits_{0}^{t} \alpha e^{-\alpha (t-s)} \alpha e^{-\alpha s} ds = \int \limits_{0}^{t} \alpha^2 e^{-\alpha t}ds = \alpha^2 t e^{-\alpha t}$$
+
+Now let's derive Erlang distribution with k+1 degrees of freedom from Erlang distribution with k degrees:
+
+$$ \underbrace{(f * ... * f)(t)}_\text{k+1 times} = \int \limits_{0}^{t} \frac{\alpha^k s^{k-1}}{(k-1)!} e^{-\alpha s} \alpha e^{-\alpha (t-s)} ds = \frac{\alpha^{k+1} e^{-\alpha t}}{(k-1)!} \int \limits_{0}^{t} s^{k-1} ds = \frac{ \alpha^{k+1} e^{-\alpha t} t^k }{k!} $$
+
 
 ### Chi-square distribution
 
 Chi-square distribution is ubiquitous in mathematical statistics, especially, in its applications to medicine and biology. 
 
-The most classical situation, where it arises is when we are studying the distribution of a sum of squares of gaussian
+The most classical situation where it arises is when we are looking at the distribution of a sum of squares of gaussian
 random variables:
 
 $ \xi_1^2 + \xi_2^2 + ... + \xi_k^2 \sim \chi^2 $, where $\xi_i \sim \mathcal{N}(0, 1)$
@@ -180,18 +187,19 @@ So the threadbare $\chi^2$ is nothing more than a special case of Erlang distrib
 
 ### Weibull distribution
 
-[Waloddi Weibull](https://en.wikipedia.org/wiki/Waloddi_Weibull) was a Swedish engineer and mathematician, who started 
-working in the field of strengths of materials, particle grinding etc. in the 1930s and
-[thoroughly described Weibull distribution in 1950s](https://en.wikipedia.org/wiki/Weibull_distribution), although its
-properties were studies much earlier by Frechet, von Mises, Fisher, Tippet and Gnedenko.
+If you take a look at [Weibull distribution](https://en.wikipedia.org/wiki/Weibull_distribution) PDF/CPF, you'll figure out that it is NOT a special case of Gamma distribution,
+because $x$ in $e^{-x^k}$ is taken to the power of k. However, it is a special case of [Generalized Gamma Distribution](https://en.wikipedia.org/wiki/Generalized_gamma_distribution)
+family, so I decided to write about it here too.
 
-In Extreme Value Theory, Weibull distribution is known as [Type III Extreme Value Distribution](https://www.weibull.com/hotwire/issue128/relbasics128.htm).
+Weibull distribution arises in the Extreme Value Theory and is known as [Type III Extreme Value Distribution](https://www.weibull.com/hotwire/issue128/relbasics128.htm).
+
+[Waloddi Weibull](https://en.wikipedia.org/wiki/Waloddi_Weibull) was a Swedish engineer and mathematician, who started 
+working in the field of strengths of materials, particle size upon grinding etc. in the 1930s and
+thoroughly described Weibull distribution in [his 1951 paper](http://web.cecs.pdx.edu/~cgshirl/Documents/Weibull-ASME-Paper-1951.pdf), although its
+properties were studies much earlier by Frechet, Rosin & Rammler, von Mises, Fisher, Tippet and Gnedenko and others.
 
 The motivation for it is pretty clear from the strengths of materials standpoint: if you have a chain, and you want to
 find out when it breaks, it breaks whenever any link of it breaks.
-
-Weibull distribution is not a special case of Gamma distribution, but a special case of [Generalized Gamma Distribution](https://en.wikipedia.org/wiki/Generalized_gamma_distribution),
-because $x$ in $e^{-x^k}$ is taken to the power of k.
 
 The logic behind Weibull distribution is easier understood, when looking at its cumulative probability function. 
 
