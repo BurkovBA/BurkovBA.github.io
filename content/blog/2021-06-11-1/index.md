@@ -62,6 +62,14 @@ For [Cox proportional hazards models](https://en.wikipedia.org/wiki/Proportional
 hazard rate instead of the hazard rate itself.
 
 [Hazard ratio](https://en.wikipedia.org/wiki/Hazard_ratio) reflects the difference in hazards rates for models with 
-different values of factors.
+different values of factors. For instance for patients 1 and 2 with different values of some factor:
+
+$$ \lambda_1(t) = \lambda_0(t) e^{\sum \limits_{i=1}^{n}\beta_i x_i} $$
+
+$$ \lambda_2(t) = \lambda_0(t) e^{\sum \limits_{i=1}^{n}\beta_i x_i'} $$
+
+Then the hazard ratio [equals](http://www.sthda.com/english/wiki/cox-proportional-hazards-model):
+
+$$ \frac{\lambda_1(t)}{\lambda_2(t)} = \frac{\lambda_0(t) e^{\sum \limits_{i=1}^{n}\beta_i x_i}}{\lambda_0(t) e^{\sum \limits_{i=1}^{n}\beta_i x_i'}} = \frac{e^{\sum \limits_{i=1}^{n}\beta_i x_i}}{e^{\sum \limits_{i=1}^{n}\beta_i x_i'}} $$
 
 I can't say much on this subject as I haven't used these models yet.
