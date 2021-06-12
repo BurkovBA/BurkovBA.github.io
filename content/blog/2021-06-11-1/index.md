@@ -51,12 +51,17 @@ Cumulative hazard rate
 So by the time you start contemplating your fourth robbery, the "number of deaths" you deserved by now $\Lambda(t) = 1/2 + 1/3 + 1/4 = 1.083333$, so in a fair world you would have already been more than dead, exercising your luck so readily...
 
 
-Hazard ratio
-------------
+Cox proportional hazards model and hazard ratio
+-----------------------------------------------
 
-TODO
+Sir David Cox has come up with a linear regression-ish model for factors, influencing the hazard ration:
 
-Cox proportional hazards model
-------------------------------
+$$ \lambda(t|X_i) = \lambda(t) e^{\beta_1 x_1 + \beta_2 x_2 + ... + \beta_n x_n} $$
 
-TODO
+For [Cox proportional hazards models](https://en.wikipedia.org/wiki/Proportional_hazards_model) you'd often consider log 
+hazard rate instead of the hazard rate itself.
+
+[Hazard ratio](https://en.wikipedia.org/wiki/Hazard_ratio) reflects the difference in hazards rates for models with 
+different values of factors.
+
+I can't say much on this subject as I haven't used these models yet.
