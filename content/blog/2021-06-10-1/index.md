@@ -1,7 +1,7 @@
 ---
 title: Data structures for efficient NGS read mapping - suffix tree, suffix array, BWT, FM-index
 date: "2021-06-10T00:00:00.284Z"
-tags: ["programming"]
+tags: ["programming", "biomed"]
 cover: "./suffix_tree.jpeg"
 description: In Next-Generation Sequencing bioinformatics there is a problem of mapping so-called reads - short sequences of ~100 nucleotides - onto a full string that contains them - the reference genome. There is a number of clever optimizations to this process, which I consider in this post.
 ---

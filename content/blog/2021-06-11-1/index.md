@@ -50,6 +50,12 @@ Cumulative hazard rate
 
 So by the time you start contemplating your fourth robbery, the "number of deaths" you deserved by now $\Lambda(t) = 1/2 + 1/3 + 1/4 = 1.083333$, so in a fair world you would have already been more than dead, exercising your luck so readily...
 
+Speaking formally, $\Lambda(t) = \int \limits_{0}^{t} \lambda(u) du$. Aa a [corollary](https://data.princeton.edu/pop509/ParametricSurvival.pdf) from this definition: 
+
+$ \Lambda(t) = \int \limits_{0}^{t} -\frac{S'(t)}{S(t)} dt = \int \limits_{0}^{t} -\frac{1}{S(t)} dS(t) = -ln(S(t)) $
+
+$S(t) = e^{-\Lambda(t)}$
+
 
 Cox proportional hazards model and hazard ratio
 -----------------------------------------------
