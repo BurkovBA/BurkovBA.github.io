@@ -52,9 +52,7 @@ So by the time you start contemplating your fourth robbery, the "number of death
 
 Speaking formally, $\Lambda(t) = \int \limits_{0}^{t} \lambda(u) du$. Aa a [corollary](https://data.princeton.edu/pop509/ParametricSurvival.pdf) from this definition: 
 
-$ \Lambda(t) = \int \limits_{0}^{t} -\frac{S'(t)}{S(t)} dt = \int \limits_{0}^{t} -\frac{1}{S(t)} dS(t) = -ln(S(t)) $
-
-$S(t) = e^{-\Lambda(t)}$
+$ \Lambda(t) = \int \limits_{0}^{t} -\frac{S'(u)}{S(u)} du = \int \limits_{0}^{t} -\frac{1}{S(u)} dS(u) = -\ln S(t) $ , hence, $S(t) = e^{-\Lambda(t)}$.
 
 
 Cox proportional hazards model and hazard ratio
