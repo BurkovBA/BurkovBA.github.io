@@ -43,7 +43,7 @@ Or, in continuous-time case:
 $\lambda(t) = \frac{-\partial S(t)}{\partial t \cdot S(t)} = \frac{f(t)}{S(t)}$
 
 In a continuous-time case instead of simply potentiating the hazard rate, you need to wrap your head around integrating the hazard function.
-The risk a person would accumulate, over a period of time t is:
+Let us calculate the risk a person would accumulate over a period of time t by induction:
 
 $S(t_0) - S(t_0+dt) = \lambda(t_0) dt \cdot S(t_0)$
 
@@ -55,7 +55,7 @@ $S(t_0) - S(t_0+2dt) = \lambda(t_0) dt \cdot S(t_0) + \lambda(t_0+dt) dt \cdot S
 
 $S(t_0) - S(t_0+t) = \underbrace{ (\lambda(t_0) + \lambda(t_0 + dt) + \lambda(t_0 + 2dt) + ... + \lambda(t_0 + \frac{t}{dt} dt))}_\text{t / dt times} \cdot dt \cdot S(t_0) = \int \limits_{t_0}^{t_0+t} \lambda(u)du \cdot S(t_0)$
 
-Again, from Bayesian point of view hazard rate is $\lambda(t)dt = P(t < T \leq t+dt | T > t) = \frac{ p(t < T \leq t+dt \cap T > t) }{p(T > t)} = \frac{ p(t < T \leq t+dt) }{p(T > t)} = \frac{f(t)dt}{S(t)}$.
+Again, from Bayesian point of view hazard rate (multiplied by $dt$) can be viewed as $\lambda(t)dt = P(t < T \leq t+dt | T > t) = \frac{ p(t < T \leq t+dt \cap T > t) }{p(T > t)} = \frac{ p(t < T \leq t+dt) }{p(T > t)} = \frac{f(t)dt}{S(t)}$.
 
 
 Cumulative hazard rate
