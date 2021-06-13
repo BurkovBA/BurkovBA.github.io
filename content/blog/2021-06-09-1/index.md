@@ -61,6 +61,7 @@ Let's change the notation $\ln(1-p) = -\frac{1}{\theta}$, so that $(1 - p)^n = e
 
 I wasn't accurate here with the transition from a sum to an integral, with sum/integral limits and with $\theta^{-k}$ multiplier; this technical debt remains a TODO until the next version.
 
+From Bayesian standpoint what we did here in order to calculate the Gamma distribution was $p(N|k) = \frac{p(N \cap k)}{p(k)} =\frac{p(k|N)\cancel{p(N)}}{\sum \limits_{n=k}^{N} p(k|n)\cancel{p(n)}} = \frac{p(k|N)}{\sum \limits_{n=k}^{N} p(k|n)} $, where $p(k|n)$ is Poisson-distributed in case $N \cdot p = \lambda$ is a small constant. Gamma distributions is called conjugate prior for Poisson. Bayesian approach might be devastating for you sanity, however, as there is no way to rationalize priors for p(N) and p(n) (assumed equal here).
 
 Special cases of Gamma distribution
 -----------------------------------

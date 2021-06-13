@@ -32,25 +32,44 @@ So you see, probability density function/probability mass function answers a wro
 
 Now, let's start formalizing this. For a discrete-time variable, Hazard function is your chance to die during your next robbery number $t$:
 
-$\underbrace{S(t) - S(t+1)}_\text{fraction of train robbers who die at t} = \underbrace{\lambda(t)}_\text{hazard function at t} \cdot \underbrace{S(t)}_\text{fraction of survivors by t}$
+$\underbrace{S(t) - S(t+1)}_\text{fraction of train robbers who die at t} = \underbrace{\lambda(t)}_\text{hazard function at t} \cdot \underbrace{S(t)}_\text{fraction of survivors by t} \cdot \underbrace{\delta t}_\text{1 in discrete-time case}$
 
 Thus, hazard function is defined as:
 
-$\lambda(t) = \frac{-\delta S(t)}{S(t)}$
+$\lambda(t) = \frac{-\delta S(t)}{\delta t \cdot S(t)}$
 
 Or, in continuous-time case:
 
 $\lambda(t) = \frac{-\partial S(t)}{\partial t \cdot S(t)} = \frac{f(t)}{S(t)}$
 
+In a continuous-time case instead of simply potentiating the hazard rate, you need to wrap your head around integrating the hazard function.
+The risk a person would accumulate, over a period of time t is:
+
+$S(t_0) - S(t_0+dt) = \lambda(t_0) dt \cdot S(t_0)$
+
+$S(t_0+dt) - S(t_0+2dt) = \lambda(t_0+dt) dt \cdot S(t_0+dt)$, thus summing those up:
+
+$S(t_0) - S(t_0+2dt) = \lambda(t_0) dt \cdot S(t_0) + \lambda(t_0+dt) dt \cdot S(t_0+dt) = \lambda(t_0) dt \cdot S(t_0) + \lambda(t_0+dt) dt \cdot S(t_0) \cdot \underbrace{(1-\lambda(t_0)dt)}_\text{1, neglect dt-sqaured} = \lambda(t_0) dt \cdot S(t_0) + \lambda(t_0+dt) dt \cdot S(t_0) $
+
+...
+
+$S(t_0) - S(t_0+t) = \underbrace{ (\lambda(t_0) + \lambda(t_0 + dt) + \lambda(t_0 + 2dt) + ... + \lambda(t_0 + \frac{t}{dt} dt))}_\text{t / dt times} \cdot dt \cdot S(t_0) = \int \limits_{t_0}^{t_0+t} \lambda(u)du \cdot S(t_0)$
+
+Again, from Bayesian point of view hazard rate is $\lambda(t)dt = P(t < T \leq t+dt | T > t) = \frac{ p(t < T \leq t+dt \cap T > t) }{p(T > t)} = \frac{ p(t < T \leq t+dt) }{p(T > t)} = \frac{f(t)dt}{S(t)}$.
+
 
 Cumulative hazard rate
 ----------------------
 
-*Cumulative hazard rate* $\Lambda(t)$ is a funny thing. It essentially enumerates and sums up all the chances of death you escaped by the current moment. So, for instance, at your first train robbery you had a chance to die of $1/2$, at the second - $1/3$, at the third - $1/4$. 
+The integral of hazard rate $\int \limits_{t_0}^{t_0+t} \lambda(u) du$ that we used in the previous section, is useful in itself.
+
+If it is taken between points of time 0 and t: $\Lambda(t) = \int \limits_{0}^{t} \lambda(u) du$, it is called *cumulative hazard rate* $\Lambda(t)$.
+
+Cumulative hazard rate $\Lambda(t)$ is a funny thing. It essentially enumerates and sums up all the chances of death you escaped by the current moment. So, for instance, at your first train robbery you had a chance to die of $1/2$, at the second - $1/3$, at the third - $1/4$. 
 
 So by the time you start contemplating your fourth robbery, the "number of deaths" you deserved by now $\Lambda(t) = 1/2 + 1/3 + 1/4 = 1.083333$, so in a fair world you would have already been more than dead, exercising your luck so readily...
 
-Speaking formally, $\Lambda(t) = \int \limits_{0}^{t} \lambda(u) du$. Aa a [corollary](https://data.princeton.edu/pop509/ParametricSurvival.pdf) from this definition: 
+A [corollary](https://data.princeton.edu/pop509/ParametricSurvival.pdf) from the definition of cumulative hazard rate is its connection to survival function: 
 
 $ \Lambda(t) = \int \limits_{0}^{t} -\frac{S'(u)}{S(u)} du = \int \limits_{0}^{t} -\frac{1}{S(u)} dS(u) = -\ln S(t) $ , hence, $S(t) = e^{-\Lambda(t)}$.
 
