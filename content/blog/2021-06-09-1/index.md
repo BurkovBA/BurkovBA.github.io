@@ -177,16 +177,17 @@ random variables:
 
 $ \xi_1^2 + \xi_2^2 + ... + \xi_k^2 \sim \chi^2 $, where $\xi_i \sim \mathcal{N}(0, 1)$
 
-The easiest way to prove this fact is to notice that if $\xi_i$ is a Gaussian-distributed random variable, $\xi_i^2$ is actually an exponentially distributed random variable:
+The easiest way to derive the distribution of chi-square is to take a Gaussian-distributed random variable $\xi_i$ and to show that $\xi_i^2$ is actually an Erlang-distributed random variable:
 
-$p(\xi \leq \sqrt{x}) = \frac{1}{\sqrt{2\pi}} \int \limits_{t=-\infty}^{\sqrt{x}} e^{\frac{-t^2}{2}}dt$
+$F_\xi(x) = p(\xi \leq \sqrt{x}) = \frac{1}{\sqrt{2\pi}} \int \limits_{t=-\infty}^{\sqrt{x}} e^{\frac{-t^2}{2}}dt$
 
-$p(\xi^2 \leq x) = \frac{1}{\sqrt{2\pi}} \int \limits_{t=0}^{x} e^{-t/2}dt$
+$y(x) = x^2$, $x(y) = \pm \sqrt y$
 
-So what we have here as $\chi^2$ is again a sum of i.i.d. exponential variables, which is distributed as an Erlang distribution,
-as we just showed in the previous paragraph.
+$F_{\xi^2}(y) = p(\xi^2 \leq y) = p(\xi \leq \sqrt y) = \int \limits_{x=a}^{b} f_\xi(x) dx = \int \limits_{x=a}^{b} \frac{\partial F_\xi(x(y))}{\partial x} \frac{\partial x}{\partial y} dy = \int \limits_{y=y(x=a)}^{y(x=b)} f_\xi(x(y)) \frac{dx}{dy} dy = \frac{1}{\sqrt{2\pi}} \int \limits_{t=0}^{y} e^{-t/2} \frac{1}{2 \sqrt t} dt$
 
-So the threadbare $\chi^2$ is nothing more than a special case of Erlang distribution with a specific value of $\alpha = 1/2$.
+So the threadbare $\chi^2$ is nothing more than a slightly generalized case of Erlang distribution with $\alpha = 1/2$. In Erlang the power $k$ can be integer only, and in Chi-square it is $\frac{1}{2} \cdot i$, where $i$ is integer.
+
+For reference, see [this](https://stats.stackexchange.com/questions/192807/pdf-of-the-square-of-a-standard-normal-random-variable) and [this](https://www.cl.cam.ac.uk/teaching/2003/Probability/prob11.pdf).
 
 ### Weibull distribution
 
