@@ -67,7 +67,7 @@ So, to make this argument more rigorous, instead of discrete values of $N$, corr
 
 As we know the cumulative probability function of our Gamma process from its Poisson counterpart $F_\xi(N) = p(\xi \leq N) = 1 - \sum \limits_{x=0}^{k-1} \frac{(\lambda N)^x e^{-\lambda N}}{x!}$, we can infer probability density function from it. I'll be following the general logic of [this Aerin Kim's post](https://towardsdatascience.com/gamma-distribution-intuition-derivation-and-examples-55f407423840).
 
-$f_\xi(N) = \frac{\partial F_\xi(N)}{dN} = \frac{d(1 - \sum \limits_{x=0}^{k-1} \frac{(\lambda N)^x e^{-\lambda N}}{x!})}{dN} = \sum \limits_{x=0}^{k-1} \frac{x \cdot \lambda \cdot (\lambda N)^{x-1} \cdot e^{-\lambda N} - \lambda \cdot (\lambda N)^x \cdot e^{-\lambda N} }{x!}) = \lambda \cdot e^{-\lambda N} \cdot (1 + \sum \limits_{x=1}^{k-1}(\frac{(\lambda N)^x}{x!} - \frac{(\lambda N)^{x-1}}{(x-1)!}) = $
+$f_\xi(N) = \frac{\partial F_\xi(N)}{dN} = \frac{d(1 - \sum \limits_{x=0}^{k-1} \frac{(\lambda N)^x e^{-\lambda N}}{x!})}{dN} = \sum \limits_{x=0}^{k-1} \frac{x \cdot \lambda \cdot (\lambda N)^{x-1} \cdot e^{-\lambda N} - \lambda \cdot (\lambda N)^x \cdot e^{-\lambda N} }{x!}) = \lambda \cdot e^{-\lambda N} \cdot (1 + \sum \limits_{x=1}^{k-1}(\frac{(\lambda N)^x}{x!} - \frac{(\lambda N)^{x-1}}{(x-1)!})) = $
 
 $ = \lambda \cdot e^{-\lambda N} \cdot (1 + \frac{(\lambda N)^{k-1}}{(k-1)!} - 1) = \frac{\lambda \cdot e^{-\lambda N} \cdot (\lambda N)^{k-1}}{(k-1)!} = \frac{\lambda^k \cdot N^{k-1} \cdot e^{-\lambda}}{(k-1)!}$.
 
