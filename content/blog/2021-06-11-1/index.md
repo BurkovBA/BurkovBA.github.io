@@ -49,7 +49,7 @@ $S(t_0) - S(t_0+dt) = \lambda(t_0) dt \cdot S(t_0)$
 
 $S(t_0+dt) - S(t_0+2dt) = \lambda(t_0+dt) dt \cdot S(t_0+dt)$, thus summing those up:
 
-$S(t_0) - S(t_0+2dt) = \lambda(t_0) dt \cdot S(t_0) + \lambda(t_0+dt) dt \cdot S(t_0+dt) = \lambda(t_0) dt \cdot S(t_0) + \lambda(t_0+dt) dt \cdot S(t_0) \cdot \underbrace{(1-\lambda(t_0)dt)}_\text{1, neglect dt-sqaured} = \lambda(t_0) dt \cdot S(t_0) + \lambda(t_0+dt) dt \cdot S(t_0) $
+$S(t_0) - S(t_0+2dt) = \lambda(t_0) dt \cdot S(t_0) + \lambda(t_0+dt) dt \cdot S(t_0+dt) = \lambda(t_0) dt \cdot S(t_0) + \lambda(t_0+dt) dt \cdot S(t_0) \cdot \underbrace{(1-\lambda(t_0)dt)}_\text{1, neglect dt-squared} = \lambda(t_0) dt \cdot S(t_0) + \lambda(t_0+dt) dt \cdot S(t_0) $
 
 ...
 
