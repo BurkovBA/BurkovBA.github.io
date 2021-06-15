@@ -61,7 +61,7 @@ Let's change the notation $\ln(1-p) = -\frac{1}{\theta}$, so that $(1 - p)^n = e
 
 I wasn't accurate here with the transition from a sum to an integral, with sum/integral limits and with $\theta^{-k}$ multiplier; this technical debt remains a TODO until the next version.
 
-From Bayesian standpoint what we did here in order to calculate the Gamma distribution was $p(N|k) = \frac{p(N \cap k)}{p(k)} =\frac{p(k|N)\cancel{p(N)}}{\sum \limits_{n=k}^{N} p(k|n)\cancel{p(n)}} = \frac{p(k|N)}{\sum \limits_{n=k}^{N} p(k|n)} $, where $p(k|n)$ is Poisson-distributed in case $N \cdot p = \lambda$ is a small constant. Gamma distributions is called conjugate prior for Poisson. Bayesian approach might be devastating for you sanity, however, as there is no way to rationalize priors for p(N) and p(n) (assumed equal here).
+From Bayesian standpoint what we did here in order to calculate the Gamma distribution was $p(N|k) = \frac{p(N \cap k)}{p(k)} =\frac{p(k|N)\cancel{p(N)}}{\sum \limits_{n=k}^{N} p(k|n)\cancel{p(n)}} = \frac{p(k|N)}{\sum \limits_{n=k}^{N} p(k|n)} $, where $p(k|n)$ is Poisson-distributed in case $N \cdot p = \lambda$ is a small constant. Gamma distributions is called conjugate prior for Poisson. Bayesian approach might be harmful for you sanity, however, as there is no way to rationalize priors for p(N) and p(n) (assumed equal here).
 
 Special cases of Gamma distribution
 -----------------------------------
@@ -177,7 +177,9 @@ random variables:
 
 $ \xi_1^2 + \xi_2^2 + ... + \xi_k^2 \sim \chi^2 $, where $\xi_i \sim \mathcal{N}(0, 1)$
 
-The easiest way to derive the distribution of chi-square is to take a Gaussian-distributed random variable $\xi_i$ and to show that $\xi_i^2$ is actually an Erlang-distributed random variable:
+#### Probability density function of Chi-square with 1 degree of freedom
+
+The easiest way to derive the distribution of chi-square is to take a Gaussian-distributed random variable $\xi_i$ and to show that $\xi_i^2$ is actually a Gamma-distributed random variable, very similar to Erlang distribution:
 
 $F_\xi(x) = p(\xi \leq \sqrt{x}) = \frac{1}{\sqrt{2\pi}} \int \limits_{t=-\infty}^{\sqrt{x}} e^{\frac{-t^2}{2}}dt$
 
@@ -185,9 +187,37 @@ $y(x) = x^2$, $x(y) = \pm \sqrt y$
 
 $F_{\xi^2}(y) = p(\xi^2 \leq y) = p(\xi \leq \sqrt y) = \int \limits_{x=a}^{b} f_\xi(x) dx = \int \limits_{x=a}^{b} \frac{\partial F_\xi(x(y))}{\partial x} \frac{\partial x}{\partial y} dy = \int \limits_{y=y(x=a)}^{y(x=b)} f_\xi(x(y)) \frac{dx}{dy} dy = \frac{1}{\sqrt{2\pi}} \int \limits_{t=0}^{y} e^{-t/2} \frac{1}{2 \sqrt t} dt$
 
-So the threadbare $\chi^2$ is nothing more than a slightly generalized case of Erlang distribution with $\alpha = 1/2$. In Erlang the power $k$ can be integer only, and in Chi-square it is $\frac{1}{2} \cdot i$, where $i$ is integer.
+So if we recalled the pdf for Gamma distribution $f(x; \alpha, \beta) = \frac{\beta^\alpha x^{\alpha-1} e^{-\beta x}}{\Gamma(\alpha)}$ the threadbare $\chi^2$ with 1 degree of freedom is nothing more than a Gamma distribution with $\alpha = 1/2$ and $\beta = 1/2$. 
+
+It is also very close to the Erlang distribution $f(x; \alpha, k) = \frac{\alpha^{k+1} e^{-\alpha x} x^{k}}{k!}$, but for Erlang the power $k$ can be integer only, and in Chi-square it is $\frac{1}{2} \cdot i$, where $i$ is integer.
 
 For reference, see [this](https://stats.stackexchange.com/questions/192807/pdf-of-the-square-of-a-standard-normal-random-variable) and [this](https://www.cl.cam.ac.uk/teaching/2003/Probability/prob11.pdf).
+
+#### Probability density function for Chi-square with k degrees of freedom
+
+Again, let us use the convolution formula:
+
+$(f * f)(t) = \int \limits_{0}^{t} f(t-s)f(s)ds = \int \limits_{0}^{t} e^{-(t-s)} \frac{1}{2 \sqrt{t-s}} e^{-s} \frac{1}{2 \sqrt{s}} ds = e^{-t} \int \limits_{0}^{t} \frac{1}{4 \sqrt{s} \sqrt{t-s}}ds$.
+
+Now we do a variable substitution $s = tu$, $ds = t du$. Also note the corresponding change of integration upper limit to 1:
+
+$ (f * f)(t) = e^{-t} \int \limits_{0}^{1} \frac{t}{4 \cdot \sqrt{tu} \sqrt{t(1-u)} }du = \frac{e^{-t}}{4} \int \limits_{0}^{1} \frac{1}{\sqrt{u(1-u)} }du $
+
+Our integral now is well-known as [Beta function](https://en.wikipedia.org/wiki/Beta_function) $B(\frac{1}{2}, \frac{1}{2})$, another fun function, closely related to Gamma function. Integral of a Beta-function is a constant that can be expressed through Gamma function as $\Beta(\alpha, \beta) = \frac{\Gamma(\alpha)\Gamma(\beta)}{\Gamma(\alpha+\beta)}$.
+
+Now, in general case $\chi^2$-distribution with k+1 degrees of freedom is:
+
+$ \underbrace{(f * ... * f)}_\text{k+1 times}(t) = \int \limits_{0}^{t} f_{k-1}(s) \frac{e^{-(t-s)}}{\sqrt2 \cdot \Gamma(\frac{1}{2})} ds = \int \limits_{0}^{t} \frac{s^{k/2-1}e^{-s}}{2^{\frac{k}{2}} \Gamma(\frac{k}{2})} \frac{e^{-(t-s)}(t-s)^{-\frac{1}{2}}}{\sqrt2 \cdot \Gamma(\frac{1}{2})}ds = \frac{e^{-t}}{2^{\frac{1}{2}}\Gamma(\frac{1}{2})} \int \limits_{0}^{t} \frac{s^{k/2-1}(t-s)^{-\frac{1}{2}}}{2^{\frac{k}{2}} \Gamma(\frac{k}{2})} ds$
+
+Let's do the substitution again: $s=tu$, $ds=t du$:
+
+$\frac{e^{-t}}{ 2^{\frac{1}{2}}\Gamma(\frac{1}{2}) } \int \limits_{0}^{t} \frac{s^{k/2-1} (t-s)^{-\frac{1}{2}} }{2^{\frac{k}{2}} \Gamma(\frac{k}{2})} ds = \frac{e^{-t}}{ 2^{\frac{1}{2}}\Gamma(\frac{1}{2}) } \int \limits_{0}^{1} \frac{(tu)^{k/2-1} (t-tu)^{-\frac{1}{2}} }{2^{\frac{k}{2}} \Gamma(\frac{k}{2})} tdu = \frac{e^{-t} t^{\frac{(k+1)}{2} - 1} }{ 2^{\frac{k+1}{2}} } \int \limits_{0}^{1} \frac{u^{k/2-1} (1-u)^{-\frac{1}{2}}}{ \Gamma(\frac{1}{2}) \Gamma(\frac{k}{2})} du = \frac{e^{-t} t^{\frac{(k+1)}{2} - 1} }{ 2^{\frac{k+1}{2}} \Gamma(\frac{k+1}{2}) } \int \limits_{0}^{1} \frac{\Gamma(\frac{k+1}{2}) }{ \Gamma(\frac{1}{2}) \Gamma(\frac{k}{2})} u^{\frac{k}{2}-1} (1-u)^{-\frac{1}{2}} du$
+
+Notice that the expression under the integral is cumulative density function of [Beta distribution](https://en.wikipedia.org/wiki/Beta_distribution), which, equals 1.
+
+Thus, $f_{\chi_{k+1}^2}(t) = \frac{e^{-t} t^{\frac{(k+1)}{2} - 1} }{ 2^{\frac{k+1}{2}} \Gamma(\frac{k+1}{2}) }$.
+
+A helpful link with this proof is [here](https://math.stackexchange.com/questions/2202058/prove-chi-squared-distribution-by-induction).
 
 ### Weibull distribution
 
