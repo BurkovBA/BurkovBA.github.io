@@ -49,7 +49,9 @@ We've already found out that 1000 Caviar Green HDDs is too much for RAID6. Now, 
 
 Suppose that we know that a RAID6 cluster went down due to a failure of 3 drives. What was the probability that there were 1000 (or 100 or 10000) hard drives in that cluster?
 
-Note that in previous case the number of disks N was a fixed parameter and number of crashes k was a variable, and this time it's the other way around: number of crashes k is a fixed parameter, while the total number of disks N is a variable. We're solving a very similar problem, which the Bayesians would call [conjugate](https://en.wikipedia.org/wiki/Conjugate_prior).
+Note that in previous case the number of disks $N$ was a fixed parameter and number of crashes $k$ was a variable, and this time it's the other way around: number of crashes $k$ is a fixed parameter, while the total number of disks $N$ is a variable. We're solving a very similar problem, which the Bayesians would call [conjugate](https://en.wikipedia.org/wiki/Conjugate_prior).
+
+$N$ can be interpreted as a stoppage time of a process until $k$ failures happen. For instance if you were dropping paratroopers one by one from a plane and each paratrooper had a probability of $p$ that his parachute doesn't work, you might have asked yourself what would be the probability that you'd managed to drop 1000 troopers before the parachutes of 3 of them malfunctioned. 
 
 Let's keep the notation, and show that the probability in question is described by Gamma distribution.
 
@@ -59,7 +61,17 @@ Now, recall that [gamma function](https://en.wikipedia.org/wiki/Incomplete_gamma
 
 Let's change the notation $\ln(1-p) = -\frac{1}{\theta}$, so that $(1 - p)^n = e^{-\frac{n}{\theta}}$, and we almost get $p(N=1000 | k=3) \approx \frac{N^k \cdot e^{\frac{-N}{\theta}}}{\Gamma(k+1)}$, which is very close to the definition of [Gamma distribution](https://en.wikipedia.org/wiki/Gamma_distribution).
 
-I wasn't accurate here with the transition from a sum to an integral, with sum/integral limits and with $\theta^{-k}$ multiplier; this technical debt remains a TODO until the next version.
+I wasn't accurate here with the transition from a sum to an integral, with sum/integral limits and with $\theta^{-k}$ multiplier; however, it gives you a feel of what's going on.
+
+So, to make this argument more rigorous, instead of discrete values of $N$, corresponding to total number of hard drives or paratroopers, I'll transition to continuous real-valued $N$ (you may interpret it as continuous time).
+
+As we know the cumulative probability function of our Gamma process from its Poisson counterpart $F_\xi(N) = p(\xi \leq N) = 1 - \sum \limits_{x=0}^{k-1} \frac{(\lambda N)^x e^{-\lambda N}}{x!}$, we can infer probability density function from it. I'll be following the general logic of [this Aerin Kim's post](https://towardsdatascience.com/gamma-distribution-intuition-derivation-and-examples-55f407423840).
+
+$f_\xi(N) = \frac{\partial F_\xi(N)}{dN} = \frac{d(1 - \sum \limits_{x=0}^{k-1} \frac{(\lambda N)^x e^{-\lambda N}}{x!})}{dN} = \sum \limits_{x=0}^{k-1} \frac{x \cdot \lambda \cdot (\lambda N)^{x-1} \cdot e^{-\lambda N} - \lambda \cdot (\lambda N)^x \cdot e^{-\lambda N} }{x!}) = \lambda \cdot e^{-\lambda N} \cdot (1 + \sum \limits_{x=1}^{k-1}(\frac{(\lambda N)^x}{x!} - \frac{(\lambda N)^{x-1}}{(x-1)!}) = $
+
+$ = \lambda \cdot e^{-\lambda N} \cdot (1 + \frac{(\lambda N)^{k-1}}{(k-1)!} - 1) = \frac{\lambda \cdot e^{-\lambda N} \cdot (\lambda N)^{k-1}}{(k-1)!} = \frac{\lambda^k \cdot N^{k-1} \cdot e^{-\lambda}}{(k-1)!}$.
+
+
 
 From Bayesian standpoint what we did here in order to calculate the Gamma distribution was $p(N|k) = \frac{p(N \cap k)}{p(k)} =\frac{p(k|N)\cancel{p(N)}}{\sum \limits_{n=k}^{N} p(k|n)\cancel{p(n)}} = \frac{p(k|N)}{\sum \limits_{n=k}^{N} p(k|n)} $, where $p(k|n)$ is Poisson-distributed in case $N \cdot p = \lambda$ is a small constant. Gamma distributions is called conjugate prior for Poisson. Bayesian approach might be harmful for you sanity, however, as there is no way to rationalize priors for p(N) and p(n) (assumed equal here).
 
