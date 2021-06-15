@@ -207,7 +207,7 @@ Our integral now is well-known as [Beta function](https://en.wikipedia.org/wiki/
 
 Now, in general case $\chi^2$-distribution with k+1 degrees of freedom is:
 
-$ \underbrace{(f * ... * f)}_\text{k+1 times}(t) = \int \limits_{0}^{t} f_{k-1}(s) \frac{e^{-(t-s)}}{\sqrt2 \cdot \Gamma(\frac{1}{2})} ds = \int \limits_{0}^{t} \frac{s^{k/2-1}e^{-s}}{2^{\frac{k}{2}} \Gamma(\frac{k}{2})} \frac{e^{-(t-s)}(t-s)^{-\frac{1}{2}}}{\sqrt2 \cdot \Gamma(\frac{1}{2})}ds = \frac{e^{-t}}{2^{\frac{1}{2}}\Gamma(\frac{1}{2})} \int \limits_{0}^{t} \frac{s^{k/2-1}(t-s)^{-\frac{1}{2}}}{2^{\frac{k}{2}} \Gamma(\frac{k}{2})} ds$
+$ \underbrace{(f * ... * f)}_\text{k+1 times}(t) = \int \limits_{0}^{t} f_{k}(s) \frac{e^{-(t-s)}}{\sqrt2 \cdot \Gamma(\frac{1}{2})} ds = \int \limits_{0}^{t} \frac{s^{k/2-1}e^{-s}}{2^{\frac{k}{2}} \Gamma(\frac{k}{2})} \frac{e^{-(t-s)}(t-s)^{-\frac{1}{2}}}{\sqrt2 \cdot \Gamma(\frac{1}{2})}ds = \frac{e^{-t}}{2^{\frac{1}{2}}\Gamma(\frac{1}{2})} \int \limits_{0}^{t} \frac{s^{k/2-1}(t-s)^{-\frac{1}{2}}}{2^{\frac{k}{2}} \Gamma(\frac{k}{2})} ds$
 
 Let's do the substitution again: $s=tu$, $ds=t du$:
 
