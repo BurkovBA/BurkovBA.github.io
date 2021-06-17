@@ -61,7 +61,7 @@ But note that we don't want **exactly** our point. Any "equiprobable" point will
 
 So, we are actually interested in the distribution of the sum $x_1^2+x_2^2+x_3^2+x_4^2+x_5^2$ as for identical values of the sum the pdfs of likelihood of a vector of observations $X = (x_1, x_2, x_3, x_4, x_5)^T$ are identical.
 
-Each $x_i \sim \mathcal{N}(0, 1)$ is a standard Gaussian-distributed random variable, so the sum in question is a random variable distributed as Chi-square: $\sum \limits_{i}^{N} x_i^2 \sim \chi^2_N$. Please, refer to [my older post on chi-square distribution](/2021-06-09-1) for the proof.
+Each $x_i \sim \mathcal{N}(0, 1)$ is a standard Gaussian-distributed random variable, so the sum in question is a random variable distributed as Chi-square: $\sum \limits_{i}^{N} x_i^2 \sim \chi^2_N$. Please, refer to [my older post on Gamma/Erlang/Chi-square distribution](/2021-06-09-1) for the proof.
 
 That's why chi-square distribution is the right tool to answer the question, we're interested in: is it likely, that the observed set of points was sampled from a standard normal distribution.
 
@@ -70,11 +70,41 @@ Derivation of Pearson's goodness of fit test statistic
 
 The chi-square test is widely used to validate the hypothesis that a number of samples were taken from a multinomial distribution.
 
-Suppose you've rolled a $k=6$-sided dice N=120 times, and you expect it to be fair. You would expect $E_i=20$ occurrences of each value of the cube $i \in$ {1,2,3,4,5,6} (row **E** - expected), instead you see some different outcomes $O_i$ (row **O** - observed):
+Suppose you've rolled a $k=6$-sided dice $n=120$ times, and you expect it to be fair. You would expect $E_i=20$ occurrences of each value of the cube $i \in$ {1,2,3,4,5,6} (row **E** - expected), instead you see some different outcomes $O_i$ (row **O** - observed):
 
 |       | 1 | 2 | 3 | 4 | 5 | 6 |
 |-------|---|---|---|---|---|---|
 | **E** | 20| 20| 20| 20| 20| 20|
 | **O** | 15| 14| 22| 21| 25| 23|
 
-We need to estimate the likelihood of an outcome like this, if the dice was fair. Turns out that a certain statistic based on these data follows the chi-square distribution: $\chi_k^2 =\sum \limits_{i}^{k} \frac{(O_i-E_i)^2}{E_i}$. I'll prove this fact here by induction for increasing number of dice sides $k$ loosely following some constructs from [de Moivre-Laplace theorem](https://en.wikipedia.org/wiki/De_Moivre%E2%80%93Laplace_theorem) (which is a special case of Central Limit Theorem, proven before the adoption of much more convenient Fourier analysis techniques).
+We need to estimate the likelihood of an outcome like this, if the dice was fair. Turns out that a certain statistic based on these data follows the chi-square distribution: $\chi_{k-1}^2 =\sum \limits_{i}^{k} \frac{(O_i-E_i)^2}{E_i}$. I'll prove this fact here by induction for increasing number of dice sides $k$ loosely following some constructs from [de Moivre-Laplace theorem](https://en.wikipedia.org/wiki/De_Moivre%E2%80%93Laplace_theorem) (which is a special case of Central Limit Theorem, proven before the adoption of much more convenient Fourier analysis techniques).
+
+### Induction base: 2-sided dice (coin)
+
+$\sum \limits_{i=1}^{k=2} \frac{(O_i - E_i)^2}{E_i} = \frac{(O_1 - np)^2}{np} + \frac{((n-O_1) - n(1-p))^2}{n(1-p)} = \frac{(O_1-np)^2}{np} + \frac{(O_1-np)^2}{n(1-p)} = \frac{(O_1 -np)^2(1-p) + (O_1 -np)^2p}{np(1-p)} = \frac{(O_1-np)^2}{np(1-p)}$
+
+Now recall that $\xi_1 = \frac{O_1-np}{\sqrt{np(1-p)}} \sim \mathcal{N}(0, 1)$. 
+
+Thus, $\xi_1^2 = \frac{(O_1-np)^2}{np(1-p)} \sim \chi^2_1$.
+
+### Induction step: (k+1)-sided dice from k-sided case
+
+In order to perform induction step, we basically need to show that is we had a k-dice (e.g. a 2-dice, a coin), and goodness of fit of
+empirical results of its rolls don't differ much from expected k-nomial distribution according to $\chi_{k-1}$ test, we can add one more side
+to this dice and it will be still possible to check fitness of (k+1)-nomial distribution according to $\chi_k$ test.
+
+Here's an example to illustrate the process of creation of an additional side of our dice.
+
+Imagine that we had a continuous random variable, representing a distribution of human heights.
+We came up with 2 bins: "height < 170cm" and "height >= 170cm" with probabilities $p_1$ and $p_2$, so that $p_1+p_2 = 1$. 
+Chi-square test works for our data according to induction basis. 
+
+Now we decided to split the second bin ("height >= 170cm") into two separate bins: "170cm <= height < 180cm" and "height >= 180cm".
+So, what used to be one side of our dice has become 2 sides. Let's show that Chi-squared test will just get another degree of freedom,
+but will still work.
+
+$\sum \limits_{i=1}^{3} \frac{(O_i - np_i)^2}{np_i} = \frac{(O_1 - np_1)^2}{np_1} + \frac{(O_2 - np_2)^2}{np_2} + \frac{(O_3 - np_3)^2}{np_3} = \underbrace{\frac{(O_1 - np_1)^2}{np_1} + \frac{(O_2 + O_3 - n(p_2 + p_3))^2}{n(p_2 + p_3)}}_{\sum \limits_{j=1}^2 \frac{{O'-np_j}^2}{np_j} \sim \chi_1^2 \text{ for sum of k=2 terms by induction base}} - \underbrace{\frac{(O_2 + O_3 - n(p_2 + p_3))^2}{n(p_2 + p_3)} + \frac{(O_2 - np_2)^2}{np_2} + \frac{(O_3 - np_3)^2}{np_3}}_{\text{this part should also be } \sim \chi_1^2 \text{, let's prove this}}$
+
+Let us focus on the second expression and simplify it:
+
+$\frac{(O_2 + O_3 - n(p_2 + p_3))^2}{n(p_2 + p_3)} + \frac{(O_2 - np_2)^2}{np_2} + \frac{(O_3 - np_3)^2}{np_3} = \frac{(O_2 + O_3 - n(p_2 + p_3))^2\cdot p_2 p_3}{n(p_2 + p_3) \cdot p_2p_3} + \frac{(O_2 - np_2)^2 \cdot (p_2 + p_3)p_3}{np_2 \cdot (p_2 + p_3)p_3} + \frac{(O_3 - np_3)^2 \cdot (p_2 + p_3)p_2}{np_3 \cdot (p_2 + p_3)p_2} = \frac{ ... }{np_2p_3(p_2+p_3)}$
