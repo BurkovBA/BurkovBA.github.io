@@ -231,6 +231,7 @@ Thus, $f_{\chi_{k+1}^2}(t) = \frac{e^{-t} t^{\frac{(k+1)}{2} - 1} }{ 2^{\frac{k+
 
 A helpful link with this proof is [here](https://math.stackexchange.com/questions/2202058/prove-chi-squared-distribution-by-induction).
 
+
 ### Weibull distribution
 
 If you take a look at [Weibull distribution](https://en.wikipedia.org/wiki/Weibull_distribution) PDF/CDF, you'll figure out that it is NOT a special case of Gamma distribution,
