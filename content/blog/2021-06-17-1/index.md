@@ -3,7 +3,7 @@ title: Pearson's Chi-square tests - intuition and variations
 date: "2021-06-17T00:00:00.284Z"
 tags: ["math"]
 cover: "./Pearson.png"
-description: Here I discuss, how an average mathematically inclined person like myself could stumble upon Karl Pearson's chi-squared test (it doesn't seem intuitive at all from the first glance). I also discuss its variations, relation to multinomial distribution and other tests, such as Fisher's exact test and G-test.
+description: Here I discuss, how an average mathematically inclined person like myself could stumble upon Karl Pearson's chi-squared test (it doesn't seem intuitive at all from the first glance). I demonstrate the intuition behind it and then prove its applicability to multinomial distribution.
 ---
 
 In [one of my previous posts](/2021-06-09-1) I derived the chi-square distribution for sum of squares of Gaussian random 
