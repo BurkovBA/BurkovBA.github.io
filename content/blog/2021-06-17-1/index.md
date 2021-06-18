@@ -1,5 +1,5 @@
 ---
-title: Pearson's Chi-square tests - intuition and variations
+title: Pearson's Chi-square tests - intuition and derivation
 date: "2021-06-17T00:00:00.284Z"
 tags: ["math"]
 cover: "./Pearson.png"
@@ -86,21 +86,21 @@ Now recall that $\xi_1 = \frac{O_1-np}{\sqrt{np(1-p)}} \sim \mathcal{N}(0, 1)$.
 
 Thus, $\xi_1^2 = \frac{(O_1-np)^2}{np(1-p)} \sim \chi^2_1$.
 
-### Induction step: (k+1)-sided dice from k-sided case
+### Induction step: (k+1)-sided dice from k-sided dice
 
-In order to perform induction step, we basically need to show that is we had a k-dice (e.g. a 2-dice, a coin), and goodness of fit of
-empirical results of its rolls don't differ much from expected k-nomial distribution according to $\chi_{k-1}$ test, we can add one more side
-to this dice and it will be still possible to check fitness of (k+1)-nomial distribution according to $\chi_k$ test.
-
+In order to perform the induction step, we need to show that if we had a k-dice described by a k-nomial distribution and could apply $\chi_{k-1}$ test to it, there is a way to construct a dice with k+1 sides from it, so that it can be described by a (k+1)-nomial distribution and validated by a $\chi_{k}$ test.
+ 
 Here's an example to illustrate the process of creation of an additional side of our dice.
 
-Imagine that we had a continuous random variable, representing a distribution of human heights.
-We came up with 2 bins: "height < 170cm" and "height >= 170cm" with probabilities $p_1$ and $p_2$, so that $p_1+p_2 = 1$. 
-Chi-square test works for our data according to induction basis. 
+Imagine that we had a continuous random variable, representing the distribution of human heights.
+We transformed the real-valued random variable of height into a discrete one by dividing all people into one of two bins: "height < 170cm" and "height >= 170cm" with probabilities $p_1$ and $p_2$, so that $p_1+p_2 = 1$. 
+Chi-square test works for our data according to induction basis. We can see sampling of a value from this r.v. as a 2-dice roll (or a coin flip).
 
 Now we decided to split the second bin ("height >= 170cm") into two separate bins: "170cm <= height < 180cm" and "height >= 180cm".
-So, what used to be one side of our dice has become 2 sides. Let's show that Chi-squared test will just get another degree of freedom,
-but will still work.
+So, what used to be one side of our 2-dice has become 2 sides, and now we have a 3-dice. Let's show that Chi-squared test will just get another degree of freedom (it's going to be $\chi_2^2$ instead of $\chi_1^2$ now),
+but will still work for our new 3-dice. 
+
+Let's write down the formula of Pearson's test for 3-nomial disitrubion and split it into binomial part and an additional term:
 
 $\sum \limits_{i=1}^{3} \frac{(O_i - np_i)^2}{np_i} = \frac{(O_1 - np_1)^2}{np_1} + \frac{(O_2 - np_2)^2}{np_2} + \frac{(O_3 - np_3)^2}{np_3} = \underbrace{\frac{(O_1 - np_1)^2}{np_1} + \frac{(O_2 + O_3 - n(p_2 + p_3))^2}{n(p_2 + p_3)}}_{\sum \limits_{j=1}^2 \frac{{O'-np_j}^2}{np_j} \sim \chi_1^2 \text{ for sum of k=2 terms by induction base}} - \underbrace{\frac{(O_2 + O_3 - n(p_2 + p_3))^2}{n(p_2 + p_3)} + \frac{(O_2 - np_2)^2}{np_2} + \frac{(O_3 - np_3)^2}{np_3}}_{\text{this part should also be } \sim \chi_1^2 \text{, let's prove this}}$
 
@@ -118,9 +118,9 @@ The random variable that we've received has a $\chi_1^2$ distribution because it
 with expectations of $np_2$ and $np_3$ and variance of $np_2(1-p_2)$ and $np_3(1-p_3)$ respectively. 
 
 Sum of 2 gaussian random variables is gaussian with expectation equal to sum of expectations and variance equal to sum of
-variances, this fact [can be proved using either conolutions or Fourier transform](https://en.wikipedia.org/wiki/Sum_of_normally_distributed_random_variables) (known as characteristic functions in theory of probabilities).
+variances, this fact [can be proved using either convolutions or Fourier transform](https://en.wikipedia.org/wiki/Sum_of_normally_distributed_random_variables) (traditionally known as characteristic functions in the field theory of probabilities).
 
 Obviously, $\mathbb{E}\xi = np_2p_3 - np_3p_2 = 0$ and $Var\xi = \frac{np_2(1-p_2)p_3^2 - np_3(1-p_3)p_2^2}{np_2p_3(p_2+p_3)} = 1$. Thus, $\xi^2 \sim \chi_1^2$. This concludes our proof.
 
-The proof was following the logic of [this paper's](https://arxiv.org/pdf/1808.09171.pdf) proof number 6.
+The proof was following the logic of proof number 6 from [this paper about 7 ways to prove Pearson's test](https://arxiv.org/pdf/1808.09171.pdf).
 
