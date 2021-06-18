@@ -8,8 +8,7 @@ description: Here I discuss, how an average mathematically inclined person like 
 
 In [one of my previous posts](/2021-06-09-1) I derived the chi-square distribution for sum of squares of Gaussian random 
 variables and showed that it is a special case of Gamma distribution and very similar to Erlang distribution. You can 
-look them up for reference. In this post I will focus on motivation for Pearson's chi-square tests: how they arise in 
-real-life problems and in what cases they are intuitive.
+look them up for reference.
 
 
 A motivational example
@@ -105,6 +104,23 @@ but will still work.
 
 $\sum \limits_{i=1}^{3} \frac{(O_i - np_i)^2}{np_i} = \frac{(O_1 - np_1)^2}{np_1} + \frac{(O_2 - np_2)^2}{np_2} + \frac{(O_3 - np_3)^2}{np_3} = \underbrace{\frac{(O_1 - np_1)^2}{np_1} + \frac{(O_2 + O_3 - n(p_2 + p_3))^2}{n(p_2 + p_3)}}_{\sum \limits_{j=1}^2 \frac{{O'-np_j}^2}{np_j} \sim \chi_1^2 \text{ for sum of k=2 terms by induction base}} - \underbrace{\frac{(O_2 + O_3 - n(p_2 + p_3))^2}{n(p_2 + p_3)} + \frac{(O_2 - np_2)^2}{np_2} + \frac{(O_3 - np_3)^2}{np_3}}_{\text{this part should also be } \sim \chi_1^2 \text{, let's prove this}}$
 
-Let us focus on the second expression and simplify it:
+Let us focus on the second term and simplify it:
 
-$\frac{(O_2 + O_3 - n(p_2 + p_3))^2}{n(p_2 + p_3)} + \frac{(O_2 - np_2)^2}{np_2} + \frac{(O_3 - np_3)^2}{np_3} = \frac{(O_2 + O_3 - n(p_2 + p_3))^2\cdot p_2 p_3}{n(p_2 + p_3) \cdot p_2p_3} + \frac{(O_2 - np_2)^2 \cdot (p_2 + p_3)p_3}{np_2 \cdot (p_2 + p_3)p_3} + \frac{(O_3 - np_3)^2 \cdot (p_2 + p_3)p_2}{np_3 \cdot (p_2 + p_3)p_2} = \frac{ ... }{np_2p_3(p_2+p_3)}$
+$- \frac{(O_2 + O_3 - n(p_2 + p_3))^2}{n(p_2 + p_3)} + \frac{(O_2 - np_2)^2}{np_2} + \frac{(O_3 - np_3)^2}{np_3} = -\frac{(O_2 + O_3 - n(p_2 + p_3))^2\cdot p_2 p_3}{n(p_2 + p_3) \cdot p_2p_3} + \frac{(O_2 - np_2)^2 \cdot (p_2 + p_3)p_3}{np_2 \cdot (p_2 + p_3)p_3} + \frac{(O_3 - np_3)^2 \cdot (p_2 + p_3)p_2}{np_3 \cdot (p_2 + p_3)p_2} = $
+
+$ = \frac{ (O_2^2 - 2O_2np_2 + n^2p_2^2)(p_2p_3 + p_3^2) + (O_3^2 - 2O_3np_3 + n^2p_3^2)(p_2^2 + p_2p_3) - ((O_2+O_3)^2 - 2(O_2+O_3)n(p_2+p_3) + n^2(p_2^2 + 2p_2p_3 + p_3^2))p_2p_3 }{np_2p_3(p_2+p_3)} = $
+
+$ = \frac{(\cancel{O_2^2p_2p_3} + O_2^2p_3^2 - \cancel{2O_2np_2^2p_3} - \cancel{2O_2np_2p_3^2} + \cancel{n^2p_2^3p_3} + \cancel{n^2p_2^2p_3^2}) + (O_3^2p_2^2 + \cancel{O_3^2p_2p_3} - \cancel{2O_3np_3p_2^2} - \cancel{2O_3np_2p_3^2} + \cancel{n^2p_2^2p_3^2} + \cancel{n^2p_2p_3^3} ) - (\cancel{O_2^2p_2p_3} + 2O_2O_3p_2p_3 + \cancel{O_3^2p_2p_3} - \cancel{2O_2np_2^2p_3} - \cancel{2O_2np_2p_3^2} - \cancel{2O_3np_2^2p_3} - \cancel{2O_3np_2p_3^2} + \cancel{n^2p_2^3p_3} + \cancel{2n^2p_2^2p_3^2} + \cancel{n^2p_2p_3^3}) }{np_2p_3(p_2+p_3)} = $
+
+$ = \frac{O_2^2p_3^2 + O_3^2p_2^2 + 2O_2O_3p_2p_3}{np_2p_3(p_2+p_3)} = \frac{(O_2p_3 + O_3p_2)^2}{np_2p_3(p_2+p_3)}$.
+
+The random variable that we've received has a $\chi_1^2$ distribution because it is a square of $\xi = \frac{O_2p_3 + O_3p_2}{\sqrt{np_2p_3(p_2+p_3)}}$ random variable, which is a standard normal one. Let's show this fact: indeed $O_2$ and $O_3$ are gaussian r.v. (by de Moivre-Laplace/C.L.T.)
+with expectations of $np_2$ and $np_3$ and variance of $np_2(1-p_2)$ and $np_3(1-p_3)$ respectively. 
+
+Sum of 2 gaussian random variables is gaussian with expectation equal to sum of expectations and variance equal to sum of
+variances, this fact [can be proved using either conolutions or Fourier transform](https://en.wikipedia.org/wiki/Sum_of_normally_distributed_random_variables) (known as characteristic functions in theory of probabilities).
+
+Obviously, $\mathbb{E}\xi = np_2p_3 - np_3p_2 = 0$ and $Var\xi = \frac{np_2(1-p_2)p_3^2 - np_3(1-p_3)p_2^2}{np_2p_3(p_2+p_3)} = 1$. Thus, $\xi^2 \sim \chi_1^2$. This concludes our proof.
+
+The proof was following the logic of [this paper's](https://arxiv.org/pdf/1808.09171.pdf) proof number 6.
+
