@@ -23,4 +23,4 @@ We want to apply this fact to our ratio, but we need to invert $\chi_m^2$ to do 
 
 Thus, $f_{\chi^2}(x) = \frac{\partial F_{\chi^2}(\frac{1}{x})}{\partial x} = \frac{1}{x^2} f_{\chi^2}(\frac{1}{x})$. 
 
-Now, $f_{\frac{\chi_n^2}{\chi_m^2}}(x) = f_{\chi^2_n}(x) f_{\frac{1}{\chi^2_m}}(x) = \frac{e^{-x}x^{n/2-1}}{2^{n/2}\Gamma(n/2)} \frac{1}{x^2} \frac{e^{-\frac{1}{x}}{\frac{1}{x}}^{m/2-1}}{2^{m/2}\Gamma(m/2)}$
+Now, $$f_{\frac{\chi_n^2}{\chi_m^2}}(x) = f_{\chi^2_n}(x) f_{\frac{1}{\chi^2_m}}(x) = \frac{e^{-x}x^{n/2-1}}{2^{n/2}\Gamma(n/2)} \frac{1}{x^2} \frac{e^{-\frac{1}{x}}{\frac{1}{x}}^{m/2-1}}{2^{m/2}\Gamma(m/2)}$$
