@@ -49,21 +49,41 @@ $ = \int \limits_{t=-\infty}^{\infty} p(x \leq \eta \psi < (t\frac{x}{t} + \frac
 Snedecor's F distribution derivation
 ------------------------------------
 
-We want to apply this fact to our ratio, but we need to invert $\chi_m^2$ to do so. By [inverse distribution formula](https://en.wikipedia.org/wiki/Inverse_distribution): $F_{\chi^2}(x) = p(\chi^2 \leq x) = p(\frac{1}{\chi^2} \geq \frac{1}{x}) = 1 - p(\frac{1}{\chi^2} \leq \frac{1}{x}) = 1 - F_{\frac{1}{\chi^2}}(\frac{1}{x})$. 
+We want to calculate the probability density function of F distribution as a multiple of 2 distributions, chi-square and inverse chi-square. But we need to invert $\chi_m^2$ first to do so. We'll have to derive the probability density function of [inverse chi-square distribution](https://en.wikipedia.org/wiki/Inverse-chi-squared_distribution).
 
-Thus, $f_{\frac{1}{\chi^2}}(x) = \frac{\partial (1-F_{\chi^2}(\frac{1}{x}))}{\partial x} = \frac{1}{x^2} f_{\chi^2}(\frac{1}{x})$. 
+#### Inverse chi-square distribution
 
-Now, let us substitute this into the pdf for the ratio of our chi-squares. Again, $p(\eta \cdot \psi \leq x) = \int \limits_{t=-\infty}^{\infty} p(\eta \leq t) \cdot p(\psi \leq \frac{x}{t})dt $.
+Recall the probability density function of chi-square distribution: $f_{\chi_n^2} = \frac{x^{\frac{n}{2}-1} e^{-x/2}}{2^{\frac{n}{2}}\Gamma(n/2)}$. 
 
-$f_{\frac{\chi_n^2}{\chi_m^2}}(x) = \int \limits_{t=-\infty}^{\infty} f_{\chi^2_n}(t) f_{\frac{1}{\chi^2_m}}(\frac{x}{t})dt = \int \limits_{t=-\infty}^{\infty} f_{\chi^2_n}(x) \frac{t^2}{x^2} f_{\chi^2_m}(\frac{t}{x}) dt = \int \limits_{t=-\infty}^{\infty} \frac{e^{-t/2}t^{n/2-1}}{2^{n/2}\Gamma(n/2)} \frac{t^2}{x^2} \frac{e^{-\frac{t}{2x}}{\frac{t}{x}}^{m/2-1}}{2^{m/2}\Gamma(m/2)}dt = $
+By [inverse distribution formula](https://en.wikipedia.org/wiki/Inverse_distribution): $F_{\chi^2}(x) = p(\chi^2 \leq x) = p(\frac{1}{\chi^2} \geq \frac{1}{x}) = 1 - p(\frac{1}{\chi^2} \leq \frac{1}{x}) = 1 - F_{\frac{1}{\chi^2}}(\frac{1}{x})$. 
+
+Thus, $f_{\chi^2}(x) = \frac{\partial (1-F_{\frac{1}{\chi^2}}(\frac{1}{x}))}{\partial x} = \frac{1}{x^2} f_{\frac{1}{\chi^2}}(\frac{1}{x})$. Now, if $x=\frac{1}{y}$, $f_{\chi^2}(\frac{1}{y}) = y^2f_{\frac{1}{\chi^2}}(y)$ and $f_{\frac{1}{\chi^2}}(y) = \frac{1}{y^2}f_{\chi^2}(\frac{1}{y})$.
+
+As a result, p.d.f. of inverse chi-square $f_{\frac{1}{\chi^2}}(x) = \frac{1}{x^2} \cdot \frac{\frac{1}{x}^{\frac{n}{2}-1} \cdot e^{-\frac{1}{2x}} }{2^{\frac{n}{2}} \Gamma(\frac{n}{2})} = \frac{\frac{1}{x}^{\frac{n}{2}+1} \cdot e^{-\frac{1}{2x}} }{2^{\frac{n}{2}} \Gamma(\frac{n}{2})}$.
+
+
+#### F-distribution
+
+Now, let us substitute the p.d.f. of chi-square and inverse chi-square distributions into F-distribution probability density function:
+
+$f_{\frac{\chi_n^2}{\chi_m^2}}(x) = \int \limits_{t=-\infty}^{\infty} f_{\chi^2_n}(t) f_{\frac{1}{\chi^2_m}}(\frac{x}{t})dt = \int \limits_{t=-\infty}^{\infty} \frac{e^{-t/2}t^{n/2-1}}{2^{n/2}\Gamma(n/2)} \frac{e^{-\frac{t}{2x}}{\frac{t}{x}}^{m/2+1}}{2^{m/2}\Gamma(m/2)}dt = $
 
 $ = \frac{1}{\Gamma(n/2)\Gamma(m/2) 2^{\frac{m+n}{2}} x^{m/2+1}} \int \limits_{t=-\infty}^{\infty}t^{\frac{n+m}{2}}e^{-(t+\frac{t}{x})/2}dt = \frac{1}{\Gamma(n/2)\Gamma(m/2) 2^{\frac{m+n}{2}} x^{m/2+1}} \int \limits_{t=-\infty}^{\infty}t^{\frac{n+m}{2}}e^{-\frac{t}{2}(1+\frac{1}{x})}dt$. 
 
-Now do a variable substitution $z = \frac{x+1}{x}\frac{t}{2}$. Our integral then will take shape of a gamma-function: $\int \limits_{z=-\infty}^{\infty} (\frac{2zx}{x+1})^{\frac{n+m}{2}} e^{-z} \frac{2x}{x+1} dz = (\frac{x}{x+1})^{\frac{n+m}{2}+1} \cdot 2^{\frac{n+m}{2}+1} \cdot \int \limits_{z=-\infty}^{\infty} z^{\frac{n+m}{2}}e^{-z}dz = \frac{x}{x+1}^{\frac{n+m}{2}+1} 2^{\frac{n+m}{2}+1} \Gamma(\frac{n+m}{2})$.
+We will convert our integral into a gamma-function $\Gamma(n) = \int \limits_{0}^{\infty} z^{n-1}e^{-z}dz$.
 
-Substituting it into the expression for p.d.f., we get: $f_{\frac{\chi^2_n}{\chi^2_m}}(x) = \frac{\Gamma(\frac{n+m}{2})}{\Gamma(n/2)\Gamma(m/2)} \frac{2^{\frac{n+m}{2}}}{2^{\frac{m+n}{2}}} (\frac{x}{x+1})^{\frac{n+m}{2}+1} \frac{1}{x^{\frac{m}{2}+1}} = \frac{\Gamma(\frac{n+m}{2})}{\Gamma(n/2)\Gamma(m/2)} \frac{x^{\frac{n}{2}}}{(x+1)^{\frac{n+m}{2}+1}}$.
+In order to do that we shall perform a variable substitution $z = \frac{x+1}{x}\frac{t}{2}$, hence, $t = \frac{2x}{x+1}z$. Our integral then will take form of a gamma-function: 
+
+$\int \limits_{t=-\infty}^{\infty}t^{\frac{n+m}{2}}e^{-\frac{t}{2}(1+\frac{1}{x})}dt = \int \limits_{z=-\infty}^{\infty} (\frac{2zx}{x+1})^{\frac{n+m}{2}} e^{-z} \frac{2x}{x+1} dz = (\frac{x}{x+1})^{\frac{n+m}{2}+1} \cdot 2^{\frac{n+m}{2}+1} \cdot \int \limits_{z=-\infty}^{\infty} z^{\frac{n+m}{2}}e^{-z}dz = \frac{x}{x+1}^{\frac{n+m}{2}+1} 2^{\frac{n+m}{2}+1} \Gamma(\frac{n+m}{2}+1)$.
+
+Substituting it into the expression for p.d.f., we get: $f_{\frac{\chi^2_n}{\chi^2_m}}(x) = \frac{\Gamma(\frac{n+m}{2}+1)}{\Gamma(n/2)\Gamma(m/2)} \frac{2^{\frac{n+m}{2}+1}}{2^{\frac{m+n}{2}}} (\frac{x}{x+1})^{\frac{n+m}{2}+1} \frac{1}{x^{\frac{m}{2}+1}} = \frac{2\Gamma(\frac{n+m}{2}+1)}{\Gamma(n/2)\Gamma(m/2)} \frac{x^{\frac{n}{2}}}{(x+1)^{\frac{n+m}{2}+1}} = \frac{\Gamma(\frac{m+n}{2})}{\Gamma(\frac{m}{2}) \Gamma(\frac{n}{2})} \frac{x^{\frac{n}{2}-1}}{(x+1)^{\frac{n+m}{2}}} \frac{2x}{\frac{n+m}{2}(x+1)}$.
+
+The result is $\frac{\Gamma(\frac{m+n}{2})}{\Gamma(\frac{m}{2}) \Gamma(\frac{n}{2})} \frac{x^{\frac{n}{2}-1}}{(x+1)^{\frac{n+m}{2}}}$.
 
 
+F distribution is a special case of Beta-distribution
+-----------------------------------------------------
 
+TODO
 
 
