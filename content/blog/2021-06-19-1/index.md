@@ -66,7 +66,7 @@ As a result, p.d.f. of inverse chi-square $f_{\frac{1}{\chi^2}}(x) = \frac{1}{x^
 
 Now, let us substitute the p.d.f. of chi-square and inverse chi-square distributions into F-distribution probability density function:
 
-$f_{\frac{\chi_n^2}{\chi_m^2}}(x) = \int \limits_{t=-\infty}^{\infty} f_{\chi^2_n}(t) f_{\frac{1}{\chi^2_m}}(\frac{x}{t})dt = \int \limits_{t=-\infty}^{\infty} \frac{e^{-t/2}t^{n/2-1}}{2^{n/2}\Gamma(n/2)} \frac{e^{-\frac{t}{2x}}{\frac{t}{x}}^{m/2+1}}{2^{m/2}\Gamma(m/2)}dt = $
+$f_{\frac{\chi_n^2}{\chi_m^2}}(x) = \int \limits_{t=-\infty}^{\infty} f_{\chi^2_n}(t) f_{\frac{1}{\chi^2_m}}(\frac{x}{t})dt = \int \limits_{t=-\infty}^{\infty} \frac{t^{n/2-1}e^{-t/2}}{2^{n/2}\Gamma(n/2)} \frac{{\frac{t}{x}}^{m/2+1}e^{-\frac{t}{2x}}}{2^{m/2}\Gamma(m/2)}dt = $
 
 $ = \frac{1}{\Gamma(n/2)\Gamma(m/2) 2^{\frac{m+n}{2}} x^{m/2+1}} \int \limits_{t=-\infty}^{\infty}t^{\frac{n+m}{2}}e^{-(t+\frac{t}{x})/2}dt = \frac{1}{\Gamma(n/2)\Gamma(m/2) 2^{\frac{m+n}{2}} x^{m/2+1}} \int \limits_{t=-\infty}^{\infty}t^{\frac{n+m}{2}}e^{-\frac{t}{2}(1+\frac{1}{x})}dt$. 
 
@@ -84,6 +84,8 @@ The result is $\frac{\Gamma(\frac{m+n}{2})}{\Gamma(\frac{m}{2}) \Gamma(\frac{n}{
 F distribution is a special case of Beta-distribution
 -----------------------------------------------------
 
-TODO
+It is easy to notice that the expression $\frac{\Gamma(\frac{m+n}{2})}{\Gamma(\frac{m}{2})\Gamma(\frac{n}{2})}$ is inverse of [Beta-function](https://en.wikipedia.org/wiki/Beta_function) $\Beta(x,y) = \frac{\Gamma(x)\Gamma(y)}{\Gamma(x+y)}$.
 
+It is also easy to see that $\frac{x^{\frac{n}{2}-1}}{(x+1)^{\frac{n+m}{2}}}$ is a typical integrand of an incomplete Beta-function, as the one used in [Beta-distribution](https://en.wikipedia.org/wiki/Beta_distribution) probability density function.
 
+Thus, F distribution [is just a special case](https://math.stackexchange.com/questions/713626/beta-distribution-to-f-distribution) of Beta-distribution $f(x, \alpha, \beta) = \frac{x^{\alpha-1}(1-x)^{\beta-1}}{\Beta(\alpha, \beta)} = \frac{\Gamma(x+y)}{\Gamma(x)\Gamma(y)}x^{\alpha-1}(1-x)^{\beta-1}$.
