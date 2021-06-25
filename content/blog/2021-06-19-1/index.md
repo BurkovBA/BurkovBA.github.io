@@ -24,13 +24,13 @@ Thus, cumulative distribution function $F_{\eta,\psi}(x, y) = \int \limits_{t=-\
 
 Now, we need to calculate the cumulative distribution function of a multiple of 2 random variables. The logic is similar to convolutions in case of a sum of variables: if the product $\eta \psi = x$, we allow $\eta$ to take an arbitrary value of $t$, and $\psi$ should take value of $\frac{x}{t}$ then.
 
-Thus we will be integrating $f_{\eta}(t) f_{\psi}(s)$ over a curve $t=\frac{x}{s}$. As the integral is taken along a curve $C$, we have to multiply the expression under the integral, by the length of an elementary arc.
+Thus we will be integrating $f_{\eta}(t) f_{\psi}(s)$ over a curve $t=\frac{x}{s}$. As the [integral is taken along a curve](https://en.wikipedia.org/wiki/Line_integral) $C$, we have to multiply the expression under the integral, by the length of an elementary arc.
 
 The elementary arc length is $dC = \sqrt{dt^2+{d(\frac{x}{t})}^2} = \sqrt{dt^2 + (\frac{-x}{t^2}dt)^2} = dt \cdot \frac{\sqrt{t^4+x^2}}{t^2}$.
 
 For probability density function of a multiplication of 2 random variables, we have: $f_{\eta\psi}(x) = \int \limits_{С: s=\frac{x}{t}} f_\psi(\frac{x}{t}) f_\eta(t) dC = \int \limits_{t=0}^{\infty} f_\psi(\frac{x}{t}) f_\eta(t) \frac{\sqrt{t^4+x^2}}{t^2} dt$.
 
-Similarly, cumulative distribution function $F_{\eta\psi}(x) = \int \limits_{t=0}^{\infty} \int \limits_{s=0}^{x/t}f_\eta(t) f_\psi(s) dt ds = \int \limits_{t=0}^{\infty}F_\psi(\frac{x}{t})f_\eta(t)dt = \int \limits_{t=0}^{\infty}p(\psi \leq \frac{x}{t})dF_\eta(t) = \int \limits_{t=0}^{\infty}p(\psi \leq \frac{x}{t}) p(t \leq \eta < t+dt)$. Note that is not required here.
+Similarly, cumulative distribution function $F_{\eta\psi}(x) = \int \limits_{t=0}^{\infty} \int \limits_{s=0}^{x/t}f_\eta(t) f_\psi(s) dt ds = \int \limits_{t=0}^{\infty}F_\psi(\frac{x}{t})f_\eta(t)dt = \int \limits_{t=0}^{\infty}p(\psi \leq \frac{x}{t})dF_\eta(t) = \int \limits_{t=0}^{\infty}p(\psi \leq \frac{x}{t}) p(t \leq \eta < t+dt)$ (note that multiplication of integrand by a unit arc is not required here, as this is a proper 2D integral).
 
 Graphically, it represents the integral of 2-dimensional probability density function over the area, delimited by $s=\frac{x}{t}$ curve:
 
