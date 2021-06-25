@@ -1,5 +1,5 @@
 ---
-title: Snedecor's F distribution, F-test and ANOVA
+title: Snedecor's F distribution and F-test
 date: "2021-06-19T00:00:00.284Z"
 tags: ["math"]
 cover: "./Snedecor.jpeg"
@@ -84,6 +84,15 @@ Substituting it into the expression for p.d.f., we get: $f_{\frac{\chi^2_n}{\chi
 
 Thus $f_{\frac{\chi_n^2}{\chi_m^2}}(x) = \frac{\Gamma(\frac{m+n}{2})}{\Gamma(\frac{m}{2}) \Gamma(\frac{n}{2})} \frac{x^{\frac{n}{2}-1}}{(x+1)^{\frac{n+m}{2}}}$.
 
+An alternative derivation is available [here](http://www.milefoot.com/math/stat/pdfc-fdist.htm).
+
+Normalization of chi-square distributions by degrees of freedom
+---------------------------------------------------------------
+
+In actual F distribution chi-squared distributions are normalized by their respective degrees of freedom, so that $F = \frac{\frac{\chi_n^2}{n}}{\frac{\chi_m^2}{m}}$
+
+The general form of F distribution probability density $f_{\frac{\frac{\chi_n^2}{n}}{\frac{\chi_m^2}{m}}}(x) = \frac{n}{m} \frac{\Gamma(\frac{m+n}{2}) (\frac{n}{m}x)^{n/2-1} }{\Gamma(\frac{m}{2}) \Gamma(\frac{n}{2}) (\frac{n}{m}x + 1)^{(m+n)/2} } = \frac{\Gamma(\frac{m+n}{2}) (\frac{n}{m})^{n/2} x^{n/2-1} }{\Gamma(\frac{m}{2}) \Gamma(\frac{n}{2}) (\frac{n}{m}x + 1)^{(m+n)/2} }$.
+
 
 F distribution is a special case of Beta-distribution
 -----------------------------------------------------
@@ -93,3 +102,15 @@ It is easy to notice that the expression $\frac{\Gamma(\frac{m+n}{2})}{\Gamma(\f
 It is also easy to see that $\frac{x^{\frac{n}{2}-1}}{(x+1)^{\frac{n+m}{2}}}$ is a typical integrand of an incomplete Beta-function, as the one used in [Beta-distribution](https://en.wikipedia.org/wiki/Beta_distribution) probability density function.
 
 Thus, F distribution [is just a special case](https://math.stackexchange.com/questions/713626/beta-distribution-to-f-distribution) of Beta-distribution $f(x, \alpha, \beta) = \frac{x^{\alpha-1}(1-x)^{\beta-1}}{\Beta(\alpha, \beta)} = \frac{\Gamma(x+y)}{\Gamma(x)\Gamma(y)}x^{\alpha-1}(1-x)^{\beta-1}$.
+
+
+F-test
+------
+[F-test](https://en.wikipedia.org/wiki/Analysis_of_variance) is just an application of F distribution to data. 
+
+Suppose you have a set of patients, and some subset of them receives a treatment. You need to prove that the treatment works. 
+You measure some parameter (e.g. duration of sickness) for the treated patients and for the whole set of patients.
+
+You then assume a null-hypothesis that there is no difference between treated patients. If the null-hypothesis holds, the ratio of sample
+variances between treated patients and all patients should be F-distributed. If the p-value obtained in this test is too
+small, you reject the null hypothesis and claim that the treatment works.
