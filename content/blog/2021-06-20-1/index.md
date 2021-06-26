@@ -35,9 +35,11 @@ Hence, $\frac{ (\bar{\xi} - \mu) }{ \frac{\sigma}{\sqrt{n}} } \sim \mathcal{N}(0
 
 #### Sample variance, unbiased (Bessel) estimator and its distribution
 
-Sample variance $ S^2 = \frac{1}{n-1} \sum \limits_{i=1}^{n} (\xi_i - \bar{\xi})^2 \sim \chi^2_{n-1}$ is a chi-square distributed random variable with n-1 degrees of freedom.
+Sample variance divided by exact variance $ \frac{S^2}{\sigma^2} = \frac{1}{(n-1) \sigma^2} \sum \limits_{i=1}^{n} (\xi_i - \bar{\xi})^2 \sim \chi^2_{n-1}$ is a chi-square distributed random variable with n-1 degrees of freedom.
 
-TODO: proof
+Indeed: $\xi_i \sim \mathcal{N}(\mu, \sigma^2)$, $\bar{\xi} \sim \mathcal{N}(\mu, n\sigma^2)$, $\xi_i - \bar{\xi} \sim \mathcal{N}(0, (n-1)\sigma^2)$, $\frac{\xi_i - \bar{\xi}}{\sqrt{(n-1)} \sigma} \sim \mathcal{N}(0, 1)$.
+
+Thus, $\frac{S^2}{\sigma^2}$ is a sum of squares of standard normal variables, which is distributed as $\chi^2_n$, as we've shown in [previous posts](/2021-06-09-1). TODO: n or n-1 degrees?
 
 TODO: Bessel correction.
 
