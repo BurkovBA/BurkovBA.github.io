@@ -24,13 +24,11 @@ Thus, cumulative distribution function $F_{\eta,\psi}(x, y) = \int \limits_{t=-\
 
 Now, we need to calculate the cumulative distribution function of a multiple of 2 random variables. The logic is similar to convolutions in case of a sum of variables: if the product $\eta \psi = x$, we allow $\eta$ to take an arbitrary value of $t$, and $\psi$ should take value of $\frac{x}{t}$ then.
 
-Thus we will be integrating $f_{\eta}(t) f_{\psi}(s)$ over a curve $t=\frac{x}{s}$. As the [integral is taken along a curve](https://en.wikipedia.org/wiki/Line_integral) $C$, we have to multiply the expression under the integral, by the length of an elementary arc.
+We will be integrating $f_{\eta}(t) f_{\psi}(s)$ in a space, where $s=\frac{x}{t}$, we have to multiply the integrand by Jacobian determinant $\left|\frac{ds}{dx}\right| = \frac{1}{t}$. 
 
-The elementary arc length is $dC = \sqrt{dt^2+{d(\frac{x}{t})}^2} = \sqrt{dt^2 + (\frac{-x}{t^2}dt)^2} = dt \cdot \frac{\sqrt{t^4+x^2}}{t^2}$.
+Thus, probability density function of F distribution is $f_{\frac{\chi_n^2}{\chi_m^2}}(x) = \int \limits_{t=0}^{\infty} f_{\chi^2_n}(t) f_{\frac{1}{\chi^2_m}}(\frac{x}{t}) \frac{1}{t} dt$.
 
-For probability density function of a multiplication of 2 random variables, we have: $f_{\eta\psi}(x) = \int \limits_{С: s=\frac{x}{t}} f_\psi(\frac{x}{t}) f_\eta(t) dC = \int \limits_{t=0}^{\infty} f_\psi(\frac{x}{t}) f_\eta(t) \frac{\sqrt{t^4+x^2}}{t^2} dt$.
-
-Similarly, cumulative distribution function $F_{\eta\psi}(x) = \int \limits_{t=0}^{\infty} \int \limits_{s=0}^{x/t}f_\eta(t) f_\psi(s) dt ds = \int \limits_{t=0}^{\infty}F_\psi(\frac{x}{t})f_\eta(t)dt = \int \limits_{t=0}^{\infty}p(\psi \leq \frac{x}{t})dF_\eta(t) = \int \limits_{t=0}^{\infty}p(\psi \leq \frac{x}{t}) p(t \leq \eta < t+dt)$ (note that multiplication of integrand by a unit arc is not required here, as this is a proper 2D integral).
+Similarly, cumulative distribution function $F_{\eta\psi}(x) = \int \limits_{t=0}^{\infty} \int \limits_{s=0}^{x/t}f_\eta(t) f_\psi(s) dt ds = \int \limits_{t=0}^{\infty}F_\psi(\frac{x}{t})f_\eta(t)dt = \int \limits_{t=0}^{\infty}p(\psi \leq \frac{x}{t})dF_\eta(t) = \int \limits_{t=0}^{\infty}p(\psi \leq \frac{x}{t}) p(t \leq \eta < t+dt)$ (note that multiplication of integrand by Jacobian is not required here, as this is a proper 2D integral).
 
 Graphically, it represents the integral of 2-dimensional probability density function over the area, delimited by $s=\frac{x}{t}$ curve:
 
@@ -70,7 +68,7 @@ As a result, p.d.f. of inverse chi-square $f_{\frac{1}{\chi^2}}(x) = \frac{1}{x^
 
 Now, let us substitute the p.d.f. of chi-square and inverse chi-square distributions into F-distribution probability density function:
 
-$f_{\frac{\chi_n^2}{\chi_m^2}}(x) = \int \limits_{t=0}^{\infty} f_{\chi^2_n}(t) f_{\frac{1}{\chi^2_m}}(\frac{x}{t}) \underbrace {\frac{1}{t}}_{TODO} dt = \int \limits_{t=0}^{\infty} \frac{t^{n/2-1}e^{-t/2}}{2^{n/2}\Gamma(n/2)} \frac{{\frac{t}{x}}^{m/2+1}e^{-\frac{t}{2x}}}{2^{m/2}\Gamma(m/2)} \frac{1}{t} dt = $
+$f_{\frac{\chi_n^2}{\chi_m^2}}(x) = \int \limits_{t=0}^{\infty} f_{\chi^2_n}(t) f_{\frac{1}{\chi^2_m}}(\frac{x}{t}) \underbrace {\frac{1}{t}}_{\left| \frac{ds}{dx} \right|} dt = \int \limits_{t=0}^{\infty} \frac{t^{n/2-1}e^{-t/2}}{2^{n/2}\Gamma(n/2)} \frac{{\frac{t}{x}}^{m/2+1}e^{-\frac{t}{2x}}}{2^{m/2}\Gamma(m/2)} \frac{1}{t} dt = $
 
 $ = \frac{1}{\Gamma(n/2)\Gamma(m/2) 2^{\frac{m+n}{2}} x^{m/2+1}} \int \limits_{t=0}^{\infty}t^{\frac{n+m}{2}-1}e^{-(t+\frac{t}{x})/2}dt = \frac{1}{\Gamma(n/2)\Gamma(m/2) 2^{\frac{m+n}{2}} x^{m/2+1}} \int \limits_{t=0}^{\infty}t^{\frac{n+m}{2}-1}e^{-\frac{t}{2}(1+\frac{1}{x})}dt$. 
 
@@ -80,7 +78,7 @@ In order to do that we shall perform a variable substitution $z = \frac{x+1}{x}\
 
 $\int \limits_{t=0}^{\infty}t^{\frac{n+m}{2}-1}e^{-\frac{t}{2}(1+\frac{1}{x})}dt = \int \limits_{z=0}^{\infty} (\frac{2zx}{x+1})^{\frac{n+m}{2}-1} e^{-z} \frac{2x}{x+1} dz = (\frac{x}{x+1})^{\frac{n+m}{2}} \cdot 2^{\frac{n+m}{2}} \cdot \int \limits_{z=0}^{\infty} z^{\frac{n+m}{2}-1}e^{-z}dz = \frac{x}{x+1}^{\frac{n+m}{2}} 2^{\frac{n+m}{2}} \Gamma(\frac{n+m}{2})$.
 
-Substituting it into the expression for p.d.f., we get: $f_{\frac{\chi^2_n}{\chi^2_m}}(x) = \frac{\Gamma(\frac{n+m}{2})}{\Gamma(n/2)\Gamma(m/2)} \frac{2^{\frac{n+m}{2}}}{2^{\frac{m+n}{2}}} (\frac{x}{x+1})^{\frac{n+m}{2}+1} \frac{1}{x^{\frac{m}{2}}} = \frac{\Gamma(\frac{n+m}{2})}{\Gamma(n/2)\Gamma(m/2)} \frac{x^{\frac{n}{2}-1}}{(x+1)^{\frac{n+m}{2}}}$.
+Substituting it into the expression for p.d.f., we get: $f_{\frac{\chi^2_n}{\chi^2_m}}(x) = \frac{\Gamma(\frac{n+m}{2})}{\Gamma(n/2)\Gamma(m/2)} \frac{2^{\frac{n+m}{2}}}{2^{\frac{m+n}{2}}} (\frac{x}{x+1})^{\frac{n+m}{2}} \frac{1}{x^{\frac{m}{2}+1}} = \frac{\Gamma(\frac{n+m}{2})}{\Gamma(n/2)\Gamma(m/2)} \frac{x^{\frac{n}{2}-1}}{(x+1)^{\frac{n+m}{2}}}$.
 
 Thus $f_{\frac{\chi_n^2}{\chi_m^2}}(x) = \frac{\Gamma(\frac{m+n}{2})}{\Gamma(\frac{m}{2}) \Gamma(\frac{n}{2})} \frac{x^{\frac{n}{2}-1}}{(x+1)^{\frac{n+m}{2}}}$.
 
