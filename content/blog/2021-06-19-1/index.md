@@ -99,7 +99,7 @@ It is easy to notice that the expression $\frac{\Gamma(\frac{m+n}{2})}{\Gamma(\f
 
 It is also easy to see that $\frac{x^{\frac{n}{2}-1}}{(x+1)^{\frac{n+m}{2}}}$ is a typical integrand of an incomplete Beta-function, as the one used in [Beta-distribution](https://en.wikipedia.org/wiki/Beta_distribution) probability density function.
 
-Thus, F distribution [is just a special case](https://math.stackexchange.com/questions/713626/beta-distribution-to-f-distribution) of Beta-distribution $f(x, \alpha, \beta) = \frac{x^{\alpha-1}(1-x)^{\beta-1}}{\Beta(\alpha, \beta)} = \frac{\Gamma(x+y)}{\Gamma(x)\Gamma(y)}x^{\alpha-1}(1-x)^{\beta-1}$.
+Thus, F distribution [is just a special case](https://math.stackexchange.com/questions/713626/beta-distribution-to-f-distribution) of Beta-distribution $f(x, \alpha, \beta) = \frac{x^{\alpha-1}(1-x)^{\beta-1}}{\Beta(\alpha, \beta)} = \frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)}x^{\alpha-1}(1-x)^{\beta-1}$.
 
 
 F-test
