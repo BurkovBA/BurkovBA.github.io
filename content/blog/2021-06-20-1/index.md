@@ -54,7 +54,7 @@ with 1 and n-1 degrees of freedom respectively.
 
 Therefore, $T^2$ will be a Fisher-Snedecor F-distributed random variable, if we managed to prove that the numerator and denominator are independent.
 
-TODO: proof of independence: Cochran's theorem
+TODO: proof of independence: [Cochran's theorem](https://en.wikipedia.org/wiki/Cochran%27s_theorem), also see [confidence intervals section](https://en.wikipedia.org/wiki/Normal_distribution#Confidence_intervals).
 
 Let us derive the t-Student distribution from Fisher-Snedecor's F. 
 
@@ -76,4 +76,35 @@ In this section I was following the logic of [this post](http://www.milefoot.com
 Student's t-test
 ----------------
 
+Student's t-test is a family of statistical tests, based on application of t-distribution.
+
+#### Paired data and unpaired data
+
+Suppose that you have pairs of data from 2 measurements, e.g. same person's temperature without treatment and with treatment. 
+
+Our null-hypothesis is that the treatment doesn't work. Then a random variable:
+
+$T = \frac{mean1 - mean2}{\frac{S(mean1 - mean2)}{\sqrt{n}}}$
+
+is supposed to be t-Student distributed. We will reject the null-hypothesis, is the p-value for the obtained value of T
+is sufficiently low.
+
+TODO: unpaired data
+
+#### Equal and unequal variance
+
 TODO
+
+
+Confidence intervals estimation
+-------------------------------
+
+t-Student's distribution can be helpful for [estimation of confidence intervals](https://en.wikipedia.org/wiki/Student%27s_t-distribution#Confidence_intervals) for the estimate of the mean.
+
+Suppose that we need to calculate the range of reasonably probably values of mean $\hat{\mu}$ of our normal distribution.
+
+Pick a value A that corresponds to the probability level of 90% or 95% of t-Student distribution: p(-A < T < A) = 0.9. Using this level A we can calculate the confidence interval for $\mu$:
+
+$p(-A < T < A) = p(-A < \frac{\bar{\xi} - \mu}{\frac{S}{\sqrt{n} }} < A)$, thus, $p(\bar{\xi} - A\frac{S}{\sqrt{n}} < \mu < \bar{\xi} + A\frac{S}{\sqrt{n}})$
+
+So, our confidence interval for $\mu$ is \[ $\bar{\xi} - A\frac{S}{\sqrt{n}}$, $\bar{\xi} + A\frac{S}{\sqrt{n}})$ \].
