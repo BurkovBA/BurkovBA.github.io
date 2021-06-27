@@ -54,9 +54,21 @@ with 1 and n-1 degrees of freedom respectively.
 
 Therefore, $T^2$ will be a Fisher-Snedecor F-distributed random variable, if we managed to prove that the numerator and denominator are independent.
 
-TODO: proof of independence
+TODO: proof of independence: Cochran's theorem
 
-TODO: inference of t-Student from F-Fisher
+Let us derive the t-Student distribution from Fisher-Snedecor's F. 
+
+We know that $F_{T^2}(x) = p(T^2 \leq x) = p(-\sqrt{x} \leq T \leq \sqrt{x}) = F_T(\sqrt{x}) - F_T(\sqrt{-x})$.
+
+Hence, differentiating, we get: $ f_{T^2}(x) = \frac{\partial F(\sqrt{x})}{\partial \sqrt{x}} \frac{\partial \sqrt{x}}{\partial x} - \frac{\partial F(-\sqrt{x})}{\partial (-\sqrt{x})} \frac{\partial -\sqrt{x}}{\partial x}  = \frac{f_T(\sqrt{x})}{2\sqrt{x}} + \frac{f_T(-\sqrt{x})}{2\sqrt{x}}$.
+
+Probability density function of T is symmetric, since the underlying distributions are symmetric.
+
+Thus, $f_{T^2}(x) = \frac{f_T(\sqrt{x})}{2\sqrt{x}} + \frac{f_T(-\sqrt{x})}{2\sqrt{x}} = \frac{f_T(\sqrt{x})}{\sqrt{x}}$ or $f_T(x) = |x|f_{T^2}(x^2)$.
+
+Substituting probability density function of F distribution with 1 and n-1 degrees of freedom into the last formula, we obtain the t-Student distribution probability density function with (n-1) degrees of freedom:
+
+$f_T(x) = \frac{\Gamma(\frac{n}{2})}{\Gamma(\frac{n-1}{2}) \Gamma(\frac{1}{2})} \frac{ (\frac{1}{n-1})^{1/2} (x^2)^{1/2-1} }{ (1+\frac{1}{n-1}x^2)^{n/2} } = \frac{\Gamma(\frac{n}{2})}{\Gamma(\frac{n-1}{2}) \sqrt{(n-1)\pi} (1 + \frac{x^2}{n-1})^{n/2}}$.
 
 In this section I was following the logic of [this post](http://www.milefoot.com/math/stat/pdfc-tdist.htm).
 
