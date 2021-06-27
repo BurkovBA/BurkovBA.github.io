@@ -41,8 +41,13 @@ Indeed: $\xi_i \sim \mathcal{N}(\mu, \sigma^2)$, $\bar{\xi} \sim \mathcal{N}(\mu
 
 Thus, $\frac{S^2}{\sigma^2}$ is a sum of squares of standard normal variables, which is distributed as $\chi^2_n$, as we've shown in [previous posts](/2021-06-09-1). TODO: n or n-1 degrees?
 
-TODO: Bessel correction.
+Note that we normalize $S^2$ by $n-1$, not $n$, which is not intuitive. This is an example of Bias-Variance tradeoff (nicely explained in Hastie-Tibshirani). It means
+that the sample variance for small samples is somewhat smaller than the exact variance (called distribution variance). To show this fact, let us follow the logic of 
+[this post from StackOverflow](https://math.stackexchange.com/questions/61251/intuitive-explanation-of-bessels-correction).
 
+Denote $\hat{\mu}$ the sample mean and $\mu$ the true (distribution) mean.
+
+Expected sample variance, calculated intuitively is $\hat{S}^2 = \mathbb{E}(\frac{1}{n}\sum \limits_{i=1}^{n} (\xi_i-\hat{\mu})^2) = \mathbb{E}(\frac{1}{n}\sum \limits_{i=1}^{n} (\xi_i-\mu)^2 + 2(\hat{\mu} - \mu)^2 + (\hat{\mu} - \mu)^2)$
 
 #### t-statistic distribution derivation
 
