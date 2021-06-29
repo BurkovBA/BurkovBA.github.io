@@ -28,7 +28,6 @@ respectively. Therefore, $T^2$ would be a Fisher-Snedecor F-distributed random v
 
 We shall look deeper into the properties of both of these estimators to find out more about them, as important properties arise from their analysis.
 
-
 #### Sample mean and its distribution
 
 [Sample mean has a normal distribution](https://en.wikipedia.org/wiki/Normal_distribution#Sample_mean) $\hat{\mu} \sim \mathcal{N}(\mu, \frac{\sigma^2}{n})$. Let us show this fact:
@@ -74,12 +73,36 @@ Indeed:
  - $\xi_i - \bar{\xi} = \frac{n-1}{n}\xi_i - \underbrace{\sum \limits_{j \neq i} \frac{\xi_j}{n}}_{n-1 \text{ items}} \sim \mathcal{N}(0, \frac{(n-1)^2}{n^2}\sigma^2 + \frac{(n-1)\sigma^2}{n^2} = \frac{(n-1)(n-1+1)}{n^2} \sigma^2 = \frac{n-1}{n}\sigma^2)$ ([variance of difference of iids is sum of variances](https://www.khanacademy.org/math/ap-statistics/random-variables-ap/combining-random-variables/v/variance-of-differences-of-random-variables))
  - $\frac{\xi_i - \bar{\xi}}{\sqrt{n-1} \sigma} \sim \mathcal{N}(0, \frac{1}{n})$
 
-However, there is **a huge problem**: summands are normal variables, but **NOT** independent normal variables! E.g. if $n=2$, they are exactly the opposite of each other, and number of degrees of freedom equals 1. If $n=3$, two of them can take arbitrary values, but the third one is fixed. This sounds very much like the argument in [Pearson's goodness of fit test](/2021-06-17-1), right?
+However, there is **a huge problem**: summands are normal variables, but **NOT** independent normal variables! E.g. if $n=2$, they are exactly the opposite of each other, and number of degrees of freedom equals 1. If $n=3$, two of them can take arbitrary values, but the third one is fixed. This sounds very much like the argument in [Pearson's goodness of fit test](/2021-06-17-1), right? Let us prove this one, too.
+
+#### Sample variance is distributed as a chi-squared random variable with n-1 degrees of freedom 
+
+I am following the logic of [this well-written article from PennState](https://online.stat.psu.edu/stat414/lesson/26/26.3).
+
+Ok, suppose that we knew the exact expectation $\mu$. Then let us construct the sum of squares of our samples: 
+
+$\sum \limits_{i=1}^n \frac{(\xi_i - \mu)^2}{\sigma^2} \sim \chi^2_n$
+
+Again, let us add and subtract the sample mean to this sum of squares:
+
+$\sum \limits_{i=1}^n \frac{(\xi_i - \mu)^2}{\sigma^2} = \sum \limits_{i=1}^n \frac{(\xi_i - \bar{\xi} + \bar{\xi} - \mu)^2}{\sigma^2} = \sum \limits_{i=1}^n (\frac{(\xi_i-\hat{\xi})^2}{\sigma^2} + \underbrace{2 \frac{(\xi_i - \hat{\xi})(\hat{\xi} - \mu)}{\sigma^2}}_{0 \text{ due to }\sum \limits_{i=1}^n (\xi_i - \hat{\xi}) = 0} + \frac{(\hat{\xi} - \mu)^2}{\sigma^2}) = (n-1)\frac{S^2}{\sigma^2} + n\frac{(\hat{\xi} - \mu)^2}{\sigma^2}$ or:
+
+$(n-1)\frac{S^2}{\sigma^2} = \sum \limits_{i=1}^n \frac{(\xi_i - \mu)^2}{\sigma^2} - n\frac{(\hat{\xi} - \mu)^2}{\sigma^2}$, where $\sum \limits_{i=1}^n \frac{(\xi_i - \mu)^2}{\sigma^2} \sim \chi^2_n$, $\frac{(\hat{\xi} - \mu)^2}{\sigma^2} \sim \chi^2_1$.
+
+Now, we can use one of spectral analysis tools to derive the distribution of $S^2$, moment-generating functions/cumulants or characteristic functions/Fourier transform.
+
+We see that $S^2$ is a sum of 2 (not necessarily independent) chi-square random variables with different degrees of freedom, thus, probability density function of $S^2$ is a convolution of them. 
+
+Fourier transform of a convolution is a multiple of Fourier transforms. [Characteristic function of a chi-squared distribution](https://www.statlect.com/probability-distributions/chi-square-distribution) is $\phi_{\chi^2_n}(t) = (1-2it)^{-\frac{n}{2}}$.
+
+Thus, characteristic function $\phi_{(n-1)\frac{S^2}{\sigma^2}}(t) = (1-2it)^{\frac{-n}{2}} \cdot (1-2it)^{\frac{1}{2}} = (1-2it)^{-\frac{n-1}{2}}$. But this is the characteristic function of $\chi^2_{n-1}$ (characteristic functions are mostly reversible, so that correspondence of characteristic functions implies correspondence of distributions). 
+
+Hence, $(n-1)\frac{S^2}{\sigma^2} \sim \chi^2_{n-1}$.
+
+
+#### Cochran's theorem: Independence of sample mean and sample variance
 
 Moreover, it is not obvious that our numerator (sample mean) and denominator (sample variance) are independent as well. To deal with these problems, we need one more tool in our pocket.
-
-
-#### Cochran's theorem: Independence of sample mean and sample variance and n-1 degrees of freedom in sample variance
 
 A general argument, called [Cochran's theorem](https://en.wikipedia.org/wiki/Cochran%27s_theorem), exists, that can be used to prove independence of these two.
 
