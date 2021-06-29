@@ -16,37 +16,39 @@ research under a pseudonym. Having been an attendant of Karl Pearson's courses, 
 Student's t-distribution derivation
 -----------------------------------
 
-Suppose that you have sampled $n$ times from a normally distributed random variable $\xi \sim \mathcal{N}(\mu, \sigma^2)$, but you don't the mean and variance of that variable. 
+Suppose that you have sampled $n$ times from a normally distributed random variable $\xi \sim \mathcal{N}(\mu, \sigma^2)$, but you don't know the mean and variance of that variable. 
 
 The best you can do is to substitute the unknown mean and variance with their unbiased sample estimates: sample mean $\bar{\xi} = \frac{\sum \limits_{i=1}^n\xi_i}{n}$ and 
-sample variance $S^2 = \frac{1}{n-1} \sum \limits_{i=1}^{n} (\xi_i - \bar{\xi})^2$ (note the [Bessel correction](https://en.wikipedia.org/wiki/Bessel%27s_correction)).
+sample variance $S^2 = \frac{1}{n-1} \sum \limits_{i=1}^{n} (\xi_i - \bar{\xi})^2$.
 
-We shall look deeper into both of these estimators to find out more about them.
+It is intuitive to substitute sample mean and sample variance into the formula of normal distribution instead of the true ones. Turns out that we consider a very similar random variable $T = \frac{\bar{\xi} - \mu }{\sqrt{ \frac{S^2}{n} }}$ (ratio between sample mean and square root of sample variance, normalized by $n$), it is said to be t-Student distributed.
+
+You may notice that the random variable $ T^2 = \frac{ (\bar{\xi} - \mu)^2 }{S^2/n} = \frac{ \frac{ (\bar{\xi} - \mu)^2 }{ \frac{\sigma^2}{n} } }{ \frac{S^2}{\sigma^2} } $ looks very much like a ratio of two chi-squared-distributed random variables
+respectively. Therefore, $T^2$ would be a Fisher-Snedecor F-distributed random variable, if we managed to prove that the numerator and denominator were independent and that the denominator is chi-squared-distributed.
+
+We shall look deeper into the properties of both of these estimators to find out more about them, as important properties arise from their analysis.
+
 
 #### Sample mean and its distribution
 
 [Sample mean has a normal distribution](https://en.wikipedia.org/wiki/Normal_distribution#Sample_mean) $\hat{\mu} \sim \mathcal{N}(\mu, \frac{\sigma^2}{n})$. Let us show this fact:
 
-Recall that sum of $n$ independent normally distributed random variables (not necessarily infinitely many!) is exactly normally distributed with mean $n\mu$ and variance $n\sigma^2$: $\sum \limits_{i=1}^{n} \xi_i \sim \mathcal{N}(n\mu, n\sigma^2)$.
+Recall that by the [rule of summation of normally distributed random variables](https://en.wikipedia.org/wiki/Sum_of_normally_distributed_random_variables) sum of $n$ independent normally distributed random variables (not necessarily infinitely many!) is exactly normally distributed with mean $n\mu$ and variance $n\sigma^2$: $\sum \limits_{i=1}^{n} \xi_i \sim \mathcal{N}(n\mu, n\sigma^2)$.
 
 Therefore, the sample mean $\bar\xi = \frac{\sum \limits_{i=1}^{n} \xi_i}{n} \sim \mathcal{N}(\mu, \frac{\sigma^2}{n})$ - because if $Var(\xi) = \sigma^2$, $Var(\frac{\xi}{n}) = \frac{\sigma^2}{n^2}$.
 
 Hence, $\frac{ (\bar{\xi} - \mu) }{ \frac{\sigma}{\sqrt{n}} } \sim \mathcal{N}(0, 1)$ is a standard normal random variable and its square $\frac{ (\bar{\xi} - \mu)^2 }{ \frac{\sigma^2}{n} } \sim \chi_1^2$ is a chi-square distributed variable with 1 degree of freedom.
 
-#### Sample variance, unbiased (Bessel) estimator and its distribution
+#### Sample variance, unbiased (Bessel) estimator and its expectation
 
-Sample variance divided by exact variance $ \frac{S^2}{\sigma^2} = \frac{1}{(n-1) \sigma^2} \sum \limits_{i=1}^{n} (\xi_i - \bar{\xi})^2 \sim \chi^2_{n-1}$ is a chi-square distributed random variable with n-1 degrees of freedom.
+The best estimate of variance of a random variable that we can get from our experiment, is sample variance $S^2 = \frac{1}{n-1} \sum \limits_{i=1}^{n} (\xi_i - \bar{\xi})^2$.
 
-Indeed: $\xi_i \sim \mathcal{N}(\mu, \sigma^2)$, $\bar{\xi} \sim \mathcal{N}(\mu, n\sigma^2)$, $\xi_i - \bar{\xi} \sim \mathcal{N}(0, (n-1)\sigma^2)$, $\frac{\xi_i - \bar{\xi}}{\sqrt{(n-1)} \sigma} \sim \mathcal{N}(0, 1)$.
-
-Thus, $\frac{S^2}{\sigma^2}$ is a sum of squares of standard normal variables, which is distributed as $\chi^2_n$, as we've shown in [previous posts](/2021-06-09-1). TODO: n or n-1 degrees?
-
-Note that we normalize $S^2$ by $n-1$, not $n$, which is not intuitive. It means  that the sample variance for small samples is somewhat smaller than the exact variance (called distribution variance). To show this fact, let us follow the logic of 
+Note that $S^2$ is normalized by $n-1$, not $n$, which is not intuitive and called [Bessel's correction](https://en.wikipedia.org/wiki/Bessel%27s_correction). It means that the naive sample variance for small samples is somewhat smaller than the exact variance (called distribution variance). To show this fact, let us follow the logic of 
 [this post from StackOverflow](https://math.stackexchange.com/questions/61251/intuitive-explanation-of-bessels-correction), which is very similar to derivation of Bias-Variance tradeoff in Machine Learning books, e.g. Hastie-Tibshirani.
 
 Denote $\hat{\mu}$ the sample mean and $\mu$ the true (distribution) mean.
 
-Let us denote naive (biased) sample variance $\hat{S}^2 = \frac{1}{n} \sum \limits_{i=1}^{n} (\xi_i-\hat{\mu})^2$ and denote sum $S^2 = \sum \limits_{i=1}^{n} (\xi_i-\hat{\mu})^2$. 
+Let us denote naive (biased) sample variance $\hat{S}^2 = \frac{1}{n} \sum \limits_{i=1}^{n} (\xi_i-\hat{\mu})^2$ and unbiased sample variance $S^2 = \frac{1}{n-1} \sum \limits_{i=1}^{n} (\xi_i-\hat{\mu})^2$. 
 
 Then expectation of the naive sample variance is:
 
@@ -56,19 +58,32 @@ $ = \mathbb{E}(\frac{1}{n}\sum \limits_{i=1}^{n} ( (\xi_i-\mu)^2) + 2\mathbb{E}(
 
 $ = \frac{n}{n}\sigma^2 - \mathbb{E}(\frac{2(\hat{\mu} - \mu)}{n} \sum \limits_{i=1}^{n}(\xi_i-\mu)) + \frac{n \frac{\sigma^2}{n}}{n} = \sigma^2 - \mathbb{E}(\frac{2(\hat{\mu}-\mu)}{n} n(\hat{\mu}-\mu)) + \frac{\sigma^2}{n} = \sigma^2 - 2\frac{\sigma^2}{n} + \frac{\sigma^2}{n} = \frac{n-1}{n}\sigma^2$.
 
-Thus, the unbiased distribution variance is $\frac{n}{n-1}\hat{S}^2 = \frac{S^2}{n-1}$, so that $\mathbb{E}(\frac{n}{n-1}\hat{S}^2) = \mathbb{E}(\frac{1}{n-1}S^2) = \sigma^2$.
+Thus, the unbiased distribution variance is $\frac{n}{n-1}\hat{S}^2 = S^2$, so that $\mathbb{E}(\frac{n}{n-1}\hat{S}^2) = \mathbb{E}(S^2) = \sigma^2$.
 
-#### t-statistic distribution derivation
+#### Sample variance consists of sum of squares of non-independent normal random variables
+
+Now, what we are aiming to do is construct a ratio between squared sample mean and sample variance that would follow Fisher-Snedecor F-distribution, which is a ratio of two chi-squared-distributed random variables.
+
+We want sample variance divided by exact variance $ \frac{S^2}{\sigma^2} = \frac{1}{(n-1) \sigma^2} \sum \limits_{i=1}^{n} (\xi_i - \bar{\xi})^2$ be a $\chi^2$-distributed random variable.
+
+It is tempting to assume that it is a sum of squares of $n$ standard normal variable and, thus, $\frac{S^2}{\sigma^2}$ would be $\chi_n^2$-distributed - with $n$ degrees of freedom. 
+
+Indeed: 
+ - $\xi_i \sim \mathcal{N}(\mu, \sigma^2)$ 
+ - $\bar{\xi} = \frac{\sum \limits_{i=1}^n \xi_i}{n} \sim \mathcal{N}(\mu \frac{\cancel{n}\sigma^2}{n^{\cancel{2}}}=\frac{\sigma^2}{n})$ (variance of sum is sum of variances, variance of a variable divided by $n$ is variance divided by $n^2$)
+ - $\xi_i - \bar{\xi} = \frac{n-1}{n}\xi_i - \underbrace{\sum \limits_{j \neq i} \frac{\xi_j}{n}}_{n-1 \text{ items}} \sim \mathcal{N}(0, \frac{(n-1)^2}{n^2}\sigma^2 + \frac{(n-1)\sigma^2}{n^2} = \frac{(n-1)(n-1+1)}{n^2} \sigma^2 = \frac{n-1}{n}\sigma^2)$ ([variance of difference of iids is sum of variances](https://www.khanacademy.org/math/ap-statistics/random-variables-ap/combining-random-variables/v/variance-of-differences-of-random-variables))
+ - $\frac{\xi_i - \bar{\xi}}{\sqrt{n-1} \sigma} \sim \mathcal{N}(0, \frac{1}{n})$
+
+However, there is **a huge problem**: summands are normal variables, but **NOT** independent normal variables! E.g. if $n=2$, they are exactly the opposite of each other, and number of degrees of freedom equals 1. If $n=3$, two of them can take arbitrary values, but the third one is fixed. This sounds very much like the argument in [Pearson's goodness of fit test](/2021-06-17-1), right?
+
+Moreover, it is not obvious that our numerator (sample mean) and denominator (sample variance) are independent as well. To deal with these problems, we need one more tool in our pocket.
 
 
-Now, if you now look at the random variable $T = \frac{\bar{\xi} - \mu }{\sqrt{ \frac{S^2}{n} }}$, it is said to be t-Student distributed.
+#### Cochran's theorem: Independence of sample mean and sample variance and n-1 degrees of freedom in sample variance
 
-You may notice that the random variable $ T^2 = \frac{ (\bar{\xi} - \mu)^2 }{S^2/n} = \frac{ \frac{ (\bar{\xi} - \mu)^2 }{ \frac{\sigma^2}{n} } }{ \frac{(n-1)S^2}{\sigma^2} / (n-1) } $ is actually a ratio of two chi-squared-distributed random variables
-with 1 and n-1 degrees of freedom respectively.
+A general argument, called [Cochran's theorem](https://en.wikipedia.org/wiki/Cochran%27s_theorem), exists, that can be used to prove independence of these two.
 
-Therefore, $T^2$ will be a Fisher-Snedecor F-distributed random variable, if we managed to prove that the numerator and denominator are independent.
-
-TODO: proof of independence: [Cochran's theorem](https://en.wikipedia.org/wiki/Cochran%27s_theorem), also see [confidence intervals section](https://en.wikipedia.org/wiki/Normal_distribution#Confidence_intervals).
+#### t-statistic distribution derivation from F-distribution
 
 Let us derive the t-Student distribution from Fisher-Snedecor's F. 
 
@@ -113,7 +128,7 @@ TODO
 Confidence intervals estimation
 -------------------------------
 
-t-Student's distribution can be helpful for [estimation of confidence intervals](https://en.wikipedia.org/wiki/Student%27s_t-distribution#Confidence_intervals) for the estimate of the mean.
+t-Student's distribution can be helpful for estimation of confidence intervals (see wikipedia [1](https://en.wikipedia.org/wiki/Student%27s_t-distribution#Confidence_intervals) and [2](https://en.wikipedia.org/wiki/Normal_distribution#Confidence_intervals)) for the estimate of the mean.
 
 Suppose that we need to calculate the range of reasonably probably values of mean $\hat{\mu}$ of our normal distribution.
 
@@ -121,4 +136,4 @@ Pick a value A that corresponds to the probability level of 90% or 95% of t-Stud
 
 $p(-A < T < A) = p(-A < \frac{\bar{\xi} - \mu}{\frac{S}{\sqrt{n} }} < A)$, thus, $p(\bar{\xi} - A\frac{S}{\sqrt{n}} < \mu < \bar{\xi} + A\frac{S}{\sqrt{n}})$
 
-So, our confidence interval for $\mu$ is \[ $\bar{\xi} - A\frac{S}{\sqrt{n}}$, $\bar{\xi} + A\frac{S}{\sqrt{n}})$ \].
+So, our confidence interval for $\mu$ is $\mu \in$ [ $\bar{\xi} - A\frac{S}{\sqrt{n}}$, $\bar{\xi} + A\frac{S}{\sqrt{n}}$ \].

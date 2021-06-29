@@ -225,7 +225,7 @@ Let's do the substitution again: $s=tu$, $ds=t du$:
 
 $\frac{e^{-t}}{ 2^{\frac{1}{2}}\Gamma(\frac{1}{2}) } \int \limits_{0}^{t} \frac{s^{k/2-1} (t-s)^{-\frac{1}{2}} }{2^{\frac{k}{2}} \Gamma(\frac{k}{2})} ds = \frac{e^{-t}}{ 2^{\frac{1}{2}}\Gamma(\frac{1}{2}) } \int \limits_{0}^{1} \frac{(tu)^{k/2-1} (t-tu)^{-\frac{1}{2}} }{2^{\frac{k}{2}} \Gamma(\frac{k}{2})} tdu = \frac{e^{-t} t^{\frac{(k+1)}{2} - 1} }{ 2^{\frac{k+1}{2}} } \int \limits_{0}^{1} \frac{u^{k/2-1} (1-u)^{-\frac{1}{2}}}{ \Gamma(\frac{1}{2}) \Gamma(\frac{k}{2})} du = \frac{e^{-t} t^{\frac{(k+1)}{2} - 1} }{ 2^{\frac{k+1}{2}} \Gamma(\frac{k+1}{2}) } \int \limits_{0}^{1} \frac{\Gamma(\frac{k+1}{2}) }{ \Gamma(\frac{1}{2}) \Gamma(\frac{k}{2})} u^{\frac{k}{2}-1} (1-u)^{-\frac{1}{2}} du$
 
-Notice that the expression under the integral is cumulative density function of [Beta distribution](https://en.wikipedia.org/wiki/Beta_distribution), which, equals 1.
+Notice that the expression under the integral is cumulative density function of [Beta distribution](https://en.wikipedia.org/wiki/Beta_distribution), which equals 1.
 
 Thus, $f_{\chi_{k+1}^2}(t) = \frac{e^{-t} t^{\frac{(k+1)}{2} - 1} }{ 2^{\frac{k+1}{2}} \Gamma(\frac{k+1}{2}) }$.
 
