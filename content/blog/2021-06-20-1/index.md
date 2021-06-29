@@ -91,9 +91,11 @@ $(n-1)\frac{S^2}{\sigma^2} = \sum \limits_{i=1}^n \frac{(\xi_i - \mu)^2}{\sigma^
 
 Now, we can use one of spectral analysis tools to derive the distribution of $S^2$, moment-generating functions/cumulants or characteristic functions/Fourier transform.
 
-We see that $S^2$ is a sum of 2 (not necessarily independent) chi-square random variables with different degrees of freedom, thus, probability density function of $S^2$ is a convolution of them. 
+By Cochran's theorem sample variance $S^2$ is independent of sample mean $\hat{\xi}$, thus, probability density function of $\sum \limits_{i=1}^n \frac{(\xi_i - \mu)^2}{\sigma^2}$ is a convolution of probability density functions of $(n-1)\frac{S^2}{\sigma^2}$ and $n\frac{(\hat{\xi} - \mu)^2}{\sigma^2}$. 
 
-Fourier transform of a convolution is a multiple of Fourier transforms. [Characteristic function of a chi-squared distribution](https://www.statlect.com/probability-distributions/chi-square-distribution) is $\phi_{\chi^2_n}(t) = (1-2it)^{-\frac{n}{2}}$.
+Fourier transform of a convolution is a multiple of Fourier transforms. Thus, $\phi_{\sum \limits_{i=1}^n \frac{(\xi_i - \mu)^2}{\sigma^2}}(t) = \phi_{(n-1)\frac{S^2}{\sigma^2}}(t) \cdot \phi_{-n\frac{(\hat{\xi} - \mu)^2}{\sigma^2}}(t)$.
+
+[Characteristic function of a chi-squared distribution](https://www.statlect.com/probability-distributions/chi-square-distribution) is $\phi_{\chi^2_n}(t) = (1-2it)^{-\frac{n}{2}}$.
 
 Thus, characteristic function $\phi_{(n-1)\frac{S^2}{\sigma^2}}(t) = (1-2it)^{\frac{-n}{2}} \cdot (1-2it)^{\frac{1}{2}} = (1-2it)^{-\frac{n-1}{2}}$. But this is the characteristic function of $\chi^2_{n-1}$ (characteristic functions are mostly reversible, so that correspondence of characteristic functions implies correspondence of distributions). 
 
