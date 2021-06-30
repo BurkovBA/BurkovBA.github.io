@@ -28,7 +28,7 @@ respectively. Therefore, $T^2$ would be a Fisher-Snedecor F-distributed random v
 
 We shall look deeper into the properties of both of these estimators to find out more about them, as important properties arise from their analysis.
 
-#### Sample mean and its distribution
+### Sample mean and its distribution
 
 [Sample mean has a normal distribution](https://en.wikipedia.org/wiki/Normal_distribution#Sample_mean) $\hat{\mu} \sim \mathcal{N}(\mu, \frac{\sigma^2}{n})$. Let us show this fact:
 
@@ -38,7 +38,7 @@ Therefore, the sample mean $\bar\xi = \frac{\sum \limits_{i=1}^{n} \xi_i}{n} \si
 
 Hence, $\frac{ (\bar{\xi} - \mu) }{ \frac{\sigma}{\sqrt{n}} } \sim \mathcal{N}(0, 1)$ is a standard normal random variable and its square $\frac{ (\bar{\xi} - \mu)^2 }{ \frac{\sigma^2}{n} } \sim \chi_1^2$ is a chi-square distributed variable with 1 degree of freedom.
 
-#### Sample variance, unbiased (Bessel) estimator and its expectation
+### Sample variance, unbiased (Bessel) estimator and its expectation
 
 The best estimate of variance of a random variable that we can get from our experiment, is sample variance $S^2 = \frac{1}{n-1} \sum \limits_{i=1}^{n} (\xi_i - \bar{\xi})^2$.
 
@@ -59,7 +59,7 @@ $ = \frac{n}{n}\sigma^2 - \mathbb{E}(\frac{2(\hat{\mu} - \mu)}{n} \sum \limits_{
 
 Thus, the unbiased distribution variance is $\frac{n}{n-1}\hat{S}^2 = S^2$, so that $\mathbb{E}(\frac{n}{n-1}\hat{S}^2) = \mathbb{E}(S^2) = \sigma^2$.
 
-#### Sample variance consists of sum of squares of non-independent normal random variables
+### Sample variance consists of sum of squares of non-independent normal random variables
 
 Now, what we are aiming to do is construct a ratio between squared sample mean and sample variance that would follow Fisher-Snedecor F-distribution, which is a ratio of two chi-squared-distributed random variables.
 
@@ -75,7 +75,7 @@ Indeed:
 
 However, there is **a huge problem**: summands are normal variables, but **NOT** independent normal variables! E.g. if $n=2$, they are exactly the opposite of each other, and number of degrees of freedom equals 1. If $n=3$, two of them can take arbitrary values, but the third one is fixed. This sounds very much like the argument in [Pearson's goodness of fit test](/2021-06-17-1), right? Let us prove this one, too.
 
-#### Sample variance is distributed as a chi-squared random variable with n-1 degrees of freedom 
+### Sample variance is distributed as a chi-squared random variable with n-1 degrees of freedom 
 
 I am following the logic of [this well-written article from PennState](https://online.stat.psu.edu/stat414/lesson/26/26.3).
 
@@ -102,7 +102,7 @@ Thus, characteristic function $\phi_{(n-1)\frac{S^2}{\sigma^2}}(t) = (1-2it)^{\f
 Hence, $(n-1)\frac{S^2}{\sigma^2} \sim \chi^2_{n-1}$.
 
 
-#### Cochran's theorem: Independence of sample mean and sample variance
+### Cochran's theorem: Independence of sample mean and sample variance
 
 Moreover, it is not obvious that our numerator (sample mean) and denominator (sample variance) are independent as well. To deal with these problems, we need one more tool in our pocket.
 
@@ -110,7 +110,7 @@ A general argument, called [Cochran's theorem](https://en.wikipedia.org/wiki/Coc
 
 I will consider Cochran's theorem in detail it in the next post.
 
-#### t-statistic distribution derivation from F-distribution
+### t-statistic distribution derivation from F-distribution
 
 Let us derive the t-Student distribution from Fisher-Snedecor's F. 
 
@@ -134,7 +134,7 @@ Student's t-test
 
 Student's t-test is a family of statistical tests, based on application of t-distribution.
 
-#### Paired data and unpaired data
+### Paired data and unpaired data
 
 Suppose that you have pairs of data from 2 measurements, e.g. same person's temperature without treatment and with treatment. 
 
@@ -147,7 +147,7 @@ is sufficiently low.
 
 TODO: unpaired data
 
-#### Equal and unequal variance
+### Equal and unequal variance
 
 TODO
 

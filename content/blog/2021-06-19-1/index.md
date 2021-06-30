@@ -34,7 +34,7 @@ Graphically, it represents the integral of 2-dimensional probability density fun
 
 ![2-dimensional pdf](./2_dimensional_pdf.png)
 
-#### Off-topic consistency considerations
+### Off-topic consistency considerations
 
 **Please, skip this section, it is a memento for myself, the product of my attempts to reason about how this integration works.**
 
@@ -53,7 +53,7 @@ Snedecor's F distribution derivation
 
 We want to calculate the probability density function of F distribution as a multiple of 2 distributions, chi-square and inverse chi-square. But we need to invert $\chi_m^2$ first to do so. We'll have to derive the probability density function of [inverse chi-square distribution](https://en.wikipedia.org/wiki/Inverse-chi-squared_distribution).
 
-#### Inverse chi-square distribution
+### Inverse chi-square distribution
 
 Recall the probability density function of chi-square distribution: $f_{\chi_n^2} = \frac{x^{\frac{n}{2}-1} e^{-x/2}}{2^{\frac{n}{2}}\Gamma(n/2)}$. 
 
@@ -64,7 +64,7 @@ Thus, $f_{\chi^2}(x) = \frac{\partial (1-F_{\frac{1}{\chi^2}}(\frac{1}{x}))}{\pa
 As a result, p.d.f. of inverse chi-square $f_{\frac{1}{\chi^2}}(x) = \frac{1}{x^2} \cdot \frac{\frac{1}{x}^{\frac{n}{2}-1} \cdot e^{-\frac{1}{2x}} }{2^{\frac{n}{2}} \Gamma(\frac{n}{2})} = \frac{\frac{1}{x}^{\frac{n}{2}+1} \cdot e^{-\frac{1}{2x}} }{2^{\frac{n}{2}} \Gamma(\frac{n}{2})}$.
 
 
-#### F-distribution
+### F-distribution
 
 Now, let us substitute the p.d.f. of chi-square and inverse chi-square distributions into F-distribution probability density function:
 
