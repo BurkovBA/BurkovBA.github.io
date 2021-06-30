@@ -85,15 +85,15 @@ $\sum \limits_{i=1}^n \frac{(\xi_i - \mu)^2}{\sigma^2} \sim \chi^2_n$
 
 Again, let us add and subtract the sample mean to this sum of squares:
 
-$\sum \limits_{i=1}^n \frac{(\xi_i - \mu)^2}{\sigma^2} = \sum \limits_{i=1}^n \frac{(\xi_i - \bar{\xi} + \bar{\xi} - \mu)^2}{\sigma^2} = \sum \limits_{i=1}^n (\frac{(\xi_i-\hat{\xi})^2}{\sigma^2} + \underbrace{2 \frac{(\xi_i - \hat{\xi})(\hat{\xi} - \mu)}{\sigma^2}}_{0 \text{ due to }\sum \limits_{i=1}^n (\xi_i - \hat{\xi}) = 0} + \frac{(\hat{\xi} - \mu)^2}{\sigma^2}) = (n-1)\frac{S^2}{\sigma^2} + n\frac{(\hat{\xi} - \mu)^2}{\sigma^2}$ or:
+$\sum \limits_{i=1}^n \frac{(\xi_i - \mu)^2}{\sigma^2} = \sum \limits_{i=1}^n \frac{(\xi_i - \bar{\xi} + \bar{\xi} - \mu)^2}{\sigma^2} = \sum \limits_{i=1}^n (\frac{(\xi_i-\bar{\xi})^2}{\sigma^2} + \underbrace{2 \frac{(\xi_i - \bar{\xi})(\bar{\xi} - \mu)}{\sigma^2}}_{0 \text{ due to }\sum \limits_{i=1}^n (\xi_i - \bar{\xi}) = 0} + \frac{(\bar{\xi} - \mu)^2}{\sigma^2}) = (n-1)\frac{S^2}{\sigma^2} + n\frac{(\bar{\xi} - \mu)^2}{\sigma^2}$ or:
 
-$(n-1)\frac{S^2}{\sigma^2} = \sum \limits_{i=1}^n \frac{(\xi_i - \mu)^2}{\sigma^2} - n\frac{(\hat{\xi} - \mu)^2}{\sigma^2}$, where $\sum \limits_{i=1}^n \frac{(\xi_i - \mu)^2}{\sigma^2} \sim \chi^2_n$, $\frac{(\hat{\xi} - \mu)^2}{\sigma^2} \sim \chi^2_1$.
+$\sum \limits_{i=1}^n \frac{(\xi_i - \mu)^2}{\sigma^2} = (n-1)\frac{S^2}{\sigma^2} + n\frac{(\bar{\xi} - \mu)^2}{\sigma^2}$, where $\sum \limits_{i=1}^n \frac{(\xi_i - \mu)^2}{\sigma^2} \sim \chi^2_n$, $n\frac{(\bar{\xi} - \mu)^2}{\sigma^2} \sim \chi^2_1$.
 
-Now, we can use one of spectral analysis tools to derive the distribution of $S^2$, moment-generating functions/cumulants or characteristic functions/Fourier transform.
+By Cochran's theorem sample variance $S^2$ is independent of sample mean $\bar{\xi}$, thus, probability density function of $\sum \limits_{i=1}^n \frac{(\xi_i - \mu)^2}{\sigma^2}$ is a convolution of probability density functions of $(n-1)\frac{S^2}{\sigma^2}$ and $n\frac{(\bar{\xi} - \mu)^2}{\sigma^2}$. 
 
-By Cochran's theorem sample variance $S^2$ is independent of sample mean $\hat{\xi}$, thus, probability density function of $\sum \limits_{i=1}^n \frac{(\xi_i - \mu)^2}{\sigma^2}$ is a convolution of probability density functions of $(n-1)\frac{S^2}{\sigma^2}$ and $n\frac{(\hat{\xi} - \mu)^2}{\sigma^2}$. 
+Now, we can directly use the convolution formula or apply one of spectral analysis tools to it to derive the distribution of $S^2$, moment-generating functions/cumulants or characteristic functions/Fourier transform.
 
-Fourier transform of a convolution is a multiple of Fourier transforms. Thus, $\phi_{\sum \limits_{i=1}^n \frac{(\xi_i - \mu)^2}{\sigma^2}}(t) = \phi_{(n-1)\frac{S^2}{\sigma^2}}(t) \cdot \phi_{-n\frac{(\hat{\xi} - \mu)^2}{\sigma^2}}(t)$.
+Fourier transform of a convolution is a multiple of Fourier transforms. Thus, $\phi_{\sum \limits_{i=1}^n \frac{(\xi_i - \mu)^2}{\sigma^2}}(t) = \phi_{(n-1)\frac{S^2}{\sigma^2}}(t) \cdot \phi_{-n\frac{(\bar{\xi} - \mu)^2}{\sigma^2}}(t)$.
 
 [Characteristic function of a chi-squared distribution](https://www.statlect.com/probability-distributions/chi-square-distribution) is $\phi_{\chi^2_n}(t) = (1-2it)^{-\frac{n}{2}}$.
 
@@ -107,6 +107,8 @@ Hence, $(n-1)\frac{S^2}{\sigma^2} \sim \chi^2_{n-1}$.
 Moreover, it is not obvious that our numerator (sample mean) and denominator (sample variance) are independent as well. To deal with these problems, we need one more tool in our pocket.
 
 A general argument, called [Cochran's theorem](https://en.wikipedia.org/wiki/Cochran%27s_theorem), exists, that can be used to prove independence of these two.
+
+I will consider Cochran's theorem in detail it in the next post.
 
 #### t-statistic distribution derivation from F-distribution
 
@@ -155,7 +157,7 @@ Confidence intervals estimation
 
 t-Student's distribution can be helpful for estimation of confidence intervals (see wikipedia [1](https://en.wikipedia.org/wiki/Student%27s_t-distribution#Confidence_intervals) and [2](https://en.wikipedia.org/wiki/Normal_distribution#Confidence_intervals)) for the estimate of the mean.
 
-Suppose that we need to calculate the range of reasonably probably values of mean $\hat{\mu}$ of our normal distribution.
+Suppose that we need to calculate the range of reasonably probably values of mean $\bar{\mu}$ of our normal distribution.
 
 Pick a value A that corresponds to the probability level of 90% or 95% of t-Student distribution: p(-A < T < A) = 0.9. Using this level A we can calculate the confidence interval for $\mu$:
 
