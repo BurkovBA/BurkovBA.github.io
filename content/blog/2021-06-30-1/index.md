@@ -6,21 +6,12 @@ cover: "./Cochran.jpeg"
 description: Here I discuss the Cochran's theorem that is used to prove independence of quadratic forms of random variables, such as sample variance and sample mean.
 ---
 
-
 Tearing through the unintelligible formulation
 ----------------------------------------------
 
 
 Cochran's theorem proof
 -----------------------
-
-### Uncorrelated multidimensional normal variables are independent
-
-TODO
-
-### Standardization of non-standard normal distribution
-
-TODO
 
 ### Lemma
 
@@ -43,5 +34,6 @@ TODO
 References
 ----------
  - https://en.wikipedia.org/wiki/Cochran%27s_theorem
+ - https://brilliant.org/wiki/multivariate-normal-distribution/
  - http://www.stat.columbia.edu/~fwood/Teaching/w4315/Fall2009/lecture_cochran.pdf
  - https://www.youtube.com/watch?v=toNiUsay5uU
