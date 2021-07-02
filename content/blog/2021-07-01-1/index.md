@@ -9,14 +9,16 @@ description: Multivariate normal distribution arises in many aspects of mathemat
 Motivational example
 --------------------
 
-Sir Francis Galton could be considered the grandfather of modern statistics. Interestingly, the discipline of statistics in England was
-shaping up hand-in-hand with biology, especially, theory of evolution and eugenics. I guess, many statisticians toyed with eugenics, which
-throws a shadow on their reputation after certain German artists half-a-century later
-and their legacy 
+![Sir Francis Galton](./Galton.jpeg)<center>Sir Francis Galton (1822 - 1911)</center>
 
-of certain German artists
+Sir Francis Galton might be considered the grandfather of modern statistics. He analyzed the [data on height of parents and their children](https://books.google.ru/books?id=JPcRAAAAYAAJ&pg=PA248-IA3&redir_esc=y#v=onepage&q&f=false):
 
-Galton 
+![Galton's correlation diagram](./Galton's_correlation_diagram_1875.jpeg)<center>Heights of 205 parents and 930 adult children, from "Regression towards mediocrity in hereditary stature" by F.Galton, 1886</center>
+
+Heights of parents were normally-distributed, as well as the heights of their children. However, the distributions were 
+obviously not independent, as taller parents generally give birth to taller children. Probably, this plate is one of the first depictions of 2-variate normal distribution.
+
+Galton actually rediscovered the concept of correlation in 1888, two years after this paper.
 
 Multivariate normal distribution
 --------------------------------
@@ -56,3 +58,4 @@ References
 ----------
  - https://brilliant.org/wiki/multivariate-normal-distribution/ - lots of helpful and intelligible material
  - https://distill.pub/2019/visual-exploration-gaussian-processes/ - cover image courtesy of this awesome site
+ - https://www.wikiwand.com/en/Francis_Galton#/CITEREFGalton1886 - source of plate on 2-variate normal distribution by Galton
