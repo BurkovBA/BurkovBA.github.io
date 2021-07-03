@@ -34,11 +34,134 @@ $\bm{\Sigma} = \begin{pmatrix}
 \mathbb{E}((x_n-\mu_n)(x_1-\mu_1)) & \mathbb{E}((x_n-\mu_n)(x_2-\mu_2)) & \cdots & \mathbb{E}((x_n-\mu_n)(x_n-\mu_n)) \\
 \end{pmatrix}$
 
-Probability distribution function of X looks like this:
+Cumulative density function of X looks like this:
 
-$f_X(x_1, x_2, ..., x_n) = \frac{1}{\sqrt{{(2\pi)}^n |\det(\Sigma)|} } \int \limits_{x_1=-\infty}^{\infty} \int \limits_{x_2=-\infty}^{\infty} ... \int \limits_{x_n=-\infty}^{\infty} e^{-\frac{(\bm{X}-\bm{\mu})^T \bm{\Sigma} (\bm{X}-\bm{\mu}) }{ 2 }} dx_1dx_2...dx_n$
+$F_X(x_1, x_2, ..., x_n) = \frac{1}{ \sqrt{{(2\pi)}^n |\det(\Sigma)|} } \int \limits_{t_1=-\infty}^{x_1} \int \limits_{t_2=-\infty}^{x_2} ... \int \limits_{t_n=-\infty}^{x_n} e^{-\frac{(\bm{T}-\bm{\mu})^T \bm{\Sigma} (\bm{T}-\bm{\mu}) }{ 2 }} dt_1dt_2...dt_n$, where $T=(t_1, t_2, ..., t_n)^T$
 
+and probability density function is:
+
+$f_X(x_1, x_2, ..., x_n) = \frac{1}{ \sqrt{ {(2\pi)}^n |\det(\Sigma)| } } e^{-\frac{(\bm{X}-\bm{\mu})^T \bm{\Sigma} (\bm{X}-\bm{\mu}) }{ 2 }}$
+
+
+Why elements of covariance matrix are covariances?
+--------------------------------------------------
 TODO: why covariance matrix is covariance, how to split the multivariate normal distribution into single-variate?
+
+
+Uncorrelated multidimensional normal variables are independent
+--------------------------------------------------------------
+
+This property of multidimensional normal distribution is fairly obvious from the previous property.
+
+For instance, suppose that your covariance matrix is as in the [following example from StackOverflow](https://stats.stackexchange.com/questions/71394/independence-of-multivariate-normal-distribution):
+
+$\Sigma = \begin{pmatrix}
+4 & -1 & 0 \\
+-1 & 5 & 0   \\
+0 & 0 & 2  \\
+\end{pmatrix}$
+
+Then:
+
+$(\bm{X}-\bm{\mu})^T \Sigma (\bm{X}-\bm{\mu}) = 
+\begin{pmatrix}
+x_1 & x_2 & x_3 \\
+\end{pmatrix}
+\cdot
+\begin{pmatrix}
+4 & -1 & 0 \\
+-1 & 5 & 0   \\
+0 & 0 & 2  \\
+\end{pmatrix}
+\cdot
+\begin{pmatrix}
+x_1 \\
+x_2 \\
+x_3 \\
+\end{pmatrix} = 
+\begin{pmatrix}
+x_1 & x_2 \\
+\end{pmatrix}
+\begin{pmatrix}
+4 & -1 \\
+-1 & 5 \\
+\end{pmatrix}
+\begin{pmatrix}
+x_1 \\
+x_2 \\
+\end{pmatrix} + 2{x_3}^2
+$.
+
+Now, if we substitute this into the probability density function, we get:
+
+$ f_X(x_1, x_2, ..., x_n) = \frac{1}{ \sqrt{ {(2\pi)}^n |\det(\Sigma)| } } e^{-\frac{(\bm{X}-\bm{\mu})^T \bm{\Sigma} (\bm{X}-\bm{\mu}) }{ 2 }} = \frac{1}{ \sqrt{ {(2\pi)}^3 |\det(\Sigma)| } } e^{- \frac{1}{2} ( \begin{pmatrix}
+x_1 & x_2 \\
+\end{pmatrix}
+\begin{pmatrix}
+4 & -1 \\
+-1 & 5 \\
+\end{pmatrix}
+\begin{pmatrix}
+x_1 \\
+x_2 \\
+\end{pmatrix} + 2{x_3}^2)} = $
+
+$= \frac{1}{ \sqrt{ {(2\pi)} \cdot 2 } } e^{-\frac{ 2{x_3}^2}{2} } \cdot \frac{1}{ \sqrt{ {(2\pi)^2} |\det{ 
+\begin{bmatrix}
+4 & -1 \\
+-1 & 5 \\
+\end{bmatrix}
+ }| } }
+e^{- \frac{1}{2} ( \begin{pmatrix}
+x_1 & x_2 \\
+\end{pmatrix}
+\begin{pmatrix}
+4 & -1 \\
+-1 & 5 \\
+\end{pmatrix}
+\begin{pmatrix}
+x_1 \\
+x_2 \\
+\end{pmatrix}  }
+$
+
+Thus, we can see that uncorrelated dimensions of random vector can be factored-out into independent random variables.
+
+Conditioning
+------------
+
+You do conditioning, when you fix the value of one dimension of multivariate normal distribution and achieve a lower-variate one.
+
+For instance, you can choose fathers, who are 1 inch taller than average, and achieve the conditional distribution of
+heights of their children:
+
+$
+\begin{pmatrix}
+x_1-\mu_1 & 1 \\
+\end{pmatrix}
+\cdot
+\begin{pmatrix}
+\Sigma_{1,1} & \Sigma_{1,2} \\
+\Sigma_{2,1} & \Sigma_{2,2} \\
+\end{pmatrix}
+\cdot
+\begin{pmatrix}
+x_1-\mu_1 \\
+1 \\
+\end{pmatrix} = 
+\Sigma_{1,1} (x_1 - \mu_1)^2 + (\Sigma_{1,2} + \Sigma_{2,1})(x_1 - \mu_1) + \Sigma_{2,2} = (x_1 - \mu_1 - )
+$
+
+$
+\frac{ (x_1 - \mu_1 - \frac{ \Sigma_{1,2} }{ \Sigma_{22} } (x_2 - \mu_2))^2 }{ (\Sigma_{1,1} - \frac{ \Sigma_{1,2}\Sigma_{2,1} }{\Sigma_{2,2}})^2 }
+$
+
+Marginalization
+---------------
+
+You marginalize multivariate normal distribution by taking an integral over 1 of its dimensions. 
+
+For instance, if you integrate Galton's 2-variate normal distribution over the heights of all the fathers, you get 1-dimensional distribution of heights of all the children of taller fathers.
 
 Quadratic forms, their ranks and special cases of quadratic forms
 -----------------------------------------------------------------
@@ -159,10 +282,13 @@ $
 Indeed, its i-th row is a multiple of $a_i$ by row-vector $\bm{b}^T = \begin{pmatrix} b_1 & b_2 & b_3 \\ \end{pmatrix}$, so
 all the rows differ just by a scalar $a_i$, so there is just 1 linearly independent row.
 
-Uncorrelated multidimensional normal variables are independent
---------------------------------------------------------------
+If we chose a real-life covariance matrix $
+\begin{pmatrix}
+1 & 0.5 \\
+0.5 & 1 \\
+\end{pmatrix}
+$, it is clear that its rank equals 2, so it cannot be represented as $(a_1x_1 + a_2x_2)(b_1x_1 + b_2x_2)$.
 
-TODO
 
 Standardization of non-standard normal distribution
 ---------------------------------------------------
