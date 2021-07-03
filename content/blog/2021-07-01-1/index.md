@@ -45,11 +45,11 @@ Quadratic forms, their ranks and special cases of quadratic forms
 
 The power of exponent of p.d.f. of a multivariate normal $\frac{(\bm{X}-\bm{\mu})^T \bm{\Sigma} (\bm{X}-\bm{\mu}) }{ 2 }$ is a [quadratic form](https://en.wikipedia.org/wiki/Quadratic_form).
 
-The matrix $\bm{\Sigma}$ might have different numbers of linearly independent rows/columns, which is called [matrix rank](https://en.wikipedia.org/wiki/Rank_(linear_algebra)).
+Speaking of the matrix $\bm{\Sigma}$, there is a useful concept of [matrix rank](https://en.wikipedia.org/wiki/Rank_(linear_algebra)), which is the number of linearly independent rows/columns in the matrix.
 
 For instance, if our quadratic form is just a product of two vectors $(a_1x_1 + a_2x_2 + a_3x_3)(b_1x_1 + b_2x_2 + b_3x_3)$, the rank equals 1, because all the rows are linearly dependent.
 
-Indeed, we could see this in matrix notation:
+Indeed, we could see this, when we write the product in matrix notation:
 
 $
 \begin{pmatrix}
@@ -73,9 +73,21 @@ x_3
 \end{pmatrix}
 $
 
-The multiplication of row-vector by column-vector in linear algebra is called dot product, or inner product.
+The multiplication of row-vector by column-vector in linear algebra is called dot product, or inner product:
+$
+\begin{pmatrix}
+x_1 & x_2 & x_3 \\
+\end{pmatrix}
+\cdot
+\begin{pmatrix}
+a_1 \\
+a_2 \\
+a_3
+\end{pmatrix}=
+a_1x_1 + a_2x_x + a_3x_3
+$.
 
-Less commonly used, the multiplication of columns-vector by row vector is called an outer product, and results in a matrix, where each element is a product of respective elements of column-vector and row-vector:
+Less commonly used, the multiplication of columns-vector by row vector is called an [outer product](https://en.wikipedia.org/wiki/Outer_product), and it results in a matrix, where each element is a product of respective elements of column-vector and row-vector:
 
 $
 \begin{pmatrix}
@@ -116,7 +128,7 @@ x_1 \\
 x_2 \\
 x_3
 \end{pmatrix} = 
-(a_1x_1 + a_2x_2 + a_3x_3)(b_1x_1 + b_2x_2 + b_3x_3) =
+(a_1x_1 + a_2x_2 + a_3x_3) \cdot (b_1x_1 + b_2x_2 + b_3x_3) =
 \begin{pmatrix}
 x_1 & x_2 & x_3 \\
 \end{pmatrix}
@@ -134,7 +146,7 @@ x_3
 \end{pmatrix}
 $
 
-It is obvious that the rank of matrix
+If you choose the latter way, it becomes obvious that the rank of matrix
 $
 \begin{pmatrix}
 a_1 b_1 & a_1 b_2 & a_1 b_3 \\
@@ -142,8 +154,10 @@ a_2 b_1 & a_2 b_2 & a_2 b_3 \\
 a_3 b_1 & a_3 b_2 & a_3 b_3 \\
 \end{pmatrix}
 $
-, formed by outer product of coefficients $\bm{a}$ and $\bm{b}$, equals 1,
-because its i-th row is a multiple of $a_i$ by row-vector $\bm{b}^T = \begin{pmatrix} b_1 & b_2 & b_3 \\ \end{pmatrix}$.
+, formed by an outer product of coefficients $\bm{a}$ and $\bm{b}$, equals 1.
+
+Indeed, its i-th row is a multiple of $a_i$ by row-vector $\bm{b}^T = \begin{pmatrix} b_1 & b_2 & b_3 \\ \end{pmatrix}$, so
+all the rows differ just by a scalar $a_i$, so there is just 1 linearly independent row.
 
 Uncorrelated multidimensional normal variables are independent
 --------------------------------------------------------------
