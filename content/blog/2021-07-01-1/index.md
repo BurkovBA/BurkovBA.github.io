@@ -88,15 +88,6 @@ So, it works in the same way, it converts our correlated factors into uncorrelat
 See appendix 2: http://cs229.stanford.edu/section/gaussians.pdf
 
 
-Why are elements of covariance matrix actually covariances?
------------------------------------------------------------
-TODO: why covariance matrix is covariance, how to split the multivariate normal distribution into single-variate?
-
-Let's start with 2-dimensional case:
-
-$\mathrm{Cov}[X_1, X_2] = \mathbb{E}[(X_1 - \mathbb{E}X_1)(X_2 - \mathbb{E}X_2)] = \frac{1}{2\pi \sqrt{|\det \Sigma|}} \int \limits_{x_1=-\infty}^{\infty} \int \limits_{x_1=-\infty}^{\infty} (x_1 - \mu_1)(x_2 - \mu_2) e^{-\frac{1}{2} (\bm{X}-\bm{\mu})^T \bm{\Sigma^{-1}} (\bm{X}-\bm{\mu}) } dx_1 dx_2$
-
-
 Uncorrelated multidimensional normal variables are independent
 --------------------------------------------------------------
 
