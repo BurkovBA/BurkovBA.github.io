@@ -140,10 +140,14 @@ e_{1,3} \\
 = \lambda_1 \cdot 0 = 0
 $.
 
-First, we used the fact that covariance of a linear combination of random variables is a linear combination of covariances. Then we used the fact that $E_1$ is the eigenvector of matrix $\bm{\Sigma}$, and $\bm{\Sigma} E_1 = \lambda_1 E_1$. Lastly, we used the fact that eigenvectors $E_1$ and $E_2$ are orthogonal, and their dot product is 0. 
+First, we used [the fact](https://en.wikipedia.org/wiki/Covariance#Covariance_of_linear_combinations) that covariance of a linear combination of random variables is a linear combination of covariances. Then we used the fact that $E_1$ is the eigenvector of matrix $\bm{\Sigma}$, and $\bm{\Sigma} E_1 = \lambda_1 E_1$. Lastly, we used the fact that eigenvectors $E_1$ and $E_2$ are orthogonal, and their dot product is 0. 
 
 Now, as you can see, the power of exponent in multivariate normal distribution, is the square of Mahalanobis distance between the vector and its mean, divided by 2.
 So, it works in the same way, it converts our correlated factors into uncorrelated ones, and takes sum of their squares, weighted by eigenvalues of respective directions.
+
+This also explains, why the denominator contains $|\det(\bm{\Sigma})|$: the eigenvalues of the covariance matrix are the elements of diagonal matrix $\bm{\Lambda}$, which are the variances of de-correlated normal distributions.
+By [Binet-Cauchy formula](https://en.wikipedia.org/wiki/Cauchy%E2%80%93Binet_formula) the determinant of $\det(\bm{\Sigma}) = \det(\bm{\Lambda})$. Thus, by normalizing the probability density function by $|\det(\bm{\Sigma})|$,
+we do the same as by normalizing pdf of one-dimensional normal distribuion by $\sqrt{\sigma^2}$.
 
 
 
@@ -154,15 +158,22 @@ This property of multidimensional normal distribution is fairly obvious from the
 
 For instance, suppose that your covariance matrix is as in the [following example from StackOverflow](https://stats.stackexchange.com/questions/71394/independence-of-multivariate-normal-distribution):
 
-$\Sigma = \begin{pmatrix}
+$\Sigma^{-1} = \begin{pmatrix}
 4 & -1 & 0 \\
 -1 & 5 & 0   \\
 0 & 0 & 2  \\
-\end{pmatrix}$
+\end{pmatrix}$,
+$\Sigma = \begin{pmatrix}
+0.26315789 & 0.05263158 & 0   \\
+0.05263158 & 0.21052632 & 0   \\
+0          & 0          & 0.5 \\
+\end{pmatrix}
+$
+
 
 Then:
 
-$(\bm{X}-\bm{\mu})^T \Sigma (\bm{X}-\bm{\mu}) = 
+$(\bm{X}-\bm{\mu})^T \Sigma^{-1} (\bm{X}-\bm{\mu}) = 
 \begin{pmatrix}
 x_1 & x_2 & x_3 \\
 \end{pmatrix}
@@ -205,10 +216,10 @@ x_1 \\
 x_2 \\
 \end{pmatrix} + 2{x_3}^2)} = $
 
-$= \frac{1}{ \sqrt{ {(2\pi)} \cdot 2 } } e^{-\frac{ 2{x_3}^2}{2} } \cdot \frac{1}{ \sqrt{ {(2\pi)^2} |\det{ 
+$= \frac{1}{ \sqrt{ {(2\pi)} \cdot 0.5 } } e^{-\frac{ 2{x_3}^2}{2} } \cdot \frac{1}{ \sqrt{ {(2\pi)^2} |\det{ 
 \begin{bmatrix}
-4 & -1 \\
--1 & 5 \\
+0.26315789 & 0.05263158 \\
+0.05263158 & 0.21052632 \\
 \end{bmatrix}
  }| } }
 e^{- \frac{1}{2} ( \begin{pmatrix}
@@ -226,14 +237,24 @@ $
 
 Thus, we can see that uncorrelated dimensions of random vector can be factored-out into independent random variables.
 
-Conditioning
-------------
+Marginalization and Conditioning
+--------------------------------
+
+### Marginalization
+
+You marginalize multivariate normal distribution by taking an integral over 1 of its dimensions. 
+
+For instance, if you integrate Galton's 2-variate normal distribution over the heights of all the fathers, you get 1-dimensional distribution of heights all the children.
+
+
+### Conditioning
 
 You do conditioning, when you fix the value of one dimension of multivariate normal distribution and achieve a lower-variate one.
 
-For instance, you can choose fathers, who are 1 inch taller than average, and achieve the conditional distribution of
-heights of their children:
+For instance, you can choose fathers, who are $x_2$ inches tall, and achieve the conditional distribution of
+heights of their children, which is one-dimensional normal:
 
+<!--
 $
 \begin{pmatrix}
 x_1-\mu_1 & 1 \\
@@ -242,7 +263,7 @@ x_1-\mu_1 & 1 \\
 \begin{pmatrix}
 \Sigma_{1,1} & \Sigma_{1,2} \\
 \Sigma_{2,1} & \Sigma_{2,2} \\
-\end{pmatrix}
+\end{pmatrix}^{-1}
 \cdot
 \begin{pmatrix}
 x_1-\mu_1 \\
@@ -250,17 +271,14 @@ x_1-\mu_1 \\
 \end{pmatrix} = 
 \Sigma_{1,1} (x_1 - \mu_1)^2 + (\Sigma_{1,2} + \Sigma_{2,1})(x_1 - \mu_1) + \Sigma_{2,2} = (x_1 - \mu_1 - )
 $
+-->
 
 $
-\frac{ (x_1 - \mu_1 - \frac{ \Sigma_{1,2} }{ \Sigma_{22} } (x_2 - \mu_2))^2 }{ (\Sigma_{1,1} - \frac{ \Sigma_{1,2}\Sigma_{2,1} }{\Sigma_{2,2}})^2 }
+f_{\xi}(x_1) = \frac{1}{\sqrt{2\pi(\Sigma_{11} - \frac{\Sigma_{12}\Sigma_{21})}{\Sigma_{22}}}} e^{-\frac{1}{2}\frac{ (x_1 - \mu_1 - \frac{ \Sigma_{1,2} }{ \Sigma_{22} } (x_2 - \mu_2))^2 }{ (\Sigma_{1,1} - \frac{ \Sigma_{1,2}\Sigma_{2,1} }{\Sigma_{2,2}})^2 }}
 $
 
-Marginalization
----------------
+Note that the mean and variance of this distribution differ from the marginalized one - children of taller fathers are, obviously, taller.
 
-You marginalize multivariate normal distribution by taking an integral over 1 of its dimensions. 
-
-For instance, if you integrate Galton's 2-variate normal distribution over the heights of all the fathers, you get 1-dimensional distribution of heights of all the children of taller fathers.
 
 Quadratic forms, their ranks and special cases of quadratic forms
 -----------------------------------------------------------------
