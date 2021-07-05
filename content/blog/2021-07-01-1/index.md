@@ -73,19 +73,78 @@ For instance, here is the covariance matrix for your flat's properties $\bm{\Sig
 
 The key to understanding of the covariance matrix is analysis of its eigen decomposition: it is symmetric (and positively semidefinite). 
 
-For a symmetric matrix, its eigenvectors are orthogonal: $\Sigma = E \Lambda E^{-1}$ => $\Sigma^{T} = (E^{-1})^{T} \Lambda^{T} E^{T} = E \Lambda E^{-1} = \Sigma$. 
+Let $\bm{E}$ be the matrix of eigenvectors of $\bm{\Sigma}$, let $\bm{\Lambda}$ be the diagonal matrix of eigenvalues of $\bm{\Sigma}$. 
 
-$\Lambda^T = \Lambda$, thus, $E^{-1}(E^{-1})^T \Lambda E^TE = \Lambda$, indicating that $E^TE=I$, or E is orthogonal.
+For a symmetric matrix, its eigenvectors are orthogonal: $\bm{\Sigma} = \bm{E} \bm{\Lambda} \bm{E}^{-1}$ => $\bm{\Sigma}^{T} = (\bm{E}^{-1})^{T} \bm{\Lambda}^{T} \bm{E}^{T} = \bm{E} \bm{\Lambda} \bm{E}^{-1} = \bm{\Sigma}$. 
 
-So the logic of Mahalonobis distance can be seen as follows: $(\bm{X}-\bm{Y})^T\bm{\Sigma}^{-1}(\bm{X} - \bm{Y}) = (\bm{X}-\bm{Y})^T \bm{E}^{T} \bm{\Lambda} \bm{E} (\bm{X} - \bm{Y})$.
+$\bm{\Lambda}^T = \bm{\Lambda}$, thus, $\bm{E}^{-1}(\bm{E}^{-1})^T \Lambda \bm{E}^T\bm{E} = \bm{\Lambda}$, indicating that $\bm{E}^T\bm{E}=\bm{I}$, or $\bm{E}$ is orthogonal.
 
-By multiplying $\bm{X-Y}$ by the eigen matrix $\bm{E}$ (and doing the same in transposed way to the left side from $\bm{\Lambda}$, when multiplying $(\bm{X} - \bm{Y})^T \bm{E}^T$), we de-correlate the dimensions of the vectors, transforming those inter-dependent factors into orthogonal, independent. 
+So the logic of Mahalanobis distance can be seen as follows: $(\bm{X}-\bm{Y})^T\bm{\Sigma}^{-1}(\bm{X} - \bm{Y}) = (\bm{X}-\bm{Y})^T \bm{E} \bm{\Lambda}^{-1} \bm{E}^T (\bm{X} - \bm{Y})$.
+
+By multiplying $\bm{X-Y}$ by the inverse/transposed eigen matrix $\bm{E}^T$ (and doing the same in transposed way to the left side from $\bm{\Lambda}^{-1}$, when multiplying $(\bm{X} - \bm{Y})^T \bm{E}$), we de-correlate the dimensions of the vectors, transforming those inter-dependent factors into orthogonal, independent. 
 Then we take the sum of squares of those de-correlated factors, but a weighted one, we give some dimensions more weight then the others, by multiplying by the matrix of eigenvalues $\bm{\Lambda}$.
+
+Let us show that correlated vectors, multiplied by $\bm{E}^T$, become uncorrelated. If eigenvector $E_i$ had coordinates $\begin{pmatrix} e_{i,1} \\ e_{i,2} \\ e_{i,3} \\ \end{pmatrix}$, then:
+
+$\bm{Y} = \bm{E}^T X =
+\begin{pmatrix}
+e_{1,1} & e_{1,2} & e_{1,3} \\
+e_{2,1} & e_{2,2} & e_{2,3} \\
+e_{3,1} & e_{3,2} & e_{3,3} \\
+\end{pmatrix}
+\cdot
+\begin{pmatrix}
+x_{1} \\
+x_{2} \\
+x_{3} \\
+\end{pmatrix} = 
+\begin{pmatrix}
+e_{1,1}x_{1} + e_{1,2}x_2 + e_{1,3}x_3 \\
+e_{2,1}x_{1} + e_{2,2}x_2 + e_{2,3}x_3 \\
+e_{3,1}x_{1} + e_{3,2}x_2 + e_{3,3}x_3 \\
+\end{pmatrix}
+$
+
+Let's now calculate correlation between two coordinates of $\bm{Y}$, e.g.:
+
+$\mathrm{Cov}[y_1, y_2] = \mathrm{Cov}( (e_{1,1}x_1 + e_{1,2}x_2 + e_{1,3}x_3) \cdot (e_{2,1}x_1 + e_{2,2}x_2 + e_{2,3}x_3)) = $
+
+$ = \mathrm{Cov}(e_{1,1}e_{2,1}x_1x_1 + e_{1,1}e_{2,2}x_1x_2 + e_{1,1}e_{2,3}x_1x_3  +  e_{1,2}e_{2,1}x_2x_1 + e_{1,2}e_{2,2}x_2x_2 + e_{1,2}e_{2,3}x_2x_3  +  e_{1,3}e_{2,1}x_3x_1 + e_{1,3}e_{2,2}x_3x_2 + e_{1,3}e_{2,3}x_3x_3) = $
+
+$ = \begin{pmatrix}
+e_{2,1} & e_{2,2} & e_{2,3} \\
+\end{pmatrix}
+\cdot
+\begin{pmatrix}
+\Sigma_{1,1} & \Sigma_{1,2} & \Sigma_{1,3} \\
+\Sigma_{2,1} & \Sigma_{2,2} & \Sigma_{2,3} \\
+\Sigma_{3,1} & \Sigma_{3,2} & \Sigma_{3,3} \\
+\end{pmatrix}
+\cdot
+\begin{pmatrix}
+e_{1,1} \\
+e_{1,2} \\
+e_{1,3} \\
+\end{pmatrix} = 
+\begin{pmatrix}
+e_{2,1} & e_{2,2} & e_{2,3} \\
+\end{pmatrix}
+\cdot
+\lambda_1
+\cdot
+\begin{pmatrix}
+e_{1,1} \\
+e_{1,2} \\
+e_{1,3} \\
+\end{pmatrix}
+= \lambda_1 \cdot 0 = 0
+$.
+
+First, we used the fact that covariance of a linear combination of random variables is a linear combination of covariances. Then we used the fact that $E_1$ is the eigenvector of matrix $\bm{\Sigma}$, and $\bm{\Sigma} E_1 = \lambda_1 E_1$. Lastly, we used the fact that eigenvectors $E_1$ and $E_2$ are orthogonal, and their dot product is 0. 
 
 Now, as you can see, the power of exponent in multivariate normal distribution, is the square of Mahalanobis distance between the vector and its mean, divided by 2.
 So, it works in the same way, it converts our correlated factors into uncorrelated ones, and takes sum of their squares, weighted by eigenvalues of respective directions.
 
-See appendix 2: http://cs229.stanford.edu/section/gaussians.pdf
 
 
 Uncorrelated multidimensional normal variables are independent
