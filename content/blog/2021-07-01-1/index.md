@@ -16,7 +16,7 @@ Sir Francis Galton might be considered the grandfather of modern statistics. He 
 ![Galton's correlation diagram](./Galton's_correlation_diagram_1875.jpeg)<center>Heights of 205 parents and 930 adult children, from "Regression towards mediocrity in hereditary stature" by F.Galton, 1886</center>
 
 Heights of parents were normally-distributed, as well as the heights of their children. However, the distributions were 
-obviously not independent, as taller parents generally give birth to taller children. Probably, this plate is one of the first depictions of 2-variate normal distribution's isolevels. As a sidenote, 
+obviously not independent, as taller parents generally give birth to taller children. Probably, this plate is one of the first depictions of 2-variate normal distribution's isocontour. As a side note, 
 Galton has also come up with the ratio of male to female heights here, which is 1.08 (according to the [modern data](https://ourworldindata.org/human-height), it is closer to 1.07).
 
 Galton actually rediscovered the concept of correlation two years after this paper, in 1888.
@@ -104,7 +104,7 @@ e_{3,1}x_{1} + e_{3,2}x_2 + e_{3,3}x_3 \\
 \end{pmatrix}
 $
 
-Let's now calculate correlation between two coordinates of $\bm{Y}$, e.g.:
+Let's now calculate the correlation between two coordinates of $\bm{Y}$, e.g.:
 
 $\mathrm{Cov}[y_1, y_2] = \mathrm{Cov}( (e_{1,1}x_1 + e_{1,2}x_2 + e_{1,3}x_3) \cdot (e_{2,1}x_1 + e_{2,2}x_2 + e_{2,3}x_3)) = $
 
@@ -146,7 +146,7 @@ So, it works in the same way, it converts our correlated factors into uncorrelat
 
 This also explains, why the denominator contains $|\det(\bm{\Sigma})|$: the eigenvalues of the covariance matrix are the elements of diagonal matrix $\bm{\Lambda}$, which are the variances of de-correlated normal distributions.
 By [Binet-Cauchy formula](https://en.wikipedia.org/wiki/Cauchy%E2%80%93Binet_formula) the determinant of $\det(\bm{\Sigma}) = \det(\bm{\Lambda})$. Thus, by normalizing the probability density function by $|\det(\bm{\Sigma})|$,
-we do the same as by normalizing pdf of one-dimensional normal distribuion by $\sqrt{\sigma^2}$.
+we do the same as by normalizing pdf of one-dimensional normal distribution by $\sqrt{\sigma^2}$.
 
 
 
