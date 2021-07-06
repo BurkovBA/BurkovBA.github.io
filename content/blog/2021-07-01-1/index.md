@@ -3,7 +3,7 @@ title: Multivariate normal distribution
 date: "2021-07-01T00:00:00.284Z"
 tags: ["math"]
 cover: "./multivariate_normal.png"
-description: Multivariate normal distribution arises in many aspects of mathematical statistics and machine learning. For instance, Cochran's theorem in statistics, or Gaussian processes in ML rely on its properties. Thus, I'll discuss some of its properties here in detail.
+description: Multivariate normal distribution arises in many aspects of mathematical statistics and machine learning. For instance, Cochran's theorem in statistics, PCA and Gaussian processes in ML heavily rely on its properties. Thus, I'll discuss it here in detail.
 ---
 
 Motivational example
@@ -16,9 +16,10 @@ Sir Francis Galton might be considered the grandfather of modern statistics. He 
 ![Galton's correlation diagram](./Galton's_correlation_diagram_1875.jpeg)<center>Heights of 205 parents and 930 adult children, from "Regression towards mediocrity in hereditary stature" by F.Galton, 1886</center>
 
 Heights of parents were normally-distributed, as well as the heights of their children. However, the distributions were 
-obviously not independent, as taller parents generally give birth to taller children. Probably, this plate is one of the first depictions of 2-variate normal distribution.
+obviously not independent, as taller parents generally give birth to taller children. Probably, this plate is one of the first depictions of 2-variate normal distribution's isolevels. As a sidenote, 
+Galton has also come up with the ratio of male to female heights here, which is 1.08 (according to the [modern data](https://ourworldindata.org/human-height), it is closer to 1.07).
 
-Galton actually rediscovered the concept of correlation in 1888, two years after this paper.
+Galton actually rediscovered the concept of correlation two years after this paper, in 1888.
 
 Multivariate normal distribution
 --------------------------------
@@ -61,7 +62,7 @@ However, if the coordinates of the vector X are strongly correlated, Mahalanobis
 For instance, imagine, that your vector $\bm{X}$ contains flat properties: ($x_1$ = total_area, $x_2$ = living_rooms_area, $x_3$ = distance from center).
 You can tell that total flat area and living rooms area have a reasonably strong correlation (as an edge case they could completely duplicate each other).
 
-For instance, here is the covariance matrix for your flat's properties $\bm{\Sigma} = \begin{pmatrix}
+For instance, here is a possible covariance matrix for your flat's properties $\bm{\Sigma} = \begin{pmatrix}
 1 & 0.7 & 0.1 \\
 0.7 & 1 & 0.2 \\
 0.1 & 0.2 & 1 \\
@@ -71,11 +72,9 @@ For instance, here is the covariance matrix for your flat's properties $\bm{\Sig
 0.082  & -0.266 & 1.045  \\
 \end{pmatrix}$.
 
-The key to understanding of the covariance matrix is analysis of its eigen decomposition: it is symmetric (and positively semidefinite). 
+The key to understanding the covariance matrix is analysis of its eigen decomposition.  Let $\bm{E}$ be the matrix of eigenvectors of $\bm{\Sigma}$, let $\bm{\Lambda}$ be the diagonal matrix of eigenvalues of $\bm{\Sigma}$. 
 
-Let $\bm{E}$ be the matrix of eigenvectors of $\bm{\Sigma}$, let $\bm{\Lambda}$ be the diagonal matrix of eigenvalues of $\bm{\Sigma}$. 
-
-For a symmetric matrix, its eigenvectors are orthogonal: $\bm{\Sigma} = \bm{E} \bm{\Lambda} \bm{E}^{-1}$ => $\bm{\Sigma}^{T} = (\bm{E}^{-1})^{T} \bm{\Lambda}^{T} \bm{E}^{T} = \bm{E} \bm{\Lambda} \bm{E}^{-1} = \bm{\Sigma}$. 
+Covariance matrix is symmetric (and positively semi-definite). For a symmetric matrix, its eigenvectors are orthogonal (so that inverse matrix of an orthogonal matrix is its transpose): $\bm{\Sigma} = \bm{E} \bm{\Lambda} \bm{E}^{-1}$ => $\bm{\Sigma}^{T} = (\bm{E}^{-1})^{T} \bm{\Lambda}^{T} \bm{E}^{T} = \bm{E} \bm{\Lambda} \bm{E}^{-1} = \bm{\Sigma}$. 
 
 $\bm{\Lambda}^T = \bm{\Lambda}$, thus, $\bm{E}^{-1}(\bm{E}^{-1})^T \Lambda \bm{E}^T\bm{E} = \bm{\Lambda}$, indicating that $\bm{E}^T\bm{E}=\bm{I}$, or $\bm{E}$ is orthogonal.
 
