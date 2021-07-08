@@ -9,6 +9,7 @@ description: Here I discuss the Cochran's theorem that is used to prove independ
 Tearing through the unintelligible formulation
 ----------------------------------------------
 
+TODO
 
 Cochran's theorem proof
 -----------------------
@@ -24,6 +25,8 @@ itself gets pretty straightforward.
 Suppose that we have an n-dimensional vector $\bm{X}$ and a quadratic form ${\bm{X}}^T \bm{I} \bm{X} = {\bm{X}}^T \bm{X}$.
 
 Suppose that we found a way to split this quadratic form into several: ${\bm{X}}^T \bm{X} = {\bm{X}}^T \bm{B_1} \bm{X} + {\bm{X}}^T \bm{B_2} \bm{X} + ... + {\bm{X}}^T \bm{B_k} \bm{X}$, where the matrices $\bm{B_1}, \bm{B_2}, ... \bm{B_k}$ have lower ranks $r_1, r_2, ... r_k$, so that the sum of those ranks equals n: $\sum \limits_{i=1}^{k} r_i = n$.
+
+TODO: fix the following section:
 
 Then all those matrices can be simultaneously diagonalized. Moreover, if $\bm{E}$ is their eigenvectors matrix, after diagonalising, we get:
 
@@ -41,7 +44,7 @@ $\begin{pmatrix}
 0 & 0 & \cdots & 0 & 0 & 0 \\
 \end{pmatrix}$, where $j$ starts with $r_0 + r_1 + ... + r_{i-1} + 1$ and ends with $r_i$, in each expression $\bm{Y}^T \bm{\Lambda_i} \bm{Y}$ only $j$-th coordinates of $\bm{Y}$ actually matter.
 
-#### Eigenvalues and eigenvectors of lower-rank matrices
+#### Preparations for the lemma: eigenvalues and eigenvectors of lower-rank matrices
 
 As you see the statement of the lemma deals with lower-rank matrices and their eigen decomposition. We need to learn how to work with them in order to understand the proof of the lemma.
 
@@ -79,7 +82,7 @@ can clearly see, that you'll have just 2 constraints on solutions: $1x_1 + 1x_2 
 which allows for eigenspace of dimensionality 2. You can choose arbitrary values for $x_1$ and $x_2$, then $x_3 = - (x_1 + x_2)$ and
 $x_4 = 0$.
 
-#### Simultaneous diagonalization
+#### Preparations for the lemma: simultaneous diagonalization
 
 Sometimes two lower-rank matrices can be simultaneously diagonalized.
 
@@ -105,7 +108,7 @@ Thus, we can simultaneously diagonalize these two matrices, because eigenvalues 
 
 Now, we won't be using the following results below, but I'll still mention them. Simultaneous diagonalization of lower-rank matrices in general is NOT always possible. However, [there is always a way](https://www.math.purdue.edu/~eremenko/dvi/simult.pdf) for two symmetric, positive-definite matrices of the same size - [Cholesky decomposition](https://en.wikipedia.org/wiki/Cholesky_decomposition). This result is well-known, because it has important practical applications for Lagrangian and Quantum mechanics. In quantum mechanics two operators can be observed simultaneously, if they commute (i.e. their eigen functions are the same, or they are simultaneously diagonalizable).
 
-#### Induction-based proof of the lemma
+#### Proof of the lemma
 
 Let us start with 2-dimensional case. We start with:
 
@@ -169,9 +172,25 @@ the only way for the rank to be lower than n is for coefficients of $y_i$ to equ
 TODO: what if n > 2?
 
 
-### Theorem
+### Theorem proof
 
-TODO
+Now that we have proven the lemma, which constitutes the core of Cochran's theorem, we can apply it to our random variables.
+
+By analogy to the lemma, we apply an orthogonal transform $C$ to our random variable $\bm{X} = C \bm{Y}$, so that
+our sum of quadratic forms takes the following form:
+
+$Q_1 = Y_1^2 + Y_2^2 + ... + Y_{r_1}^2$
+
+$Q_2 = Y_{r_1+1}^2 + Y_{r_1+2}^2 + ... + Y_{r_1+r_2}^2$
+
+...
+
+$Q_k = Y_{(r_1 + ... + r_{k-1})+1}^2 + Y_{(r_1 + ... + r_{k-1})+2}^2 + ... + Y_{n}^2$
+
+Since every $Y_i^2$ occurs in exactly one $Q_j$ and the $Y_i$’s are all independent random variables $\in \mathcal{N}(0, \sigma^2)$ (because $C$ is an orthogonal matrix), Cochran’s theorem follows.
+
+TODO: still why $Y_i^2$ are independent? 
+
 
 
 Example: Application to ANOVA
