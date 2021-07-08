@@ -42,7 +42,7 @@ $\begin{pmatrix}
 0 & \cdots & 0 & \lambda_{j+1} & 0 & 0 \\
 \cdots & \cdots & \ddots & \ddots & \cdots & \cdots \\
 0 & 0 & \cdots & 0 & 0 & 0 \\
-\end{pmatrix}$, where $j$ starts with $r_0 + r_1 + ... + r_{i-1} + 1$ and ends with $r_i$, in each expression $\bm{Y}^T \bm{\Lambda_i} \bm{Y}$ only $j$-th coordinates of $\bm{Y}$ actually matter.
+\end{pmatrix}$, where $j$ starts with $r_0 + r_1 + ... + r_{i-1} + 1$ and ends with $r_0 + r_1 + ... + r_{i-1} + r_i$, in each expression $\bm{Y}^T \bm{\Lambda_i} \bm{Y}$ only $j$-th coordinates of $\bm{Y}$ actually matter.
 
 #### Preparations for the lemma: eigenvalues and eigenvectors of lower-rank matrices
 
@@ -164,10 +164,41 @@ Rearrange the terms to get:
 
 $\sum \limits_{i=1}^{r_1} (1-\lambda_i) y_i^2 + \sum \limits_{j=r_1+1}^{n} y_j^2 = Y^T E_1^T B_2 E_1 Y$
 
-Now that we know that the $rank(B_2) = r_2 = n - r_1$, we can come up to the conclusion that $\lambda_1, ..., \lambda_{r_1} = 1$.
+Now that we know that the $rank(B_2) = r_2 = n - r_1$, we can come to the conclusion that $\lambda_1, ..., \lambda_{r_1} = 1$.
 
-TODO: how to prove the last point? 1) show that $E_1^T B_2 E_1$ has rank $n-r_1$, too; 2) if all the coefficients for $y_j$ equal to 1,
-the only way for the rank to be lower than n is for coefficients of $y_i$ to equal zero.
+Recall that $rank(AB) \leq \min(rank(A), rank(B)$. So, $rank(E_1^T B_2 E_1) \leq rank(B_2) = n - r_1$ 
+
+As a result we have:
+
+$
+\begin{pmatrix}
+y_1 & y_2 & ... & y_n \\
+\end{pmatrix} \cdot
+\begin{pmatrix}
+ 1-\lambda_1  &  0  & \cdots & 0 \\
+ 0  &  1-\lambda_2  & \cdots & 0 \\
+\cdots & \cdots & \ddots & \cdots \\
+0   &  0  &  0  &  1 \\  
+\end{pmatrix} \cdot
+\begin{pmatrix}
+y_1 \\
+y_2 \\
+... \\
+y_n \\
+\end{pmatrix} =
+\begin{pmatrix}
+y_1 & y_2 & ... & y_n \\
+\end{pmatrix} \cdot
+E_1^T B_2 E_1 \cdot
+\begin{pmatrix}
+y_1 \\
+y_2 \\
+... \\
+y_n \\
+\end{pmatrix}
+$
+
+There is only one way for the matrix $E_1^T B_2 E_1$ to have rank $n-r_1$ - all the eigenvalues should equal to 1: $\lambda_1 = \lambda_2 = ... = \lambda_{r_i} = 1$.
 
 TODO: what if n > 2?
 
