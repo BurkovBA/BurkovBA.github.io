@@ -103,11 +103,70 @@ corresponding eigenspace is $V = (c_1, c_2, 0, 0)^T$, where $c_1, c_2$ - arbitra
 
 Thus, we can simultaneously diagonalize these two matrices, because eigenvalues of matrix $B_1$ are compatible with the eigenspace of $B_2$ and vice versa.
 
+Now, we won't be using the following results below, but I'll still mention them. Simultaneous diagonalization of lower-rank matrices in general is NOT always possible. However, [there is always a way](https://www.math.purdue.edu/~eremenko/dvi/simult.pdf) for two symmetric, positive-definite matrices of the same size - [Cholesky decomposition](https://en.wikipedia.org/wiki/Cholesky_decomposition). This result is well-known, because it has important practical applications for Lagrangian and Quantum mechanics. In quantum mechanics two operators can be observed simultaneously, if they commute (i.e. their eigen functions are the same, or they are simultaneously diagonalizable).
+
 #### Induction-based proof of the lemma
 
-Let us start with 2-dimensional case. 
+Let us start with 2-dimensional case. We start with:
 
-Our quadratic form matrices are symmetric, thus, their eigenvectors matrices are orthogonal. Thus, $\bm{X}^T \bm{X} = \bm{X}^T \bm{E} \bm{E}^T \bm{X} = \bm{Y}^T \bm{Y}$
+$X^T X = X^T B_1 X + X^T B_2 X$
+
+Do an eigen decomposition of $B_1$: $B_1 = E_1 \Lambda_1 E_1^T$ or $E_1^T B_1 E_1 = \Lambda_1$. 
+
+Note that as the rank of matrix $B_1$ is not full, the matrix E_1 of eigenvectors has en eigenspace, corresponding to 0 eigenvalue, where we can choose an arbitrary basis. Let us do this in such a way that the resulting matrix E_1 is full-rank orthogonal (this is possible because $B_1$ is symmetric).
+
+$X^T X = X^T E_1 \Lambda_1 E_1^T X + X^T B_2 X$
+
+Now, denote $Y = E_1^T X$ and recall that $Y^T Y = X^T E_1 E_1^T X = X^T X$.
+
+$Y^TY = Y^T \Lambda_1 Y + X^T B_2 X$ or, equivalently, $Y^TY = Y^T \Lambda_1 Y + Y^T E_1^T B_2 E_1 Y$
+
+Now, if $rank(\Lambda_1) = r_1$ (for instance, 2), we can re-arrange this as follows:
+
+$
+\begin{pmatrix}
+y_1 & y_2 & ... & y_n \\
+\end{pmatrix} \cdot
+\begin{pmatrix}
+ 1  &  0  & \cdots & 0 \\
+ 0  &  1  & \cdots & 0 \\
+\cdots & \cdots & \ddots & \cdots \\
+0   &  0  &  0  &  1 \\  
+\end{pmatrix} \cdot
+\begin{pmatrix}
+y_1 \\
+y_2 \\
+... \\
+y_n \\
+\end{pmatrix} =
+$
+$
+\begin{pmatrix}
+y_1 & y_2 & ... & y_n \\
+\end{pmatrix} \cdot
+\begin{pmatrix}
+ \lambda_1  &  0  & \cdots & 0 \\
+ 0  &  \lambda_2  & \cdots & 0 \\
+\cdots & \cdots & 0 & \cdots \\
+0   &  0  &  0  &  0 \\  
+\end{pmatrix} \cdot
+\begin{pmatrix}
+y_1 \\
+y_2 \\
+... \\
+y_n \\
+\end{pmatrix} +Y^T E_1^T B_2 E_1 Y$
+
+Rearrange the terms to get:
+
+$\sum \limits_{i=1}^{r_1} (1-\lambda_i) y_i^2 + \sum \limits_{j=r_1+1}^{n} y_j^2 = Y^T E_1^T B_2 E_1 Y$
+
+Now that we know that the $rank(B_2) = r_2 = n - r_1$, we can come up to the conclusion that $\lambda_1, ..., \lambda_{r_1} = 1$.
+
+TODO: how to prove the last point? 1) show that $E_1^T B_2 E_1$ has rank $n-r_1$, too; 2) if all the coefficients for $y_j$ equal to 1,
+the only way for the rank to be lower than n is for coefficients of $y_i$ to equal zero.
+
+TODO: what if n > 2?
 
 
 ### Theorem
@@ -201,3 +260,6 @@ References
  - http://www.stat.columbia.edu/~fwood/Teaching/w4315/Fall2009/lecture_cochran.pdf
  - https://www.youtube.com/watch?v=toNiUsay5uU
  - https://math.stackexchange.com/questions/55165/eigenvalues-of-the-rank-one-matrix-uvt
+ - https://en.wikipedia.org/wiki/Definite_matrix#Simultaneous_diagonalization
+ - https://en.wikipedia.org/wiki/Diagonalizable_matrix#Simultaneous_diagonalization
+ - https://www.math.purdue.edu/~eremenko/dvi/simult.pdf
