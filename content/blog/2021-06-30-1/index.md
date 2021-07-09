@@ -26,15 +26,13 @@ Suppose that we have an n-dimensional vector $\bm{X}$ and a quadratic form ${\bm
 
 Suppose that we found a way to split this quadratic form into several: ${\bm{X}}^T \bm{X} = {\bm{X}}^T \bm{B_1} \bm{X} + {\bm{X}}^T \bm{B_2} \bm{X} + ... + {\bm{X}}^T \bm{B_k} \bm{X}$, where the matrices $\bm{B_1}, \bm{B_2}, ... \bm{B_k}$ have lower ranks $r_1, r_2, ... r_k$, so that the sum of those ranks equals n: $\sum \limits_{i=1}^{k} r_i = n$.
 
-TODO: fix the following section:
-
-Then all those matrices can be simultaneously diagonalized. Moreover, if $\bm{E}$ is their eigenvectors matrix, after diagonalising, we get:
+Then all those matrices can be simultaneously diagonalized. There exists an orthogonal matrix $\bm{E}$ of their joint eigenvectors, and after diagonalising, we get:
 
 ${\bm{X}}^T \bm{X} = {\bm{X}}^T \bm{B_1} \bm{X} + {\bm{X}}^T \bm{B_2} \bm{X} + ... + {\bm{X}}^T \bm{B_k} \bm{X} = {\bm{X}}^T \bm{E} \bm{\Lambda_1} \bm{E}^T \bm{X} + {\bm{X}}^T \bm{E} \bm{\Lambda_2} \bm{E}^T \bm{X} + ... + {\bm{X}}^T \bm{E}^T \bm{\Lambda_k} \bm{E}^T \bm{X} = $
 
-$ = \bm{Y}^T \bm{\Lambda_1} \bm{Y} + \bm{Y}^T \bm{\Lambda_2} \bm{Y} + ... + \bm{Y}^T \bm{\Lambda_k} \bm{Y}$, where $\bm{Y}$ are de-correlated transforms of X vector.
+$ = \bm{Y}^T \bm{\Lambda_1} \bm{Y} + \bm{Y}^T \bm{\Lambda_2} \bm{Y} + ... + \bm{Y}^T \bm{\Lambda_k} \bm{Y}$, where $\bm{Y}$ are such transforms of $\bm{X}$ vector, that in the resulting quadratic forms $\bm{Y^T} \bm{\Lambda_i} \bm{Y}$ matrices $\bm{\Lambda_i}$ are diagonal.
 
-Moreover, as matrices $\Lambda_i$ contain only $r_i$ non-zero eigenvalues: 
+As matrices $\Lambda_i$ contain only $r_i$ non-zero eigenvalues: 
 $\begin{pmatrix}
 0 & 0 & \cdots & 0 & 0 & 0 \\
 \cdots & \cdots & \ddots & \ddots & \cdots & \cdots \\
@@ -43,6 +41,8 @@ $\begin{pmatrix}
 \cdots & \cdots & \ddots & \ddots & \cdots & \cdots \\
 0 & 0 & \cdots & 0 & 0 & 0 \\
 \end{pmatrix}$, where $j$ starts with $r_0 + r_1 + ... + r_{i-1} + 1$ and ends with $r_0 + r_1 + ... + r_{i-1} + r_i$, in each expression $\bm{Y}^T \bm{\Lambda_i} \bm{Y}$ only $j$-th coordinates of $\bm{Y}$ actually matter.
+
+Moreover, importantly all the eigenvalues $\lambda_j$ equal to 1, so each quadratic form quadratic forms $\bm{Y^T} \bm{\Lambda_i} \bm{Y}$ actually end up being just a sum of squares of i.i.d normal variables $\bm{Y^T} \bm{Y}$, which means it is chi-square-distributed.
 
 #### Preparations for the lemma: eigenvalues and eigenvectors of lower-rank matrices
 
