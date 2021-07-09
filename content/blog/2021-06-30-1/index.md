@@ -166,7 +166,7 @@ $\sum \limits_{i=1}^{r_1} (1-\lambda_i) y_i^2 + \sum \limits_{j=r_1+1}^{n} y_j^2
 
 Now that we know that the $rank(B_2) = r_2 = n - r_1$, we can come to the conclusion that $\lambda_1, ..., \lambda_{r_1} = 1$.
 
-Recall that $rank(AB) \leq \min(rank(A), rank(B)$. So, $rank(E_1^T B_2 E_1) \leq rank(B_2) = n - r_1$ 
+Indeed, recall that $rank(AB) \leq \min(rank(A), rank(B)$. So, $rank(E_1^T B_2 E_1) \leq rank(B_2) = n - r_1$ (see [wiki](https://en.wikipedia.org/wiki/Rank_(linear_algebra)#Properties)). 
 
 As a result we have:
 
@@ -200,7 +200,11 @@ $
 
 There is only one way for the matrix $E_1^T B_2 E_1$ to have rank $n-r_1$ - all the eigenvalues should equal to 1: $\lambda_1 = \lambda_2 = ... = \lambda_{r_i} = 1$.
 
-TODO: what if n > 2?
+Now, what if n > 2, e.g. n=3? The key observation for this case is the fact that rank is subadditive: $rank(A+B) \leq rank(A) + rank(B)$.
+So we can be sure that $B_2 + B_3$ is a matrix of rank no greater than $n-r_1$. Hence, we can disregard the first $y_i$ from
+$r_1$ to $r_i$ and apply the same argument again for the remaining $y_j$.
+
+
 
 
 ### Theorem proof
@@ -218,10 +222,20 @@ $Q_2 = Y_{r_1+1}^2 + Y_{r_1+2}^2 + ... + Y_{r_1+r_2}^2$
 
 $Q_k = Y_{(r_1 + ... + r_{k-1})+1}^2 + Y_{(r_1 + ... + r_{k-1})+2}^2 + ... + Y_{n}^2$
 
+Let us show now that all $Y_i^2$ random variables are independent. Recall that covariance matrix of $\bm{X}$ is $\bm{\Sigma_X} = \begin{pmatrix}
+\sigma_1^2 & 0 & ... & 0 \\
+0 & \sigma_2^2 & ... & 0 \\
+... & ... & \ddots & ... \\
+0 & 0 & ... & \sigma_n^2 \\
+\end{pmatrix} = \sigma^2 I$, since all the $\sigma_1 = \sigma_2 = ... = \sigma_n = \sigma$
+
+Now, if $\bm{Y} = C \bm{X}$, where $C$ is orthogonal matrix, the covariance matrix of Y is:
+
+$\bm{\Sigma_Y} = \mathrm{Cov}[Y, Y^T] = \mathrm{Cov}[C X, X^T C^T] = C \bm{\Sigma_X} C^T = C \sigma^2 I C^T = \sigma^2 I$. 
+
+So, all $Y_i$ are independent identically distributed random variables.
+
 Since every $Y_i^2$ occurs in exactly one $Q_j$ and the $Y_i$’s are all independent random variables $\in \mathcal{N}(0, \sigma^2)$ (because $C$ is an orthogonal matrix), Cochran’s theorem follows.
-
-TODO: still why $Y_i^2$ are independent? 
-
 
 
 Example: Application to ANOVA
@@ -313,3 +327,4 @@ References
  - https://en.wikipedia.org/wiki/Definite_matrix#Simultaneous_diagonalization
  - https://en.wikipedia.org/wiki/Diagonalizable_matrix#Simultaneous_diagonalization
  - https://www.math.purdue.edu/~eremenko/dvi/simult.pdf
+ - https://en.wikipedia.org/wiki/Rank_(linear_algebra)#Properties
