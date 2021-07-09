@@ -20,7 +20,16 @@ divided into a sum of two sources of variance, squared bias (the systematic erro
 fit the more complex nature of data) and variance (the error created by the fact that the amount of data available is limited, and is somewhat insufficient
 for the model to learn to fit the data perfectly).
 
-Anyways, the formulation of the theorem sounds really technical, and is hard to digest.
+Anyways, the formulation of the theorem sounds really technical, and is hard to digest. Basically, it says that if you
+had a sum of squares of $n$ independent identically distributed normal variables and managed to split it into a several 
+non-full-rank quadratic forms where sum of their ranks equals $n$, each of those quadratic forms is an independent random variable, distributed as $\chi^2_{r_i}$,
+a chi-square with $r_i$ degrees of freedom, where, where $r_i$ is the rank of corresponding quadratic form.
+
+For instance, if we've split our sum of square of i.i.d. normal variables with 0 mean (so that $X^T X \sim \chi_{n}^2$) into 2 quadratic forms 
+$X^T X = X^T B_1 X + X^T B_2 X$ with the matrix $B_1$ having rank $r_1$ and $B_2$ having rank $r_2 = n - r_1$,
+$X^T B_1 X \sim \chi_{r_1}^2$,  $X^T B_2 X \sim \chi_{r_2}^2$ and $X^T B_1 X$ and $X^T B_2 X$ are independent.
+
+See the examples below to see, why this result is valuable.
 
 Cochran's theorem proof
 -----------------------
