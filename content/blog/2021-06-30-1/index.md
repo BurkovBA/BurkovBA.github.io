@@ -9,7 +9,18 @@ description: Here I discuss the Cochran's theorem that is used to prove independ
 Tearing through the unintelligible formulation
 ----------------------------------------------
 
-TODO
+Cochran's theorem is a field-specific result, sometimes used in the analysis of chi-squared and multivariate normal distributions.
+
+Probably, the main two reasons to be concerned about it are the proof of independence between the sample variance and sample mean
+in derivation of t-Student distribution and ANOVA, where total variance can be split into multiple sources of variance, which are
+usually expressed as quadratic forms. 
+
+As an example of the last case (maybe not them most relevant one), consider the famous [bias-variance tradeoff](https://en.wikipedia.org/wiki/Bias%E2%80%93variance_tradeoff), where total expected error of the regression model is
+divided into a sum of two sources of variance, squared bias (the systematic error due to crude model being unable to
+fit the more complex nature of data) and variance (the error created by the fact that the amount of data available is limited, and is somewhat insufficient
+for the model to learn to fit the data perfectly).
+
+Anyways, the formulation of the theorem sounds really technical, and is hard to digest.
 
 Cochran's theorem proof
 -----------------------
@@ -229,7 +240,7 @@ Let us show now that all $Y_i^2$ random variables are independent. Recall that c
 0 & 0 & ... & \sigma_n^2 \\
 \end{pmatrix} = \sigma^2 I$, since all the $\sigma_1 = \sigma_2 = ... = \sigma_n = \sigma$
 
-Now, if $\bm{Y} = C \bm{X}$, where $C$ is orthogonal matrix, the covariance matrix of Y is:
+Now, if $\bm{Y} = C \bm{X}$, where $C$ is orthogonal matrix, the covariance matrix of Y is an [outer product](https://en.wikipedia.org/wiki/Outer_product):
 
 $\bm{\Sigma_Y} = \mathrm{Cov}[Y, Y^T] = \mathrm{Cov}[C X, X^T C^T] = C \bm{\Sigma_X} C^T = C \sigma^2 I C^T = \sigma^2 I$. 
 
