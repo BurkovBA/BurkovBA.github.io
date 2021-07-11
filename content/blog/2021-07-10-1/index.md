@@ -56,10 +56,17 @@ joint probability distribution.
 Now, we know one-dimensional conditional distribution (essentially, all the vertical slices of our joint distribution): if we get $\theta$ fixed, we get a binomial distribution $p(x|\theta) = C_n^x \theta^x (1-\theta)^{(1-x)}$. How can we infer
 the joint probability distribution?
 
-The answer is, there is no way. You cannot observe conditional distributions of one dimension and uniquely identify the
+The answer is, there is no unique way. You cannot observe conditional distributions of one dimension and uniquely identify the
 other dimension's conditional (or even marginal) distribution, let alone the joint distribution.
 
-TODO: show this fact!!!!!!
+For instance, consider the following 2-dimensional distribution over $x$ and $\theta$:
+
+![joint probability distribution and conditional](joint_probability_and_conditionals.png)
+
+For this example I assumed that conditional distribution of $p(x|\theta)$ is binomial with large enough number of trials, so that
+it converges to normal. Let us fix the value of $\theta$. Integral of $p(x|\theta)$ over $x$ obviously results in 1. So, to get the marginal 
+distribution over $\theta$ we have to... think it out. There is no single answer. For different marginal (= prior) distributions
+of $\theta$ we will obtain different joint distributions $p(x, \theta) = p(x|\theta) \cdot p(\theta)$.
 
 So what Bayesians decided to do instead is to require that posterior $p(\theta | x)$ and prior $p(\theta)$ distributions of $\theta$ belonged to the
 same distribution family. Translating this to the multivariate distributions language, conjugate priors ensure that 
@@ -82,7 +89,7 @@ Again, I'll be following the general logic of another [blog post by Aerin Kim](h
 
 Let us show that posterior distribution of $\theta$ indeed belongs to the same family as prior:
 
-$p(\theta | x) = \frac{p(x|\theta)\cdotp(\theta)}{p(x)} = \frac{p(x|\theta)\cdotp(\theta)}{\int \limits_{\theta=0}^{1}p(x|\theta) \cdot p(\theta) d\theta} = \frac{\frac{n!}{x! n-x!} \theta^x (1-\theta)^{n-x} \frac{1}{\Beta(\alpha, \beta)} \theta^{\alpha-1} (1-\theta)^{\beta-1} }{ \int \limits_{\theta=0}^{1} \frac{n!}{x! n-x!} \theta^x (1-\theta)^{n-x} \frac{1}{\Beta(\alpha, \beta)} \theta^{\alpha-1} (1-\theta)^{\beta-1} } = \frac{ \theta^{x+\alpha-1} (1-\theta)^{n-x+\beta-1} }{ \underbrace{ \int \limits_{\theta=0}^{1} \theta^{x+\alpha-1} (1-\theta)^{n-x+\beta-1} }_{\Beta(x+\alpha, n-x+\beta)} }$
+$p(\theta | x) = \frac{p(x|\theta)\cdotp(\theta)}{p(x)} = \frac{p(x|\theta)\cdotp(\theta)}{\int \limits_{\theta=0}^{1}p(x|\theta) \cdot p(\theta) d\theta} = \frac{\frac{n!}{x! n-x!} \theta^x (1-\theta)^{n-x} \frac{1}{\Beta(\alpha, \beta)} \theta^{\alpha-1} (1-\theta)^{\beta-1} }{ \int \limits_{\theta=0}^{1} \frac{n!}{x! n-x!} \theta^x (1-\theta)^{n-x} \frac{1}{\Beta(\alpha, \beta)} \theta^{\alpha-1} (1-\theta)^{\beta-1} } = \frac{ \theta^{x+\alpha-1} (1-\theta)^{n-x+\beta-1} }{ \underbrace{ \int \limits_{\theta=0}^{1} \theta^{x+\alpha-1} (1-\theta)^{n-x+\beta-1} }_{\Beta(x+\alpha, n-x+\beta)} }$.
 
 
 Dirichlet distribution
@@ -97,7 +104,7 @@ $F_\xi(x_1, ..., x_k) = \iint \limits_{x_1+...+x_k = 1} \frac{\prod \limits_{i=1
 
 Dirichlet distribution found multiple applications in (mostly Bayesian) machine learning. One of the most popular approaches 
 to topic modelling, popularized in the early 2000s by Micheal Jordan, Andrew Ng and David Blei, is called [Latent Dirichlet Allocation](https://en.wikipedia.org/wiki/Latent_Dirichlet_allocation). From the name you could guess that
-Dirichlet distribution is in its core.
+Dirichlet distribution is in its core. It is a subject of a separate post.
 
 
 References
