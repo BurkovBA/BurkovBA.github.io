@@ -17,7 +17,7 @@ Beta-function to a complete one.
 
 $f_{\xi}(x) = \frac{x^{\alpha-1} (1-x)^{\beta-1}}{\Beta(\alpha, \beta)}$
 
-$F_{\xi}(x) = \int \limits_{t=-\infty}^{x} \frac{t^{\alpha-1} (1-t)^{\beta-1}}{\Beta(\alpha, \beta)}dt$
+$F_{\xi}(x) = \int \limits_{t=0}^{x} \frac{t^{\alpha-1} (1-t)^{\beta-1}}{\Beta(\alpha, \beta)}dt$
 
 To understand the motivation for Beta distribution, let us consider a common baseball example, popularized by some [blogs posts](http://varianceexplained.org/statistics/beta_distribution_and_baseball/) and
 [cross-validated stackexchange answer](https://stats.stackexchange.com/questions/47771/what-is-the-intuition-behind-beta-distribution/47782#47782).
@@ -82,13 +82,23 @@ Again, I'll be following the general logic of another [blog post by Aerin Kim](h
 
 Let us show that posterior distribution of $\theta$ indeed belongs to the same family as prior:
 
-$p(\theta | x) = \frac{p(x|\theta)\cdotp(\theta)}{p(x)} = \frac{p(x|\theta)\cdotp(\theta)}{\int \limits_{\theta=0}^{1}p(x|\theta) \cdot p(\theta) d\theta} = \frac{\frac{n!}{x! n-x!} \theta^x (1-\theta)^{n-x} \frac{1}{\Beta(\alpha, \beta)} \theta^{\alpha-1} (1-\theta)^{\beta-1} }{ \int \limits_{\theta=0}^{1} \frac{n!}{x! n-x!} \theta^x (1-\theta)^{n-x} \frac{1}{\Beta(\alpha, \beta)} \theta^{\alpha-1} (1-\theta)^{\beta-1} } = \frac{ \theta^{x+\alpha-1} (1-\theta)^{n-x+\beta-1} }{ \underbrace{ \int \limits_{\theta=0}^{1} \theta^{x+\alpha-1} (1-\theta)^{n-x+\beta-1} }_{\beta(x+\alpha-1, n-x+\beta-1)} }$
+$p(\theta | x) = \frac{p(x|\theta)\cdotp(\theta)}{p(x)} = \frac{p(x|\theta)\cdotp(\theta)}{\int \limits_{\theta=0}^{1}p(x|\theta) \cdot p(\theta) d\theta} = \frac{\frac{n!}{x! n-x!} \theta^x (1-\theta)^{n-x} \frac{1}{\Beta(\alpha, \beta)} \theta^{\alpha-1} (1-\theta)^{\beta-1} }{ \int \limits_{\theta=0}^{1} \frac{n!}{x! n-x!} \theta^x (1-\theta)^{n-x} \frac{1}{\Beta(\alpha, \beta)} \theta^{\alpha-1} (1-\theta)^{\beta-1} } = \frac{ \theta^{x+\alpha-1} (1-\theta)^{n-x+\beta-1} }{ \underbrace{ \int \limits_{\theta=0}^{1} \theta^{x+\alpha-1} (1-\theta)^{n-x+\beta-1} }_{\Beta(x+\alpha, n-x+\beta)} }$
 
 
 Dirichlet distribution
 ----------------------
 
-TODO
+Dirichlet distribution to Beta distribution is what multinomial distribution is to binomial.
+
+$f_\xi(x_1, ..., x_k) = \underbrace{ \frac{\prod \limits_{i=1}^k \Gamma(\alpha_i)}{\Gamma(\sum \limits_{i=1}^k \alpha_i)}}_{\Beta(\bm{\alpha})\text{, where } \bm{\alpha} = (\alpha_1, ..., \alpha_k)} \cdot \prod \limits_{i=1}^k x_i^{\alpha_i-1} $
+
+$F_\xi(x_1, ..., x_k) = \iint \limits_{x_1+...+x_k = 1} \frac{\prod \limits_{i=1}^k \Gamma(\alpha_i)}{\Gamma(\sum \limits_{i=1}^k \alpha_i)} dx_1 ... dx_k$
+
+
+Dirichlet distribution found multiple applications in (mostly Bayesian) machine learning. One of the most popular approaches 
+to topic modelling, popularized in the early 2000s by Micheal Jordan, Andrew Ng and David Blei, is called [Latent Dirichlet Allocation](https://en.wikipedia.org/wiki/Latent_Dirichlet_allocation). From the name you could guess that
+Dirichlet distribution is in its core.
+
 
 References
 ----------
