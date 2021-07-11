@@ -26,21 +26,64 @@ To understand the motivation for Beta distribution, let us consider a common bas
 
 Beta distribution and Dirichlet distribution are commonly used for [pseudo-counts](https://en.wikipedia.org/wiki/Additive_smoothing).
 
-Imagine that a new draft class just entered NBA (ok, I'm a basketball guy, so no baseball analogies for you, sorry), and
+Imagine that a new draft class just entered NBA *(ok, I admit, I kind of promised you a [baseball](https://www.imdb.com/title/tt1210166/) analogy, but I'm more of a basketball guy, so we'll go on with 3-pointers, rather than batting averages)*, and
 with a limited amount of data available after the first 10 games, you are trying to predict the 3pt percentage of the rookies.
 
-Suppose that throughout the first 10 games a rookie called S. Curry shot 50 3-pointers and hit 35 of them. His 3pt percentage
-is 65.
+Suppose that throughout the first 10 games a rookie called S. Curry shot 50 3-pointers and hit 22 of them. His 3pt percentage
+is 44%.
 
-Now, you are pretty sure he can't be shooting 65% throughout his whole career, you are pretty sure, this is a result of 
-adrenaline of the first games. So, what you are going to do to project his career averages is take the league averages
-(they are [around 37%](https://www.basketball-reference.com/leagues/NBA_stats_per_game.html) these days). So
-what you're going to do in order to project his career 3pt percentage, is mix your real observations with pseudo-observations
-of an average league player.
+Now, we can be pretty sure he can't be shooting 44% throughout his whole career, this ridiculous percentage is a result of 
+adrenaline of the first games. So, what you are going to do in order to project his career averages is take the league averages
+(they are [around 37%](https://www.basketball-reference.com/leagues/NBA_stats_per_game.html) these days) and mix them with
+your real observations in some proportion.
 
-### Conjugate prior to Bernoulli/binomial
+Instead of $p_{empirical}$ = $\frac{x}{N}$, where $x$ are successes and $N$ are total attempts, you'll going to use
+$p_{\alpha-smoothed} = \frac{x + \alpha}{N + \alpha d}$. To get a better understanding of conjugate priors, let us move
+to the next section.
 
-TODO
+### Beta-distribution is a conjugate prior to Bernoulli/binomial
+
+#### Conjugate priors trivia
+
+Conjugate priors are a (somewhat pseudo-scientific) tool, commonly used in Bayesian inference. 
+
+In bayesian statistics you consider both observation $x$ and distribution parameter $\theta$ as random variables.
+
+Suppose, you are tossing a coin in a series of Bernoulli trials. The probability of heads $\theta$ is considered a random variable, not just a parameter
+of distribution. So, the probability of having observed $x=5$ heads in $n=10$ trials using a fair coin $\theta=0.5$ is a
+joint probability distribution.
+
+Now, we know one-dimensional conditional distribution (essentially, all the vertical slices of our joint distribution): if we get $\theta$ fixed, we get a binomial distribution $p(x|\theta) = C_n^x \theta^x (1-\theta)^{(1-x)}$. How can we infer
+the joint probability distribution?
+
+The answer is, there is no way. You cannot observe conditional distributions of one dimension and uniquely identify the
+other dimension's conditional (or even marginal) distribution, let alone the joint distribution.
+
+TODO: show this fact!!!!!!
+
+So what Bayesians decided to do instead is to require that posterior $p(\theta | x)$ and prior $p(\theta)$ distributions of $\theta$ belonged to the
+same distribution family. Translating this to the multivariate distributions language, conjugate priors ensure that 
+conditional (the vertical slices of our joint probability distribution) and marginal distributions of $\theta$ are consistent, i.e. belong to the same family.
+
+While the choice of conjugate prior as a prior distribution of the parameter is convenient, it is convenient and nothing more -
+ it is completely theoretically unjustified otherwise. For one thing, it does not follow from the shape of conditional 
+distribution $p(x|\theta)$. With conjugate priors I would make sure to understand very clearly, what you are "buying", 
+and not getting oversold on them, before you go out to zealously march in the ranks of Bayesian church neophytes, waving it on your banner.
+
+I have a feeling, that conjugate priors are somewhat similar to [copula functions](https://en.wikipedia.org/wiki/Copula_(probability_theory))
+in frequentist *(\*cough-cough\*, even JetBrains IDE spellchecker questions existence of such a word)* statistics. Given
+marginal distributions of two or more random variables, you can recover their joint distribution by assuming a specific
+dependence between those variables, and this assumption is contained in the choice of a copula function. In case of 
+conjugate priors.
+
+#### Proof of the fact that Beta distribution is a conjugate prior to binomial
+
+Again, I'll be following the general logic of another [blog post by Aerin Kim](https://towardsdatascience.com/conjugate-prior-explained-75957dc80bfb) with this proof.
+
+Let us show that posterior distribution of $\theta$ indeed belongs to the same family as prior:
+
+$p(\theta | x) = \frac{p(x|\theta)\cdotp(\theta)}{p(x)} = \frac{p(x|\theta)\cdotp(\theta)}{\int \limits_{\theta=0}^{1}p(x|\theta) \cdot p(\theta) d\theta} = \frac{\frac{n!}{x! n-x!} \theta^x (1-\theta)^{n-x} \frac{1}{\Beta(\alpha, \beta)} \theta^{\alpha-1} (1-\theta)^{\beta-1} }{ \int \limits_{\theta=0}^{1} \frac{n!}{x! n-x!} \theta^x (1-\theta)^{n-x} \frac{1}{\Beta(\alpha, \beta)} \theta^{\alpha-1} (1-\theta)^{\beta-1} } = \frac{ \theta^{x+\alpha-1} (1-\theta)^{n-x+\beta-1} }{ \underbrace{ \int \limits_{\theta=0}^{1} \theta^{x+\alpha-1} (1-\theta)^{n-x+\beta-1} }_{\beta(x+\alpha-1, n-x+\beta-1)} }$
+
 
 Dirichlet distribution
 ----------------------
@@ -52,3 +95,4 @@ References
  - http://varianceexplained.org/statistics/beta_distribution_and_baseball/ - moneyball post
  - https://stats.stackexchange.com/questions/47771/what-is-the-intuition-behind-beta-distribution/47782#47782 - same moneyball post in the shape of stackoverflow post
  - https://www.thehoopsgeek.com/best-three-point-shooters-nba/ - live diagram of NBA all time 3pt percentages and shots made
+ - https://towardsdatascience.com/conjugate-prior-explained-75957dc80bfb - post on conjugate priors by Aerin Kim
