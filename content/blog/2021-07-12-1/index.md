@@ -46,17 +46,24 @@ Thus, by choosing $v, w$ such, that they minimize the distances from the points 
 
 Observation: turns out, you can use a greedy algorithm to perform the required optimization.
 
-First pick $v$, such that:
+Indeed, if the dimensionality of space, that we are going to project the data to, is $m$, we can always choose an orthogonal basis in that m-dimensional subspace that we are looking for. 
+
+Thus, we can first find one axis $v$, such that:
 
 $v = \arg \min_{v} \sum \limits_{i=1}^{n} d^2(X_i, proj_{v} X_i)$
 
-Then pick $w$, so that:
+Then we should find $w$, which is supposed to be orthogonal to $v$ so that:
 
 $w = \arg \min_{w} \sum \limits_{i=1}^{n} d^2(X_i, proj_{w} X_i)$, and $w$ is orthogonal to $v$.
 
-TODO: clarify, that the problem is iterative!!!!!!!
+Next basis vector should be orthogonal to both $v$ and $w$, and so on. Luckily, as we'll see in the next chapter, PCA automatically makes each next axis orthogonal to the previous ones.
 
 ### Reformulation as an eigenvectors/eigenvalues problem
+
+Alright, how do we find a single vector, such that projection onto it is maximal? Pretty simple, if the axis vector is $v$,
+the length of projection of $X_i$ data point onto it is $\frac{(v^T X_i)^2}{v^T v}$.
+
+We are looking to maximize the sum of squares of lengths of the projections over all the data points: 
 
 $v = \arg \max_v \frac{v^T \bm{X}^T \bm{X} v}{v^T v} = \arg \max_v \frac{v^T \Sigma v}{v^T v}$, where $\Sigma = \frac{1}{n-1} \sum \limits_{i=1}^{n} (X_i - \hat{X})(X_i - \hat{X})^T$ is a sample covariance matrix.
 
