@@ -29,6 +29,10 @@ Probability density function of this distribution is:
 
 $f_{\xi}(M) = \frac{1}{2^{np/2} \Gamma_p(\frac{n}{2}) |\Sigma|^{n/2}} |M|^{(n-p-1)/2} e^{-\frac{\text{trace}(\Sigma^{-1}M)}{2}}$, where $\Gamma_p$ is multivariate gamma-function, and $|M|$ and $|\Sigma|$ are determinants of the respective matrices.
 
+TODO: meaning of inverse matrix, trace, ratio of determinants
+
+TODO: use in Bayesian statistics as conjugate prior
+
 Matrix Gamma distribution
 -------------------------
 
@@ -41,9 +45,29 @@ Not much to say about it, really, because it is not very useful on its own.
 Hotelling T-squared distribution
 --------------------------------
 
-Multivariate analogue of t-Student. 
+Hotelling T-squared distribution is often used as a multivariate analogue of t-Student. 
 
-TODO
+Remember, how in case of univariate normal distribution, we considered a random variable $\frac{\bar{X} - \mu}{\sqrt{S^2}}$, where $\bar{X} = \frac{\sum \limits_{i=1}^{n} X_i}{n}$ is sample mean, $\mu$ - true (distribution) mean, and $S^2 = \frac{1}{n-1} \sum \limits_{i=1}^{n} (X_i - \bar{X})^2$ is sample variance?
+
+We showed that its square $\frac{(\bar{X} - \mu)^2}{S^2}$ has a Snedecor-Fisher F distribution.
+
+In case of multivariate normal distribution we generalize sample variance $S^2$ with a sample covariance matrix $\hat{\Sigma} = \frac{1}{n-1} \sum \limits_{i=1}^{n} (\bm{X_i} - \bm{\bar{X}}) (\bm{X_i} - \bm{\bar{X}})^T$ (which approximates the real covariance matrix $\Sigma$).
+While the sample variance was chi-squared-distributed, sample covariance matrix is Wishart-distributed (a matrix generalization of the chi-square distribution).
+
+In multivariate case we consider a quadratic form $(\bm{\bar{X}} - \bm{\mu})^T \hat{\Sigma}^{-1} (\bm{\bar{X}} - \bm{\mu})$. Note, how this random variable corresponds to $\frac{(\bar{X} - \mu)^2}{S^2}$
+in univariate case - we replace division by variance with multiplication by inverse sample covariance matrix. 
+
+It turns out that, again, sample means vector $\bm{\bar{X}}$ is independent from the sample covariance matrix $\hat{\Sigma}$ (a result, similar to univariate Cochran's theorem).
+
+It also turns out that, again: 
+
+$\sqrt{n} (\bm{\bar{X}} - \bm{\mu}) \sim \mathcal{N}_p(\bm{0}, \Sigma)$, where $\mathcal{N}_p(\bm{0}, \Sigma)$ is a p-variate normal distribution with $\bm{0}$ vector of means and $\Sigma$ covariance matrix; 
+
+$(n-1) \hat{\Sigma} \sim \mathcal{W}_p(n-1, \Sigma)$, where $\mathcal{W}_p(n-1, \Sigma)$ is a p-dimensional Wishart distribution with $n-1$ degrees of freedom and $\Sigma$ covariance matrix;
+
+$\frac{n-p}{p} \frac{n}{n-1} (\bm{\bar{X}} - \bm{\mu})^T \hat{\Sigma}^{-1} (\bm{\bar{X}} - \bm{\mu}) \sim F_{p, n-p}$, where n - number of sample points, p - dimensionality of the data, $F_{p, n-p}$ - Fisher-Snedecor distribution with p and n-p degrees of freedom.
+
+Hotelling $T^2$ distribution is defined as $t^2 = n (\bm{\bar{X}} - \bm{\mu})^T \hat{\Sigma}^{-1} (\bm{\bar{X}} - \bm{\mu}) \sim T^2_{\mu, n-1}$, so that $t^2 = \frac{p (n-1)}{n-p} F_{p,n-p}$.
 
 
 Wilks' Lambda distribution
@@ -58,3 +82,7 @@ TODO
 References
 ----------
  - https://www.stat.pitt.edu/sungkyu/course/2221Fall13/lec2.pdf
+ - https://en.wikipedia.org/wiki/Wishart_distribution
+ - https://en.wikipedia.org/wiki/Multivariate_t-distribution
+ - https://en.wikipedia.org/wiki/Hotelling%27s_T-squared_distribution
+ - https://en.wikipedia.org/wiki/Wilks%27s_lambda_distribution
