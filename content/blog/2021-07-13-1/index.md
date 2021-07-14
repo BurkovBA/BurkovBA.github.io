@@ -73,10 +73,17 @@ Hotelling $T^2$ distribution is defined as $t^2 = n (\bm{\bar{X}} - \bm{\mu})^T 
 Wilks' Lambda distribution
 --------------------------
 
-Wilks' Lambda distribution to Hotelling T-squared distribution in multivarite case is what t-Student distribution is to
-Snedecor-Fisher's F distribution. 
+Wilks' Lambda is another distribution, very similar to Snedecor-Fisher's F distribution. 
 
-TODO
+As F distribution is a ratio of two chi-square distributions, Wilks' Lambda distribution is
+a ratio of determinants of two Wishart-distributed random matrices (note that the sum of two 
+independent Wishart-distributed matrices with $m$ and $n$ degrees of freedom and identical covariance matrices
+is a Wishart-distributed matrix with $m+n$ degrees of freedom):
+
+$\bm{A} \sim \mathcal{W}_p(\Sigma, m)$, $\bm{B} \sim \mathcal{W}_p(\Sigma, n)$, both independent,
+
+$\lambda = \frac{\det(\bm{A})}{\det(\bm{A} + \bm{B})} \sim \Lambda(p,m,n)$.
+
 
 
 References
