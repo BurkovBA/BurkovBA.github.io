@@ -10,12 +10,6 @@ Principal components analysis was discovered multiple times throughout the histo
 use of it in 1901 and, later, development by Hotelling in the 1930s, who coined the name and popularized the method as a generic
 tool.
 
-Classical statistics perspective
---------------------------------
-
-From multivariate normal distribution perspective. TODO
-
-
 Optimization problem perspective
 --------------------------------
 
@@ -60,10 +54,25 @@ Then pick $w$, so that:
 
 $w = \arg \min_{w} \sum \limits_{i=1}^{n} d^2(X_i, proj_{w} X_i)$, and $w$ is orthogonal to $v$.
 
-TODO: orthogonal basis
+TODO: clarify, that the problem is iterative!!!!!!!
 
-TODO: eigenvalues
+### Reformulation as an eigenvectors/eigenvalues problem
 
+$v = \arg \max_v \frac{v^T \bm{X}^T \bm{X} v}{v^T v} = \arg \max_v \frac{v^T \Sigma v}{v^T v}$, where $\Sigma = \frac{1}{n-1} \sum \limits_{i=1}^{n} (X_i - \hat{X})(X_i - \hat{X})^T$ is a sample covariance matrix.
+
+By the way, the quantity $R(\Sigma, v) = \frac{v^T \Sigma v}{v^T v}$ is called [Rayleigh quotient](https://en.wikipedia.org/wiki/Rayleigh_quotient), as the covariance matrix is symmetric.
+
+$\Sigma = E \Lambda E^T$, thus, $R(\Sigma, v) = \frac{(v^T E) \Lambda (E^T v)}{v^T v} = \frac{Y^T \Lambda Y}{v^T v}$, where $Y = E^T v$. 
+
+Elements of vector$Y$, $y_i$, are coefficients for i-th eigenvector; eigenvectors are orthogonal, because the covariance matrix is symmetric, thus $v^T v = v^T E E^T v = Y^T Y$.
+
+Thus, $R(\Sigma, v) = R(\Sigma, Y) = \frac{Y^T \Lambda Y}{Y^T Y} = \frac{\sum \limits_{i=1}^{p} \lambda_i y_i^2}{ \sum \limits_{i=1}^{p} y_i^2 }$.
+
+If one of the eigenvalues, say, $\lambda_q$, is larger than the others, as it often happens, it is called main eigenvalue.
+
+The Rayleigh quotient then will take its maximal value, if $Y = (0, 0, ..., \underbrace{1}_\text{q-th position}, 0, ..., 0)^T$. 
+
+Indeed, let $z_i = y_i^2$, then we maximize the sum $\sum \limits_{i=1}^{p} \lambda_i z_i$ for non-negative $z_i$, given constraint $\sum \limits_{i=1}^{p} z_i = const$. Obviously, we reach maximum, if we maximize $z_q$, where $\lambda_q$ is the largest eigenvalue.
 
 Stochastic processes and signal processing perspective
 ------------------------------------------------------
@@ -71,6 +80,14 @@ From the standpoint of [Karhunen-Loeve theorem](https://en.wikipedia.org/wiki/Ka
 essentially, a way to perform a lossy compression.
 
 TODO
+
+Classical statistics perspective
+--------------------------------
+
+From multivariate normal distribution perspective. 
+
+TODO
+
 
 SVD perspective
 ---------------
@@ -88,3 +105,4 @@ References
  - https://fmin.xyz/docs/applications/pca/ - source of cover image
  - https://en.wikipedia.org/wiki/Karhunen%E2%80%93Lo%C3%A8ve_theorem
  - https://en.wikipedia.org/wiki/Principal_component_analysis
+ - https://en.wikipedia.org/wiki/Rayleigh_quotient
