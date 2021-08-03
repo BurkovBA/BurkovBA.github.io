@@ -73,4 +73,5 @@ References
  - https://pdfroom.com/books/introduction-to-topology/jb5qOml6gxQ - associated topology questions by V.Vasiliev. Again, don't read it directly.
  - https://ru.wikipedia.org/wiki/%D0%9A%D0%B0%D0%BB%D0%B8%D0%B1%D1%80%D0%BE%D0%B2%D0%BE%D1%87%D0%BD%D0%B0%D1%8F_%D0%B8%D0%BD%D0%B2%D0%B0%D1%80%D0%B8%D0%B0%D0%BD%D1%82%D0%BD%D0%BE%D1%81%D1%82%D1%8C - gauge theory page contains a table of correspondence between transforms (on which physical laws are invariant) and conservation laws
  - https://www.math.uchicago.edu/~may/VIGRE/VIGRE2009/REUPapers/Gleason.pdf - transition from the axioms of classical mechanics to quantum
- - https://sbseminar.wordpress.com/2012/01/09/what-is-a-symplectic-manifold-really/ - basic explanation of symplectic manifolds 
+ - https://sbseminar.wordpress.com/2012/01/09/what-is-a-symplectic-manifold-really/ - basic explanation of symplectic manifolds
+ - https://emilman.net.technion.ac.il/files/2017/02/JoramSeminar-2016-Talk.pdf
