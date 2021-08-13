@@ -65,8 +65,8 @@ It is obvious that this matrix is symmetric. So, how comes that orthogonal matri
 Well, I lied here! Recall, that your eigenvectors (and eigenvalues) can be complex numbers, not real. So, in fact instead of just transposing
 the eigenvectors matrix we also have to take its complex conjugate, so in fact:
 
-$A = E \Lambda E^\dag = \sum_i \lambda_i E_i {E_i}^\dag = \sum_i \lambda_i \begin{pmatrix} e_{i,1} e_{i,1}^\dag && e_{i,1} e_{i,2}^\dag && e_{i,1} e_{i,3}^\dag \\ e_{i,2} e_{i,1}^\dag && e_{i,2} e_{i,2}^\dag && e_{i,2} e_{i,3}^\dag \\ e_{i,3} e_{i,1}^\dag && e_{i,3} e_{i,2}^\dag && e_{i,3} e_{i,3}^\dag \\ \end{pmatrix}$,
+$A = E \Lambda E^\dag = \sum_i \lambda_i E_i {E_i}^\dag = \sum_i \lambda_i \begin{pmatrix} e_{i,1} e_{i,1}^* && e_{i,1} e_{i,2}^* && e_{i,1} e_{i,3}^* \\ e_{i,2} e_{i,1}^* && e_{i,2} e_{i,2}^* && e_{i,2} e_{i,3}^* \\ e_{i,3} e_{i,1}^* && e_{i,3} e_{i,2}^* && e_{i,3} e_{i,3}^* \\ \end{pmatrix}$,
 
-which makes the matrix A hermitian, if eigenvectors $\lambda_i$ are real. However, if eigenvalues are complex-valued, there is no such symmetry in $A$.
+which makes the matrix A hermitian, if eigenvectors $\lambda_i$ are real, i.e. for instance $\sum_i \lambda_i e_{i,1} e_{i,2}^* = (\sum_i \lambda_i e_{i,1}^* e_{i,2})^*$. However, if eigenvalues are complex-valued, there is no such symmetry in $A$.
 
 So, the main difference between orthogonal and symmetric matrices is that for symmetric matrix eigenvalues are real, and for orthogonal matrix they are complex.
