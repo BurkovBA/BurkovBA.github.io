@@ -23,9 +23,7 @@ which equals to the air pressure, produced by your headphones at every given mom
 decomposing the sound into harmonics of various frequencies and sacrificing the very high-frequency ones, as 1) their amplitudes
 are typically very low and 2) human ear can't hear them anyways. This is more or less how [MP3](https://en.wikipedia.org/wiki/MP3) files work and that's why they are much smaller than WAVs. 
 
-![spectrogram](spectrogram.jpeg)
-<center>A spectrogram of sound from Audacity software: air pressure is at the top, amplitudes of harmonics are at the bottom</center>
-
+![spectrogram](spectrogram.jpeg) <center>A spectrogram of sound from Audacity software: air pressure is at the top, amplitudes of harmonics are at the bottom.</center>
 
 So, you do a [Fourier series decomposition](https://en.wikipedia.org/wiki/Fourier_transform) of your initial signal $f(t)$, which is an integral transform:
 
@@ -45,11 +43,15 @@ RKHS deals with some special case of kernels, which possess some nice and helpfu
 Hilbert spaces
 --------------
 
+Hilbert spaces are arguably the main subject of study of functional analysis.
+
+
+
 ### Why Banach-Wiener spaces wouldn't cut it?
 
 TODO
 
-### Infinite-dimensional vectors as Hilbert spaces: linear algebra persepctive
+### Infinite-dimensional vectors as Hilbert spaces: linear algebra perspective
 
 TODO
 
