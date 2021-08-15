@@ -26,9 +26,15 @@ For orthogonal/unitary matrices the proof is different:
 
 Suppose that $A$ is orthogonal/unitary, $\lambda_1$ and $\lambda_2$ are different eigenvalues with corresponding eigenvectors $X$ and $Y$. Then, as shown [here](https://math.stackexchange.com/questions/1480427/why-are-eigenvectors-of-an-orthogonal-matrix-with-respect-to-different-eigenvalu), let us take their inner product:
 
-$X^T Y = X^T \cdot ( A^T \cdot A) \cdot Y = (A \cdot X)^T (A \cdot Y) = \lambda_1 \lambda_2 X^T Y$.
+$X^T Y = X^T \cdot ( A^T \cdot A) \cdot Y = (A \cdot X)^T (A \cdot Y) = \bar{\lambda_1} \lambda_2 X^T Y$.
 
-Hence, either $X^TY = 0$, so that eigenvectors are orthogonal, or $\lambda_1 \lambda_2 = 1$ (which is also possible, but as determinant of the orthogonal matrix is either 1 or -1, the absolute values of eigenvalues are also 1, so either $\lambda_1 = \lambda_2 = 1$ or $\lambda_1 = \lambda_2 = -1$, which means that they are identical and share eigenspace, and this is a degenerate case of eigenvalue multiplicity > 1).
+Hence, either $X^TY = 0$, so that eigenvectors are orthogonal, or $\bar{\lambda_1} \lambda_2 = 1$.
+
+Also, for any eigenvector $X$ we have $1 = X^T X = X^T \cdot ( A^T \cdot A) \cdot X = \lambda_i^2 X^T X = \lambda_i^2 \implies |\lambda_i| = 1$, so absolute values of all the eigenvalues equals to 1, or $\lambda_i = e^{it}$, where $t$ is an arbitrary value.
+
+As $\bar{\lambda_1} \lambda_2 = 1$, $\bar{\lambda_1} = e^{it}$ and $\lambda_2 = e^{-it}$. Thus, $\lambda_1=\lambda_2$ (for instance, a special case of this is $\lambda_1 = \lambda_2 = 1$ or $\lambda_1 = \lambda_2 = -1$).
+
+Thus, either our eigenvalues are identical and share the same eigenspace, and this is a degenerate case of eigenvalue multiplicity > 1), or the eigenvectors are orthogonal.
 
 ### Outer product
 
