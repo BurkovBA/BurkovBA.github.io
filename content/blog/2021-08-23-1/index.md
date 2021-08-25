@@ -3,20 +3,20 @@ title: Condition numbers
 date: "2021-08-23T00:00:00.284Z"
 tags: ["math"]
 cover: "./condition_numbers.jpeg"
-description: As soon as you run into a problem of numeric stability of solutions of ordinary linear equations systems (OLES), condition numbers arise. This is really important in such practical applications as least-squares finding in regression problems or search of inverse matrix (which can be an inverse of covariance matrix in such machine learning applications as Gaussian processes). Time complexity of quantum algorithms for solving OLES is usually a polynomial or (poly-) logarithmic function of condition numbers.
+description: The notion of condition numbers arises when you are studying the problem of numeric stability of solutions of ordinary linear equations systems (OLES). This concept is really important in such practical applications as least-squares fitting in regression problems or search of inverse matrix (which can be an inverse of covariance matrix in such machine learning applications as Gaussian processes). Another example of their use is the time complexity of quantum algorithms for solving OLES - complexity of those algorithms is usually a polynomial or (poly-) logarithmic function of condition numbers. This post gives a brief review of condition numbers.
 ---
 
 Condition numbers are actually a more general term that can be applied not only to matrices, but to an arbitrary function. Moreover, their definition might vary, depending on the kind of problem you are solving (e.g. OLES solution or matrix inversion) and the kind of error (absolute or relative) you are measuring.
 
-Nature of condition numbers
----------------------------
+Informal explantation of the nature of condition numbers
+--------------------------------------------------------
 
 The nature of condition numbers in case of inverse matrix problem is quite simple: if one of eigenvalues of your matrix is 0, the matrix determinant is 0, and it has no inverse. Such a matrix is called [singular or degenerate](https://en.wikipedia.org/wiki/Invertible_matrix).
 
-If none of the eigenvalues is exactly 0, but one of them is close to 0, the matrix determinant is close to 0 (or just extremely small compared to the others), it turns out that the error
+If none of the eigenvalues is exactly 0, but one of them is close to 0, the matrix determinant is close to 0, it turns out that the error
 that you get, when numerically calculating inverse of such matrix, is huge. Such a matrix is called [ill-conditioned](https://en.wikipedia.org/wiki/Condition_number).
 
-Turns out, it is not the absolute value of the smallest eigenvalue, but the ratio of the smallest eigenvalue (smallest in terms of absolute value, of course) to the largest (main) eigenvalue, what defines if the matrix is well- or ill-conditioned. I'll explain this below.
+However, it turns out that it is not the absolute value of the smallest eigenvalue that determines, if the matrix is well- or ill-conditioned, but (speaking vaguely) the ratio between the absolute values of the smallest and the largest ones. I'll explain this below.
 
 Condition numbers for stability of OLES solution
 ------------------------------------------------
@@ -34,9 +34,9 @@ can achieve by multiplying a vector by matrix:
 
 $m = \inf \frac{\Vert Ax \Vert}{\Vert x \Vert}$
 
-It is the reciprocal of norm of matrix inverse: $m = \inf \frac{\Vert Ax \Vert}{\Vert x \Vert} = \inf \frac{\Vert y \Vert}{\Vert A^{-1}y \Vert} = \frac{1}{\sup \frac{A^{-1}y}{y}} = \frac{1}{\Vert A^{-1} \Vert}$.
+It is the reciprocal of norm of matrix inverse: $m = \inf \frac{\Vert Ax \Vert}{\Vert x \Vert} = \inf \frac{\Vert y \Vert}{\Vert A^{-1}y \Vert} = \frac{1}{\sup \frac{\Vert A^{-1}y \Vert}{\Vert y \Vert}} = \frac{1}{\Vert A^{-1} \Vert}$.
 
-The ratio of the largest stretch of a vector to the lowest stretch of a vector, created by matrix A, is called **condition number**: $\kappa(A) = \frac{\sup {\frac{\Vert Ax \Vert}{\Vert x \Vert}}}{\inf {\frac{\Vert Ax \Vert}{\Vert x \Vert}}} = \Vert A \Vert \Vert A^{-1} \Vert$.
+The ratio of the largest stretch of a vector to the largest shrink of a vector, created by matrix A, is called **condition number**: $\kappa(A) = \frac{\sup {\frac{\Vert Ax \Vert}{\Vert x \Vert}}}{\inf {\frac{\Vert Ax \Vert}{\Vert x \Vert}}} = \Vert A \Vert \Vert A^{-1} \Vert$.
 
 Why does this notion make sense? Consider a system of linear equations: $Ax = y$. Suppose that you make an error in estimation of y:
 
@@ -72,10 +72,9 @@ Matrix inverse
 
 When you are solving the problem of matrix inversion, $A A^{-1} = I$, each column $x$ of your inverse matrix is a solution of a linear equation $Ax = v$, where $v$ is one of the columns of identity matrix, a one-hot vector with all, but one coordinates being 0, and one coordinate 1: $v = (0, 0, ..., 1, ..., 0)$.
 
-Hence, for each column of matrix $A^{-1}$ the relative error in its calculation, again, is determined by condition number. 
+Hence, for each column of matrix $A^{-1}$ the relative error in its calculation, again, is determined by condition number. We can say that for each column x: $\frac{\Vert \delta x \Vert}{\Vert x \Vert} \leq \kappa(A) \frac{\Vert \delta y \Vert}{\Vert y \Vert}$.
 
-As you can see, the error is column-wise, so we can directly express Frobenius norm though condition numbers, not the operator/spectral norm.
-
+If we assume that all the matrix columns had the same measure, we can directly express Frobenius norm of error of inverse matrix though condition numbers, not the operator/spectral norm.
 
 
 References
@@ -83,3 +82,5 @@ References
  - https://www.phys.uconn.edu/~rozman/Courses/m3511_18s/downloads/condnumber.pdf
  - https://en.wikipedia.org/wiki/Spectral_radius - spectral radius is NOT matrix/operator norm in general case
  - https://en.wikipedia.org/wiki/Condition_number
+ - https://www.sjsu.edu/faculty/guangliang.chen/Math253S20/lec7matrixnorm.pdf - matrix norms, low-rank approximations etc.
+ - https://www.scribd.com/document/501501948/Error-Analysis-of-Direct-Methods-of-Matrix-Inversion
