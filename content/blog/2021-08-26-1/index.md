@@ -54,9 +54,48 @@ $U = A V \Sigma^{-1}$ or, equivalently, $U \Sigma = A V$, or $A = U \Sigma V^T$.
 
 This proves that singular value decomposition exists if matrices $A^TA$ and $AA^T$ have eigenvalue decomposition.
 
+Matrix norms from singular values perspective
+---------------------------------------------
+
+### Nuclear norm and Schatten norm
+
+In the [condition numbers post](/2021-08-23-1) we considered two kinds of matrix norms: operator norm and Frobenius norm.
+
+In this post it would be appropriate to mention another family of norms: [Schatten norms](https://en.wikipedia.org/wiki/Schatten_norm)
+and their important special case, [Nuclear norm]()
+
+TODO: connection to L1-norm, compressed sensing, affine rank minimization problem, sparse identification of nonlinear dynamical systems.
+
+### A new perspective on Frobenius norm
+
+Singular values also provide another perspective on Frobenius norm: it is a square root of sum os squares of singular values:
+
+$\Vert A \Vert_F = \sqrt{\sum \limits_{i=1}^{m} \sum \limits_{j=1}^{n} |a_{i,j}^2|} = \sqrt{\sum \limits_{k=1}^{min(m,n)}\sigma_k^2}$
+
+TODO: prove this fact!
+
+### Operator/spectral norm
+
+Matrix spectral norm is simply its largest singular value.
+
+
+Application: low-rank matrix approximation
+------------------------------------------
+
+As we've seen singular values provide a convenient representation of a matrix as a sum of outer products of column and row-vectors (each outer product, thus, results in a matrix of rank 1):
+
+$A = \sum \limits_{i=1}^{min(m,n)} \sigma_i u_i v_i^T = \sigma_1 \cdot \begin{pmatrix} u_{1,1} && u_{1,2} && ... && u_{1,m} \\ \end{pmatrix} \cdot \begin{pmatrix} v_{1,1} \\ v_{1,2} \\ ... \\ v_{1,n} \\ \end{pmatrix} + \sigma_2 \cdot \begin{pmatrix} u_{2,1} && u_{2,2} && ... && u_{2,m} \\ \end{pmatrix} \cdot \begin{pmatrix} v_{2,1} \\ v_{2,2} \\ ... \\ v_{2,n} \\ \end{pmatrix} + ...$
+
+Here's the catch: as singular values are ordered in decreasing order, we can use SVD as a means of compression of our data.
+
+If we take only a subset of first $k$ elements of our SVD sum, instead of the full $min{m,n}$ elements, it is very likely that we would preserve most of the information, contained in our data, but
+represent it with only a limited number of eigenvectors. This feels very similar to Fourier series. This is also a reason,
+why PCA works (it is basically a special case of SVD).
+
 References
 ----------
  - https://www.mat.tuhh.de/lehre/material/Regularisierung.pdf
  - https://www.math3ma.com/blog/understanding-entanglement-with-svd
  - https://en.wikipedia.org/wiki/Gram_matrix
  - https://gregorygundersen.com/blog/2018/12/20/svd-proof/
+ - https://www.youtube.com/watch?v=9vJDjkx825k
