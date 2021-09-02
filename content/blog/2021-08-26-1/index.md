@@ -99,3 +99,8 @@ References
  - https://en.wikipedia.org/wiki/Gram_matrix
  - https://gregorygundersen.com/blog/2018/12/20/svd-proof/
  - https://www.youtube.com/watch?v=9vJDjkx825k
+ - https://personal.utdallas.edu/~m.vidyasagar/Fall-2015/6v80/CS-Notes.pdf - intro to compressed sensing
+ - https://arxiv.org/pdf/1611.07777.pdf - Affine matrix rank minimization problem
+ - https://www.diva-portal.org/smash/get/diva2:900592/FULLTEXT01.pdf - a great thesis on dynamic systems sparse model discovery
+ - https://www.youtube.com/watch?v=DvbbXX8Bd90 - video on dynamic systems sparse model discovery
+ - https://www.quora.com/What-is-the-significance-of-the-nuclear-norm - references to the meaning of nuclear norm
