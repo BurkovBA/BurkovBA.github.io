@@ -24,7 +24,17 @@ $
 Then it turns out that if we were to project any $d$-dimensional vector on a lower-dimensional (i.e. $k$-dimensional) basis, constituted by those gaussian vectors, the projection would preserve the length of that
 vector pretty well (the error in it decays very fast with increase in dimensionality $k$ of this lower-dimensional space). Moreover, the projection would also preserve the distances between vectors and angles between them.
 
-How so? This fact follows from the fact that the error in length, introduced by a random projection, has our good old [Chi-square distribution](/2021-06-09-1/), and we already know that its tails decay very fast.
+How so? This follows from the fact that the error in length, introduced by a random projection, has our good old [Chi-square distribution](/2021-06-09-1/), and we already know that its tails decay very fast.
+
+The structure of the proof is as follows:
+
+1. You'll have to trust me on the fact that the length of the random projection is Chi-square-distributed. I'll show that probability that $\chi^2_k(x) > k + \epsilon k$, where $\epsilon$ is a small number, decays at least exponentially with the growth of $k$ fast after it passes its mean (lemma on bounds of Chi-square).
+
+2. Then I'll show that the length of random projection vector $y = Ax$ is indeed Chi-squared-distributed, and, thus, projection operation preserves the length of vector x, i.e. ${\Vert x \Vert}_{l_2} = {\Vert y \Vert}_{l_2}$ with arbitrarily high probability.
+
+3. Then I'll finally derive the Johnson-Lindenstrauss theorem from the norm preservation lemma.
+
+4. As a bonus I shall prove that not only norms/lengths are preserved by random projections, but inner products/angles as well.
 
 ### Lemma (on bounds of Chi-squared distribution tails)
 
@@ -45,7 +55,9 @@ Well, the inequality $p(\xi \ge \frac {\mathbb{E}\xi}{\epsilon}) \le ...$ defini
 
 $p(\xi \ge \epsilon) \le \frac{\mathbb{E}\xi}{\epsilon}$
 
-Unfortunately, its direct application to a chi-square distributed variable doesn't help, but if we do some tricks with it, we'll get what we want. We will potentiate both sides of inequality and introduce a parameter $\lambda$, which we'll evaluate later:
+Unfortunately, its direct application to a chi-square distributed variable doesn't help, but if we do some tricks with it, we'll get what we want. 
+
+We will potentiate both sides of inequality and introduce a parameter $\lambda$, which we'll evaluate later. This technique is called [Chernoff-Rubin bound](https://en.wikipedia.org/wiki/Chernoff_bound):
 
 $p(\chi^2_k \ge (1+\epsilon)k)) = p(\sum \limits_{i=1}^k \xi_i^2 \ge (1+\epsilon)k)) = p(e^{\lambda \cdot \sum \limits_{i=1}^k \xi_i^2} \ge e^{\lambda(1+\epsilon)k})) \le \frac{\mathbb{E}e^{\lambda \cdot \sum \limits_{i=1}^k \xi_i^2}}{e^{\lambda(1+\epsilon)k}}$
 
@@ -65,7 +77,9 @@ Hence, $p(\chi^2_k \ge (1+\epsilon)k) = (1-2\lambda)^{-\frac{k}{2}} e^{-\lambda(
 
 Now, use [Taylor expansion](https://www.quora.com/What-is-the-binomial-expansion-for-ln-1-x-e-x) of $\ln(1+x) = x - \frac{x^2}{2} + \frac{x^3}{3} + \mathcal{o}(x^4) \le x - \frac{x^2}{2} + \frac{x^3}{3}$ and exponentiate it to get: $p(\chi^2_k \ge (1+\epsilon)k) \le e^{\frac{k}{2}(\epsilon - \frac{\epsilon^2}{2} + \frac{\epsilon^3}{3})} e^{-\frac{\epsilon k}{2}} \le e^{-\frac{k}{4}(\epsilon^2 - \epsilon^3)}$. 
 
-### Norm preservation
+The proof is analogous for the other bound $p(\chi^2_k \le (1 - \epsilon)k) \le \mathcal{O}(e^{-k})$.
+
+### Norm preservation lemma
 
 Recall that $A$ is our d-by-k matrix of random vectors, forming our projection space basis.
 
@@ -86,28 +100,54 @@ where $\xi_{i,j} \sim \mathcal{N}(0, 1)$ are individual standard normal random v
 
 Now, if we sum over coordinates $y_i$ of the projection vector, we get the desired result:
 
-$\Vert \frac{1}{\sqrt{k}}y \Vert^2 = \frac{1}{k}\sum \limits_i^k y_i^2 = {\Vert x \Vert}^2$
+$\Vert \frac{1}{\sqrt{k}}y \Vert^2 = \frac{1}{k}\sum \limits_i^k y_i^2 = {\Vert x \Vert}^2$.
 
 ### Johnson-Lindenstrauss theorem
 
 Johnson-Lindenstrauss theorem follows from the norm preservation lemma immediately. 
 
-If you have $n$ points, you have $n^2$ distances between them. The chance that none of the distances is wrong, thus, is
+If you have $n$ points, you have $n^2$ distances between them (including distance from a point to itself). The chance that none of the distances is wrong, thus, is
 
-$p(\text{any of } n^2 \text{distances is very wrong}) \le 1 - n^2 p((1-\epsilon) {\Vert x \Vert}^2 \le {\Vert \frac{1}{\sqrt{k}} Ax \Vert}^2 \le (1+\epsilon) {\Vert x \Vert}^2) = 1 - 1 + 2 n^2 e^{-\frac{k}{4}(\epsilon^2-\epsilon^3)} = 2 n^2 e^{-\frac{k}{4}(\epsilon^2-\epsilon^3)}$.
+$p(\text{any of } n^2 \text{distances is very wrong}) \le 1 - (1 - p((1-\epsilon) {\Vert x \Vert}^2 \le {\Vert \frac{1}{\sqrt{k}} Ax \Vert}^2 \le (1+\epsilon) {\Vert x \Vert}^2)^{n^2} \approx 1 - 1 + 2 n^2 e^{-\frac{k}{4}(\epsilon^2-\epsilon^3)} = 2 n^2 e^{-\frac{k}{4}(\epsilon^2-\epsilon^3)}$.
 
 Thus, you need $k \ge \frac{C \cdot \log n}{\epsilon^2}$ to keep this probability as small as you prefer, where $C$ is some constant.
 
-### Outer product (angles) preservation
+### Bonus: inner product (angles) preservation
 
-TODO
+Norm preservation lemma above guarantees not only preservation of distances, but of angles as well.
 
+Assume that $u$ and $v$ are two vectors, and $\frac{1}{\sqrt{k}}Au$ and $\frac{1}{\sqrt{k}}Av$ are their random projections. Then:
 
+$(1-\epsilon) {\Vert u - v \Vert}^2 \le {\Vert \frac{1}{\sqrt{k}}A(u-v) \Vert}^2 \le (1+\epsilon) {\Vert u - v \Vert}^2$
+
+$(1-\epsilon) {\Vert u + v \Vert}^2 \le {\Vert \frac{1}{\sqrt{k}}A(u+v) \Vert}^2 \le (1+\epsilon) {\Vert u + v \Vert}^2$
+
+Subtract one inequality from the other (note that this leads to inversion of sides of double inequalities in the subtracted inequality):
+
+${\Vert \frac{1}{\sqrt{k}}A(u+v) \Vert}^2 - {\Vert \frac{1}{\sqrt{k}}A(u-v) \Vert}^2 = 4 \frac{1}{k} (Au, Av) \ge (1-\epsilon) {\Vert u + v \Vert}^2 - (1+\epsilon) {\Vert u - v \Vert}^2 = 4(u,v) - 2 \epsilon (\Vert u \Vert^2 + \Vert v \Vert^2) \ge 4(u,v) - 4 \epsilon$
+
+So, as a result we get: $(u,v) - \epsilon \le \frac{1}{k} (Au, Av) \le (u,v) + \epsilon$ with probability $1 - 2e^{-\frac{k}{4}(\epsilon^2-\epsilon^3)}$ or higher.
 
 Tightness of estimate
 ---------------------
 
+Throughout 2014-2017 [Larson and Nelson](https://cs.au.dk/~larsen/papers/jl_transform.pdf) in a series of papers showed that the bound $\mathcal{O}(\frac{\log n}{\epsilon^2})$, 
+given by Lindenstrauss-Johnson, holds for any linear random projection, not just 
+the gaussian one.
+
 TODO: important!
+
+Not only gaussian
+-----------------
+
+Here we used gaussian random variables as elements of our random projection matrix $A$, followed by analysis of Chi-squared distribution.
+
+But note that when the number of degrees $k$ approaches 100, Chi-square converges to Gaussian very closely, and relative error near mean is decaying as an exponential function of $k$ as $k$ increases. Seems like the convergence rate of central limit theorem could be a valuable tool here for other distribution types.
+
+So in that regard it doesn't make much difference, which random variables we take as elements of $A$, Gaussian or not. Another purpose Gaussians served here, was their useful property that a weighted sum
+of Gaussian random variables is Gaussian itself, which might not be the case for other distributions. But as soon as this property holds,
+we can use other distribution types for random projections.
+
 
 Applications
 ------------
