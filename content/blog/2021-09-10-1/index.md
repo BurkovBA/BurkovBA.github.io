@@ -128,16 +128,7 @@ ${\Vert \frac{1}{\sqrt{k}}A(u+v) \Vert}^2 - {\Vert \frac{1}{\sqrt{k}}A(u-v) \Ver
 
 So, as a result we get: $(u,v) - \epsilon \le \frac{1}{k} (Au, Av) \le (u,v) + \epsilon$ with probability $1 - 2e^{-\frac{k}{4}(\epsilon^2-\epsilon^3)}$ or higher.
 
-Tightness of estimate
----------------------
-
-Throughout 2014-2017 [Larson and Nelson](https://cs.au.dk/~larsen/papers/jl_transform.pdf) in a series of papers showed that the bound $\mathcal{O}(\frac{\log n}{\epsilon^2})$, 
-given by Lindenstrauss-Johnson, holds for any linear random projection, not just 
-the gaussian one.
-
-TODO: important!
-
-Not only gaussian
+Not only Gaussian
 -----------------
 
 Here we used gaussian random variables as elements of our random projection matrix $A$, followed by analysis of Chi-squared distribution.
@@ -148,6 +139,17 @@ So in that regard it doesn't make much difference, which random variables we tak
 of Gaussian random variables is Gaussian itself, which might not be the case for other distributions. But as soon as this property holds,
 we can use other distribution types for random projections.
 
+There is a natural way to define a subset of distributions that would fit: a distribution $\xi$ is called sub-Gaussian with a parameter $\lambda$, if $\mathbb{E}e^{\lambda \xi} \le e^{\lambda x^2}$ for all real $x$. As you recall,
+we used this $e^{\lambda x^2}$ in our Chernoff bound. A popular alternative is to use Bernoulli random variables with random signs {-1, 1} instead.
+
+Tightness of estimate
+---------------------
+
+Throughout 2014-2021 in a series of papers Larson and Nelson and Alon and Klartag (see references) showed that the bound $\mathcal{O}(\frac{\log n}{\epsilon^2})$, 
+given by Lindenstrauss-Johnson is optimal for any linear or even non-linear projection.
+
+The papers are fairly technical, they employ approaches from classical functional analysis (like coverages with balls 
+and Minkowski functional) and coding theory (such as Reed-Solomon codes). See references section.
 
 Applications
 ------------
@@ -159,11 +161,10 @@ Johnson-Lindenstrauss suggests a way to look at your t-SNE/UMAP plots. As 2D or 
 Statements like "point B is 2 times farther from point A than point C" make no sense - the distances could've been distorted and with different parameters of the projection you might get a picture, where
 point C is 2 times farther form point A that point B.
 
-The only thing you can more or less trust in t-SNE is the notion of neighbourhood: if points A and B are very close on t-SNE plot, they are very close in the original multidimensional space. 
+The only thing you can more or less trust in t-SNE is the notion of neighbourhood: if points A and B are very close on t-SNE plot, they are very close in the original multidimensional space. As an example,
+see a recent [crusade of the adorable Lior Pachter against t-SNE and UMAP](https://www.biorxiv.org/content/10.1101/2021.08.25.457696v1.full.pdf).
 
-TODO: exact calculation of error
-
-### Autoencoder latent space rule of thumb
+### Rule of thumb for an autoencoder latent space
 
 If you're not sure about the dimensionality of the latent space of your autoencoder, such as VAE, Johnson-Lindenstrauss
 suggests that $k = \sim 100$ is a good rule of thumb. It is small enough and preserves distances well enough.
@@ -171,7 +172,7 @@ suggests that $k = \sim 100$ is a good rule of thumb. It is small enough and pre
 ### Compressed sensing
 
 Johnson-Lindenstrauss provides an excellent intuition on how to achieve a sparse space in compressed sensing. I'll dedicate
-a whole separate post to this beautiful mathematical theory. TODO: link.
+a [whole separate post](/2021-09-14-1) to this beautiful mathematical theory.
 
 
 References
@@ -179,5 +180,8 @@ References
  - https://home.ttic.edu/~gregory/courses/LargeScaleLearning/lectures/jl.pdf - proof outline number 1
  - https://cseweb.ucsd.edu/~dasgupta/papers/jl.pdf - proof outline number 2
  - https://en.wikipedia.org/wiki/Johnson%E2%80%93Lindenstrauss_lemma
- - https://www.youtube.com/watch?v=zytez36XlCU - a good talk on compressed sensing by Richard Baraniuk
- - https://authors.library.caltech.edu/10092/1/CANieeespm08.pdf - a great introduction to compressed sensing by Emanuel Candes
+ - http://www.cs.cmu.edu/afs/cs/academic/class/15750-s19/OldScribeNotes/lecture23.pdf - a good overview of the state of the field, generalizations and recent results
+ - https://arxiv.org/pdf/1610.00239.pdf - Alon and Klartag paper on JL optimality
+ - https://arxiv.org/pdf/1411.2404.pdf, https://cs.au.dk/~larsen/papers/jl_transform.pdf - Larsen and Nelson paper on proof of optimality of JL for linear maps 
+ - https://arxiv.org/pdf/1609.02094.pdf - Larsen and Nelson paper with proof of optimality of JL estimate for any map
+ - https://arxiv.org/pdf/2107.06626.pdf - most recent Larsen paper on JL optimality
