@@ -64,13 +64,13 @@ Alright, let us use easyrsa to generate a key/certificate pair for our new clien
 
 Suppose, you want to create a private key/certificate pair for a client, named "burkov". You need to run the following commands in the `/etc/openvpn/server/easy-rsa` folder, using your easyrsa suite:
 
-`./easyrsa gen-req burkov nopass`
+`./easyrsa gen-req burkov-mac nopass`
 
 This will generate a private key `/etc/openvpn/server/easy-rsa/pki/private/burkov-mac.key` and a certificate request `/etc/openvpn/server/easy-rsa/pki/reqs/burkov-mac.req` that needs to be signed by the signing authority.
 
 You can sign the certificate request with command:
 
-`./easyrsa sign-req client burkov`
+`./easyrsa sign-req client burkov-mac`
 
 This will generate a certificate file `/etc/openvpn/server/easy-rsa/pki/issued/burkov-mac.crt`. 
 
@@ -78,7 +78,7 @@ You will need it in order to generate the .ovpn file.
 
 ### 4. Generate .ovpn-file
 
-Now it is time to create your client's configuration file, .ovpn-file, that you will use on your device (phone, personal computer) to connect to VPN server.
+Now it is time to create your client's profile configuration file, .ovpn-file, that you will use on your device (phone, personal computer) to connect to VPN server.
 
 `openvpn-install.sh` contains a [function](https://github.com/Nyr/openvpn-install/blob/master/openvpn-install.sh#L82) that generates .ovpn-file based on a template.
 
@@ -139,17 +139,18 @@ Import .ovpn file into it and run VPN. Voila:
 What the future holds?
 ----------------------
 
-Apparently, Putin's government has a long-term roadmap for achieving "internet sovereignty" - i.e., establishment of total control over internet.
+Apparently, Putin's government has a long-term roadmap for achieving "internet sovereignty" - i.e., establishment of total control and censorship over [Runet](https://en.wikipedia.org/wiki/Runet).
 
-Currently, popular VPN providers, such as NordVPN, are using an advanced VPN protocol, called [WireGuard](https://en.wikipedia.org/wiki/WireGuard). 
-
-September, 3rd, multiple popular VPN providers [were blocked by Russian government](https://habr.com/ru/news/t/576128/). I don't have any inside information on the exact mechanism of blockade, 
-but there are [opinions](https://zona.media/article/2021/09/13/rknvsvpn) that the whole WireGuard protocol is being blocked. WireGuard is supported
-by the Linux kernel and has a tiny codebase.
+On September, 3rd, multiple popular VPN providers [were blocked by Russian government](https://habr.com/ru/news/t/576128/). I don't have any inside information on the exact mechanism of blockade, 
+but there are [opinions](https://zona.media/article/2021/09/13/rknvsvpn) that popular VPN providers, such as NordVPN, are using an advanced VPN protocol, called [WireGuard](https://en.wikipedia.org/wiki/WireGuard), 
+and the whole WireGuard protocol is being blocked. WireGuard is a nicer, slimmer VPN protocol than OpenVPN or IPsec, it is natively supported by the Linux kernel and has a tiny codebase.
 
 Starting from 2018, internet providers in Russia are forced to purchase Deep Package Inspection (DPI) equipment that allows
-control over unwanted traffic. It seems that its country-wide adoption is planned by the Russian government. After that we
-can expect that other types of protocols (e.g. such as Distributed Hash Tables) may be blocked partially or completely.
+to intercept unwanted traffic. It seems that its country-wide adoption is planned by the Russian government. After that we
+can expect that other types of protocols (e.g. such as Distributed Hash Tables, used in Torrents) may be blocked partially or completely.
+
+Currently, it is a good practice to change the VPN port to a non-well-known one, as DPI is often not really used thus far, and internet service providers often
+just block traffic by the port number, not by actual inspection of package headers. Don't relax just yet, though - things are getting worse, and they'll come after us sooner or later.
 
 References
 ----------
