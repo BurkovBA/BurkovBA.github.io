@@ -88,7 +88,7 @@ Create a folder `~/client-configs` on your VPN server machine and recursively se
 
 Create a simple bash script `~/client-configs/make_config.sh` of the following content:
 
-```
+```bash
 #!/bin/bash
 
 # First argument: Client identifier
