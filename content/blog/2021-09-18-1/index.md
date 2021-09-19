@@ -19,7 +19,7 @@ In order to do so, we are going to perform the following steps:
 
 3. Generate client keys and certificates. 
    
-4. Generate .ovpn-file.
+4. Generate VPN client profile (.ovpn-file).
 
 5. Download an OpenVPN client, import .ovpn-file. Run VPN. Visit a banned website.
 
@@ -76,7 +76,7 @@ This will generate a certificate file `/etc/openvpn/server/easy-rsa/pki/issued/b
 
 You will need it in order to generate the .ovpn file.
 
-### 4. Generate .ovpn-file
+### 4. Generate VPN client profile (.ovpn-file)
 
 Now it is time to create your client's profile configuration file, .ovpn-file, that you will use on your device (phone, personal computer) to connect to VPN server.
 
@@ -88,7 +88,7 @@ Create a folder `~/client-configs` on your VPN server machine and recursively se
 
 Create a simple bash script `~/client-configs/make_config.sh` of the following content:
 
-```bash
+```
 #!/bin/bash
 
 # First argument: Client identifier
@@ -139,7 +139,7 @@ Import .ovpn file into it and run VPN. Voila:
 What the future holds?
 ----------------------
 
-Apparently, Putin's government has a long-term roadmap for achieving "internet sovereignty" - i.e., establishment of total control and censorship over [Runet](https://en.wikipedia.org/wiki/Runet).
+Apparently, Putin's government has a long-term roadmap for achieving "internet sovereignty" - i.e. establishment of total control and censorship over [Runet](https://en.wikipedia.org/wiki/Runet).
 
 On September, 3rd, multiple popular VPN providers [were blocked by Russian government](https://habr.com/ru/news/t/576128/). I don't have any inside information on the exact mechanism of blockade, 
 but there are [opinions](https://zona.media/article/2021/09/13/rknvsvpn) that popular VPN providers, such as NordVPN, are using an advanced VPN protocol, called [WireGuard](https://en.wikipedia.org/wiki/WireGuard), 
