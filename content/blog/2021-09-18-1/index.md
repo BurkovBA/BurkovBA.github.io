@@ -48,7 +48,7 @@ The main server configuration file is `/etc/openvpn/server/server.conf` (on Debi
 
 Server configuration directory contains the following generated security-related files:
 
- - `/etc/openvpn/server/ca.key` - private key of certificate-signing authority (CSA); CSA was created for us by the `openvpn-install.sh` script; its purpose is to sign both VPN server and VPN client private keys with CSA certificate, so that they could mutually authenticate each other, knowing that only the holder of server/client private keys could emit a server/client certificate, and only CSA could've signed it, ensuring that no man-in-the-middle attack is in place 
+ - `/etc/openvpn/server/ca.key` - private key of certificate-signing authority (CA); CA was created for us by the `openvpn-install.sh` script; its purpose is to sign both VPN server and VPN client private keys with CA certificate, so that they could mutually authenticate each other, knowing that only the holder of server/client private keys could emit a server/client certificate, and only CA could've signed it, ensuring that no man-in-the-middle attack is in place 
  - `/etc/openvpn/server/ca.crt` - certificate of certificate-signing authority itself; should be present in server side and 
  - `/etc/openvpn/server/server.key` - private key of your VPN server (so that only VPN server can sign anything with it)
  - `/etc/openvpn/server/server.crt` - certificate of your VPN server (so that VPN client can trust it by recognizing it)
