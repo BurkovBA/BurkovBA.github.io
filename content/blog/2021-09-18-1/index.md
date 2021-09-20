@@ -9,9 +9,9 @@ description: Late September is the time of parliament elections in Russia. 2 wee
 Plan
 ----
 
-We aim to install our own VPN server software on a Linux server somewhere outside the Iron Curtain, and then connect to it via VPN clients from our devices to visit the websites, banned in Russia. I am not going to set up LDAP or Radius authentication backends here, as this is a basic scenario for personal use only.
+We aim to install our own VPN server software on a Linux server somewhere outside the Iron Curtain, and then connect to it via VPN clients from our devices to visit the websites, banned in Russia. I am not going to set up LDAP or Radius authentication backends here, as this is a basic scenario for personal use only. I will not cover the network and firewall configuration in this post either, however, this process is also covered in [DigitalOcean instruction](https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-debian-10).
 
-In order to do so, we are going to perform the following steps:
+In order to confiture OpenVPN server and client, we are going to perform the following steps:
 
 1. Install OpenVPN server via openvpn-install.sh script.
 
@@ -26,8 +26,6 @@ In order to do so, we are going to perform the following steps:
 I used Debian-based Linux distributions for installation of OpenVPN server. However, mostly the same plan should work at least for other Linux distributions.
 
 There is a nice road warrior installation script for OpenVPN server, called [openvpn-install.sh](https://github.com/Nyr/openvpn-install/blob/master/openvpn-install.sh), which automates many steps of OpenVPN configuration for you. However, if you want to go fully-manual, follow [this DigitalOcean instruction](https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-debian-10), which performs every step manually. I used the automated script to save many hours of typing and debugging.
-
-I will not cover the network and firewall configuration in this post, however, this process is also covered in [DigitalOcean instruction](https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-debian-10).
 
 ### 1. Install OpenVPN server via openvpn-install.sh script
 
