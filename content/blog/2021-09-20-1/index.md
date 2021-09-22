@@ -75,10 +75,18 @@ Indeed, note that divergence is the trace of [Jacobian](https://en.wikipedia.org
 
 To show this fact, first show that $tr(A \cdot B) = tr(B \cdot A)$ by direct calculation and from this it follows that $tr(B A B^{-1}) = tr(A B^{-1} B) = tr(A)$.
 
+### Why this works for non-rectangular surfaces?
+
+TODO
+
 Gauss-Ostrogradsky theorem
 --------------------------
 
-TODO
+Gauss-Ostrogradsky theorem basically states that you can calculate flow of the vector field through a macroscopic closed
+surface as an integral of divergence over the volume, confined in that surface. 
+
+It is proved by application of same discussion, as we employed for infinitesimal surface/volume (just split the whole 
+macroscopic volume into these infinitesimal pieces).
 
 Laplacian
 ---------
