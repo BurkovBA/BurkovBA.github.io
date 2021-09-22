@@ -34,7 +34,7 @@ $\nabla \cdot F(x,y,z) = \lim \limits_{S, V \to 0} \oiint \limits_S \frac{1}{|V|
 
 ### Technical definition
 
-Technically, divergence of a vector field $\vec{F}$ is a sum of its partial derivatives: $\nabla \cdot F(x,y,z) = \frac{\partial F_x}{x} + \frac{\partial F_y}{y} + \frac{\partial F_y}{z}$. 
+Technically, divergence of a vector field $\vec{F}$ is a sum of its partial derivatives of the vector field coordinates: $\nabla \cdot F(x,y,z) = \frac{\partial F_x}{x} + \frac{\partial F_y}{y} + \frac{\partial F_y}{z}$. 
 
 Note that $\vec{F}$ is a vector field, not a scalar field. So, divergence **is not** just a dot product of gradient 
 by (1,1,1) vector, as the notation abuse might suggest.
@@ -99,16 +99,26 @@ Being a divergence, Laplacian is invariant to the change of basis as well (by th
 Applications outside multivariate calculus and field theory
 -----------------------------------------------------------
 
-TODO
+There are several discrete analogues of the continuous Laplacian that are used in various fields of computer science.
 
-### Discrete Laplacian in computer vision for edge detection
+### Discrete Laplace operator in computer vision for edge detection
 
-TODO
+Discrete version of [Laplace operator](https://en.wikipedia.org/wiki/Discrete_Laplace_operator) is a convolutional filter, used in computer vision for edge detection. In 2D case it is a 3-by-3 matrix of the following structure:
+
+$L = 
+\begin{pmatrix}
+0 && -1 && 0 \\
+-1 && 4 && -1 \\
+0 && -1 && 0 \\
+\end{pmatrix}$
+
+Try applying it to a black-and-white photo of a brick wall. You will see that every pixel of a brick will become black after
+application of Laplace operator as a convolutional filter (because neighbors of this pixel from all directions have the same color).
+But the edges of a brick will become white, because pixels outside have a different color. 
 
 ### Discrete Laplacian in spectral graph theory
 
-This is a subject of a [whole separate post](/2021-09-02-1).
-
+This is a subject of a [whole separate post](/2021-09-02-1) on spectral graph theory.
 
 References
 ----------
