@@ -3,7 +3,7 @@ module.exports = {
     title: `Personal blog of Boris Burkov`,
     author: `Boris Burkov`,
     description: `A personal blog of Boris Burkov, version 4.1, this time written in Gatsby.`,
-    siteUrl: `https://borisburkov.net/`,
+    siteUrl: `http://borisburkov.net`,
     social: {
       telegram: `BorisBurkov`,
     },
@@ -71,6 +71,12 @@ module.exports = {
       options: {
         trackingId: `271884361`,
       },
+    },
+    {
+      resolve: `gatsby-plugin-disqus`,
+      options: {
+        shortname: "burkovba"
+      }
     },
     `gatsby-plugin-feed`,
     {

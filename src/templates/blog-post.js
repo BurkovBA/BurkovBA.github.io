@@ -2,6 +2,7 @@ import React from "react";
 import { Link, graphql } from "gatsby";
 import { GatsbyImage } from "gatsby-plugin-image";
 import { IoIosTime, IoIosCalendar } from 'react-icons/io';
+import { Disqus, CommentCount } from 'gatsby-plugin-disqus';
 
 import Bio from "../components/bio";
 import Layout from "../components/layout";
@@ -15,8 +16,16 @@ class BlogPostTemplate extends React.Component {
   render() {
     const post = this.props.data.markdownRemark;
     const siteTitle = this.props.data.site.siteMetadata.title;
+    const siteUrl = this.props.data.site.siteMetadata.siteUrl;
     const cover = this.props.data.markdownRemark.frontmatter.cover;
     const { previous, next } = this.props.pageContext;
+
+    // instruction on loading url information: https://www.gatsbyjs.com/docs/location-data-from-props/
+    const disqusConfig = {
+      url: `${siteUrl + this.props.location.pathname}`,
+      identifier: post.id,
+      title: post.frontmatter.title,
+    }
 
     return (
       <Layout location={this.props.location} title={siteTitle} cover={cover}>
@@ -71,6 +80,9 @@ class BlogPostTemplate extends React.Component {
             )}
           </li>
         </ul>
+
+        <CommentCount config={disqusConfig} placeholder={''} />
+        <Disqus config={disqusConfig} />
       </Layout>
     )
   }
@@ -84,6 +96,7 @@ export const pageQuery = graphql`
       siteMetadata {
         title
         author
+        siteUrl
       }
     }
     markdownRemark(fields: { slug: { eq: $slug } }) {

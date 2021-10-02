@@ -56,7 +56,7 @@ const Bio = () => {
         development of cutting-edge technologies, reflects on how the world works and admires the giants of the past.
         {` `}
         <a href={`https://t.me/${social.telegram}`}>
-          You can follow me on Telegram
+          You can follow me in Telegram
         </a>
       </p>
     </div>
