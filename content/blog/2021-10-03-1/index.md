@@ -3,7 +3,7 @@ title: Overview of consensus algorithms in distributed systems - Paxos, Zab, Raf
 date: "2021-10-03T00:00:00.284Z"
 tags: ["math", "programming"]
 cover: "./unanimously.png"
-description: The field of consensus in distributed systems emerged in late 1970s - early 1980s. Understanding of consensus algorithms is required for working with fault-tolerant systems, such as blockchain, various cloud and container environments, distributed file systems and message queues. To me It feels like consensus algorithms is a rather pseudo-scientific and needlessly overcomplicated area of computer science research. There is definitely more fuzz about consensus algorithms than there should be, and many explanations are really lacking the motivation part. In this post I will consider some of the most popular consensus algorithms in the 2020s.
+description: The field of consensus in distributed systems emerged in late 1970s - early 1980s. Understanding of consensus algorithms is required for working with fault-tolerant systems, such as blockchain, various cloud and container environments, distributed file systems and message queues. To me it feels like consensus algorithms is a rather pseudo-scientific and needlessly overcomplicated area of computer science research. There is definitely more fuzz about consensus algorithms than there should be, and many explanations are really lacking the motivation part. In this post I will consider some of the most popular consensus algorithms in the 2020s.
 ---
 
 Why would you need consensus at all, when you have replication?
@@ -16,14 +16,16 @@ The answer is: although existence of replicas of your databases allows for survi
 they won't be able to automatically re-elect a new master, and a crash wouldn't go unnoticed.
 
 Consensus algorithms, on the other hand, assume that periodic crashes of replicas are more or less normal events, and automatically
-re-elect masters, while guaranteeing safety of the data.
+re-elect masters, while guaranteeing consistency of the data.
+
+All the consensus algorithms are based on a primitive, called Two-Phase Commit, which I will consider here. Also, the oldest and most influential algorithm, called Paxos, is using another building block, called Lamport timestamps or Lamport clock, which I will also explore later.
 
 Building blocks: Two-phase commit (2PC)
 ---------------------------------------
 
 The main primitive that consensus algorithms are built upon is the algorithm of a two-phase commit. 
 
-It pretty much allows distributed, fault-tolerant databases to behave like a single instance of an ACID database. With 2PC a write to the database survives a crash of any database replicas or even the coordinator.
+It pretty much allows distributed, fault-tolerant databases to behave like a single instance of an [ACID database](https://en.wikipedia.org/wiki/ACID). With 2PC a write to the database survives a crash of any database replicas or even the coordinator.
 
 There are replicas of 2 roles in 2PC: coordinator (a node that executes write requests from the clients, a.k.a. primary or master) and participants (regular replicas).
 
