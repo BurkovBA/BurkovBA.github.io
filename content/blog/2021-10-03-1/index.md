@@ -1,5 +1,5 @@
 ---
-title: Overview of consensus algorithms in distributed systems - Paxos, PBFT, Zab, Raft
+title: Overview of consensus algorithms in distributed systems - Paxos, Zab, Raft, PBFT
 date: "2021-10-03T00:00:00.284Z"
 tags: ["math", "programming"]
 cover: "./unanimously.png"
@@ -104,17 +104,25 @@ During the proposal phase, a proposer node is going to suggest a value to all th
 
 #### Voting sub-phase (P1b)
 
-Acceptor nodes vote for or against the value proposed. If there are 2n+1 nodes total and n+1 nodes vote for the proposal, a quorum is achieved, and the proposal is accepted. By voting for the proposal, acceptors promise not to accept competing proposals.
+Acceptor nodes vote for or against the value proposed. If there are 2n+1 nodes total and n+1 nodes vote for the proposal, a quorum is achieved, and the proposal is accepted. By voting for the proposal, acceptors promise not to accept competing proposals with lower Lamport timestamp.
+
+Acceptors can also suggest values with their voting messages, so that proposer can select one of the values, proposed by acceptors.
 
 ### Phase 2 (P2)
 
 #### Commit propagation (P2a)
 
-In its commit propagation sub-phase (P2a) the proposer informs all the acceptors that the quorum has been achieved and that they have to commit the value. 
+In its commit propagation sub-phase (P2a) the proposer informs all the acceptors in the quorum that it has achieved a preliminary quorum and requests them to give the final confirmation.
+
+If acceptors suggested a range of values at the sub-phase P1b, proposer can also select one of the values in that range.
 
 #### Commit acknowledgement (P2b)
 
-In the second sub-phase (P2b) acceptors send Ack messages to the proposer and learner nodes.
+In the second sub-phase (P2b) acceptors in the quorum decide, if the proposer still has the latest timestamp since Phase-1b, and send Ack messages to the proposer and learner nodes.
+
+Note, that at this step there is a big significant difference between Paxos and 2PC, because in 2PC after acceptor commits that it votes for the proposal at Phase-1b,
+it cannot change its mind, while in Paxos it only promises not to vote for older applications, but it might have voted for a newer proposal since, so
+at this phase it wouldn't acknowledge the proposal.
 
 
 ### Why this works in normal-operation case?
@@ -159,7 +167,9 @@ While the successful flow of Paxos is relatively simple, the handling of failure
 
 In fact, trying to formally prove correctness of distributed algorithms like Paxos, Lesley Lamport spent the second part of his career, developing a tool for proof automation, [TLA+](https://en.wikipedia.org/wiki/TLA%2B).
 
-Just look at the [implementation of Paxos in Ceph codebase](https://github.com/ceph/ceph/tree/master/src/mon). Ceph is a distributed [software-defined storage](https://en.wikipedia.org/wiki/Software-defined_storage) system that maintains a redundant set of daemons, called monitors (or just MONs),
+[Wikipedia article on Paxos](https://en.wikipedia.org/wiki/Paxos_(computer_science)#Graphic_representation_of_the_flow_of_messages_in_the_basic_Paxos) considers various scenarios of failures at different stages of the protocol. I wouldn't copy-paste them here. Note, though, that basic Paxos is not even guaranteed to converge, cause multiple proposes can reach a state of livelock, as our example and [Wikipedia](https://en.wikipedia.org/wiki/Paxos_(computer_science)#Basic_Paxos_when_multiple_Proposers_conflict) suggest.
+
+You might want to look at the [implementation of Paxos in Ceph codebase](https://github.com/ceph/ceph/tree/master/src/mon). Ceph is a distributed [software-defined storage](https://en.wikipedia.org/wiki/Software-defined_storage) system that maintains a redundant set of daemons, called monitors (or just MONs),
 that keep the metadata by maintaining a distributed consensus.
 
 ### Multi-paxos
@@ -180,15 +190,57 @@ To solve the second one, maintain just one leader and carry out leader re-electi
 
 To solve the third problem, Multi-Paxos adds a `firstUnchosenIndex` to each server and lets a Leader synchronize selected values to each Acceptor.
 
+Zab
+---
+
+In 2007-2011 Zookeeper introduced its own consensus algorithm, called [Zab](https://marcoserafini.github.io/papers/zab.pdf), Zookeeper Atomic Broadcast, that is based on 2PC and somewhat similar to Paxos, but different. I am not going to explore it in detail here, as it didn't attain much popularity in the community. Instead, I will focus on a popular alternative to Paxos, Raft.
+
+However, Zab is conceptually VERY similar to the later Raft. Just as Raft does, it separates the leader election procedure from log replication. Just as Raft, it has only one leader at a time, which communicates to the clients, and performs writes to replicas through a 2PC.
+
+Raft
+----
+
+[Raft](https://raft.github.io/raft.pdf) (Replicated And Fault-Tolerant) consensus algorithm was introduced in 2013-2014 as an easier for understanding and implementation non-byzantine consensus algorithm, similar to Paxos.
+
+Since then, it was widely adopted and democratized the development of distributed systems. It is working under the hood of such systems as Kubernetes etcd, Hashicorp Consul, Apache Kafka (in its up-and-coming [Zookeeper-less KIP-500](https://www.confluent.io/blog/kafka-without-zookeeper-a-sneak-peek/) version) and TitaniumDB/KV.
+
+There is an amazing [visual explanation of Raft protocol](http://thesecretlivesofdata.com/raft/). I will say a few introductory words about it here, but I strongly recommend you to watch this interactive site - it is super-clear.
+
+Raft was designed with the goal to be as clear as possible, unlike Paxos. Raft explicitly decouples two processes: leader election and log replication.
+
+In fact, replicas have only 2 API endpoints in Raft: RequestVote, used for leader election, and AppendEntries, used both for heartbeats and log replication.
+
+### Leader election
+
+In Raft there is only one leader node per a cluster. The leader sends heartbeats to replicas every once in a while. If replicas don't receive the heartbeat for too long, they would assume that the leader is dead and will start re-election (beware, Java 8 programmers, your stop-the-world garbage collector [has a potential to make replicas think your leader is dead](https://medium.com/ias-tech-blog/how-ias-solved-web-service-timeouts-caused-by-java-garbage-collection-pauses-7a701beb1be9)).
+
+When a re-election starts, each replica waits for a randomized time period of between 150ms and 300ms. If it doesn't receive the heartbeat before that timeout, it nominates itself to be a candidate for leadership and asks other replicas to vote for it. If 2 candidates arise simultaneously, and there is a draw in voting, both take random timeouts again, until the tie is broken.
+
+### Log replication
+
+Log replication is a 2PC implementation with the requirement of majority of votes, rather than unanimous voting. 
+
+In the first phase the client sends a request to leader. Leader logs the value, but doesn't commit it, yet.
+
+Leader sends the value to replicas. If it receives a response from a majority of replicas, that the change has been accepted, it commits the change in its log and replies to the client. 
+
+After that, it requests the replicas to commit the change, too.
+
+In Raft there is a concept of Term - an incremental period of time, when one leader ruled. When a new round of election happens (e.g. when a leader crashes or when the network becomes split into parts), a new term is started. Whenever a node recovers, or connectivity is restored, the crashed nodes see that a new term was started and would rollback any uncommitted changes they had, if there were any, and replicate the logs of the new leader. 
+
 
 Practical Byzantine Fault Tolerance (PBFT)
 ------------------------------------------
 
-[Byzantine Faults](https://en.wikipedia.org/wiki/Byzantine_fault) are a special case of faults that can be observed in peer networks, such as Blockchain, where some fraction of nodes can behave maliciously, intentionally trying to compromise consensus in a distributed system.
+Until now, we considered algorithms of consensus in distributed systems, which guaranteed survival in case of regular crashes.
 
-The term "Byzantine Fault Tolerance" was coined by Lesley Lamport circa 1982. 
+However, there is another kind of faults, called [Byzantine Faults](https://en.wikipedia.org/wiki/Byzantine_fault), that can be observed in peer networks, such as Blockchain, where some fraction of nodes can behave maliciously, intentionally trying to compromise consensus in a distributed system.
 
-Practical Byzantine Fault Tolerance algorithm was suggested by a PhD student of the famous Barbara Liskov, Miguel Castro, in 1999, and since then re-implemented at least in some [Permissioned blockchains](https://www.investopedia.com/terms/p/permissioned-blockchains.asp#:~:text=What%20Is%20a%20Permissioned%20Blockchain,from%20public%20and%20private%20blockchains.), such as [Exonum](https://github.com/exonum), used for the Russian Parliament elections-2021.
+Handling those faults is much more complicated and requires much more careful approach. 
+
+The term "Byzantine Fault Tolerance" was coined by Lesley Lamport circa 1982 in his seminal paper on Byzantine Generals Problem. Lamport also tried adapting Paxos for Byzantine faults case.
+
+However, here we shall consider a different algorithm, called Practical Byzantine Fault Tolerance, that was suggested by a PhD student of the famous Barbara Liskov, Miguel Castro, in 1999, and since then re-implemented at least in some [Permissioned blockchains](https://www.investopedia.com/terms/p/permissioned-blockchains.asp#:~:text=What%20Is%20a%20Permissioned%20Blockchain,from%20public%20and%20private%20blockchains.), such as [Exonum](https://github.com/exonum), used for the Russian Parliament elections-2021.
 
 ![Practical Byzantine Fault Tolerance](./PBFT.png)<center>**Practical Byzantine Fault Tolerance (PBFT) protocol normal flow**. PBFT is similar to Paxos, but instead of 2-phase commit, its commits consist of 3 phases: pre-prepare, prepare and commit.</center>
 
@@ -200,24 +252,11 @@ You might wonder why over 2/3 of nodes are required for a quorum in case of Byza
 
 Consider the simplest example, when n = 1, so that the total number of nodes 3n + 1 = 4. Let us show, why at least 2n + 1 = 3 nodes are required for a quorum.
 
-Here is an answer from [Barbara Liskov's 2016 talk](https://www.youtube.com/watch?v=S2Hqd7v6Xn4). Suppose, we are trying to commit 2 proposals, A and B, and expect B to be rejected by a system, because A came first.
+Here is an answer from [Barbara Liskov's 2016 talk](https://www.youtube.com/watch?v=S2Hqd7v6Xn4). Suppose, we are trying to commit 2 proposals, A and B, and expect B to be rejected by a system, because A came first (say, both A and B are financial transactions in a blockchain, that try to spend the same money, and, thus, are mutually exclusive).
 
 ![Why 2n+1 nodes are requred for quorum in PBFT - part 1](./PBFT_2n+1_1.png)<center>**Transaction A** has not been received by 1 benevolent node (number 4) that went down, and has been committed by 2 benevolent nodes and 1 malevolent Byzantine node.</center>
 
 ![Why 2n+1 nodes are requred for quorum in PBFT - part 2](./PBFT_2n+1_2.png)<center>**Transaction B** has not been received by another 1 benevolent node (number 1), was received by a malevolent node, which is going to lie that it didn't receive transaction A, by a benevolent node number 4, which hasn't committed transaction A because it was down, so only 1 benevolent node number 2 is going to inform the others that the transaction B needs to be rejected.</center>
-
-Zab
----
-
-In 2007-2011 Zookeeper introduced its own consensus algorithm, called [Zab](https://marcoserafini.github.io/papers/zab.pdf), Zookeeper Atomic Broadcast, that is based on 2PC and somewhat similar to Paxos, but different. I am not going to consider it in detail here.
-
-
-Raft
-----
-
-Raft (Replicated And Fault-Tolerant) consensus algorithm was introduced in 2013-2014 as an easier for understanding and implementation non-byzantine consensus algorithm, similar to Paxos.
-
-Since then, it was widely adopted and democratized the development of distributed systems. It is working under the hood of such systems as Kubernetes etcd, Hashicorp Consul, Apache Kafka (in its up-and-coming [Zookeeper-less KIP-500](https://www.confluent.io/blog/kafka-without-zookeeper-a-sneak-peek/) version) and TitaniumDB/KV.
 
 
 References
@@ -229,11 +268,14 @@ References
  - https://martinfowler.com/articles/patterns-of-distributed-systems/lamport-clock.html - Martin Fowler and Unmesh Joshi on Lamport clock pattern
  - http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.92.8693&rep=rep1&type=pdf - proof of lower bounds for non-byzantine and byzantine quorum by Bracha and Toueg in 1985
  - https://en.wikipedia.org/wiki/Two-phase_commit_protocol - wikipedia on 2PC
+ - https://en.wikipedia.org/wiki/Three-phase_commit_protocol - wikipedia on 3PC
  - https://blog.acolyer.org/2016/01/13/consensus-on-transaction-commit/ - digest of a 2004 paper by Lamport, where he compares 2PC and Paxos; 2PC is synchronous
  - http://lamport.azurewebsites.net/pubs/paxos-simple.pdf - Paxos made simple (not quite though) paper by Lesley Lamport
  - https://en.wikipedia.org/wiki/Paxos_(computer_science) - wikipedia on Paxos
  - https://developpaper.com/analysis-of-consistency-protocol-from-logical-clock-to-raft/ - an excellent post on Paxos, Zab and Raft
  - https://en.wikipedia.org/wiki/Raft_(algorithm) - wikipedia on Raft
+ - http://thesecretlivesofdata.com/raft/ - AWESOME visual explanation of Raft
+ - https://raft.github.io/raft.pdf - Raft paper
  - http://www.pmg.csail.mit.edu/papers/osdi99.pdf - PBFT paper by Liskov and Castro
  - http://pmg.csail.mit.edu/~castro/tm590.pdf - PBFT correctness proof
  - http://pmg.csail.mit.edu/~castro/tm589.pdf - follow-up of PBFT paper by Liskov and Castro
@@ -242,6 +284,5 @@ References
  - https://arxiv.org/pdf/2002.03087.pdf - probabilistic PBFT
  - https://en.wikipedia.org/wiki/Paxos_(computer_science)#Byzantine_Paxos - byzantine Paxos
  - https://marcoserafini.github.io/papers/zab.pdf - Zookeeper Zab
- - https://en.wikipedia.org/wiki/Three-phase_commit_protocol - wikipedia on 3PC
  - https://dzone.com/articles/a-brief-analysis-of-consensus-protocol-from-logica - good overview of consensus algorithms
  - https://www.oreilly.com/library/view/designing-data-intensive-applications/9781491903063/ - holy grail of distributed systems by Martin Kleppmann; chapters 8 and 9 are dedicated to clock and consensus problems
