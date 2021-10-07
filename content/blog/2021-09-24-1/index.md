@@ -15,6 +15,8 @@ First things first, I want to say huge "thank you" to the Moscow Government Depa
 Logical architecture
 --------------------
 
+![Logical architecture](./logical_architecture.jpg)
+
  - SUDIR - external system, System of Access Control to Information Resources of Moscow Government; used to authorize a user for voting
  - Blockchain 1 (public)
  - Blockchain 2 (private)
