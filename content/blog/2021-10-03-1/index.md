@@ -244,9 +244,42 @@ The term "Byzantine Fault Tolerance" was coined by Lesley Lamport circa 1982 in 
 
 However, here we shall consider a different algorithm, called Practical Byzantine Fault Tolerance, that was suggested by a PhD student of the famous Barbara Liskov, Miguel Castro, in 1999, and since then re-implemented at least in some [Permissioned blockchains](https://www.investopedia.com/terms/p/permissioned-blockchains.asp#:~:text=What%20Is%20a%20Permissioned%20Blockchain,from%20public%20and%20private%20blockchains.), such as [Exonum](https://github.com/exonum), used for the Russian Parliament elections-2021.
 
+PBFT is suited for systems like blockchain that need to guarantee that no double-spending has occurred. i.e. it needs to prevent two different requests from committing control over the same resource. 
+
 ![Practical Byzantine Fault Tolerance](./PBFT.png)<center>**Practical Byzantine Fault Tolerance (PBFT) protocol normal flow**. PBFT is similar to Paxos, but instead of 2-phase commit, its commits consist of 3 phases: pre-prepare, prepare and commit.</center>
 
-TODO
+PBFT is a relatively hard to understand. I will only outline the basics here.
+
+Again, only leader node is used for taking requests from clients. However, all the replicas respond to the client that a request was committed, and client should assume a commit successful, if it has received replies from at least n+1 replicas. 
+
+Sometimes leaders fail. Periods of time between leader re-election are called "Views" here (similar to "Terms" in Raft). All the messages are considered in the context of a view. All the messages, sent by replicas, are supplied with a digital signature, ensuring their integrity and authentity.
+
+The algorithm consists of 3 phases: pre-prepare, prepare and commit.
+
+### Pre-prepare
+
+At the pre-prepare phase the leader selects an ordinal number for the client's request and broadcasts a request from the client to secondary replicas.
+
+Replicas check the digital signature, the fact that view hasn't changed, that no message with the same number but conflicting content was already received, and that number is between so-called high- and low-watermark message numbers (watermarks are a technicality, used for garbage collection, let us not pay attention to it here). 
+
+If all the conditions above were satisfied, the replica enters the prepare phase, and multicasts a prepare message to all other replicas.
+
+### Prepare
+
+Again, replicas accept prepare messages, if their digital signature is correct, the view hasn't changed, and the sequence number is between the low- and high- watermarks.
+
+The pre-prepare and prepare phases of the algorithm guarantee that non-faulty replicas agree on a total order for the requests within a view.
+
+### Commit
+
+If a replicas received 2n prepare messages from other replicas (naturally, prior to that it successfully received the request message and passed pre-prepare state), then it enters commit state and multicasts commit messages to other replicas. 
+
+Replicas accept commit messages, if the signature is correct, the view is correct and number of request is between low- and high- watermarks.
+
+If any replica receives 2n + 1 commit messages (including its own), the quorum is achieved, and the message is considered locally committed by that replica. 
+
+The algorithm guarantees that if the message was committed by 1 non-faulty replica, it will eventually be committed by at least n + 1 non-faulty replicas. 
+
 
 ### Why 2n+1/3n+1 nodes are required for Byzantine quorum?
 
