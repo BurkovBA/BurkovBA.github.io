@@ -1,9 +1,11 @@
+const siteUrl = `http://borisburkov.net`;
+
 module.exports = {
   siteMetadata: {
     title: `Personal blog of Boris Burkov`,
     author: `Boris Burkov`,
     description: `A personal blog of Boris Burkov, version 4.1, this time written in Gatsby.`,
-    siteUrl: `http://borisburkov.net`,
+    siteUrl: siteUrl,
     social: {
       telegram: `BorisBurkov`,
     },
@@ -91,7 +93,44 @@ module.exports = {
         },
       },
     },
+    {
+      resolve: `gatsby-plugin-sitemap`,
+      options: {
+        query: `
+        {
+          allMarkdownRemark(
+            sort: { fields: [frontmatter___date], order: DESC }
+          ) {
+            nodes {
+              fields {
+                slug
+              }
+              frontmatter {
+                date
+              }
+            }
+          }
+        }
+      `,
+        resolveSiteUrl: () => siteUrl,
+        resolvePages: ({
+          allMarkdownRemark: { nodes: { fields: { slug: allPaths }, frontmatter: {date: allDates} } },
+        }) => {
+          let pathsAndDates = []
+          for (i=0; i<allPaths.length; i++) {
+            pathsAndDates.push({path: allPaths[i], date: allDates[i]});
+          }
 
+          return pathsAndDates
+        },
+        serialize: ({ path, date }) => {
+          return {
+            url: path,
+            lastmod: date,
+          }
+        },
+      }
+    },
     {
       resolve: `gatsby-plugin-disqus`,
       options: {
