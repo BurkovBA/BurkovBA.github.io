@@ -98,9 +98,19 @@ module.exports = {
       options: {
         query: `
         {
-          allMarkdownRemark(
-            sort: { fields: [frontmatter___date], order: DESC }
-          ) {
+          site {
+            siteMetadata {
+              siteUrl
+            }
+          }
+
+          allSitePage {
+            nodes {
+              path
+            }
+          }
+
+          allMarkdownRemark {
             nodes {
               fields {
                 slug
@@ -110,24 +120,19 @@ module.exports = {
               }
             }
           }
-        }
-      `,
+        }`,
+        createLinkInHead: true,
         resolveSiteUrl: () => siteUrl,
-        resolvePages: ({
-          allMarkdownRemark: { nodes: { fields: { slug: allPaths }, frontmatter: {date: allDates} } },
-        }) => {
-          let pathsAndDates = []
-          for (i=0; i<allPaths.length; i++) {
-            pathsAndDates.push({path: allPaths[i], date: allDates[i]});
-          }
+        serialize: (page) => {
+          const today = new Date();
+          var date = today.getFullYear() + '-' + (today.getMonth() + 1 ) + '-' + today.getDate();
 
-          return pathsAndDates
-        },
-        serialize: ({ path, date }) => {
           return {
-            url: path,
-            lastmod: date,
-          }
+            url: `${siteUrl}${page.path}`,
+            lastmod: new Date(),
+            changefreq: `daily`,
+            priority: 0.7
+          };
         },
       }
     },
