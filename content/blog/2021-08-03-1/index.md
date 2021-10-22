@@ -23,7 +23,7 @@ I.e. if each of your data points $\bf x \bf$ was something like a 2-vector $\bf 
 
 Such a mapping from the initial space to the new space is called a *feature map* and denoted $\varphi(\bf x \bf)$.
 
-### Implicit features and kernel trick
+### Implicit features
 
 Now, oftentimes you don't need to express your features explicitly to perform the classification. Moreover, there is a way
 to make mathematics auto-magically engineer and select features for you!
@@ -41,11 +41,11 @@ without explicit calculation of feature maps.
 
 Suppose that we have a training set of points $(x, y)$, where each point consists of a vector of features $\bf x \bf$ and a class label $y$. If the set of points is infinitely large, we can denote it as some join distribution P(x,y).
 
-We are trying to come up with some classification function $h(x)$ from a space of functions $\mathcal{H}$, so that $h(x)$ approximates $y$ well enough to classify each point correctly.
+We are trying to come up with some classification/regression function $h(x)$ from a space of functions $\mathcal{H}$, so that $h(x)$ approximates $y$ well enough to classify/predict value of each point correctly.
 
-The error, between our classification $h(x)$ and true class $y$ is measured by a loss function $L(f(x), y)$. 
+The error between our prediction $h(x)$ and true class/value $y$ is measured by a loss function $L(f(x), y)$. 
 
-The risk $R(h)$, associated with a choice of classification function $h(x)$ is measured as expectation of loss function over all the data points:
+The risk $R(h)$, associated with a choice of classification/regression function $h(x)$ is measured as expectation of loss function over all the data points:
 
 $R(h) = \mathbb{E}[L(h(x),y)] = \int L(h(x), y) dP(x,y)$
 
@@ -61,59 +61,69 @@ In case the amount of data available is finite (as is normally the case), the in
 
 $\hat{h} = \underset{h \in \mathcal{H}}{\argmin} \sum \limits_{i=1}^n L(h(x), y) + \lambda R({\lVert h \rVert})$
 
-### Simple regression problem: least squares method
+### Example: simple regression problem with basic least squares
 
 Recall, how the [least squares](https://en.wikipedia.org/wiki/Least_squares) work in case of normal features. 
 
-Let $X = \begin{pmatrix} {\bf x_1} \\ ... \\ {\bf x_p} \end{pmatrix} = \begin{pmatrix} x_{1,1} && x_{1,2} && ... && x_{1,n} \\ ... && ... && ... && ... \\ x_{p,1} && x_{p,2} && ... && x_{p,n} \end{pmatrix}$ be the $n$ x $p$ matrix of data (e.g. n genes, p patients), where ${\bf x_i} = (x_{i,1} ... x_{i,n})$ are n-vectors, corresponding to each element of data (e.g. gene expressions for the patient ${\bf x_i}$); let ${\bf y} = \begin{pmatrix} y_1 \\ ... \\ y_p \end{pmatrix}$ be the vector of results
-and ${\bf w} = \begin{pmatrix} w_1 \\ ... \\ w_n \end{pmatrix}$ be the vector of weights of factors. 
+Let $X = \begin{pmatrix} {\bf x_1} \\ ... \\ {\bf x_p} \end{pmatrix} = \begin{pmatrix} x_{1,1} && x_{1,2} && ... && x_{1,n} \\ ... && ... && ... && ... \\ x_{p,1} && x_{p,2} && ... && x_{p,n} \end{pmatrix}$ be the $n$ x $p$ matrix of data (e.g. n genes, p patients), 
 
-The aim is to minimize the following sum of squares:
+where ${\bf x_i} = (x_{i,1} ... x_{i,n})$ are n-vectors, corresponding to each element of data (e.g. gene expressions for the patient ${\bf x_i}$).
 
-$L({\bf w}(x), y) = ({\bf y} - X{\bf w})^{T} ({\bf y} - X{\bf w}) = y^T y - {\bf w}^T X^T {\bf y} - {\bf y}^T X {\bf w} + {\bf w}^T X^T X {\bf w}$,
+Let ${\bf y} = \begin{pmatrix} y_1 \\ ... \\ y_p \end{pmatrix}$ be the vector of results and ${\bf w} = \begin{pmatrix} w_1 \\ ... \\ w_n \end{pmatrix}$ be the vector of weights of factors. So, our prediction is $h(X) = X{\bf w}$.
+
+The aim is to minimize the following sum of squares of prediction errors:
+
+$L(h(X), y) = ({\bf y} - X{\bf w})^{T} ({\bf y} - X{\bf w}) = y^T y - {\bf w}^T X^T {\bf y} - {\bf y}^T X {\bf w} + {\bf w}^T X^T X {\bf w}$,
 
 so that the optimal weights $\hat{\bf w}$ are:
 
-$\hat{\bf w} = \underset{\bf w}{\argmin} ({\bf w }^{T} X - {\bf y})^{T} ({\bf w}^{T}X - {\bf y})$
+$\hat{\bf w} = \underset{\bf w}{\argmin} ({\bf y} - X {\bf w })^{T} ({\bf y} - X {\bf w})$
 
 We solve this minimization problem by taking the derivative and equating it to 0. In my opinion this is an abuse of notation, because we use a whole vector as independent variable, and we should've written $p$ equations instead for each $\frac{\partial L}{\partial w_i}$:
 
 $\frac{\partial L}{\partial {\bf w}} = \frac{\partial(y^T y - {\bf w}^T X^T {\bf y} - {\bf y}^T X {\bf w} + {\bf w}^T X^T X {\bf w})}{\partial{\bf w}} = -2 X^T {\bf y} + 2X^TX{\bf w} = 0$
 
-Hence, ${\bf w} = (X^T X)^{-1} \cdot X^T{\bf y}$.
+Hence, ${\bf w} = (X^T X)^{-1} \cdot X^T{\bf y}$. 
+
+Note that $X$ is a rectangular, not a square matrix, thus, we don't simplify this expression, as we cannot say that ${X^T X}^{-1} = X^{-1} X^{T^{-1}}$. Expression $(X^T X)^{-1} \cdot X^T$ is called Moore-Penrose pseudo-inverse matrix.
 
 The $n$ x $n$ matrix $C = X^T X = \begin{pmatrix} x_{1,1} && x_{p,1} \\ x_{1,2} && x_{p,2} \\ ... && ... \\ x_{1,n} && x_{p,n} \\ \end{pmatrix} \cdot \begin{pmatrix} x_{1,1} && x_{1,2} && ... && x_{1,n} \\ x_{p,1} && x_{p,2} && ... && x_{p,n} \end{pmatrix}$ is often called a covariance matrix.
 
 It is a Gram matrix by construction, and, thus, is positive (semi-)definite with positive/non-negative eigenvalues.
 
+### Kernel trick
 
-### Representer theorem
+Now, we shall replace the matrix $X$ of basic features with matrix $\Phi$ of advanced features, where each row ${\bf x_i}$ of length $n$, corresponding to gene expressions of a single patient, is replaced by a row of feature maps ${\bf \varphi(x_i)}$ of length $N$ of feature maps of those gene expressions:
 
-Now, we shall replace the positive-definite covariance matrix $C$, constituted by the basic features/realizations $x_i$, with a kernel matrix $K$, constituted by advanced feature maps $\varphi_i({\bf x})$.
+$\Phi = \begin{pmatrix} \varphi_1({\bf x_1}) && \varphi_2({\bf x_1}) && ... && \varphi_N({\bf x_1}) \\ \varphi_1({\bf x_p}) && \varphi_2({\bf x_p}) && ... && \varphi_N({\bf x_p}) \end{pmatrix} = \begin{pmatrix} {\bf \varphi(x_1)} \\ {\bf \varphi(x_p)} \end{pmatrix}$
 
-Again, our function of interest $f(x)$ can be represented as a linear combination of feature map functions $\varphi_i(x)$:
+Accordingly, the estimation function $h(X)$ is replaced with $h(\Phi)$, such that ${\bf w} = (\Phi^T \Phi)^{-1} \cdot \Phi^T{\bf y}$ (again, the vector of weights ${\bf w}$ is now $N$-dimensional).
 
-$f(x) = \sum \limits_{i=1}^{?}\alpha_i \varphi_i(x)$, and we are interested in the coefficients $\alpha_i$, corresponding to weights $w_i$ for least squares.
+$n$ x $n$ positive-definite symmetric covariance matrix $C = X^TX$ is replaced with an $N$ x $N$ positive-definite symmetric matrix $C = \Phi^T \Phi$. Note that $N$ can be infinite, in which case matrices $\Phi$ and $C$ become infinite-dimensional.  
 
-This is an expansion of a function into a series of basis functions, very similar to a Fourier series. 
+Now, I am going to show that when we are looking for our function $h({\bf \varphi({\bf x_i})})$, we can actually get rid of an explicit $\Phi$ in its expression and make $h$ depend only on the kernel matrix $K$.
 
-What it totally not obvious, is how those basis feature map functions look like.
+$h({\bf \varphi({\bf x_i})}) = {\bf \varphi(x_i)} \cdot {\bf w} = {\bf \varphi(x_i)} \cdot (\Phi^T \Phi)^{-1} \cdot \Phi^T{\bf y}$.
 
-A so-called Representer theorem applies to Empirical Risk Minimization problem.
+Let us use the fact that if [pseudo-inverse matrix](https://en.wikipedia.org/wiki/Moore%E2%80%93Penrose_inverse) is invertible, it can be represented differently:
 
-Just like in Fourier transform, let us make our basis functions orthogonal to each other: $\langle \varphi_i, \varphi_j \rangle = \int \limits_{-\infty}^{\infty} \varphi_i(x)\varphi_j(x)dx = 0$ if $i \neq j$ or $\langle \varphi_i, \varphi_j \rangle = 1$ if $i = j$.
+$(\Phi^T \Phi)^{-1} \Phi^T = \Phi^T (\Phi \Phi^T)^{-1}$
 
-Turns out, there are symmetric functions of 2 variables, called kernels $k(x_i, x_j)$, that connect $\phi_i(x)$ with other basis functions. I will have to change the notation slightly from here, and instead of $\phi_i(x)$ write $\phi_{x_i}(x_j)$ (I replaced the index $i$ with data point $x_i$ and replaced independent variable $x$ with evaluation of feature map function at point $x_j$).
+$h({\bf \varphi({\bf x_i})}) = {\bf \varphi(x_i)} \cdot \Phi^T (\Phi \Phi^T)^{-1} {\bf y} = K_i K^{-1} {\bf y}$
 
-$\varphi_i(x_j) = k(x_i, x_j) = \int \limits_{-\infty}^{\infty} \varphi_i(x)\varphi_j(x)dx$
+Denote kernel matrix $K = \Phi \Phi^T$. Each element of that matrix $K_{i,j}$ can be expressed as $K_{i,j} = \langle \varphi(x_i), \varphi(x_j) \rangle$. Let us denote $K^{-1} {\bf y}$ as a column p-vector $\bf \alpha$.
+
+Our ${\bf \varphi(x_i)} \Phi^T$ is a row p-vector, corresponding to a single row of matrix $K$, $K_i = (\langle \varphi(x_i), \varphi(x_1) \rangle, \langle \varphi(x_i), \varphi(x_2) \rangle, ..., \langle \varphi(x_i), \varphi(x_p) \rangle)$.
+
+Hence, our $h({\bf \varphi({\bf x_i})}) = {\bf \varphi(x_i)} \cdot \Phi^T (\Phi \Phi^T)^{-1} {\bf y} = \sum \limits_{j=1}^{p} \alpha_j \langle \varphi(x_i), \varphi(x_j) \rangle = \sum \limits_{j=1}^{p} \alpha_j K_{i, j}$.
 
 ### Example: Radial Basis Functions (RBF) kernel
 
-To give this idea a practical example, let us consdier a popular Radial Basis Functions (RBF) kernel, based on Gaussian distribution.
+To give this idea a practical sense, let us consider a popular Radial Basis Functions (RBF) kernel, based on Gaussian distribution.
 
 If we had $\bf x_i \bf$ and $\bf x_j \bf$ vectors of input features, the RBF kernel for them would look like this:
 
-$k(x_i, x_j) = e^-{\frac{{|| x_i - x_j ||}^2}{2\sigma^2}}$
+$K_{i,j} = k(x_i, x_j) = e^-{\frac{{|| x_i - x_j ||}^2}{2\sigma^2}}$
 
 To see how this kernel produces feature maps, let us decompose it into separate multipliers. For now let us assume $\sigma^2=1$ for shortness of notation, as it doesn't affect the general idea.
 
@@ -121,7 +131,7 @@ $k(x_i, x_j) = e^{-\frac{{|| x_i - x_j ||}^2}{2}} = e^{-\frac{1}{2}{||x_i||}^2 -
 
 $ = \sum \limits_{k=1}^{\infty} \sum \limits_{\sum n_l=k} \underbrace{ \frac{(x_{i,1}^{n_1} \cdot ... \cdot x_{i,k}^{n_k})}{\sqrt{n_1!...n_l!}} \cdot e^{-\frac{1}{2}{||x_i||}^2}}_{\varphi_k(x_i)} \cdot \underbrace{\frac{(x_{j,1}^{n_1} \cdot ... \cdot x_{j,k}^{n_k})}{\sqrt{n_1!...n_l!}} \cdot e^{-\frac{1}{2}{||x_j||}^2}}_{\varphi_k(x_j)} = \langle \varphi(\bf x_i \bf), \varphi(\bf x_j \bf) \rangle$
 
-We've just shown, how split RBF kernel into an inner product of feature maps of each data point. Note that the sum is actually an infinite series - $k$ index runs to infinity. It would not be possible to explicitly write out feature maps.
+We've just shown, how to split RBF kernel into an inner product of feature maps of each data point. Note that the sum is actually an infinite series - $k$ index runs to infinity. It would not be possible to explicitly write out feature maps.
 
 
 Reproducing Kernel Hilbert Space
@@ -225,6 +235,13 @@ Reproducing property
 
 TODO
 
+### Representer theorem
+
+Turns out, there are symmetric functions of 2 variables, called kernels $k(x_i, x_j)$, that connect $\phi_i(x)$ with other basis functions. I will have to change the notation slightly from here, and instead of $\phi_i(x)$ write $\phi_{x_i}(x_j)$ (I replaced the index $i$ with data point $x_i$ and replaced independent variable $x$ with evaluation of feature map function at point $x_j$).
+
+$\varphi_i(x_j) = k(x_i, x_j) = \int \limits_{-\infty}^{\infty} \varphi_i(x)\varphi_j(x)dx$
+
+
 Mercer theorem
 --------------
 
@@ -275,6 +292,11 @@ $k(x, y)$
 Moore-Aronszajn theorem
 -----------------------
 
+We know that every RKHS defines a reproducing kernel, symmetric and positive definite. This is an inverse statement, that
+claims that every symmetric positive definite kernel gives rise to an RKHS.
+
+Feature map must not be unique of RKHS. Only the kernel is unique.
+
 TODO
 
 References
@@ -292,6 +314,7 @@ References
  - https://alex.smola.org/papers/2001/SchHerSmo01.pdf - original 2001 paper by Smola, Herbrich and Scholkopf on generalized Representer theorem
  - https://www.iist.ac.in/sites/default/files/people/in12167/RKHS_0.pdf - another good write-up on RKHS and kernel methods
  - https://www.mdpi.com/2227-9717/8/1/24/htm - a very helpful review of kernel methods and kernel trick
+ - https://www.youtube.com/watch?v=JQJVA8ehlbM - a good step-by-step video introduction of kernel methods
  - https://en.wikipedia.org/wiki/Hilbert_space - one of the best articles on mathematics, I've ever seen on wikipedia
  - https://en.wikipedia.org/wiki/Representer_theorem
  - https://en.wikipedia.org/wiki/Positive-definite_kernel
@@ -303,3 +326,4 @@ References
  - https://en.wikipedia.org/wiki/Integral_transform
  - https://en.wikipedia.org/wiki/Radial_basis_function_kernel
  - https://en.wikipedia.org/wiki/Least_squares
+ - https://en.wikipedia.org/wiki/Linear_least_squares
