@@ -292,17 +292,35 @@ some feature map with a set of coefficients?
 
 This is actually a theorem, called Representer theorem.
 
-In its [general form](https://alex.smola.org/papers/2001/SchHerSmo01.pdf) it says that any function $f(y) = \sum \limits_{i=1}^{\infty} \beta_i K(x_i, y)$ from the class of feature maps,
-corresponding to a kernel $K(x, y)$, which is a solution of optimization problem:
+In its [general form](https://alex.smola.org/papers/2001/SchHerSmo01.pdf) it is as follows. If we are seeking the solution of an optimization problem:
 
-$\hat{h} = \underset{h \in \mathcal{H}}{\argmin} \int L(h(x), y) dP(x,y) + \lambda R({\lVert h \rVert})$
+$\hat{h} = \underset{h \in \mathcal{H}}{\argmin} \int L(h(x), y) dP(x,y) + \lambda R({\lVert h \rVert})$,
 
-where $R$ is a strictly monotonically increasing function on $[0, \infty]$, can be represented as $f(y) = \sum \limits_{i=1}^{m} \alpha_i K(x_i, y)$.
+where $R$ is a strictly monotonically increasing function on $[0, \infty]$ and the solution is required to be a function $h(y)$ from the class of feature maps $f(y) = \sum \limits_{i=1}^{\infty} \beta_i K(x_i, y)$,
+corresponding to a kernel $K(x, y)$, then the solution can be represented as $h(y) = \sum \limits_{i=1}^{m} \alpha_i K(x_i, y)$.
 
 We've already seen an example of how this works before in case of kernel regression. This is a more general statement that
 claims that even if we are optimizing a more or less arbitrary functional and use a rather wide class of regularization functions (as long as they are monotonic), 
 the kernel method still works.
 
+The proof is as follows:
+
+Suppose that we found a way to decompose our function $h(x)$ into a sum of two orthogonal parts: one part is the subspace, covered by
+all the feature map functions $\varphi(x_i)$, and the other part is its orthogonal complement $v$:
+
+$h = \sum \limits_{i=1}^{m} \varphi(x_i) + v$
+
+If we were to evaluate this function at a specific point $x_j$, the reproducing property and orthogonality of $v$ would kick in:
+
+$h(x_j) = \langle \sum \limits_{i=1}^{m} \varphi(x_i) + v, \varphi(x_j) \rangle = \sum \limits_{i=1}^{m}\alpha_i \langle \varphi(x_i), \varphi(x_j) \rangle$
+
+Hence, when we use this formula for $h(x_j)$ to evaluate the loss in our estimator, the loss does not depend on $v$. As for the regularization term:
+
+$g(||h||) = g(|| \sum \limits_{i=1}^{n} \alpha_i \varphi(x_i) + v ||) = g(\sqrt{|| \sum \limits_{i=1}^{n} \alpha_i \varphi(x_i) ||^2 + ||v||^2}) \ge g(\sqrt{|| \sum \limits_{i=1}^{n} \alpha_i \varphi(x_i) ||^2})$ 
+
+Optimum of $h$ is achieved when $v$ is 0 (or minimum) due to monotonicity of regularizer $g$ in its argument. Hence,
+
+$\hat{h} = \sum \limits_{i=1}^{n} \alpha_i \varphi(x_i) = $, which proves the theorem.
 
 
 Mercer theorem
