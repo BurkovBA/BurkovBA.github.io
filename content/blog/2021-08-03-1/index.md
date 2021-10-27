@@ -292,7 +292,17 @@ some feature map with a set of coefficients?
 
 This is actually a theorem, called Representer theorem.
 
-$\varphi_i(x_j) = k(x_i, x_j) = \int \limits_{-\infty}^{\infty} \varphi_i(x)\varphi_j(x)dx$
+In its [general form](https://alex.smola.org/papers/2001/SchHerSmo01.pdf) it says that any function $f(y) = \sum \limits_{i=1}^{\infty} \beta_i K(x_i, y)$ from the class of feature maps,
+corresponding to a kernel $K(x, y)$, which is a solution of optimization problem:
+
+$\hat{h} = \underset{h \in \mathcal{H}}{\argmin} \int L(h(x), y) dP(x,y) + \lambda R({\lVert h \rVert})$
+
+where $R$ is a strictly monotonically increasing function on $[0, \infty]$, can be represented as $f(y) = \sum \limits_{i=1}^{m} \alpha_i K(x_i, y)$.
+
+We've already seen an example of how this works before in case of kernel regression. This is a more general statement that
+claims that even if we are optimizing a more or less arbitrary functional and use a rather wide class of regularization functions (as long as they are monotonic), 
+the kernel method still works.
+
 
 
 Mercer theorem
@@ -381,8 +391,6 @@ $X^T X = X^T Q^T Q X = Y^T Y$
 
 $ Y^T Y = X^T Q^T Q X = \begin{pmatrix} x_{1,1} && x_{2,1} \\ x_{1,2} && x_{2,2} \\ x_{1,3} && x_{2,3} \\ \end{pmatrix} \begin{pmatrix} q_{1,1} && q_{1,2} && q_{1,3} \\ q_{2,1} && q_{2,2} && q_{2,3} \\ \end{pmatrix} \begin{pmatrix} q_{1,1} && q_{2,1} \\ q_{1,2} && q_{2,2} \\ q_{1,3} && q_{2,3} \\ \end{pmatrix} \begin{pmatrix} x_{1,1} && x_{1,2} && x_{1,3} \\ x_{2,1} && x_{2,2} && x_{2,3} \end{pmatrix}$
 $= \begin{pmatrix} x_{1,1} && x_{2,1} \\ x_{1,2} && x_{2,2} \\ x_{1,3} && x_{2,3} \\ \end{pmatrix} \begin{pmatrix} 1 && 0 \\ 0 && 1 \\ \end{pmatrix}  \begin{pmatrix} x_{1,1} && x_{1,2} && x_{1,3} \\ x_{2,1} && x_{2,2} && x_{2,3} \end{pmatrix}$.
-
-
 
 #### "Discrete Mercer theorem" proof
 
