@@ -33,7 +33,7 @@ class BlogPostTemplate extends React.Component {
           title={post.frontmatter.title}
           description={post.frontmatter.description || post.excerpt}
         />
-        {!!cover ? <GatsbyImage image={cover.childImageSharp.gatsbyImageData} style={{marginLeft: '-20px'}} alt="cover" /> : null}
+        {!!cover ? <GatsbyImage image={cover.childImageSharp.gatsbyImageData} style={{marginLeft: '-20px', marginTop: '2em'}} alt="cover" /> : null}
         <h1
           style={{
             marginTop: rhythm(1),
