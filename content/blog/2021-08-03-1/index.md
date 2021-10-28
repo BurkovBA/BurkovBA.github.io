@@ -87,9 +87,26 @@ We solve this minimization problem by taking the derivative and equating it to 0
 
 $\frac{\partial L}{\partial {\bf w}} = \frac{\partial(y^T y - {\bf w}^T X^T {\bf y} - {\bf y}^T X {\bf w} + {\bf w}^T X^T X {\bf w})}{\partial{\bf w}} = -2 X^T {\bf y} + 2X^TX{\bf w} = 0$
 
-Hence, ${\bf w} = (X^T X)^{-1} \cdot X^T{\bf y}$. 
+Hence, $(X^T X) {\bf w} = X^T{\bf y}$. 
 
-Note that $X$ is a rectangular, not a square matrix, thus, we don't simplify this expression, as we cannot say that ${X^T X}^{-1} = X^{-1} X^{T^{-1}}$. Expression $(X^T X)^{-1} \cdot X^T$ is called Moore-Penrose pseudo-inverse matrix.
+Now, if the matrix $(X^T X)$ were a full-rank non-singular matrix, we could've solved this equation, finding a unique solution: ${\bf w} = (X^T X)^{-1} \cdot X^T{\bf y}$. 
+
+But note that $X$ is a rectangular, not a square matrix, thus, we don't simplify this expression, as we cannot guarantee that $(X^T X)^{-1}$ is invertible. 
+
+Consider an example. Let $X = \begin{pmatrix} 1 && 2 && 3 \\ 4 && 5 && 6 \\ \end{pmatrix}$. Then $X^T X = \begin{pmatrix} 1 && 4 \\ 2 && 5 \\ 3 && 6 \\\end{pmatrix} \begin{pmatrix} 1 && 2 && 3 \\ 4 && 5 && 6 \\ \end{pmatrix} = \begin{pmatrix} 17 && 22 && 27 \\ 22 && 29 && 36 \\ 27 && 36 && 45 \\ \end{pmatrix}$.
+
+This matrix has rank 2: you can see that the third column of this matrix is a linear combination of the first two: $ -1 \cdot \begin{pmatrix} 17 \\ 22 \\ 27 \end{pmatrix} + 2 \cdot \begin{pmatrix} 22 \\ 29 \\ 36 \end{pmatrix} = \begin{pmatrix} 27 \\ 36 \\ 45 \end{pmatrix}$.
+
+Hence, the equation $(X^T X) {\bf w} = X^T{\bf y}$ will either have no solutions, or have a whole linear space of dimensionality 1 of solutions. 
+
+To see this, consider another example, a matrix $\begin{pmatrix} 1 && 1 \\ 1 && 1 \end{pmatrix}$. 
+
+If we were to solve $\begin{pmatrix} 1 && 1 \\ 1 && 1 \end{pmatrix} \cdot \begin{pmatrix} x \\ y \end{pmatrix} = \begin{pmatrix} 2 \\ 3 \end{pmatrix}$, this system obviously has no solutions. 
+
+If we were to solve $\begin{pmatrix} 1 && 1 \\ 1 && 1 \end{pmatrix} \cdot \begin{pmatrix} x \\ y \end{pmatrix} = \begin{pmatrix} 2 \\ 2 \end{pmatrix}$, this system has a whole line of solutions $y = 2 - x$.
+
+
+Expression $(X^T X)^{-1} \cdot X^T$ is called Moore-Penrose pseudo-inverse matrix.
 
 The $n$ x $n$ matrix $C = X^T X = \begin{pmatrix} x_{1,1} && x_{p,1} \\ x_{1,2} && x_{p,2} \\ ... && ... \\ x_{1,n} && x_{p,n} \\ \end{pmatrix} \cdot \begin{pmatrix} x_{1,1} && x_{1,2} && ... && x_{1,n} \\ x_{p,1} && x_{p,2} && ... && x_{p,n} \end{pmatrix}$ is often called a covariance matrix.
 
@@ -106,11 +123,15 @@ Accordingly, the estimation function $h(X)$ is replaced with $h(\Phi)$, such tha
 
 $n$ x $n$ positive-definite symmetric covariance matrix $C = X^TX$ is replaced with an $N$ x $N$ positive-definite symmetric matrix $C = \Phi^T \Phi$. Note that $N$ can be infinite, in which case matrices $\Phi$ and $C$ become infinite-dimensional.  
 
-Now, I am going to show that when we are looking for our function $h({\bf \varphi({\bf x_i})})$, we can actually get rid of an explicit $\Phi$ in its expression and make $h$ depend only on the kernel matrix $K$.
+Later in this post I am going to show that when we are looking for our function $h({\bf \varphi({\bf x_i})})$, we can actually get rid of an explicit $\Phi$ in its expression and make $h$ depend only on the kernel matrix $K$.
 
-$h({\bf \varphi({\bf x_i})}) = {\bf \varphi(x_i)} \cdot {\bf w} = {\bf \varphi(x_i)} \cdot (\Phi^T \Phi)^{-1} \cdot \Phi^T{\bf y}$.
+We can already see that function $h = {\bf \varphi(x_i)} \cdot {\bf w}$. A more general form of this result is known as Representer theorem (see below).
 
-Let us use the fact that if [pseudo-inverse matrix](https://en.wikipedia.org/wiki/Moore%E2%80%93Penrose_inverse) is invertible, it can be represented differently:
+To get a feel of how this works, consider a nice special case.
+
+If we assumed that $\Phi^T \Phi$ is invertible, which [might not be true](https://datascience.stackexchange.com/questions/103382/kernel-trick-derivation-why-this-simplification-is-incorrect/103427#103427), then $h({\bf \varphi({\bf x_i})}) = {\bf \varphi(x_i)} \cdot (\Phi^T \Phi)^{-1} \cdot \Phi^T{\bf y}$.
+
+Moreover, if both $\Phi^T \Phi$ and $\Phi \Phi^T$ were invertible, our [pseudo-inverse matrix](https://en.wikipedia.org/wiki/Moore%E2%80%93Penrose_inverse) could be represented differently:
 
 $(\Phi^T \Phi)^{-1} \Phi^T = \Phi^T (\Phi \Phi^T)^{-1}$
 
@@ -121,6 +142,8 @@ Denote kernel matrix $K = \Phi \Phi^T$. Each element of that matrix $K_{i,j}$ ca
 Our ${\bf \varphi(x_i)} \Phi^T$ is a row p-vector, corresponding to a single row of matrix $K$, $K_i = (\langle \varphi(x_i), \varphi(x_1) \rangle, \langle \varphi(x_i), \varphi(x_2) \rangle, ..., \langle \varphi(x_i), \varphi(x_p) \rangle)$.
 
 Hence, our $h({\bf \varphi({\bf x_i})}) = {\bf \varphi(x_i)} \cdot \Phi^T (\Phi \Phi^T)^{-1} {\bf y} = \sum \limits_{j=1}^{p} \alpha_j \langle \varphi(x_i), \varphi(x_j) \rangle = \sum \limits_{j=1}^{p} \alpha_j K_{i, j}$.
+
+
 
 Example: Radial Basis Functions (RBF) kernel
 --------------------------------------------
@@ -461,6 +484,8 @@ References
  - https://www.face-rec.org/interesting-papers/General/eig_book04.pdf - a good survey of eigenproblems, including kernel methods applications, in ML
  - https://www.kdnuggets.com/2016/07/guyon-data-mining-history-svm-support-vector-machines.html - Isabelle Guyon on (re-) invention of kernel trick by her and Vapnik in 1991
  - http://www.mathnet.ru/php/archive.phtml?wshow=paper&jrnid=at&paperid=11804&option_lang=eng - 1964 Aizerman, Braverman and Rozonoer paper on proto-kernel trick (mostly in Russian)
+ - https://users.wpi.edu/~walker/MA3257/HANDOUTS/least-squares_handout.pdf - a nice, but partially wrong text about rank and singularity of Gram matrix and uniqueness/existence of least squares solution
+ - https://datascience.stackexchange.com/questions/103382/kernel-trick-derivation-why-this-simplification-is-incorrect/103427#103427 - answer to my question on Stack Overflow
  - https://en.wikipedia.org/wiki/Hilbert_space - one of the best articles on mathematics, I've ever seen on wikipedia
  - https://en.wikipedia.org/wiki/Representer_theorem
  - https://en.wikipedia.org/wiki/Positive-definite_kernel
