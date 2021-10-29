@@ -40,6 +40,43 @@ Note that matrices $A^TA$ and $AA^T$ are known as [Gram matrices](https://en.wik
 seen above that each Gram matrix is a square of a vector length by design, Gram matrices are positive semi-definite and, thus, 
 their eigenvalues are non-negative.
 
+Left Gram matrix and right Gram matrix have identical eigenvalues
+-----------------------------------------------------------------
+
+Consider a rectangular matrix $A = \begin{pmatrix} 1 && 2 && 3 \\ 4 && 5 && 6 \\ \end{pmatrix}$. We can construct two
+different Gram matrices from it: 
+
+$A^T A = \begin{pmatrix} 1 && 4 \\ 2 && 5 \\ 3 && 6 \\ \end{pmatrix} \cdot \begin{pmatrix} 1 && 2 && 3 \\ 4 && 5 && 6 \\ \end{pmatrix}$ of dimensionality $3$ x $3$ and non-full rank 2
+
+$A A^T = \begin{pmatrix} 1 && 2 && 3 \\ 4 && 5 && 6 \\ \end{pmatrix} \cdot \begin{pmatrix} 1 && 4 \\ 2 && 5 \\ 3 && 6 \\ \end{pmatrix}$ of dimensionality $2$ x $2$ and full rank 2.
+
+However, both of these matrices have identical eigenvalues. To see this, let us assume that we can always find a decomposition:
+
+$A = U \Sigma V^T = \begin{pmatrix} u_{1,1} && u_{2,1} && u_{3,1} \\ u_{1,2} && u_{2,2} && u_{2,3} \\ u_{3,1} && u_{3,2} && u_{3,3} \end{pmatrix} \cdot \begin{pmatrix} \sigma_1 && 0 \\ 0 && \sigma_2 \\ 0 && 0 \\ \end{pmatrix} \cdot \begin{pmatrix} v_{1,1} && v_{1,2} \\ v_{2,1} && v_{2,2} \end{pmatrix}$
+
+
+
+Then $A^T = V \Sigma U^T$ and:
+
+$A^T A = V \Sigma U^T U \Sigma V^T = V \Sigma^2 V^T$
+
+$A A^T = U \Sigma V^T V \Sigma U^T = U \Sigma^2 U^T$
+
+In both cases of $A^T A$ and $AA^T$ this decomposition is in accordance with properties of a Gram matrix being symmetric and positive-semidefinite: the eigenvectors of both matrices are orthogonal and eigenvalues are non-negative.
+
+When I write $\Sigma^2$ note a notation abuse here: in reality we are multiplying rectangular matrices and resulting matrices $\Sigma^2$ are of different dimensionality. In $AA^T$ we call $\Sigma^2$ a $3$x$3$ matrix:
+
+$\Sigma^2 = \begin{pmatrix} \sigma_1 && 0 \\ 0 && \sigma_2 \\ 0 && 0 \\ \end{pmatrix} \cdot \begin{pmatrix} \sigma_1 && 0 && 0 \\ 0 && \sigma_2 && 0 \\ \end{pmatrix} = \begin{pmatrix} \sigma_1^2 && 0 && 0 \\ 0 && \sigma_2^2 && 0 \\ 0 && 0 && 0 \\ \end{pmatrix}$.
+
+In $A^T A$ we call $\Sigma^2$ a $2$x$2$ matrix:
+
+$\Sigma^2 = \begin{pmatrix} \sigma_1 && 0 && 0 \\ 0 && \sigma_2 && 0 \\ \end{pmatrix} \cdot \begin{pmatrix} \sigma_1 && 0 \\ 0 && \sigma_2 \\ 0 && 0 \\ \end{pmatrix} = \begin{pmatrix} \sigma_1^2 && 0 \\ 0 && \sigma_2^2 \end{pmatrix}$
+
+
+
+Connection between left and right singular vectors
+--------------------------------------------------
+
 Here comes the key point of SVD: we can express vectors $u_i$ through $v_i$. I will show how, but first take
 note that $u_i$ is a 2-vector, and $v_i$ is a 3-vector. Matrix U has only 2 eigenvalues, while the matrix v has 3. Thus,
 in this example every $u_i$ can be expressed through $u_i$, but not the other way round.

@@ -486,6 +486,7 @@ References
  - http://www.mathnet.ru/php/archive.phtml?wshow=paper&jrnid=at&paperid=11804&option_lang=eng - 1964 Aizerman, Braverman and Rozonoer paper on proto-kernel trick (mostly in Russian)
  - https://users.wpi.edu/~walker/MA3257/HANDOUTS/least-squares_handout.pdf - a nice, but partially wrong text about rank and singularity of Gram matrix and uniqueness/existence of least squares solution
  - https://datascience.stackexchange.com/questions/103382/kernel-trick-derivation-why-this-simplification-is-incorrect/103427#103427 - answer to my question on Stack Overflow
+ - http://www.seas.ucla.edu/~vandenbe/133A/lectures/ls.pdf - good practical examples of least squares with p >> n, non-singular matrix A, ill-conditioned equations etc.
  - https://en.wikipedia.org/wiki/Hilbert_space - one of the best articles on mathematics, I've ever seen on wikipedia
  - https://en.wikipedia.org/wiki/Representer_theorem
  - https://en.wikipedia.org/wiki/Positive-definite_kernel
