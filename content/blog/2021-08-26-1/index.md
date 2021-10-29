@@ -52,23 +52,21 @@ $A A^T = \begin{pmatrix} 1 && 2 && 3 \\ 4 && 5 && 6 \\ \end{pmatrix} \cdot \begi
 
 However, both of these matrices have identical eigenvalues. To see this, let us assume that we can always find a decomposition:
 
-$A = U \Sigma V^T = \begin{pmatrix} u_{1,1} && u_{2,1} && u_{3,1} \\ u_{1,2} && u_{2,2} && u_{2,3} \\ u_{3,1} && u_{3,2} && u_{3,3} \end{pmatrix} \cdot \begin{pmatrix} \sigma_1 && 0 \\ 0 && \sigma_2 \\ 0 && 0 \\ \end{pmatrix} \cdot \begin{pmatrix} v_{1,1} && v_{1,2} \\ v_{2,1} && v_{2,2} \end{pmatrix}$
+$A^T = U \Sigma V^T = \begin{pmatrix} u_{1,1} && u_{2,1} && u_{3,1} \\ u_{1,2} && u_{2,2} && u_{2,3} \\ u_{3,1} && u_{3,2} && u_{3,3} \end{pmatrix} \cdot \begin{pmatrix} \sigma_1 && 0 \\ 0 && \sigma_2 \\ 0 && 0 \\ \end{pmatrix} \cdot \begin{pmatrix} v_{1,1} && v_{1,2} \\ v_{2,1} && v_{2,2} \end{pmatrix}$
 
+Then $A = V \Sigma U^T$ and:
 
+$A A^T = V \Sigma U^T U \Sigma V^T = V \Sigma^2 V^T$
 
-Then $A^T = V \Sigma U^T$ and:
-
-$A^T A = V \Sigma U^T U \Sigma V^T = V \Sigma^2 V^T$
-
-$A A^T = U \Sigma V^T V \Sigma U^T = U \Sigma^2 U^T$
+$A^T A = U \Sigma V^T V \Sigma U^T = U \Sigma^2 U^T$
 
 In both cases of $A^T A$ and $AA^T$ this decomposition is consistent with properties of a Gram matrix being symmetric and positive-semidefinite: the eigenvectors of both matrices are orthogonal and eigenvalues are non-negative.
 
-When I write $\Sigma^2$ note a notation abuse here: in reality we are multiplying rectangular matrices and resulting matrices $\Sigma^2$ are of different dimensionality. In $AA^T$ we call $\Sigma^2$ a $3$x$3$ matrix:
+When I write $\Sigma^2$ note a notation abuse here: in reality we are multiplying rectangular matrices and resulting matrices $\Sigma^2$ are of different dimensionality. In $A^TA$ we call $\Sigma^2$ a $3$x$3$ matrix:
 
 $\Sigma^2 = \begin{pmatrix} \sigma_1 && 0 \\ 0 && \sigma_2 \\ 0 && 0 \\ \end{pmatrix} \cdot \begin{pmatrix} \sigma_1 && 0 && 0 \\ 0 && \sigma_2 && 0 \\ \end{pmatrix} = \begin{pmatrix} \sigma_1^2 && 0 && 0 \\ 0 && \sigma_2^2 && 0 \\ 0 && 0 && 0 \\ \end{pmatrix}$.
 
-In $A^T A$ we call $\Sigma^2$ a $2$x$2$ matrix:
+In $A A^T$ we call $\Sigma^2$ a $2$x$2$ matrix:
 
 $\Sigma^2 = \begin{pmatrix} \sigma_1 && 0 && 0 \\ 0 && \sigma_2 && 0 \\ \end{pmatrix} \cdot \begin{pmatrix} \sigma_1 && 0 \\ 0 && \sigma_2 \\ 0 && 0 \\ \end{pmatrix} = \begin{pmatrix} \sigma_1^2 && 0 \\ 0 && \sigma_2^2 \end{pmatrix}$
 
