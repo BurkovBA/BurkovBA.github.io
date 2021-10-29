@@ -435,7 +435,7 @@ description: "MOST STARTUPS DON'T FAIL BECAUSE THEY CAN'T BUILD THE PRODUCT. MOS
   </p>
   <p>
     David's failures: unsuccessful March Madness promotions, failed ticket giveaways, failed dancing grasshoppers
-    video. Anyways, his channel works for them and they leverage it more than any other.
+    video. Anyway, his channel works for them and they leverage it more than any other.
   </p>
   <h3>Chapter 9. Search Engine Marketing (SEM)</h3>
   <p>

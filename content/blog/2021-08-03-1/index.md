@@ -190,7 +190,7 @@ has absolutely nothing ([1](https://math.stackexchange.com/questions/1099729/ker
 As an example of integral transformation consider a sound signal - you have a WAV-file, which is a function $f(t)$ in the time domain,
 which equals to the air pressure, produced by your headphones at every given moment of time, while they play the signal. WAV-files are typically huge, so you want to compress the singal by
 decomposing the sound into harmonics of various frequencies and sacrificing the very high-frequency ones, as 1) their amplitudes
-are typically very low and 2) human ear can't hear them anyways. This is more or less how [MP3](https://en.wikipedia.org/wiki/MP3) files work and that's why they are much smaller than WAVs. 
+are typically very low and 2) human ear can't hear them anyway. This is more or less how [MP3](https://en.wikipedia.org/wiki/MP3) files work and that's why they are much smaller than WAVs. 
 
 ![spectrogram](spectrogram.jpeg) <center>**A spectrogram of sound from Audacity software**. Air pressure is at the top, amplitudes of harmonics are at the bottom.</center>
 
