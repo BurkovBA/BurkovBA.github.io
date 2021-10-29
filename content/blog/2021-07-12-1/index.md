@@ -81,13 +81,6 @@ The Rayleigh quotient then will take its maximal value, if $Y = (0, 0, ..., \und
 
 Indeed, let $z_i = y_i^2$, then we maximize the sum $\sum \limits_{i=1}^{p} \lambda_i z_i$ for non-negative $z_i$, given constraint $\sum \limits_{i=1}^{p} z_i = const$. Obviously, we reach maximum, if we maximize $z_q$, where $\lambda_q$ is the largest eigenvalue.
 
-Stochastic processes and signal processing perspective
-------------------------------------------------------
-From the standpoint of [Karhunen-Loeve theorem](https://en.wikipedia.org/wiki/Karhunen%E2%80%93Lo%C3%A8ve_theorem), PCA is similar to a Fourier series in digital signal processing - 
-essentially, a way to perform a lossy compression.
-
-TODO
-
 Classical statistics perspective
 --------------------------------
 
@@ -99,7 +92,36 @@ TODO
 SVD perspective
 ---------------
 
-TODO
+As was mentioned previously, PCA works with covariance matrix $\Sigma = X^T X$, where $X$ is our data vectors.
+
+From the technical perspective, this matrix is as a special case of well-known in mathematics Gram matrix. 
+
+Gram matrices are positive semi-definite and symmetric. Moreover, usually they are non-full rank, if $X$ is $n$ x $p$ matrix,
+where $n > p$, which means that although $\Sigma$ has dimensionality $n \times n$, its rank is only $p$ and it has
+only $p$ non-zero eigenvalues.
+
+Hence, a convenient technical way to find the eigenvalues of covariance matrix is Singular Value Decomposition: 
+
+$X = U D V^T$, where $U$ and $V$ are orthogonal $p \times p$ and $n \times n$ matrices, and $D$ is a diagonal
+$n \times p$ matrix of singular values (squares of singular values are eigenvalues of $\Sigma$), where only $p$ elements are non-zero.
+
+For more details on SVD, read [this post](/2021-08-26-1). For more details on properties of Gram matrix - read [this one](/2021-08-03-1).
+
+Stochastic processes and signal processing perspective
+------------------------------------------------------
+From the standpoint of [Karhunen-Loeve theorem](https://en.wikipedia.org/wiki/Karhunen%E2%80%93Lo%C3%A8ve_theorem), PCA is similar to a Fourier series in digital signal processing - 
+essentially, a way to perform a lossy compression.
+
+We can interpret PCA as a decomposition of the input data matrix $X$ into an ordered series of matrices of rank 1, created
+by outer products of principal components. Let us re-write the SVD transform as a series of outer products:
+
+$X = \sum \limits_{i=1}^{p} \lambda_i u_i v_i^T$, where $\lambda_i$ are eigenvalues, $u_i$ are column-vectors of matrix $U$
+and $v_i^T$ are row-vectors of matrix $V^T, so that $u_i v_i^T$ is an outer-product, resulting in a matrix of rank 1.
+
+Each term of this sum contributes more to the resulting data matrix, the larger is the eigenvalue $\lambda_i$ in it. As in
+the case of Fourier transform, if we aim to compress the data, we can truncate the series early, when we believe that enough
+information is already contained in the first $x$ terms of the series. This approach is often used with SVD for data compression - 
+e.g. [eigenfaces](https://www.youtube.com/watch?v=SsNXg6KpLSU) approach, where whole datasets of human photos are compressed by early truncation of SVD series.
 
 Bayesian optimization perspective
 ---------------------------------
