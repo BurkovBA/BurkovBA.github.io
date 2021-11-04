@@ -77,6 +77,37 @@ Hence, for each column of matrix $A^{-1}$ the relative error in its calculation,
 If we assume that all the matrix columns had the same measure, we can directly express Frobenius norm of error of inverse matrix though condition numbers, not the operator/spectral norm.
 
 
+L2-regularization from the condition numbers perspective
+--------------------------------------------------------
+
+In regression problems an L2-regularization is often introduced in order to prevent the explosion of weights of the regression. 
+
+Here is how it works. In regression problems we look for weights vector ${\bf w}$ that minimizes the sum of squares:
+
+${\bf \hat{w}} = \underset{{\bf w}}{\argmin} \sum \limits_i (y_i - \langle {\bf w}, {\bf x_i} \rangle)^2$
+
+In order to prevent the solution from overfitting, it is a common practice to add an L2-norm Tichonov regularization term:
+
+${\bf \hat{w}} = \underset{{\bf w}}{\argmin} \sum \limits_i (y_i - \langle {\bf w}, {\bf x_i} \rangle)^2 + \lambda || {\bf w} ||^2$
+
+Why this works? Because, upon minimization we take a derivative in each coordinate $w_i$ and end up with the following expression:
+
+$\sum (y_i - {\bf w}^T x_i)x_i = \lambda {\bf w} \implies {\bf w} = (\lambda {\bf I} + \sum \limits_i {\bf x_i} {\bf x_i}^T)^{-1} (\sum \limits_i y_i {\bf x_i})$
+
+Now, if the matrix $C = \sum \limits_i {\bf x_i} {\bf x_i}^T$ is ill-conditioned or even singular (i.e. has 0 eigenvalues), as it might be non-full-rank,
+if the number of elements of sum is less then dimensionality of the vectors $x_i$, its inverse $C^{-1} = (\sum \limits_i {\bf x_i} {\bf x_i}^T)^{-1}$ is either calculated
+with a huge error (if the smallest by absolute value eigenvalue is very little), or just does not exist at all (is the smallest by absolute value eigenvalue is 0, and the matrix is non-full-rank).
+
+Regularization is our salvation for such a problem, because it increments all the eigenvalues by regularization coefficient $\lambda$. Indeed, if $\sigma_i^2$ is an eigenvalue of this matrix, and $v$ is its eigenvector:
+
+$C v = \sigma^2 v$
+
+Then $v$ is still an eigenvector for the regularized matrix C:
+
+$(C + \lambda {\bf I}) v = (\sigma^2 + \lambda) v$
+
+Thus, if $\lambda$ is big enough, the smallest eigenvalue is at least $\lambda$, because all the eigenvalues of matrix $C$ are positive, because it is a Gram matrix, which is symmetric positive-definite.
+
 References
 ----------
  - https://www.phys.uconn.edu/~rozman/Courses/m3511_18s/downloads/condnumber.pdf
@@ -84,3 +115,5 @@ References
  - https://en.wikipedia.org/wiki/Condition_number
  - https://www.sjsu.edu/faculty/guangliang.chen/Math253S20/lec7matrixnorm.pdf - matrix norms, low-rank approximations etc.
  - https://www.scribd.com/document/501501948/Error-Analysis-of-Direct-Methods-of-Matrix-Inversion
+ - https://web2.qatar.cmu.edu/~gdicaro/10315-Fall19/additional/welling-notes-on-kernel-ridge.pdf - Max Welling lecture on KRR mensions the way regularization works
+ - https://www.quora.com/Are-the-eigenvalues-of-a-matrix-unchanged-if-a-constant-is-added-to-each-diagonal-element - addition of regularization increases the eigenvalues
