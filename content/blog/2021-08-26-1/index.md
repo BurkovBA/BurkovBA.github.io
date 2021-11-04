@@ -43,22 +43,56 @@ their eigenvalues are non-negative.
 Left Gram matrix and right Gram matrix have identical eigenvalues
 -----------------------------------------------------------------
 
-Consider a rectangular matrix $A = \begin{pmatrix} 1 && 2 && 3 \\ 4 && 5 && 6 \\ \end{pmatrix}$. We can construct two
+Consider a rectangular matrix $A = \begin{pmatrix} 1 && 4 \\ 2 && 5 \\ 3 && 6 \\ \end{pmatrix}$. We can construct two
 different Gram matrices from it: 
 
-$A^T A = \begin{pmatrix} 1 && 4 \\ 2 && 5 \\ 3 && 6 \\ \end{pmatrix} \cdot \begin{pmatrix} 1 && 2 && 3 \\ 4 && 5 && 6 \\ \end{pmatrix}$ of dimensionality $3$ x $3$ and non-full rank 2
+$A A^T = \begin{pmatrix} 1 && 4 \\ 2 && 5 \\ 3 && 6 \\ \end{pmatrix} \cdot \begin{pmatrix} 1 && 2 && 3 \\ 4 && 5 && 6 \\ \end{pmatrix}$ of dimensionality $3$ x $3$ and non-full rank 2
 
-$A A^T = \begin{pmatrix} 1 && 2 && 3 \\ 4 && 5 && 6 \\ \end{pmatrix} \cdot \begin{pmatrix} 1 && 4 \\ 2 && 5 \\ 3 && 6 \\ \end{pmatrix}$ of dimensionality $2$ x $2$ and full rank 2.
+$A^T A = \begin{pmatrix} 1 && 2 && 3 \\ 4 && 5 && 6 \\ \end{pmatrix} \cdot \begin{pmatrix} 1 && 4 \\ 2 && 5 \\ 3 && 6 \\ \end{pmatrix}$ of dimensionality $2$ x $2$ and full rank 2.
 
-However, both of these matrices have identical eigenvalues. To see this, let us assume that we can always find a decomposition:
+However, both of these matrices have identical eigenvalues. It is surprisingly easy to see this.
 
-$A^T = U \Sigma V^T = \begin{pmatrix} u_{1,1} && u_{2,1} && u_{3,1} \\ u_{1,2} && u_{2,2} && u_{2,3} \\ u_{3,1} && u_{3,2} && u_{3,3} \end{pmatrix} \cdot \begin{pmatrix} \sigma_1 && 0 \\ 0 && \sigma_2 \\ 0 && 0 \\ \end{pmatrix} \cdot \begin{pmatrix} v_{1,1} && v_{1,2} \\ v_{2,1} && v_{2,2} \end{pmatrix}$
+Suppose that $u_i$ is an eigenvector of $A^T A$ and $\lambda_i$ is its corresponding eigenvalue:
 
-Then $A = V \Sigma U^T$ and:
+$A^T A u_i = \lambda_i u_i$
 
-$A A^T = V \Sigma U^T U \Sigma V^T = V \Sigma^2 V^T$
+Multiply both left and right sides of this expression by $A$:
 
-$A^T A = U \Sigma V^T V \Sigma U^T = U \Sigma^2 U^T$
+$A A^T A u_i = \lambda_i A u_i$
+
+Now from this formula by definition the vector $A u_i$ is an eigenvector for $A A^T$, and $\lambda_i$ is the corresponding eigenvalue.
+
+Hence, the eigenvalues $\Sigma$ are identical for $A A^T$ and $A^T A$, and their eigenvectors are also connected (see next part).
+
+Connection between left and right singular vectors
+--------------------------------------------------
+
+Here comes the key point of SVD: we can express vectors $u_i$ through $v_i$. I will show how, but first take
+note that $u_i$ is a 2-vector, and $v_i$ is a 3-vector. Matrix U has only 2 eigenvalues, while the matrix v has 3. Thus,
+in this example every $u_i$ can be expressed through $u_i$, but not the other way round.
+
+Now let us show that $u_i = \frac{Av_i}{\sigma_i}$, where $\sigma_i = \sqrt{\lambda_i}$ are singular values of matrix $A$. Indeed:
+
+$AA^T u_i = A A^T \frac{A v_i}{\sigma_i} = A (A^TA v_i) \frac{1}{\sigma_i} = A \sigma_i^2 v_i \frac{1}{\sigma_i} = \sigma_i^2 u_i = \lambda_i u_i$
+
+If we re-write $u_i = \frac{Av_i}{\sqrt{\lambda_i}}$ in matrix form, we get: 
+
+$U = A V \Sigma^{-1}$ or, equivalently, $U \Sigma = A V$, or $A = U \Sigma V^T$.
+
+This proves that singular value decomposition exists if matrices $A^TA$ and $AA^T$ have eigenvalue decomposition.
+
+Clarification of notation for eigenvalues matrix
+------------------------------------------------
+
+Let us assume that we can always find a decomposition:
+
+$A = U \Sigma V^T = \begin{pmatrix} u_{1,1} && u_{2,1} && u_{3,1} \\ u_{1,2} && u_{2,2} && u_{2,3} \\ u_{3,1} && u_{3,2} && u_{3,3} \end{pmatrix} \cdot \begin{pmatrix} \sigma_1 && 0 \\ 0 && \sigma_2 \\ 0 && 0 \\ \end{pmatrix} \cdot \begin{pmatrix} v_{1,1} && v_{1,2} \\ v_{2,1} && v_{2,2} \end{pmatrix}$
+
+Then $A^T = V \Sigma U^T$ and:
+
+$A^T A = V \Sigma U^T U \Sigma V^T = V \Sigma^2 V^T$
+
+$A A^T = U \Sigma V^T V \Sigma U^T = U \Sigma^2 U^T$
 
 In both cases of $A^T A$ and $AA^T$ this decomposition is consistent with properties of a Gram matrix being symmetric and positive-semidefinite: the eigenvectors of both matrices are orthogonal and eigenvalues are non-negative.
 
@@ -71,23 +105,6 @@ In $A A^T$ we call $\Sigma^2$ a $2$x$2$ matrix:
 $\Sigma^2 = \begin{pmatrix} \sigma_1 && 0 && 0 \\ 0 && \sigma_2 && 0 \\ \end{pmatrix} \cdot \begin{pmatrix} \sigma_1 && 0 \\ 0 && \sigma_2 \\ 0 && 0 \\ \end{pmatrix} = \begin{pmatrix} \sigma_1^2 && 0 \\ 0 && \sigma_2^2 \end{pmatrix}$
 
 
-
-Connection between left and right singular vectors
---------------------------------------------------
-
-Here comes the key point of SVD: we can express vectors $u_i$ through $v_i$. I will show how, but first take
-note that $u_i$ is a 2-vector, and $v_i$ is a 3-vector. Matrix U has only 2 eigenvalues, while the matrix v has 3. Thus,
-in this example every $u_i$ can be expressed through $u_i$, but not the other way round.
-
-Now let us show that $u_i = \frac{Av_i}{\sigma_i}$, where $\sigma_i$ are singular values of matrix $U$ (). Indeed:
-
-$AA^T u_i = A A^T \frac{A v_i}{\sigma_i} = A (A^TA v_i) \frac{1}{\sigma_i} = A \sigma_i^2 v_i \frac{1}{\sigma_i} = \sigma_i^2 u_i$
-
-If we re-write $u_i = \frac{Av_i}{\lambda_i}$ in matrix form, we get: 
-
-$U = A V \Sigma^{-1}$ or, equivalently, $U \Sigma = A V$, or $A = U \Sigma V^T$.
-
-This proves that singular value decomposition exists if matrices $A^TA$ and $AA^T$ have eigenvalue decomposition.
 
 Matrix norms from singular values perspective
 ---------------------------------------------
@@ -123,7 +140,7 @@ $A = \sum \limits_{i=1}^{min(m,n)} \sigma_i u_i v_i^T = \sigma_1 \cdot \begin{pm
 
 Here's the catch: as singular values are ordered in decreasing order, we can use SVD as a means of compression of our data.
 
-If we take only a subset of first $k$ elements of our SVD sum, instead of the full $min{m,n}$ elements, it is very likely that we would preserve most of the information, contained in our data, but
+If we take only a subset of first $k$ elements of our SVD sum, instead of the full $min(m,n)$ elements, it is very likely that we would preserve most of the information, contained in our data, but
 represent it with only a limited number of eigenvectors. This feels very similar to Fourier series. This is also a reason,
 why PCA works (it is basically a special case of SVD).
 
@@ -139,3 +156,4 @@ References
  - https://www.diva-portal.org/smash/get/diva2:900592/FULLTEXT01.pdf - a great thesis on dynamic systems sparse model discovery
  - https://www.youtube.com/watch?v=DvbbXX8Bd90 - video on dynamic systems sparse model discovery
  - https://www.quora.com/What-is-the-significance-of-the-nuclear-norm - references to the meaning of nuclear norm
+ - https://stats.stackexchange.com/questions/192214/prove-that-xx-top-and-x-top-x-have-the-same-eigenvalues - identical eigenvalues of left and right Gram matrices
