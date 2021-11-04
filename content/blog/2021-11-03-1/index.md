@@ -18,7 +18,9 @@ Let us compare the probability densities of observing the dataset $X$ (e.g. 5 pa
 
 $\Phi = \begin{pmatrix} \varphi_1(x_1) && \varphi_2(x_1) && ... && \varphi_n(x_1) \\ \varphi_1(x_2) && \varphi_2(x_2) && ... && \varphi_n(x_2) \\ ... && ... && ... && ... \\ \varphi_1(x_p) && \varphi_2(x_p) && ... && \varphi_n(x_p) \\ \end{pmatrix}$
 
-$K = \Phi \Phi^T$
+$K = \Phi \Phi^T = \begin{pmatrix} \varphi_1(x_1) && \varphi_2(x_1) && ... && \varphi_n(x_1) \\ \varphi_1(x_2) && \varphi_2(x_2) && ... && \varphi_n(x_2) \\ ... && ... && ... && ... \\ \varphi_1(x_p) && \varphi_2(x_p) && ... && \varphi_n(x_p) \\ \end{pmatrix} \cdot \begin{pmatrix} \varphi_1(x_1) && \varphi_1(x_2) && ... && \varphi_1(x_p) \\ \varphi_2(x_1) && \varphi_2(x_2) && ... && \varphi_2(x_p) \\ ... && ... && ... && ... \\ \varphi_n(x_1) && \varphi_n(x_2) && ... && \varphi_n(x_p)  \end{pmatrix} = $
+
+$ = \begin{pmatrix} \langle {\bf \varphi}(x_1), {\bf \varphi}(x_1) \rangle && \langle {\bf \varphi}(x_1), {\bf \varphi}(x_2) \rangle && ... &&  \langle {\bf \varphi}(x_1), {\bf \varphi}(x_p) \rangle       \\      \langle {\bf \varphi}(x_2), {\bf \varphi}(x_1) \rangle && \langle {\bf \varphi}(x_2), {\bf \varphi}(x_2) \rangle && ... &&  \langle {\bf \varphi}(x_2), {\bf \varphi}(x_p) \rangle     \\      ... && ... && ... &&  ...     \\     \\      \langle {\bf \varphi}(x_p), {\bf \varphi}(x_1) \rangle && \langle {\bf \varphi}(x_p), {\bf \varphi}(x_2) \rangle && ... &&  \langle {\bf \varphi}(x_p), {\bf \varphi}(x_p) \rangle \end{pmatrix}$
 
 For KRR:
 
