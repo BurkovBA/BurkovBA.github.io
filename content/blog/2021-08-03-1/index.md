@@ -105,7 +105,6 @@ If we were to solve $\begin{pmatrix} 1 && 1 \\ 1 && 1 \end{pmatrix} \cdot \begin
 
 If we were to solve $\begin{pmatrix} 1 && 1 \\ 1 && 1 \end{pmatrix} \cdot \begin{pmatrix} x \\ y \end{pmatrix} = \begin{pmatrix} 2 \\ 2 \end{pmatrix}$, this system has a whole line of solutions $y = 2 - x$.
 
-
 Expression $(X^T X)^{-1} \cdot X^T$ is called Moore-Penrose pseudo-inverse matrix.
 
 The $n$ x $n$ matrix $C = X^T X = \begin{pmatrix} x_{1,1} && x_{p,1} \\ x_{1,2} && x_{p,2} \\ ... && ... \\ x_{1,n} && x_{p,n} \\ \end{pmatrix} \cdot \begin{pmatrix} x_{1,1} && x_{1,2} && ... && x_{1,n} \\ x_{p,1} && x_{p,2} && ... && x_{p,n} \end{pmatrix}$ is often called a covariance matrix.
@@ -135,15 +134,36 @@ Moreover, if both $\Phi^T \Phi$ and $\Phi \Phi^T$ were invertible, our [pseudo-i
 
 $(\Phi^T \Phi)^{-1} \Phi^T = \Phi^T (\Phi \Phi^T)^{-1}$
 
-$h({\bf \varphi({\bf x_i})}) = {\bf \varphi(x_i)} \cdot \Phi^T (\Phi \Phi^T)^{-1} {\bf y} = K_i K^{-1} {\bf y}$
+Denote kernel matrix $K = \Phi \Phi^T$. Each element of that matrix $K_{i,j}$ can be expressed as $K_{i,j} = \langle \varphi(x_i), \varphi(x_j) \rangle$. Then:
 
-Denote kernel matrix $K = \Phi \Phi^T$. Each element of that matrix $K_{i,j}$ can be expressed as $K_{i,j} = \langle \varphi(x_i), \varphi(x_j) \rangle$. Let us denote $K^{-1} {\bf y}$ as a column p-vector $\bf \alpha$.
+$h({\bf \varphi({\bf x_i})}) = {\bf \varphi(x_i)} \cdot \Phi^T (\Phi \Phi^T)^{-1} {\bf y} = K_i K^{-1} {\bf y}$
 
 Our ${\bf \varphi(x_i)} \Phi^T$ is a row p-vector, corresponding to a single row of matrix $K$, $K_i = (\langle \varphi(x_i), \varphi(x_1) \rangle, \langle \varphi(x_i), \varphi(x_2) \rangle, ..., \langle \varphi(x_i), \varphi(x_p) \rangle)$.
 
-Hence, our $h({\bf \varphi({\bf x_i})}) = {\bf \varphi(x_i)} \cdot \Phi^T (\Phi \Phi^T)^{-1} {\bf y} = \sum \limits_{j=1}^{p} \alpha_j \langle \varphi(x_i), \varphi(x_j) \rangle = \sum \limits_{j=1}^{p} \alpha_j K_{i, j}$.
+Multiplication of a vector $K_i$ by inverse matrix $K^{-1}$ results in a one-hot vector (where every coodinate is 0, except by i-th, which is 1). 
 
+Thus, anticlimactically, $h({\bf \varphi({\bf x_i})}) = y_i$. For previously unobserved data points $x_{p+1}$, though, it would produce meaningful results. However, in reality $n \neq p$, and one of the matrices $\Phi \Phi^T$ or $\Phi^T \Phi$ is usually singular and cannot be inverted. This case is considered later.
 
+Another notation convention is to denote $K^{-1} {\bf y}$ as a column p-vector $\bf \alpha$. Hence, our $h({\bf \varphi({\bf x_i})}) = {\bf \varphi(x_i)} \cdot \Phi^T (\Phi \Phi^T)^{-1} {\bf y} = \sum \limits_{j=1}^{p} \alpha_j \langle \varphi(x_i), \varphi(x_j) \rangle = \sum \limits_{j=1}^{p} \alpha_j K_{i, j}$.
+
+Tikhonov (L2) regularization and Woodbury-Sherman-Morrison formula
+------------------------------------------------------------------
+
+In reality, the number of samples in your data matrix $p$ is rarely equal to the number of factors/features $n$. 
+
+In case of kernel ridge regression, for many kernels the number of features is infinite (see RBF kernel example below).
+
+If $n \gg p$, $\Phi^T \Phi$ is a non-full rank matrix with lots of zero eigenvalues, thus, its inverse $(\Phi^T \Phi)^{-1}$ does not exist. 
+
+However, in order to overcome this problem, we can add a Tikhonov regularization term: $(\lambda I + \Phi^T \Phi)$, effectively increasing all the matrix  eigenvalues by $\lambda$ and thus making it invertible.
+
+After that we apply [Woodbury-Sherman-Morrison formula](https://en.wikipedia.org/wiki/Woodbury_matrix_identity) to invert the regularized matrix and express the solution of kernel ridge regression through kernel matrix $K$:
+
+$h(\varphi({\bf x_i})) = \varphi({\bf x_i}) \cdot (\lambda I + \Phi^T \Phi)^{-1} \Phi^T \cdot {\bf y} = \varphi({\bf x_i}) \cdot \Phi^T (\Phi \Phi^T + \lambda I)^{-1} \cdot {\bf y} = K_i \cdot (K + \lambda I)^{-1} \cdot {\bf y}$
+
+So, yes, if not for the regularization term, this formula would've just selected $y_i$ from outputs vector as an estimate of $h(\varphi(x_i))$. However, addition of regularization to the kernel matrix complicates this expression.
+
+Anyway, we end up with an explicit solution of KRR through kernel matrix $K$ and regression outputs ${\bf y}$ and through mathematical magic avoid (possibly infinite-dimensional) feature space vectors $\varphi({\bf x_i})$.
 
 Example: Radial Basis Functions (RBF) kernel
 --------------------------------------------
@@ -487,6 +507,10 @@ References
  - https://users.wpi.edu/~walker/MA3257/HANDOUTS/least-squares_handout.pdf - a nice, but partially wrong text about rank and singularity of Gram matrix and uniqueness/existence of least squares solution
  - https://datascience.stackexchange.com/questions/103382/kernel-trick-derivation-why-this-simplification-is-incorrect/103427#103427 - answer to my question on Stack Overflow
  - http://www.seas.ucla.edu/~vandenbe/133A/lectures/ls.pdf - good practical examples of least squares with p >> n, non-singular matrix A, ill-conditioned equations etc.
+ - https://gregorygundersen.com/blog/2020/01/06/kernel-gp-regression/ - Gregory Gunderson on kernel ridge regression comparison with Gaussian processes and on Woodbury identitiy derivation
+ - https://gregorygundersen.com/blog/2018/11/30/woodbury/ - Gregory Gunderson on Woodbury identity
+ - https://web2.qatar.cmu.edu/~gdicaro/10315-Fall19/additional/welling-notes-on-kernel-ridge.pdf - Max Welling on kernel ridge regression, regularization and Woodbury-Sherman-Morrison identity
+ - https://www.quora.com/Are-the-eigenvalues-of-a-matrix-unchanged-if-a-constant-is-added-to-each-diagonal-element - why L2 regularisation makes the matrix non-singular
  - https://www.chebfun.org/examples/stats/MercerKarhunenLoeve.html - a post on Mercer kernel and Karhunen-Loeve expansion
  - https://en.wikipedia.org/wiki/Hilbert_space - one of the best articles on mathematics, I've ever seen on wikipedia
  - https://en.wikipedia.org/wiki/Representer_theorem
