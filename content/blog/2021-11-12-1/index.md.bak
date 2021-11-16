@@ -1,0 +1,43 @@
+---
+title: Support Vector Machines
+date: "2021-11-12T00:00:00.284Z"
+tags: ["math"]
+cover: "./SVM.png"
+description: The idea of Support Vector Machines was exported to the western world by Vladimir Vapnik, who worked at the Institute of Control Sciences in Moscow for 3 decades. This institute produced several ideas, such as the original kernel trick by Aizerman, Braverman and Rozonoer, and Vapnik-Chervonenkis theory. In this post I will briefly consider the theory behind SVMs. 
+---
+
+
+Problem statement
+-----------------
+
+Suppose that we have a number of data points in some space $\mathbb{R^n}$. Each point belongs either to class 1 or class 2.
+
+We aim to find a hyperplane that works as a binary classifier and splits the whole set of points into 2 subsets. Moreover, it achieves the largest margin between the two classes of data points that it separates.
+
+The predictor variables form a n-by-p matrix $X$ (where each or $n$ rows $\bf x_i$ corresponds to one person and each of $p$ columns is a predictor), the results are vector ${\bf y}$, the coordinates of normal vector, orthogonal to the hyperplane, we are looking for, are $w_i$, and the vertical shift of the hyperplane is $w_0$.
+
+Note that any shift in coordinates $x_{i,j}$ for any j=1...p can be achieved by a vertical shift, and is simply equivalent to a change of the coefficient $w_0$.  
+
+Projection of a data point ${\bf x_i} = (x_{i,1}, x_{i, 2}, ..., x_{i, p})$ onto the normal vector $\bf w$ is an inner product, that can lie above or below the hyperplane.
+
+The hyperplane shall be selected in such a way that all the points of class 1 are above the hyperplane and all the points of class 2 are below it. Moreover, it should be selected in such a way that the nearest to it points of classes 1 and 2 are at a maximum distance from each other.
+
+
+Problem solution: Lagrange multipliers and quadratic programming
+----------------------------------------------------------------
+
+TODO
+
+References
+----------
+
+ - http://web.mit.edu/6.034/wwwbob/svm-notes-long-08.pdf - an outstanding SVM guide for Village Idiots as myself and R.Berwick
+ - https://web.stanford.edu/~hastie/Papers/svmtalk.pdf - Trevor Hastie talk on SVMs
+ - http://www.cs.toronto.edu/~kswersky/wp-content/uploads/svm_vs_lr.pdf - Kevin Swersky talk on SVMs
+ - https://towardsdatascience.com/unlocking-the-true-power-of-support-vector-regression-847fd123a4a0 - SVR post at towardsdatascience medium
+ - https://en.wikipedia.org/wiki/Support-vector_machine
+ - https://scikit-learn.org/stable/auto_examples/miscellaneous/plot_kernel_ridge_regression.html
+ - https://en.wikipedia.org/wiki/Quadratic_programming
+ - https://arxiv.org/abs/1607.06996 - sparse SVR
+ - https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6553498/ - sparse SVR for Omics data
+ - 
