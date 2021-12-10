@@ -2,7 +2,7 @@
 title: Normal matrices - unitary/orthogonal vs hermitian/symmetric
 date: "2021-08-13T00:00:00.284Z"
 tags: ["math"]
-cover: "./unitary.png"
+cover: "./unitary_superresolution.png"
 description: Both orthogonal and symmetric matrices have orthogonal eigenvectors matrices. If we look at orthogonal matrices from the standpoint of outer products, as they often do in quantum mechanics, it is not immediately obvious, why they are not symmetric. The demon is in complex numbers - for symmetric matrices eigenvalues are real, for orthogonal they are complex. 
 ---
 
