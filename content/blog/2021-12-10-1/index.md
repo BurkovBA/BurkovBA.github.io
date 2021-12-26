@@ -49,10 +49,15 @@ or, in short notation:
 
 $\begin{pmatrix} Q && A^T \\ A && 0 \end{pmatrix} \begin{pmatrix} \bf{x} \\ \bf{\lambda} \end{pmatrix} = \begin{pmatrix} \bf{b} \\ \bf{c} \end{pmatrix}$
 
-The solution is, thus, straightforward.
+Thus, solution is straightforward.
+
+
 
 References
 ----------
- - https://www.math.uh.edu/~rohop/fall_06/Chapter3.pdf
+ - https://www.math.uh.edu/~rohop/fall_06/Chapter3.pdf - great paper on square programming techniques
+ - http://www.apmath.spbu.ru/cnsa/pdf/monograf/Numerical_Optimization2006.pdf - a magnum opus on numerical optimization by Wright and Nocedal
+ - http://www.ccgalberta.com/ccgresources/report13/2011-113_comparing_optimization_methods.pdf - on sequential quadratic programming compared to gradient descent and interior point method
  - http://www.mathnet.ru/links/b3b151bdcecb5b2554cc126c89a4373e/zvmmf5189.pdf - soviet paper on solution of quadratic programming
  - https://ru.wikipedia.org/wiki/%D0%9A%D0%B2%D0%B0%D0%B4%D1%80%D0%B0%D1%82%D0%B8%D1%87%D0%BD%D0%BE%D0%B5_%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5 - Russian wikipedia
+ - https://en.wikipedia.org/wiki/Taylor%27s_theorem - Taylor's series derivation in univariate and multivariate cases
