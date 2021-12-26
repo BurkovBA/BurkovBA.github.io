@@ -3,7 +3,7 @@ title: DeepMind AlphaFold2 analysis
 date: "2021-12-25T00:00:00.284Z"
 tags: ["math", "programming", "biomed"]
 cover: "./AF2_bird_eye_view.png"
-description: Two years after the initial breakthrough, DeepMind released the second version of its revolutionary system for protein 3D structure prediction. This time they have basically solved the problem that was holding for over 50 years. These are notes from my detailed talk on the basics of DeepMind AlphaFold2 system.
+description: Two years after the initial breakthrough, DeepMind released the second version of its revolutionary system for protein 3D structure prediction. This time they have basically solved the 3D structure prediction problem that used to hold for over 50 years. These are the notes from my detailed talk on the basics of DeepMind AlphaFold2 system.
 ---
 
 ## Contents
@@ -60,7 +60,7 @@ description: Two years after the initial breakthrough, DeepMind released the sec
 * Use OpenMM to relax the obtained 3D structure with physics-based methods.
 * Recycle the structure thrice.
 
-![AlphaFold2 pipeline from bird's eye view](./AF2_bird_eye_view.png)<center>**AlphaFold2 pipelines from bird's eye view**</center>.
+![AlphaFold2 pipeline from bird's eye view](./AF2_bird_eye_view.png)<center>**AlphaFold2 pipelines from bird's eye view.**</center>
 
 # Evoformer module
 
@@ -330,9 +330,9 @@ class MultiHeadedAttention(nn.Module):
 
 ## Evoformer: Pair representation update from updated MSA representation via outer product mean
 
-![Outer product mean](./outer_product_mean.png)<center>**Outer product mean**</center>
+![Outer product mean](./outer_product_mean.png)
 
-![MSA transition block](./msa_transition.png)<center>**MSA transition block**</center>
+![MSA transition block](./msa_transition.png)
 
 # Evoformer: Triangle inequalities as natural constraints for pair distances
 
@@ -340,11 +340,11 @@ class MultiHeadedAttention(nn.Module):
 * From the ML engineering standpoint triangle inequalities are implemented as soft constraints rather than hard constraints.
 * Initially triangle updates using outgoin/incoming edges were devised as a frugal alternative to triangle self-attention blocks. Either of these modules could be removed, and resulting model still performs well. However, SOTA is achieved when both modules are present.
 
-![Triangular multiplicative update](./triangular_multiplicative_update.png)<center>**MSA triangular update**</center>
+![Triangular multiplicative update](./triangular_multiplicative_update.png)
 
-![Triangular self-attention](./triangular_self_attention.png)<center>**Triangular self-attention**</center>
+![Triangular self-attention](./triangular_self_attention.png)
 
-![Triangular row-wise attention visualization](./row_wise_attention_visualisation.png)<center>**Triangular row-wise self-attention visualization**</center>
+![Triangular row-wise attention visualization](./row_wise_attention_visualisation.png)
 
 > In this section we are going to analyse a small subset of the attention patterns we see in the main part of
 > the model. This will be restricted to relatively short proteins with fairly shallow MSA’s in order for easier
@@ -380,7 +380,7 @@ class MultiHeadedAttention(nn.Module):
 
 ![Torsion angles in peptide chain](./torsion_angles.jpeg)<center>**Torsion angles in peptide chain**</center>
 
-![Invariant point attention (IPA)](./torsion_angles.jpeg)<center>**Invariant Point Attention (IPA)**</center>
+![Invariant point attention (IPA)](./IPA.png)
 
 ## Refinement a.k.a. "recycling" 
 
@@ -410,7 +410,7 @@ The algorithm is iterated a few times by treating the student as a teacher to re
 
 Noisy Student Training seeks to improve on self-training and distillation in two ways. First, it makes the student larger than, or at least equal to, the teacher so the student can better learn from a larger dataset. Second, it adds noise to the student so the noised student is forced to learn harder from the pseudo labels. To noise the student, it uses input noise such as RandAugment data augmentation, and model noise such as dropout and stochastic depth during training.
 
-![Noisy Student Training](./noisy_student_training.png)<center>**Noisy Student Training**</center>
+![Noisy Student Training](./noisy_student_training.png)
 
 ### BERT-like prediction of MSA positions
 Self-supervised approach, simliar to BERT approach. 
