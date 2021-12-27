@@ -352,7 +352,7 @@ We will walk through each part of Evoformer now.
 MSA update part of Evoformer uses an approach, called axial or criss-cross attention. It was suggested in visual transformers circa 2020.
 In visual transformers attention needs to be applied to each pixel of an image, and using the full 2D image as keys would be computationally inefficient.
 
-A frugal alternative to full 2D attention, is to first attend all pixels in the same row as the query pixel and then attends all pixels in the same column.
+A frugal alternative to full 2D attention, is to first attend to all pixels in the same row as the query pixel and then attends all pixels in the same column.
 Same approach was employed here by evoformer. It first attends to other aminoacid residues in the same sequence (which is called row-wise gated self-attention), and then
 residues from other sequences in the same column (column-wise gated self-attention).
 
@@ -462,15 +462,16 @@ The visualizations of attention maps from triangle self-attention heads are very
 
 In the row (a) we see convolution patterns of radius 4 (diameter 8) residues. For instance, the distance between residues 14 and 15 depends on
 distances between residues 14-16 and 14-17 and 14-13, 14-12 and 14-11. Authors speculate, that this head identified the
-alpha-helix in proteins, where the step of spiral is 4 residues, which interact with hydrogen bonds. 
+alpha-helices in proteins, which are spiral structures created by hydrogen bonds between i-th and (i+4)-th atoms, which might correspond to the patterns,
+observed on this attention head.
 
 In the row (b) we see that every distance between residues 14-1, 14-2, ..., 14-100 is affected by the length of 14-28 and 14-80 bonds.
-Authors explain that residues 14, 28 and 80 are all cysteine, and they can form di-sulfide bonds. Thus, such bonds would affect
+Authors explain that residues 14, 28 and 80 are all cysteine, and they can form disulfide SS-bonds. Thus, such bonds would affect
 the lengths of all other bonds, and attention heads have learnt to recognize this.
 
 Finally, the row (c) suggests that even moderately deep layers of Evoformer, such as 11th, already have a good idea of the overall
-protein 3D structure/pair representation. Compare their attention maps to the true CA-CA distances (top rightmost picture). This 
-understanding is supported by the lowest plot in ablation study, suggesting that for simpler proteins the concept of 3D structure
+protein 3D structure/pair representation. Compare these attention maps to the true CA-CA distances (rightmost picture in the top row). This 
+theory is supported by the lowest plot in ablation study, suggesting that for simpler proteins the concept of 3D structure already
 shapes up by 10th-20th layers of Evoformer.
 
 ![Triangular row-wise attention visualization](./row_wise_attention_visualisation.png)
@@ -556,18 +557,21 @@ optimum).
 
 ## Refinement a.k.a. "recycling" 
 
-However, all this structural bioinformatics savviness could go to the trash can entirely, because as ablation study shows,
-if refinement/recycling procedure is kept, but IPA is removed, AlphaFold2 performs pretty well. Actually if you remove
-refinement and keep IPA, it works worse than if you remove IPA and keep refinement!
+However, all this structural bioinformatics savviness, as ablation study shows, is less valuable than
+refinement/recycling procedure. Without IPA, but with refinement AlphaFold2 still performs pretty well. Actually if you remove
+refinement and keep IPA, it works worse than if you remove IPA and keep the refinement!
 
 The ideology of this refinement procedure stems from a computer vision problem of human pose estimation (see [Human Pose Estimation](https://arxiv.org/pdf/1507.06550.pdf) paper).
 
 ![Refinement](./refinement.png)<center>**Refinement**</center>
 
-TODO
+In order to accurately predict the human pose, we start with an image and a default pose, concatenated together as separate channels,
+and let the NN incrementally choose optimal pose update. Apparently, protein backbone prediction does not differ much from human pose estimation.
+
+Again, I feel that just like it happened with triangle inequalities, DeepMind tried 2 alternative approaches to the prediction
+of 3D structure, IPA and refinement, and instead of choosing one, kept both.
 
 ## Self-distillation
-
 Self-distillation is another engineering trick that allowed DeepMind to beat the baseline (see ablation study).
 
 As our dataset clearly contains much more unlabeled data (over 200M sequences) than labeled (less than 200K structures),
@@ -592,9 +596,14 @@ Noisy Student Training seeks to improve on self-training and distillation in two
 
 ![Noisy Student Training](./noisy_student_training.png)
 
-## FAPE loss and auxiliary losses
-The main structural loss function, used in the course of training of AlphaFold2, is called FAPE. However, the loss used for training is a weighted average of the main
-one and auxiliary losses:
+## Frame Aligned Point Error (FAPE) loss and auxiliary losses
+The main structural loss function, used in the course of training of AlphaFold2, is called Frame Aligned Point Error (FAPE). 
+
+Basically, for each residue it measures a "robustified" version of L2-norm of all the heavy atoms, compared to ground truth. And then it sums
+those deviations under L1-norm. Apparently, such approach is more robust to outliers. Interestingly, it is also capable of
+distinguishing between stereoisomers. FAPE can either include or ignore aminoacid radicals and $\chi$ angles.
+
+However, the loss used for training is a weighted average of the main FAPE and auxiliary losses:
 
 * $\mathcal{L}_{FAPE}$ is FAPE loss
 * $\mathcal{L}_{aux}$ is a loss from auxiliary metrics in structure module
@@ -607,7 +616,7 @@ one and auxiliary losses:
 ![AlphaFold2 losses](./AF2_losses.png)<center>**AlphaFold2 losses**</center>
 
 #### Distogram prediction loss
-AF2 tries to predict not only the distances between residues, but also distributions of distances. Again, errors in those distributions are used as auxilliary losses.
+AF2 tries to predict not only the distances between residues, but also distributions of distances, called *distograms*. Again, errors in those distributions are used as auxilliary losses.
 
 #### BERT-like loss for the quality of prediction of MSA positions
 Self-supervised approach, similar to BERT approach.
@@ -638,6 +647,7 @@ Interestingly, the model training requires 20GB video memory, while TPUv3 provid
 * https://github.com/deepmind/alphafold - AlphaFold2 source code
 * https://moalquraishi.wordpress.com/2021/07/25/the-alphafold2-method-paper-a-fount-of-good-ideas/ - blog post by Mohammed Al Quraishi
 * http://nlp.seas.harvard.edu/2018/04/03/attention.html - annotated transformer notebook
+* https://arxiv.org/abs/2002.05202 - "GLU Variants Improve Transformer" paper
 * https://arxiv.org/pdf/1912.00349.pdf - "Not All Attention Is Needed: Gated Attention Network for Sequence Data" paper
 * https://openaccess.thecvf.com/content_ECCV_2018/papers/Pau_Rodriguez_Lopez_Attend_and_Rectify_ECCV_2018_paper.pdf - "Attend and Rectify: a Gated Attention Mechanism for Fine-Grained Recovery." paper
 * https://arxiv.org/pdf/1811.11721v2.pdf - "CCNet: Criss-Cross Attention for Semantic Segmentation" paper
@@ -650,9 +660,6 @@ Interestingly, the model training requires 20GB video memory, while TPUv3 provid
 * https://arxiv.org/pdf/1911.04252.pdf - "Self-training with Noisy Student improves ImageNet classification" paper
 * https://www.biorxiv.org/content/10.1101/2021.02.12.430858v1.full - MSA Transformer paper by Pieter Abbeel
 * https://www.ddw-online.com/media/32/03.sum.the-cost-and-value-of-three-dimensional-protein-structure.pdf - on cost and value of experimental protein 3D structure recovery (2003)
-
-### Additional references, suggested in the course of the talk:
-* https://arxiv.org/abs/2002.05202 - gated attention paper
-* https://t.me/gonzo_ML/787 - gMLP
-* https://blog.inten.to/hardware-for-deep-learning-part-4-asic-96a542fe6a81 - deep learning hardware
-* https://en.wikipedia.org/wiki/High_Bandwidth_Memory - on GPU memory limits
+* https://blog.inten.to/hardware-for-deep-learning-part-4-asic-96a542fe6a81 - awesome longread by Grigory Sapunov of Intento on deep learning hardware
+* https://en.wikipedia.org/wiki/High_Bandwidth_Memory - on GPU memory
+* https://t.me/gonzo_ML/787 - a write-up on gMLP by Grigory Sapunov: gated feed-forward network with a performance comparable to transformers 
