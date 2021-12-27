@@ -1,9 +1,9 @@
 ---
-title: DeepMind AlphaFold2 analysis
+title: How DeepMind AlphaFold2 works?
 date: "2021-12-25T00:00:00.284Z"
 tags: ["math", "programming", "biomed"]
 cover: "./AF2_bird_eye_view.png"
-description: Two years after the initial breakthrough, DeepMind released the second version of its revolutionary system for protein 3D structure prediction. This time they have basically solved the 3D structure prediction problem that used to hold for over 50 years. These are the notes from my detailed talk on the basics of DeepMind AlphaFold2 system.
+description: I believe that DeepMind AlphaFold2 and Github Co-pilot were among the most prolific advances of technology, made in 2021. Two years after their initial breakthrough, DeepMind released the second version of their revolutionary system for protein 3D structure prediction. This time they have basically solved the 3D structure prediction problem that used to hold for over 50 years. These are the notes from my detailed talk on the DeepMind AlphaFold2 system.
 ---
 
 ## Contents
@@ -31,50 +31,70 @@ description: Two years after the initial breakthrough, DeepMind released the sec
 * Training protocol and ablations
 
 ## Problem statement
-* Proteins are linear sequences of monomers - aminoacids - that fold in complex 3D structures. Protein 3D structures are useful for understanding their function and drug discovery. 
-* Reading protein sequences is cheap and can be achieved directly by mass-spectrometry (\\$100 per sample) or indirectly by DNA genome/exome sequencing (\\$100-1000 per sequence). Experimental discovery of 3D structures of proteins is much more expensive (\\$100k-1M per structure) and is done by X-ray crystallography/MRI.
-* Typical pipeline for X ray structure prediction consists of protein crystallizaiton (which is hard for membrane proteins, as they are not very soluble), X ray diffration on the resulting crystal and intepretation of the resulting maps of electron density (which is about 10-20% arbitrary).
-* Protein sequences are available in Uniprot (about 200M proteins) and MGnify databases.
-* Protein structures are available in PDB database (about 200K protein structures).
+Proteins are linear sequences of monomers - aminoacids - that fold into complex 3D structures. Protein 3D structures are useful for understanding their function and drug discovery. 
+
+Reading protein sequences is cheap and can be achieved directly by mass-spectrometry (\$100 per sample) or indirectly by DNA genome/exome sequencing (\$100-1000 per sequence). Experimental discovery of 3D structures of proteins is much more expensive (\$100k-1M per structure) and is done by X-ray crystallography/MRI.
+
+A typical pipeline for X ray structure prediction consists of protein crystallization (which is hard for membrane proteins, as they are not very soluble), X ray diffration on the resulting crystal and interpretation of the resulting maps of electron density. There are about 7 major ways to solve the phase problem (which is a bit of an art),
+and also reconstruction of 3D model from electron density maps is ~10-20% arbitrary (given the same electron density map, two different specialists can produce slightly different structures, especially for low resolution).
+
+Protein sequences are available in [Uniprot](https://www.uniprot.org/) (about 200M proteins) and [MGnify](https://www.ebi.ac.uk/metagenomics/) databases.
+
+Protein structures are available in [PDB](https://www.rcsb.org/) database (about 200K protein structures).
+
 
 ![X-ray crystallography experiment pipeline](./x_ray_crystallography.png)<center>**X-ray crystallography experiment pipeline**.</center>
 
-![Cost and success rate of X-ray crystallography experiment](./cost_and_success_rate_of_x_ray.png)<center>**Cost and success rate of X-ray crystallography experiment**.</center>
+![Cost and success rate of X-ray crystallography experiment](./cost_and_success_rate_of_x_ray.png)<center>**Cost and success rate of X-ray crystallography experiment**. (2003 data)</center>
 
-## AlphaFold2 principle of operation
-* Protein 3D structure prediction *in silico*, based on pure physics, generally can not achieve performance, comparable to experiment. Statistics-based approach proved to be more effective.
-* Oftentimes a protein is conservative in evolution. E.g. human, horse and fish have their own versions of haemoglobin that evolved from the same protein. Such versions of the same protein in different species are called homologues.
-* Evolution is mostly neutral (i.e. most of the mutations don't affect the protein function). Protein structure is more conservative than its sequence. It is typical for a sequence to change by 70% between distant species, while the 3D structure stays more or less the same. Comparison of homologues from different species carries important information and is usually represented as a 2D table, called multiple sequence alignment (MSA). Protein sequences from different species are written in rows, so that corresponding residues end up in the same columns.
-* Conservation of a position in alignment usually implies its importance for protein folding or function (e.g. catalytic activity, interactions with ligands, recognition of binding sites).
-* Co-evolution of two aminoacid residues of a protein often implies interaction between those aminoacids.
+### AlphaFold2 principle of operation
+Protein 3D structure prediction *in silico*, based on pure physics, generally can not achieve performance, comparable to experiment. Statistics-based approach proved to be more effective.
 
-![Coevolution explained](./coevolution_explained.png)<center>**Example of multiple sequence alignment (MSA)**. Sequences of homologues of a protein are written in rows. Corresponding aminoacid residues are written in columns. Alignment provides information on conservation and co-evolution of certain aminoacids in sequences.</center>
+Oftentimes a protein is conservative in evolution. E.g. human, horse and fish have their own versions of haemoglobin that evolved from the same protein. Such versions of the same protein in different species are called *homologues*.
 
-# AlphaFold2 pipeline
-* Use HMMER to find homologues of input sequence in Uniprot and MGnify. Construct mutiple sequence alignment (MSA) of homologues.
-* Optionally use HHpred to find templates of 3D structure of the given protein in PDB. Construct pair representation of distances between residues from 3D structure.
-* Generate MSA embedding.
-* Pass MSA embedding and pair representations on input of an end-to-end transformer-based neural network.
-* Use Evoformer module of neural network to iteratively update MSA embedding and pair representation.
-* Use Structural module of neural network to iteratively predict 3D structure of protein from one sequence of MSA embedding and pair representation.
-* Use OpenMM to relax the obtained 3D structure with physics-based methods.
-* Recycle the structure thrice.
+Evolution is mostly neutral (i.e. most of the mutations don't affect the protein function). Protein structure is more conservative than its sequence. It is typical for a sequence to change by 70% between distant species, while the 3D structure stays more or less the same. Comparison of homologues from different species carries important information and is usually represented as a 2D table, called multiple sequence alignment (MSA). Protein sequences from different species are written in rows, so that corresponding residues end up in the same columns.
+
+Conservation of a position in alignment usually implies its importance for protein folding or function (e.g. catalytic activity, interactions with ligands, recognition of binding sites).
+
+Co-evolution of two aminoacid residues of a protein often implies interaction between those aminoacids. This information can be used as the basis for 3D structure prediction. 
+
+I want to briefly mention the role of metagenomics here: normally, proteins in databases, such as Uniprot, come from organisms that can be cultivated in lab conditions. However, a vast abundance of microorganisms can not be cultivated like that. Instead of trying to identify them and sequence individually, researchers in the 2000s started to follow a different approach. They started to sample various environments (with a soup of microorganisms there) and sequence the bulk of DNA from those samples. Turned out, those "metagenomic" samples contained many more homologues of well-known proteins, than individully sequenced species. These data gave a significant boost to 3D structure prediction programs in the mid-2010s. AlphaFold2 makes use of those data by searching for homologues in MGnify database, used as a complement to Uniprot. 
+
+![Coevolution explained](./coevolution_explained.png)<center>**Example of multiple sequence alignment (MSA)**. Sequences of homologues of a protein from different species are written in rows. Corresponding aminoacid residues are written in columns. Alignment provides information on conservation and co-evolution of certain aminoacids in sequences.</center>
+
+## AlphaFold2 pipeline
+I'll be using the term "AlphaFold2" in two contexts here: in a broad sense is a system that uses multiple external programs and databases in order to predict 3D structures by protein sequences. AlphaFold2 in a narrow sense is a neural network that lies in the heart of this system.
+
+AlphaFold2 as a system takes a protein sequence on input and predicts its 3D structure. In order to do that, it makes use of multiple databases and programs.
+
+First, AF2 uses HMMER software to find homologues of input sequence in sequence databases, Uniprot and MGnify. It makes use of a long-established software package, called HMMER,
+which has been around since early-2000s. HMMER is based on Markov chains/Hidden Markov Models, which revolutionized the field of speech recognition/synthesis in that time, so bioinformaticists have shamelessly stolen this approach. HMMER construct a mutiple sequence alignment (MSA) of our sequence with its homologues, it has found.
+
+AF2 also uses HHpred package to check, whether any of our homologues has a 3D structure available in PDB. If this is the case, the problem of 3D structure reconstruction becomes almost trivial - you just need to use it as a template and model your prediction based on it. However, less than 0.1% proteins are expected to have such a template available.
+
+If 3D structure template was available, AF2 constructs a pair representation of distances between residues in the protein from that template. If it was not available, it initializes a pair representation with some sensible defaults. 
+
+Then AF2 generates vector [embeddings](https://datascience.stackexchange.com/questions/53995/what-does-embedding-mean-in-machine-learning) out of each aminoacid residue of alignment and out of each residue pair in pair representation. I won't dig deeper into how this is done - you can imagine several ways of doing that.
+
+Now comes the core part of AlphaFold2: the end-to-end transformer-based neural network. The network receives embeddings of MSA and pair representation, iteratively updates them in the course of inference, and outputs a 3D structure, based on them.
+
+The network consists of 2 sub-modules: 
+
+* Evoformer module of neural network iteratively updates MSA embedding and pair representation, essentially, detecting patterns of interaction between aminoacids.
+* Structure module of neural network iteratively predicts 3D structure of protein from our input sequence embedding, extracted from the MSA embedding, and pair representation.
+
+After structure module proposed some 3D structure, an additional OpenMM software is used to relax the obtained 3D structure with physics-based methods.
+
+This process is repeated thrice in the course of a process, called recycling.
 
 ![AlphaFold2 pipeline from bird's eye view](./AF2_bird_eye_view.png)<center>**AlphaFold2 pipelines from bird's eye view.**</center>
-
-# Evoformer module
-
-* Consists of 48 identical blocks that take MSA embedding and pair representation on input and produce their refined version as output;
-* Each block consists of 2 attention-based parts: gated axial self-attention part and triangle inequality enforcement part, which are connected by outer product mean;
-
-![Evoformer block](./evoformer.png)<center>**Evoformer block**</center>
 
 ## Attention and transformer architecture
 * Attention mechanism has been popularized circa 2014-2015 for machine translation (e.g. English-to-French)
 * By 2017 it became clear that attention mechanism is a self-sufficient building block, serving as a powerful alternative to both CNN and RNN in both NLP and CV problems, as well as in problems, related to other modalities.
 * This gave rise to purely attention-based architectures, called transformers.
 
-## Scaled dot-product attention
+### Scaled dot-product attention
 * We pass a sentence on input. For each word we generate its embedding. We want to enrich embedding for each word with context information from other words. 
 * Key-value database analogy: queries (Q), keys (K) and values (V). 
 * Each input word's embedding is a query; the output is a weighted sum of this word's embedding with related words embeddings. Weights in this sum reflect some relation between query and key (in the course of training, the neural network learns those relations).
@@ -202,7 +222,7 @@ def attention(query, key, value, mask=None, dropout=None):
     return torch.matmul(p_attn, value), p_attn
 ```
 
-## Multi-head attention
+### Multi-head attention
 Suppose that your queries, keys and values are all identical vectors $X_i = \begin{pmatrix} x_{i,1} \\ x_{i,2} \\ ... \\ x_{i, 256} \end{pmatrix}$, for instance, embeddings of aminoacids.
 
 Let us say that $x_{i,1}$ coordinate reflects aminoacid solubility, $x_{i,2}$ - aminoacid size, $x_{i,3}$ - its positive charge, $x_{i,4}$ - its negative charge.
@@ -281,19 +301,26 @@ class MultiHeadedAttention(nn.Module):
         return self.linears[-1](x)
 ```
 
-# Evoformer: MSA representation update part
+## Evoformer module
+
+* Consists of 48 identical blocks that take MSA embedding and pair representation on input and produce their refined version as output;
+* Each block consists of 2 attention-based parts: gated axial self-attention part and triangle inequality enforcement part, which are connected by outer product mean;
+
+![Evoformer block](./evoformer.png)<center>**Evoformer block**</center>
+
+### Evoformer: MSA representation update part
 
 ![Evoformer](./evoformer.png)<center>**Evoformer**</center>
 
-## Axial (a.k.a criss-cross) attention mechanism in Evoformer
+#### Axial (a.k.a criss-cross) attention mechanism in Evoformer
 * Suggested in visual transformers circa 2020
 * A frugal alternative to CNNs and full 2D attention
 
-## Row-wise gated self-attention
+#### Row-wise gated self-attention
 
 ![Row-wise gated self-attention](./row_wise_self_attention.png)<center>**Row-wise gated self-attention**</center>
 
-## Column-wise gated self-attention
+#### Column-wise gated self-attention
 
 ![column_wise_gated_self_attention](./column_wise_self_attention.png)<center>**Column-wise gated self-attention**</center>
 
@@ -328,13 +355,13 @@ class MultiHeadedAttention(nn.Module):
 > of interventions into the model is a topic of debate in the community, see [127], [128], [129]. A detailed
 > analysis of the generality and predictivity of these attention patterns is beyond the scope of this paper.
 
-## Evoformer: Pair representation update from updated MSA representation via outer product mean
+#### Evoformer: Pair representation update from updated MSA representation via outer product mean
 
 ![Outer product mean](./outer_product_mean.png)
 
 ![MSA transition block](./msa_transition.png)
 
-# Evoformer: Triangle inequalities as natural constraints for pair distances
+#### Evoformer: Triangle inequalities as natural constraints for pair distances
 
 * Triangle inequalities on distances need to be enforced in order to ensure consistency. 
 * From the ML engineering standpoint triangle inequalities are implemented as soft constraints rather than hard constraints.
@@ -374,9 +401,9 @@ class MultiHeadedAttention(nn.Module):
 > Suppl. Material for Jumper et al. (2021): Highly accurate protein structure prediction with AlphaFold 55
 > distance between pairs in the structure (Suppl. Fig. 12d).
 
-# Structural module
+## Structure module
 
-![Structural module](./structural_module.png)<center>**Structural module**</center>
+![Structure module](./structural_module.png)<center>**Structure module**</center>
 
 ![Torsion angles in peptide chain](./torsion_angles.jpeg)<center>**Torsion angles in peptide chain**</center>
 
@@ -390,11 +417,11 @@ Turns out, recycling almost renders IPA unnecessary. Absense of recycling makes 
 
 ![Refinement](./refinement.png)<center>**Refinement**</center>
 
-# Self-distillation
+## Self-distillation
 
 Employs both semi-supervised and self-supervised approaches.
 
-## Noisy Student Training
+### Noisy Student Training
 
 See [Self-training with Noisy Student improves ImageNet classification](https://arxiv.org/pdf/1911.04252v4.pdf) paper. 
 
