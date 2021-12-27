@@ -90,15 +90,24 @@ This process is repeated thrice in the course of a process, called recycling.
 ![AlphaFold2 pipeline from bird's eye view](./AF2_bird_eye_view.png)<center>**AlphaFold2 pipelines from bird's eye view.**</center>
 
 ## Attention and transformer architecture
-* Attention mechanism has been popularized circa 2014-2015 for machine translation (e.g. English-to-French)
-* By 2017 it became clear that attention mechanism is a self-sufficient building block, serving as a powerful alternative to both CNN and RNN in both NLP and CV problems, as well as in problems, related to other modalities.
-* This gave rise to purely attention-based architectures, called transformers.
+As I said, the neural network at the heart of AlphaFold2 is based on transformer architecture and attention mechanism. I will briefly explain those here. Feel free to skip this section, if you are already familiar with attention and transformers.
+
+Attention mechanism has been popularized circa 2014-2015 for machine translation (e.g. English-to-French). At the time state-of-the-art architectures for machine translation were RNN-based. Initially it turned out that addition of translation mechanism improves the quality of translation.
+
+Later on, it turned out that you can get rid of RNN part of the network entirely and just stack attention mechanism layers, achieving performance as good or better, spending 100 times less compute on training. 
+
+By 2017 it became clear that attention mechanism is a self-sufficient building block, serving as a powerful alternative to both CNN and RNN in both NLP and CV problems, as well as in problems, related to other modalities.
+
+Purely attention-based architectures are called transformers. AlphaFold2 Evoformer block, as its name suggests, is a special cases of transformer (actually, structure module is a transformer as well).
 
 ### Scaled dot-product attention
-* We pass a sentence on input. For each word we generate its embedding. We want to enrich embedding for each word with context information from other words. 
-* Key-value database analogy: queries (Q), keys (K) and values (V). 
-* Each input word's embedding is a query; the output is a weighted sum of this word's embedding with related words embeddings. Weights in this sum reflect some relation between query and key (in the course of training, the neural network learns those relations).
-* Each attention layer learns $h$ relations. Each relation is learnt by a separate attention head. In a way, attention heads are similar to convolution filters of CNNs.
+Attention mechanism is formulated in terms of fuzzy search in a key-value database.
+
+Suppose that we have a key-value database (basically, just a python dict), and we supply a query to it, which is a key with typo errors in it. 
+
+We want the database to compare the query to each key, and output a value, which is a weighted average of values, where weight is a measure of similarity between query and key (ideally, the probability that user meant $key_i$ by typing query).
+
+$Attention(q, K, V) = \sum \limits_{i=1}^{N} <q, K_i> V_i$
 
 ```python
 # Suppose that we have a key-value database and implement a fuzzy search in it
@@ -142,9 +151,11 @@ Similarities before softmax: {'Ivanov': 0.8333333333333334, 'Petrov': 0.5, 'Sido
 70.83333333333334
 ```
 
-Let us normalize similarities between queries and keys, so that their sum of weights equals 1:
+The example above was ok, but it has a major drawback: it measure similarities between keys and query, and sum of similarities is more than 1.
 
-$$Attention(Q_i, K_j, V_j) = Softmax(<Q, K>) V_j$$ 
+They can not be interpreted as probabilities. Let us normalize similarities between queries and keys, so that their sum of weights equals 1. We shall use Softmax function for that:
+
+$$Attention(q, K, V) = \sum \limits_{i=1}^{N} Softmax(<q, K_i>) V_i$$ 
 
 where Softmax is given by:
 
@@ -182,15 +193,27 @@ Similarities after softmax: {'Ivanov': 0.4648720549505913, 'Petrov': 0.333095382
 45.94150246338521
 ```
 
+Softmax is basically a multinomial analogue of Sigmoid function. Very much like a logistic regression uses Sigmoid function to convert arbitrary values to [0,1] range, so that they can be used as probabilities, Softmax does the same for multinomial case. Another way to think of Softmax is as a general case of Boltzmann distribution in statistical physics.
+
+Now, I need to make two remarks. 
+
+First, instead of one single query, attention usually receives a list of queries, compares them to keys and returns a weighted average of values for each query.
+
+Second, usually, keys, queries and values are not strings and integers. Usually they are vectors. For vectors we know, how to measure their similarity - cosine distance, or just a dot product (possibly, normalized or scaled).
+
+Here is a depiction of attention mechanism from the classical "Attention is all you need paper" (ignore the optional Mask block on that picture):
+
 ![Scaled dot-product attention](./scaled_dot_product_attention_only.png)<center>**Scaled dot-product attention**</center>
 
-Attention input is a list of 3 queries, 3 keys and 3 values, where each individual query, key and value is an embedding vector of dimensionality e.g. 256. 
+Suppose that attention input is a list of 3 queries, 3 keys and 3 values, where each individual query, key and value is an embedding vector of dimensionality e.g. 256.
 
 $Q = \begin{pmatrix} q_{1,1} && q_{1,2} && ... && q_{1,256} \\ q_{2,1} && q_{2,2} && ... && q_{2,256} \\ q_{3, 1} && q_{3, 2} && ... && q_{3, 256} \end{pmatrix}$,
 
 $K = \begin{pmatrix} k_{1,1} && k_{1,2} && ... && k_{1,256} \\ k_{2,1} && k_{2,2} && ... && k_{2,256} \\ k_{3, 1} && k_{3, 2} && ... && k_{3, 256} \end{pmatrix}$, 
 
 $V = \begin{pmatrix} v_{1,1} && v_{1,2} && ... && v_{1,256} \\ v_{2,1} && v_{2,2} && ... && v_{2,256} \\ v_{3, 1} && v_{3, 2} && ... && v_{3, 256} \end{pmatrix}$, 
+
+Here is a PyTorch implementation of attention mechanism:
 
 ```python
 import torch
@@ -223,11 +246,11 @@ def attention(query, key, value, mask=None, dropout=None):
 ```
 
 ### Multi-head attention
-Suppose that your queries, keys and values are all identical vectors $X_i = \begin{pmatrix} x_{i,1} \\ x_{i,2} \\ ... \\ x_{i, 256} \end{pmatrix}$, for instance, embeddings of aminoacids.
+Suppose that your queries, keys and values are all identical vectors $X_i = \begin{pmatrix} x_{i,1} \\ x_{i,2} \\ ... \\ x_{i, 256} \end{pmatrix}$, for instance, embeddings of aminoacids. When Q,K,V are all identical, the attention mechanism is called *self-attention*.
 
 Let us say that $x_{i,1}$ coordinate reflects aminoacid solubility, $x_{i,2}$ - aminoacid size, $x_{i,3}$ - its positive charge, $x_{i,4}$ - its negative charge.
 
-We may want to extract different relations between your queries and keys. E.g. how interchangeable aminoacids S and D are in different capacities.
+We may want to extract different relations between your queries and keys. E.g. how interchangeable aminoacids S and D are in different capacities?
 
 If we are interested in a small soluble aminoacid, they are quite interchangeable. If we are interested in a charged aminoacid, they are not. 
 
@@ -235,9 +258,11 @@ Let us, e.g, calculate a feature map "charged large aminoacid", which is a 2-vec
 
 $W = \begin{pmatrix} w_{charge,1} && w_{charge,2} && ... && w_{charge,256} \\ w_{size,1} && w_{size,2} && ... && w_{size,256} \\\end{pmatrix} = \begin{pmatrix} 0 && 0 && 1 && -1 && ... \\ 0 && 1 && 0 && 0 && ... \end{pmatrix}$
 
-Each separate relation like this can be described with a separate projection matrix. 
+We shall measure the similarity between queries and keys in the context of this relation as $<q, k> = Softmax(q^TW^T Wk)$.
 
-Projection matrix, followed by attention, is called *attention head* then.
+Each separate relation like this can be described with a separate projection matrix $W_h$. 
+
+Projection matrix, followed by attention mechanism, is called *attention head* then.
 
 For each head $h$ let us denote matrix of projection onto its representation space $W_h$. Suppose that dimensionality of our representation space is 64:
 
@@ -249,13 +274,15 @@ $W_h X_i = \begin{pmatrix} w_{1,1} && w_{1,2} && ... && w_{1,256} \\ w_{2,1} && 
 
 In case of self-attention, we will pass $Q_i = K_i = V_i = W_h X_i$ as inputs to attention mechanism, described above.
 
-![Multi-head attention](./multihead_attention.png)<center>**Multi-head attention**</center>
-
-After application of multihead attention to all the inputs, the results from all heads are concatenated ("Concat" block on the picture). 
+After application of multi-head attention to all the inputs, the results from all heads are concatenated ("Concat" block on the picture). 
 
 Then they are again aggregated into a weighted sum by a matrix multiplication ("Linear" block on the picture).
 
-This was a single attention layer. As a result of its application, each column of matrix $X_i$ is enriched with a weighted sum of its interactions with other columns $X_j$.
+The resulting mechanism is called a single multi-head attention block. Blocks like this are units of a transformer network.
+
+![Multi-head attention](./multihead_attention.png)<center>**Multi-head attention**</center>
+
+This was a single multi-head attention layer. As a result of its application, each column of matrix $X_i$ will be enriched with a weighted sum of its relation with other columns $X_j$ in some aspect. The more layers of multi-head attention we stack, the more complex and high-level relations we shall be able to identify between our protein aminoacid residues.
 
 ```python
 import torch
