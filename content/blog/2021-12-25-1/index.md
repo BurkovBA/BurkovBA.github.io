@@ -74,7 +74,8 @@ AF2 also uses HHpred package to check, whether any of our homologues has a 3D st
 
 If 3D structure template was available, AF2 constructs a pair representation of distances between residues in the protein from that template. If it was not available, it initializes a pair representation with some sensible defaults. 
 
-Then AF2 generates vector [embeddings](https://datascience.stackexchange.com/questions/53995/what-does-embedding-mean-in-machine-learning) out of each aminoacid residue of alignment and out of each residue pair in pair representation. I won't dig deeper into how this is done - you can imagine several ways of doing that.
+Then AF2 generates vector [embeddings](https://datascience.stackexchange.com/questions/53995/what-does-embedding-mean-in-machine-learning) out of each aminoacid residue of alignment and out of each residue pair in pair representation. 
+I won't dig deeper into how this is done - you can imagine several ways of doing that. I'll only notice that if the alignment is too thin, less than 30 sequences, AlphaFold2 won't work well. If the number of sequences is too large, however, this is bad, too, as this slows down the training. So, in such a case sequences in the alignment are clustered and cluster representatives are used. 
 
 Now comes the core part of AlphaFold2: the end-to-end transformer-based neural network. The network receives embeddings of MSA and pair representation, iteratively updates them in the course of inference, and outputs a 3D structure, based on them.
 
@@ -420,7 +421,14 @@ I quote the interpretation of these attention maps in the paper supplementary:
 > of interventions into the model is a topic of debate in the community, see [127], [128], [129]. A detailed
 > analysis of the generality and predictivity of these attention patterns is beyond the scope of this paper.
 
-#### Evoformer: Pair representation update from updated MSA representation via outer product mean
+#### MSA transition block
+
+One last element of the MSA embedding update is MSA transition block. I am not going to discuss it in detail here - I don't quite understand its purpose, and if I'm not mistaken,
+it is not discussed in the paper and supplementary in detail. I suppose, it improves the performance and has to be analyzed empirically.
+
+![MSA transition block](./msa_transition.png)
+
+### Evoformer: Pair representation update from updated MSA representation via outer product mean
 
 After MSA embeddings were updated, it is time to reflect this new MSA information in pair representations.
 
@@ -431,10 +439,6 @@ calculate outer products of residues embedding projections within each sequence 
 
 ![Outer product mean](./outer_product_mean.png)
 
-I am not going to discuss MSA transition block in detail here - I don't quite understand its purpose, and if I'm not mistaken,
-it is not discussed in the paper and supplementary in detail. I suppose, it improves the performance and has to be analyzed empirically.
-
-![MSA transition block](./msa_transition.png)
 
 ### Evoformer: Triangle inequalities as natural constraints for pair distances
 
@@ -445,8 +449,8 @@ of pair representation from MSA embeddings.
 
 From the ML engineering standpoint triangle inequalities are implemented as soft constraints rather than hard constraints.
 
-We have two triangular inequalities blocks here: multiplicative triangular update and triangular self-attention. Initially,
-multiplicative triangle updates using outgoing/incoming edges were devised as a frugal alternative to triangle 
+We have two triangular inequalities blocks here: triangle multiplicative update and triangule self-attention. Initially,
+triangle multiplicative updates using outgoing/incoming edges were devised as a frugal alternative to triangle 
 self-attention blocks. Either of these modules could be removed, and resulting model still performs well. However, it turned
 out that SOTA is achieved when both modules are kept.
 
@@ -454,7 +458,7 @@ out that SOTA is achieved when both modules are kept.
 
 ![Triangular self-attention](./triangular_self_attention.png)
 
-The visualizations of attention maps from triangular self-attention heads are very interesting. 
+The visualizations of attention maps from triangle self-attention heads are very interesting. 
 
 In the row (a) we see convolution patterns of radius 4 (diameter 8) residues. For instance, the distance between residues 14 and 15 depends on
 distances between residues 14-16 and 14-17 and 14-13, 14-12 and 14-11. Authors speculate, that this head identified the
@@ -465,7 +469,9 @@ Authors explain that residues 14, 28 and 80 are all cysteine, and they can form 
 the lengths of all other bonds, and attention heads have learnt to recognize this.
 
 Finally, the row (c) suggests that even moderately deep layers of Evoformer, such as 11th, already have a good idea of the overall
-protein 3D structure/pair representation. Compare their attention maps to the true CA-CA distances (top rightmost picture).
+protein 3D structure/pair representation. Compare their attention maps to the true CA-CA distances (top rightmost picture). This 
+understanding is supported by the lowest plot in ablation study, suggesting that for simpler proteins the concept of 3D structure
+shapes up by 10th-20th layers of Evoformer.
 
 ![Triangular row-wise attention visualization](./row_wise_attention_visualisation.png)
 
@@ -501,29 +507,78 @@ I quote the supplementary of the paper:
 
 ## Structure module
 
+Now that we are done with MSA embeddings and pair representations, time to predict the actual protein structure.
+
+Structural module cuts the embedding of our sequence of interest out of the alignment. It uses that sequence's embedding
+and pair representation to predict the structure.
+
+Most of this process is relegated to the invariant point attention module (IPA), which joins all the sources of information together. However, even if you remove it entirely, but keep the recycling process, AlphaFold2 surprisingly still works pretty good (see ablation study). 
+
+First, I will have to say a few words about biology/chemistry of proteins to explain the rest.
+
 ![Structure module](./structural_module.png)<center>**Structure module**</center>
+
+Peptide chain is formed by aminoacid residues. Each aminoacid residue has 3 mandatory pieces - amino group, c-alpha atom and carbonic acid group. These 3 groups form the *backbone* of the protein, 
+which is the most important thing to predict. Also, each aminoacid has a radical, which can differ by aminoacid type (there are 20 types of standard aminoacids - 20 standard radical types).
+
+Given that, there are 3 torsion angles that describe the backbone part of each aminoacid - $\varphi$, $\psi$ and $\omega$. The first two angles - $\varphi$ and $\psi$ - can vary in a broad range,
+while $\omega$ is almost exactly 180 due to nitrogen atom having an electron pair, which really loves to be in the same plane as pi-electrons of C=O double bond. Hence, the N-C peptide bond is actually almost double
+and there is almost no rotation around it.
+
+The aminoacid radical length varies by aminoacid type, but they can also rotate around each of its atoms, so that their rotation angles are described by $\chi_1$, $\chi_2$, ..., up to $\chi_5$ torsion angles.
 
 ![Torsion angles in peptide chain](./torsion_angles.jpeg)<center>**Torsion angles in peptide chain**</center>
 
+DeepMind decided that they will represent each residue as a triangles, they called *backbone frames*, where its main vertex is $C-\alpha$ atom, and two
+other vertices are N atom of aminogroup and C atom of carbonic acid group. For each residue one has to predict a 3-vector
+of bias (how much you need to shift the residue relative to the global coordinate system) and 3x3 rotation matrix (the angle
+of rotation of the triangle). Hence, the main part of the system predcits only the backbone, while $\chi$ angles, describing the radicals,
+are predicted with a separate ResNet.
+
+The backbone frames are initialized at the center of global coordinate system (DeepMind funnily call this a "black hole initialization"), and updated
+using the information from the updated sequence embedding, which receives information from Invariant point attention module.
+
+Invariant point attention module is responsible for aggregating together the information from all 3 sources - sequence embedding (extracted from MSA embedding),
+pair representation and backbone frames. It predicts coordinates of residues based on just the sequence embedding, merges that prediction with
+the previous iteration of structure data and applies an attention to the resulting coordinates. In that attention affinities matrix
+all 3 sources of information are added - the sequence embedding, the pair representation and current 3D structure - so that
+all of them affect the resulting updated sequence representation.
+
 ![Invariant point attention (IPA)](./IPA.png)
+
+The loss function that compares the predicted structure to the actual one, is called FAPE. It is invariant to the changes
+of global coordinate frame (that makes sense, as changing the viewpoint does not affect the predicted protein structure)
+and is a mixture of L2-norm with some smart regularizations/crops and other engineering tricks.
+
+After the Neural network part produces the prediction of 3D structure, an OpenMM package is used to relax that structure with
+physical methods (molecular dynamics usually fails to find the global solution from scratch, but works reasonably, if the system is near its
+optimum).
 
 ## Refinement a.k.a. "recycling" 
 
-Application of a computer vision approach (see [Human Pose Estimation](https://arxiv.org/pdf/1507.06550.pdf) paper).
+However, all this structural bioinformatics savviness could go to the trash can entirely, because as ablation study shows,
+if refinement/recycling procedure is kept, but IPA is removed, AlphaFold2 performs pretty well. Actually if you remove
+refinement and keep IPA, it works worse than if you remove IPA and keep refinement!
 
-Turns out, recycling almost renders IPA unnecessary. Absense of recycling makes final score much worse, while absense of IPA does not affect the performance as much (see Ablation study).
+The ideology of this refinement procedure stems from a computer vision problem of human pose estimation (see [Human Pose Estimation](https://arxiv.org/pdf/1507.06550.pdf) paper).
 
 ![Refinement](./refinement.png)<center>**Refinement**</center>
 
+TODO
+
 ## Self-distillation
 
-Employs both semi-supervised and self-supervised approaches.
+Self-distillation is another engineering trick that allowed DeepMind to beat the baseline (see ablation study).
+
+As our dataset clearly contains much more unlabeled data (over 200M sequences) than labeled (less than 200K structures),
+it makes all sense to treat the problem as semi-supervised learning. DeepMind used the following approach. 
 
 ### Noisy Student Training
 
 See [Self-training with Noisy Student improves ImageNet classification](https://arxiv.org/pdf/1911.04252v4.pdf) paper. 
 
-Allowed to set new SOTA on ImageNet, improving top-1 accuracy by 2% to 88.4% by utilizing semi-supervised learning using unlabled images.
+Noisy Student Training recently allowed to set a new SOTA on ImageNet, improving top-1 accuracy by 2% to 88.4% by utilizing 
+semi-supervised learning, using 3.5 billion unlabled images from Instagram.
 
 Noisy Student Training is a semi-supervised learning approach. It extends the idea of self-training and distillation with the use of equal-or-larger student models and noise added to the student during learning. It has three main steps:
 
@@ -533,23 +588,16 @@ Noisy Student Training is a semi-supervised learning approach. It extends the id
  
 The algorithm is iterated a few times by treating the student as a teacher to relabel the unlabeled data and training a new student.
 
-Noisy Student Training seeks to improve on self-training and distillation in two ways. First, it makes the student larger than, or at least equal to, the teacher so the student can better learn from a larger dataset. Second, it adds noise to the student so the noised student is forced to learn harder from the pseudo labels. To noise the student, it uses input noise such as RandAugment data augmentation, and model noise such as dropout and stochastic depth during training.
+Noisy Student Training seeks to improve on self-training and distillation in two ways. First, it makes the student larger than, or at least equal to, the teacher so the student can better learn from a larger dataset. Second, it adds noise to the student, so that the noised student is forced to learn harder from the pseudo labels. To noise the student, it uses input noise such as RandAugment data augmentation, and model noise such as dropout and stochastic depth during training.
 
 ![Noisy Student Training](./noisy_student_training.png)
 
-### BERT-like prediction of MSA positions
-Self-supervised approach, simliar to BERT approach. 
-
-Mask-out or mutate a position of alignment and let the network recover it. Incorporate an auxiliary loss for the quality of recovery.
-
-Similar to [MSA transformer](https://www.biorxiv.org/content/10.1101/2021.02.12.430858v1.full) by Facebook.
-
 ## FAPE loss and auxiliary losses
-
-Weighted average of multiple losses.
+The main structural loss function, used in the course of training of AlphaFold2, is called FAPE. However, the loss used for training is a weighted average of the main
+one and auxiliary losses:
 
 * $\mathcal{L}_{FAPE}$ is FAPE loss
-* $\mathcal{L}_{aux}$ is a loss from auxillary metrics in structure module
+* $\mathcal{L}_{aux}$ is a loss from auxiliary metrics in structure module
 * $\mathcal{L}_{dist}$ is loss from distogram prediction
 * $\mathcal{L}_{msa}$ is a loss from BERT-like masked MSA position prediction
 * $\mathcal{L}_{conf}$ is a loss from model confidence pLDDT prediction
@@ -557,6 +605,21 @@ Weighted average of multiple losses.
 * $\mathcal{L}_{viol}$ is a loss for structural violations; penalizes unlikely lengths of bonds, torsion angles and sterically clashing atoms, even if ground truth structure is unavailable 
 
 ![AlphaFold2 losses](./AF2_losses.png)<center>**AlphaFold2 losses**</center>
+
+#### Distogram prediction loss
+AF2 tries to predict not only the distances between residues, but also distributions of distances. Again, errors in those distributions are used as auxilliary losses.
+
+#### BERT-like loss for the quality of prediction of MSA positions
+Self-supervised approach, similar to BERT approach.
+
+AlphaFold2 masks-out or mutates a position of alignment and tries to predict it.
+
+#### Confidence losses and prediction of experiment 
+AF2 outputs its confidence in the predicted residues coordinates, which are used as auxiliary losses. It also tries to predict, if a structure it looks at,
+was determined experimentally, or predicted.
+
+#### Structural violoation losses
+Another sanity-check for AF2, which penalizes unrealistic 3D structure features, such as bond lengths, angles, steric hindrances etc.
 
 ## Training protocol
 AF2 was trained on TPUv3 for about a week and than fine-tuned for 4 days.
