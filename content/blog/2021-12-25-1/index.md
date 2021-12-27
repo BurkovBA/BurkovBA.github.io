@@ -106,7 +106,7 @@ Attention mechanism is formulated in terms of fuzzy search in a key-value databa
 
 Suppose that we have a key-value database (basically, just a python dict), and we supply a query to it, which is a key with typo errors in it. 
 
-We want the database to compare the query to each key, and output a value, which is a weighted average of values, where weight is a measure of similarity between query and key (ideally, the probability that user meant $key_i$ by typing query).
+We want the database to compare the query to each key, and output a value, which is a weighted average of $values_i$, where weight of each value is the probability that user meant $key_i$ by typing the query.
 
 $Attention(q, K, V) = \sum \limits_{i=1}^{N} <q, K_i> V_i$
 
@@ -152,7 +152,7 @@ Similarities before softmax: {'Ivanov': 0.8333333333333334, 'Petrov': 0.5, 'Sido
 70.83333333333334
 ```
 
-The example above was ok, but it has a major drawback: it measure similarities between keys and query, and sum of similarities is more than 1.
+The example above was ok, but it has a major drawback: it measures similarities between keys and query, and sum of similarities is more than 1.
 
 They can not be interpreted as probabilities. Let us normalize similarities between queries and keys, so that their sum of weights equals 1. We shall use Softmax function for that:
 
@@ -194,11 +194,11 @@ Similarities after softmax: {'Ivanov': 0.4648720549505913, 'Petrov': 0.333095382
 45.94150246338521
 ```
 
-Softmax is basically a multinomial analogue of Sigmoid function. Very much like a logistic regression uses Sigmoid function to convert arbitrary values to [0,1] range, so that they can be used as probabilities, Softmax does the same for multinomial case. Another way to think of Softmax is as a general case of Boltzmann distribution in statistical physics.
+Softmax is basically a multinomial analogue of Sigmoid function. Very much like a logistic regression uses Sigmoid function to convert arbitrary values to [0,1] range, so that they can be used as probabilities, Softmax does the same for multinomial case. Another way to think of Softmax is as a general case of Boltzmann distribution from statistical physics.
 
 Now, I need to make two remarks. 
 
-First, instead of one single query, attention usually receives a list of queries, compares them to keys and returns a weighted average of values for each query.
+First, instead of a single query, attention usually receives a list of queries, compares them to keys and returns a weighted average of values for each query.
 
 Second, usually, keys, queries and values are not strings and integers. Usually they are vectors. For vectors we know, how to measure their similarity - cosine distance, or just a dot product (possibly, normalized or scaled).
 
@@ -662,4 +662,4 @@ Interestingly, the model training requires 20GB video memory, while TPUv3 provid
 * https://www.ddw-online.com/media/32/03.sum.the-cost-and-value-of-three-dimensional-protein-structure.pdf - on cost and value of experimental protein 3D structure recovery (2003)
 * https://blog.inten.to/hardware-for-deep-learning-part-4-asic-96a542fe6a81 - awesome longread by Grigory Sapunov of Intento on deep learning hardware
 * https://en.wikipedia.org/wiki/High_Bandwidth_Memory - on GPU memory
-* https://t.me/gonzo_ML/787 - a write-up on gMLP by Grigory Sapunov: gated feed-forward network with a performance comparable to transformers 
+* https://t.me/gonzo_ML/787 - a write-up on gMLP by Grigory Sapunov: gated feed-forward network with performance comparable to transformers 
