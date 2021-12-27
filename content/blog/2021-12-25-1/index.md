@@ -3,7 +3,7 @@ title: How DeepMind AlphaFold2 works?
 date: "2021-12-25T00:00:00.284Z"
 tags: ["math", "programming", "biomed"]
 cover: "./AF2_bird_eye_view.png"
-description: I believe that DeepMind AlphaFold2 and Github Co-pilot were among the most prolific advances of technology, made in 2021. Two years after their initial breakthrough, DeepMind released the second version of their revolutionary system for protein 3D structure prediction. This time they have basically solved the 3D structure prediction problem that used to hold for over 50 years. These are the notes from my detailed talk on the DeepMind AlphaFold2 system.
+description: I believe that DeepMind AlphaFold2 and Github Co-pilot were among the most prolific advances of technology made in 2021. Two years after their initial breakthrough, DeepMind released the second version of their revolutionary system for protein 3D structure prediction. This time they basically solved the 3D structure prediction problem that held for more than 50 years. These are the notes from my detailed talk on the DeepMind AlphaFold2 system.
 ---
 
 ## Contents
@@ -449,7 +449,7 @@ of pair representation from MSA embeddings.
 
 From the ML engineering standpoint triangle inequalities are implemented as soft constraints rather than hard constraints.
 
-We have two triangular inequalities blocks here: triangle multiplicative update and triangule self-attention. Initially,
+We have two triangular inequalities blocks here: triangle multiplicative update and triangle self-attention. Initially,
 triangle multiplicative updates using outgoing/incoming edges were devised as a frugal alternative to triangle 
 self-attention blocks. Either of these modules could be removed, and resulting model still performs well. However, it turned
 out that SOTA is achieved when both modules are kept.
@@ -568,8 +568,8 @@ The ideology of this refinement procedure stems from a computer vision problem o
 In order to accurately predict the human pose, we start with an image and a default pose, concatenated together as separate channels,
 and let the NN incrementally choose optimal pose update. Apparently, protein backbone prediction does not differ much from human pose estimation.
 
-Again, I feel that just like it happened with triangle inequalities, DeepMind tried 2 alternative approaches to the prediction
-of 3D structure, IPA and refinement, and instead of choosing one, kept both.
+Again, I feel that DeepMind tried two alternative approaches for prediction of 3D structure, IPA and refinement, and just like it happened with
+triangle inequalities instead of choosing one, kept both.
 
 ## Self-distillation
 Self-distillation is another engineering trick that allowed DeepMind to beat the baseline (see ablation study).
