@@ -330,28 +330,66 @@ class MultiHeadedAttention(nn.Module):
 
 ## Evoformer module
 
-* Consists of 48 identical blocks that take MSA embedding and pair representation on input and produce their refined version as output;
-* Each block consists of 2 attention-based parts: gated axial self-attention part and triangle inequality enforcement part, which are connected by outer product mean;
+Evoformer module consists of 48 identical blocks that take MSA embedding and pair representation on input and produce their refined version as output.
+
+Evoformer consists of 3 principal steps:
+ 
+1. Evoformer updates the MSA with axial (criss-cross) attention, using the information, contained in pair representation.
+2. Evoformer updates the pair representation from updated MSA, using outer product mean block.
+3. Evoformer applies triangle inequalities to the updated pair representation to enforce consistency.
+
+We will walk through each part of Evoformer now.
 
 ![Evoformer block](./evoformer.png)<center>**Evoformer block**</center>
 
 ### Evoformer: MSA representation update part
 
-![Evoformer](./evoformer.png)<center>**Evoformer**</center>
+![Evoformer MSA update](./evoformer_msa_update.png)<center>**Evoformer MSA update**</center>
 
 #### Axial (a.k.a criss-cross) attention mechanism in Evoformer
-* Suggested in visual transformers circa 2020
-* A frugal alternative to CNNs and full 2D attention
+
+MSA update part of Evoformer uses an approach, called axial or criss-cross attention. It was suggested in visual transformers circa 2020.
+In visual transformers attention needs to be applied to each pixel of an image, and using the full 2D image as keys would be computationally inefficient.
+
+A frugal alternative to full 2D attention, is to first attend all pixels in the same row as the query pixel and then attends all pixels in the same column.
+Same approach was employed here by evoformer. It first attends to other aminoacid residues in the same sequence (which is called row-wise gated self-attention), and then
+residues from other sequences in the same column (column-wise gated self-attention).
 
 #### Row-wise gated self-attention
 
 ![Row-wise gated self-attention](./row_wise_self_attention.png)<center>**Row-wise gated self-attention**</center>
 
+I want to discuss 2 aspects in row-wise gated self-attention.
+
+First, note that for calculation of similarities between queries and keys (aminoacid residues) we not only use information
+from MSA embedding itself, but from pair representation as well. This is very logical: if the data from our budding 3D structure
+suggest that two aminoacid residues interact in 3D (and this information, in turn, becomes reflected in pair representation first),
+row-wise self-attention also makes use of this information to reflect this in the updated MSA embedding.
+
+Second, I haven't said anything about gating mechanism as yet. Gating is the topmost line on the picture. Gating works like a
+gate in transistor - if the gate is closed, it nullifies some values of the attention output vector. The gate bit will be closed,
+if the corresponding query aminoacid embedding's projection "length" onto this attention head's feature space is too small and we believe, 
+it does not matter. Technically, decision, whether to close the gate or not, is taken, based on application of sigmoid function to
+that projection - sigmoid most likely will convert that projection into value close to either 0 or 1, which will keep the gate closed or open, 
+respectively.
+
 #### Column-wise gated self-attention
 
 ![column_wise_gated_self_attention](./column_wise_self_attention.png)<center>**Column-wise gated self-attention**</center>
 
+Column-wise gated self-attention performs exchange of information between sequences within an alignment column. This step
+helps AF2 identify conservative or co-evolved positions, and also it is important for propagation of data on 3D structure
+from the first sequence of alignment (which is the sequence, for which we predict the structure) to the others.
+
+In the supplementaries, DeepMind shared the visualizations of the attention maps. The row (a) in the maps tell us that
+for some residues only a subset of sequences influences the update of MSA embedding. The row (b) shows that after a few
+iterations of refinement, all the sequences attend the first sequence (for which 3D structure is being predicted). The row
+(c) shows that intermediate layers of AF2 gradually learn the pattern of evolutionary clustering of sequences, so that
+their attention maps start to resemble the evolutionary tree, which is reflected in the bottom rightmost picture ("Hamming distance").
+
 ![column_wise_attention visualization](./column_wise_attention_visualisation.png)<center>**Column-wise attention visualization**</center>
+
+I quote the interpretation of these attention maps in the paper supplementary:
 
 > In Suppl. Fig. 13 we show a visualization of the attention pattern in the MSA along the columns a
 > $h_{sti}$ (line 4
@@ -384,21 +422,54 @@ class MultiHeadedAttention(nn.Module):
 
 #### Evoformer: Pair representation update from updated MSA representation via outer product mean
 
+After MSA embeddings were updated, it is time to reflect this new MSA information in pair representations.
+
+An obvious way to do this would be just to add the attention maps from MSA row-wise attention blocks to the previous iteration of pair representations.
+
+But we need to take into account all the sequences within the same column. So, in order to do that, we just
+calculate outer products of residues embedding projections within each sequence and average them over all sequences.
+
 ![Outer product mean](./outer_product_mean.png)
+
+I am not going to discuss MSA transition block in detail here - I don't quite understand its purpose, and if I'm not mistaken,
+it is not discussed in the paper and supplementary in detail. I suppose, it improves the performance and has to be analyzed empirically.
 
 ![MSA transition block](./msa_transition.png)
 
-#### Evoformer: Triangle inequalities as natural constraints for pair distances
+### Evoformer: Triangle inequalities as natural constraints for pair distances
 
-* Triangle inequalities on distances need to be enforced in order to ensure consistency. 
-* From the ML engineering standpoint triangle inequalities are implemented as soft constraints rather than hard constraints.
-* Initially triangle updates using outgoin/incoming edges were devised as a frugal alternative to triangle self-attention blocks. Either of these modules could be removed, and resulting model still performs well. However, SOTA is achieved when both modules are present.
+![Evoformer triangle inequalities](./evoformer_triangle_inequalities.png)<center>**Evoformer triangle inequalities**</center>
+
+The last part of evoformer left to discuss is enforcement of triangle inequalities on pair representations after the update
+of pair representation from MSA embeddings.
+
+From the ML engineering standpoint triangle inequalities are implemented as soft constraints rather than hard constraints.
+
+We have two triangular inequalities blocks here: multiplicative triangular update and triangular self-attention. Initially,
+multiplicative triangle updates using outgoing/incoming edges were devised as a frugal alternative to triangle 
+self-attention blocks. Either of these modules could be removed, and resulting model still performs well. However, it turned
+out that SOTA is achieved when both modules are kept.
 
 ![Triangular multiplicative update](./triangular_multiplicative_update.png)
 
 ![Triangular self-attention](./triangular_self_attention.png)
 
+The visualizations of attention maps from triangular self-attention heads are very interesting. 
+
+In the row (a) we see convolution patterns of radius 4 (diameter 8) residues. For instance, the distance between residues 14 and 15 depends on
+distances between residues 14-16 and 14-17 and 14-13, 14-12 and 14-11. Authors speculate, that this head identified the
+alpha-helix in proteins, where the step of spiral is 4 residues, which interact with hydrogen bonds. 
+
+In the row (b) we see that every distance between residues 14-1, 14-2, ..., 14-100 is affected by the length of 14-28 and 14-80 bonds.
+Authors explain that residues 14, 28 and 80 are all cysteine, and they can form di-sulfide bonds. Thus, such bonds would affect
+the lengths of all other bonds, and attention heads have learnt to recognize this.
+
+Finally, the row (c) suggests that even moderately deep layers of Evoformer, such as 11th, already have a good idea of the overall
+protein 3D structure/pair representation. Compare their attention maps to the true CA-CA distances (top rightmost picture).
+
 ![Triangular row-wise attention visualization](./row_wise_attention_visualisation.png)
+
+I quote the supplementary of the paper:
 
 > In this section we are going to analyse a small subset of the attention patterns we see in the main part of
 > the model. This will be restricted to relatively short proteins with fairly shallow MSA’s in order for easier
