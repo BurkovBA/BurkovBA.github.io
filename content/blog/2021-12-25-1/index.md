@@ -530,13 +530,13 @@ The aminoacid radical length varies by aminoacid type, but they can also rotate 
 
 ![Torsion angles in peptide chain](./torsion_angles.jpeg)<center>**Torsion angles in peptide chain**</center>
 
-DeepMind decided that they will represent each residue as a triangles, they called *backbone frames*, where its main vertex is $C-\alpha$ atom, and two
+DeepMind decided that they will represent each residue as a triangle, they call *backbone frame*, where its vertex next to obtuse angle is $C-\alpha$ atom, and two
 other vertices are N atom of aminogroup and C atom of carbonic acid group. For each residue one has to predict a 3-vector
 of bias (how much you need to shift the residue relative to the global coordinate system) and 3x3 rotation matrix (the angle
 of rotation of the triangle). Hence, the main part of the system predcits only the backbone, while $\chi$ angles, describing the radicals,
-are predicted with a separate ResNet.
+are predicted by a separate ResNet.
 
-The backbone frames are initialized at the center of global coordinate system (DeepMind funnily call this a "black hole initialization"), and updated
+The backbone frames are initialized at the center of global coordinate system (DeepMind came up with a funny name "black hole initialization"), and are updated
 using the information from the updated sequence embedding, which receives information from Invariant point attention module.
 
 Invariant point attention module is responsible for aggregating together the information from all 3 sources - sequence embedding (extracted from MSA embedding),
@@ -565,7 +565,7 @@ The ideology of this refinement procedure stems from a computer vision problem o
 
 ![Refinement](./refinement.png)<center>**Refinement**</center>
 
-In order to accurately predict the human pose, we start with an image and a default pose, concatenated together as separate channels,
+In order to accurately predict the human pose, we start with an image, and a default pose, concatenated together as separate channels,
 and let the NN incrementally choose optimal pose update. Apparently, protein backbone prediction does not differ much from human pose estimation.
 
 Again, I feel that DeepMind tried two alternative approaches for prediction of 3D structure, IPA and refinement, and just like it happened with
