@@ -519,7 +519,7 @@ First, I will have to say a few words about biology/chemistry of proteins to exp
 
 ![Structure module](./structural_module.png)<center>**Structure module**</center>
 
-Peptide chain is formed by aminoacid residues. Each aminoacid residue has 3 mandatory pieces - amino group, c-alpha atom and carbonic acid group. These 3 groups form the *backbone* of the protein, 
+Peptide chain is formed by aminoacid residues. Each aminoacid residue has 3 mandatory pieces - amino group, C-alpha atom and carbonic acid group. These 3 groups form the *backbone* of the protein, 
 which is the most important thing to predict. Also, each aminoacid has a radical, which can differ by aminoacid type (there are 20 types of standard aminoacids - 20 standard radical types).
 
 Given that, there are 3 torsion angles that describe the backbone part of each aminoacid - $\varphi$, $\psi$ and $\omega$. The first two angles - $\varphi$ and $\psi$ - can vary in a broad range,
@@ -530,14 +530,14 @@ The aminoacid radical length varies by aminoacid type, but they can also rotate 
 
 ![Torsion angles in peptide chain](./torsion_angles.jpeg)<center>**Torsion angles in peptide chain**</center>
 
-DeepMind decided that they will represent each residue as a triangle, they call *backbone frame*, where its vertex next to obtuse angle is $C-\alpha$ atom, and two
+DeepMind decided that they will represent each residue as a triangle, they call *backbone frame*, where its vertex next to obtuse angle is C-alpha atom, and two
 other vertices are N atom of aminogroup and C atom of carbonic acid group. For each residue one has to predict a 3-vector
 of bias (how much you need to shift the residue relative to the global coordinate system) and 3x3 rotation matrix (the angle
-of rotation of the triangle). Hence, the main part of the system predcits only the backbone, while $\chi$ angles, describing the radicals,
+of rotation of the triangle). Hence, the main part of the system predicts only the backbone, while $\chi$ angles, describing the radicals,
 are predicted by a separate ResNet.
 
-The backbone frames are initialized at the center of global coordinate system (DeepMind came up with a funny name "black hole initialization"), and are updated
-using the information from the updated sequence embedding, which receives information from Invariant point attention module.
+The backbone frames are initialized at the origin of global coordinate system (DeepMind came up with a funny name "black hole initialization"), and are updated
+using information from the updated sequence embedding, which receives information from Invariant Point Attention module.
 
 Invariant point attention module is responsible for aggregating together the information from all 3 sources - sequence embedding (extracted from MSA embedding),
 pair representation and backbone frames. It predicts coordinates of residues based on just the sequence embedding, merges that prediction with
