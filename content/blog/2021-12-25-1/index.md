@@ -58,26 +58,26 @@ Conservation of a position in alignment usually implies its importance for prote
 
 Co-evolution of two aminoacid residues of a protein often implies interaction between those aminoacids. This information can be used as the basis for 3D structure prediction. 
 
-I want to briefly mention the role of metagenomics here: normally, proteins in databases, such as Uniprot, come from organisms that can be cultivated in lab conditions. However, a vast abundance of microorganisms can not be cultivated like that. Instead of trying to identify them and sequence individually, researchers in the 2000s started to follow a different approach. They started to sample various environments (with a soup of microorganisms there) and sequence the bulk of DNA from those samples. Turned out, those "metagenomic" samples contained many more homologues of well-known proteins, than individully sequenced species. These data gave a significant boost to 3D structure prediction programs in the mid-2010s. AlphaFold2 makes use of those data by searching for homologues in MGnify database, used as a complement to Uniprot. 
+I want to briefly mention the role of metagenomics here: normally, proteins in databases, such as Uniprot, come from organisms that can be cultivated in lab conditions. However, a vast abundance of microorganisms can not be cultivated like that. Instead of trying to identify them and sequence individually, researchers started to follow a different approach in the 2000s. They started to sample various environments (with a soup of microorganisms there) and sequence the bulk of DNA from those samples. Turned out, those "metagenomic" samples contained many more homologues of well-known proteins, than individully sequenced species. These data gave a significant boost to 3D structure prediction programs in the mid-2010s. AlphaFold2 makes use of those data by searching for homologues in MGnify database, used as a complement to Uniprot. 
 
 ![Coevolution explained](./coevolution_explained.png)<center>**Example of multiple sequence alignment (MSA)**. Sequences of homologues of a protein from different species are written in rows. Corresponding aminoacid residues are written in columns. Alignment provides information on conservation and co-evolution of certain aminoacids in sequences.</center>
 
 ## AlphaFold2 pipeline
-I'll be using the term "AlphaFold2" in two contexts here: in a broad sense is a system that uses multiple external programs and databases in order to predict 3D structures by protein sequences. AlphaFold2 in a narrow sense is a neural network that lies in the heart of this system.
+I'll be using the term "AlphaFold2" in two contexts here: in a broad sense it is a system that makes use of multiple external programs and databases in order to predict 3D structures by protein sequences. AlphaFold2 in a narrow sense is a neural network that lies in the heart of this system.
 
 AlphaFold2 as a system takes a protein sequence on input and predicts its 3D structure. In order to do that, it makes use of multiple databases and programs.
 
 First, AF2 uses HMMER software to find homologues of input sequence in sequence databases, Uniprot and MGnify. It makes use of a long-established software package, called HMMER,
-which has been around since early-2000s. HMMER is based on Markov chains/Hidden Markov Models, which revolutionized the field of speech recognition/synthesis in that time, so bioinformaticists have shamelessly stolen this approach. HMMER construct a mutiple sequence alignment (MSA) of our sequence with its homologues, it has found.
+which has been around since early-2000s. HMMER is based on Markov chains/Hidden Markov Models. These approaches dominated in the field of speech recognition/synthesis in that time, so bioinformaticists have shamelessly stolen the Markov chain approach for their own needs. HMMER constructs and returns a multiple sequence alignment (MSA) of our sequence with its homologues, it has found.
 
 AF2 also uses HHpred package to check, whether any of our homologues has a 3D structure available in PDB. If this is the case, the problem of 3D structure reconstruction becomes almost trivial - you just need to use it as a template and model your prediction based on it. However, less than 0.1% proteins are expected to have such a template available.
 
 If 3D structure template was available, AF2 constructs a pair representation of distances between residues in the protein from that template. If it was not available, it initializes a pair representation with some sensible defaults. 
 
 Then AF2 generates vector [embeddings](https://datascience.stackexchange.com/questions/53995/what-does-embedding-mean-in-machine-learning) out of each aminoacid residue of alignment and out of each residue pair in pair representation. 
-I won't dig deeper into how this is done - you can imagine several ways of doing that. I'll only notice that if the alignment is too thin, less than 30 sequences, AlphaFold2 won't work well. If the number of sequences is too large, however, this is bad, too, as this slows down the training. So, in such a case sequences in the alignment are clustered and cluster representatives are used. 
+I won't dig deeper into how this is done - you can imagine several ways of doing that. I'll only notice that if the alignment is too thin, less than 30 sequences, AlphaFold2 won't work well. If the number of sequences is over about 100, however, this is bad, too, as this slows down the training. So, in such a case sequences in the alignment are clustered and cluster representatives are used. 
 
-Now comes the core part of AlphaFold2: the end-to-end transformer-based neural network. The network receives embeddings of MSA and pair representation, iteratively updates them in the course of inference, and outputs a 3D structure, based on them.
+Here comes the core part of AlphaFold2: the end-to-end transformer-based neural network. The network receives embeddings of MSA and pair representation, iteratively updates them in the course of inference, and outputs a 3D structure, based on them.
 
 The network consists of 2 sub-modules: 
 
@@ -93,9 +93,9 @@ This process is repeated thrice in the course of a process, called recycling.
 ## Attention and transformer architecture
 As I said, the neural network at the heart of AlphaFold2 is based on transformer architecture and attention mechanism. I will briefly explain those here. Feel free to skip this section, if you are already familiar with attention and transformers.
 
-Attention mechanism has been popularized circa 2014-2015 for machine translation (e.g. English-to-French). At the time state-of-the-art architectures for machine translation were RNN-based. Initially it turned out that addition of translation mechanism improves the quality of translation.
+Attention mechanism has been popularized circa 2014-2015 for machine translation (e.g. English-to-French). At the time state-of-the-art architectures for machine translation were RNN-based. Initially it turned out that addition of attention mechanism improves the quality of translation.
 
-Later on, it turned out that you can get rid of RNN part of the network entirely and just stack attention mechanism layers, achieving performance as good or better, spending 100 times less compute on training. 
+Later on, it turned out that you can get rid of RNN part of the network entirely and just stack attention mechanism layers, achieving performance as good or better, but spending 100 times less compute on training. 
 
 By 2017 it became clear that attention mechanism is a self-sufficient building block, serving as a powerful alternative to both CNN and RNN in both NLP and CV problems, as well as in problems, related to other modalities.
 
@@ -283,7 +283,7 @@ The resulting mechanism is called a single multi-head attention block. Blocks li
 
 ![Multi-head attention](./multihead_attention.png)<center>**Multi-head attention**</center>
 
-This was a single multi-head attention layer. As a result of its application, each column of matrix $X_i$ will be enriched with a weighted sum of its relation with other columns $X_j$ in some aspect. The more layers of multi-head attention we stack, the more complex and high-level relations we shall be able to identify between our protein aminoacid residues.
+This was a single multi-head attention layer. As a result of its application, each column of matrix $X_i$ will be enriched with weighted sums of several ($h$ to be precise) relations with other columns $X_j$ in some aspect. The more layers of multi-head attention we stack, the more complex and high-level relations we shall be able to identify between our protein aminoacid residues.
 
 ```python
 import torch
@@ -331,9 +331,9 @@ class MultiHeadedAttention(nn.Module):
 
 ## Evoformer module
 
-Evoformer module consists of 48 identical blocks that take MSA embedding and pair representation on input and produce their refined version as output.
+Evoformer module consists of 48 identical blocks that take MSA embedding and pair representation on input and produce their refined versions as output.
 
-Evoformer consists of 3 principal steps:
+Evoformer consists of 3 major steps:
  
 1. Evoformer updates the MSA with axial (criss-cross) attention, using the information, contained in pair representation.
 2. Evoformer updates the pair representation from updated MSA, using outer product mean block.
@@ -368,7 +368,7 @@ suggest that two aminoacid residues interact in 3D (and this information, in tur
 row-wise self-attention also makes use of this information to reflect this in the updated MSA embedding.
 
 Second, I haven't said anything about gating mechanism as yet. Gating is the topmost line on the picture. Gating works like a
-gate in transistor - if the gate is closed, it nullifies some values of the attention output vector. The gate bit will be closed,
+gate in a transistor - if the gate is closed, it nullifies some values of the attention output vector. The gate bit will be closed,
 if the corresponding query aminoacid embedding's projection "length" onto this attention head's feature space is too small and we believe, 
 it does not matter. Technically, decision, whether to close the gate or not, is taken, based on application of sigmoid function to
 that projection - sigmoid most likely will convert that projection into value close to either 0 or 1, which will keep the gate closed or open, 
@@ -384,8 +384,8 @@ from the first sequence of alignment (which is the sequence, for which we predic
 
 In the supplementaries, DeepMind shared the visualizations of the attention maps. The row (a) in the maps tell us that
 for some residues only a subset of sequences influences the update of MSA embedding. The row (b) shows that after a few
-iterations of refinement, all the sequences attend the first sequence (for which 3D structure is being predicted). The row
-(c) shows that intermediate layers of AF2 gradually learn the pattern of evolutionary clustering of sequences, so that
+iterations of refinement, all the sequences attend to the first sequence (for which 3D structure is being predicted). The row
+(c) shows that intermediate layers of AF2 gradually learn the pattern of clustering of sequences by their evolutionary descent, so that
 their attention maps start to resemble the evolutionary tree, which is reflected in the bottom rightmost picture ("Hamming distance").
 
 ![column_wise_attention visualization](./column_wise_attention_visualisation.png)<center>**Column-wise attention visualization**</center>
