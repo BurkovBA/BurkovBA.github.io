@@ -10,7 +10,7 @@ description: I believe that DeepMind AlphaFold2 and Github Co-pilot were among t
 * Problem statement and principle of operation
 * Data flow
   * Sequence data: Uniprot, Mgnify; software: HMMER
-  * Structure data: PDB; software: HHpred, OpenMM
+  * Structure data: PDB; software: HH-suite, OpenMM
   * Evoformer: MSA embeddings and pair distances iterative refinement
   * Structure module: 3D structure from a sequence in MSA embedding
 * Attention mechanism and transformer architecture
@@ -35,7 +35,7 @@ Proteins are linear sequences of monomers - aminoacids - that fold into complex 
 
 Reading protein sequences is cheap and can be achieved directly by mass-spectrometry (\$100 per sample) or indirectly by DNA genome/exome sequencing (\$100-1000 per sequence). Experimental discovery of 3D structures of proteins is much more expensive (\$100k-1M per structure) and is done by X-ray crystallography/MRI.
 
-A typical pipeline for X ray structure prediction consists of protein crystallization (which is hard for membrane proteins, as they are not very soluble), X ray diffration on the resulting crystal and interpretation of the resulting maps of electron density. There are about 7 major ways to solve the phase problem (which is a bit of an art),
+A typical pipeline for X ray structure prediction consists of protein crystallization (which is hard for membrane proteins, as they are not very soluble), X ray diffration on the resulting crystal and interpretation of the resulting maps of electron density. There are about 7 major ways to solve the [phase problem](https://en.wikipedia.org/wiki/Phase_problem) (which is a bit of an art),
 and also reconstruction of 3D model from electron density maps is ~10-20% arbitrary (given the same electron density map, two different specialists can produce slightly different structures, especially for low resolution).
 
 Protein sequences are available in [Uniprot](https://www.uniprot.org/) (about 200M proteins) and [MGnify](https://www.ebi.ac.uk/metagenomics/) databases.
@@ -70,7 +70,7 @@ AlphaFold2 as a system takes a protein sequence on input and predicts its 3D str
 First, AF2 uses HMMER software to find homologues of input sequence in sequence databases, Uniprot and MGnify. It makes use of a long-established software package, called HMMER,
 which has been around since early-2000s. HMMER is based on Markov chains/Hidden Markov Models. These approaches dominated in the field of speech recognition/synthesis in that time, so bioinformaticists have shamelessly stolen the Markov chain approach for their own needs. HMMER constructs and returns a multiple sequence alignment (MSA) of our sequence with its homologues, it has found.
 
-AF2 also uses HHpred package to check, whether any of our homologues has a 3D structure available in PDB. If this is the case, the problem of 3D structure reconstruction becomes almost trivial - you just need to use it as a template and model your prediction based on it. However, less than 0.1% proteins are expected to have such a template available.
+AF2 also uses HH-suite package to check, whether any of our homologues has a 3D structure available in PDB. If this is the case, the problem of 3D structure reconstruction becomes almost trivial - you just need to use it as a template and model your prediction based on it. However, less than 0.1% proteins are expected to have such a template available.
 
 If 3D structure template was available, AF2 constructs a pair representation of distances between residues in the protein from that template. If it was not available, it initializes a pair representation with some sensible defaults. 
 
@@ -160,7 +160,7 @@ $$Attention(q, K, V) = \sum \limits_{i=1}^{N} Softmax(<q, K_i>) V_i$$
 
 where Softmax is given by:
 
-$$p_i =  \frac{e^{E_i}}{\sum \limits_j e^{E_j}}$$
+$$Softmax(E_i) =  \frac{e^{E_i}}{\sum \limits_j e^{E_j}}$$
 
 ```python
 # However, note that the sum of similarities in previous solution was more than 1.
@@ -447,7 +447,14 @@ calculate outer products of residues embedding projections within each sequence 
 The last part of evoformer left to discuss is enforcement of triangle inequalities on pair representations after the update
 of pair representation from MSA embeddings.
 
-From the ML engineering standpoint triangle inequalities are implemented as soft constraints rather than hard constraints.
+Let us first discuss, what triangle inequalities blocks aim to achieve? For each edge {$i,j$}, we want to consider all the pairs
+of edges {$i,k$} and {$k,j$} and make sure that for each $k$ length d{$i,j$} of the edge {$i,j$} is less than any sum of lengths of edges
+d{$i,k$} and d{$k,j$}: 
+
+d{$i,j$} < max(d{$i,k$} + d{$k,j$})
+
+However, it is non-trivial to implement this logic in a differentiable way. Thus, AlphaFold2 implements its empirical
+substitutes as differentiable soft constraints.
 
 We have two triangular inequalities blocks here: triangle multiplicative update and triangle self-attention. Initially,
 triangle multiplicative updates using outgoing/incoming edges were devised as a frugal alternative to triangle 
@@ -455,6 +462,22 @@ self-attention blocks. Either of these modules could be removed, and resulting m
 out that SOTA is achieved when both modules are kept.
 
 ![Triangular multiplicative update](./triangular_multiplicative_update.png)
+
+Triangular multiplicative update block works as follows: it takes two rows in the pair representation,
+$i$-th and $j$-th. For each index of residue $k$ in both rows, we collapse the embeddings of edges {$i,k$} and {$j,k$}
+into a smaller dimension $c$, apply gating to them and then take Hadamard product of the resulting $i$-th and $j$-th row vectors. Then
+we sum them over $k$ to get the updated value of {$i,j$} pair representation, take layer norm and apply gating to it again.
+
+I am not sure about the interpretation of how this module is supposed to work. We see that instead of searching for an
+index $k$, for which the  minimum of $d\{i,k\}$ + $d\{j,k\}$ were obtained, we calculate the gated sum $\sum \limits_{k=1}^{r} d\{i,k\} + d\{j,k\}$
+over all the residues. Probably, this sum (normalized by layer norm and sparsified by gating) results in some weighted average
+of the shortest edge pairs ($\{i,k\}$, $\{j,k\}$), which constrain the length of edge $\{i,j\}$ the most.
+
+The second mechanism - triangle self-attention - uses central edge $\{i,j\}$ as query and left edge $\{i,k\}$ as key and value.
+It is supposed to update the central edge from the left edge. However, it also adds the "lengths" of right edges $\{j,k\}$ to 
+the dot-product affinities, to take it into account. Again, it uses gating with the central edge in the end. I don't
+believe that I understand this block well, but I can come up with other differentiable designs of approximate 
+triangle inequality blocks, so it does not bother me.
 
 ![Triangular self-attention](./triangular_self_attention.png)
 
@@ -610,7 +633,7 @@ However, the loss used for training is a weighted average of the main FAPE and a
 * $\mathcal{L}_{dist}$ is loss from distogram prediction
 * $\mathcal{L}_{msa}$ is a loss from BERT-like masked MSA position prediction
 * $\mathcal{L}_{conf}$ is a loss from model confidence pLDDT prediction
-* $\mathcal{L}_{exp_resolved}$ is a loss from a head, predicting, if structure comes from a highly accurate experimental prediction, such as CryoEM or high-resolution X-ray crystallography
+* $\mathcal{L}_{exp\ resolved}$ is a loss from a head, predicting, if structure comes from a highly accurate experimental prediction, such as CryoEM or high-resolution X-ray crystallography
 * $\mathcal{L}_{viol}$ is a loss for structural violations; penalizes unlikely lengths of bonds, torsion angles and sterically clashing atoms, even if ground truth structure is unavailable 
 
 ![AlphaFold2 losses](./AF2_losses.png)<center>**AlphaFold2 losses**</center>
@@ -646,6 +669,8 @@ Interestingly, the model training requires 20GB video memory, while TPUv3 provid
 * https://static-content.springer.com/esm/art%3A10.1038%2Fs41586-021-03819-2/MediaObjects/41586_2021_3819_MOESM1_ESM.pdf - AlphaFold2 paper supplementary
 * https://github.com/deepmind/alphafold - AlphaFold2 source code
 * https://moalquraishi.wordpress.com/2021/07/25/the-alphafold2-method-paper-a-fount-of-good-ideas/ - blog post by Mohammed Al Quraishi
+* http://cs371.stanford.edu/2018_slides/coevolution.pdf - on co-evolution data for folding problem
+* https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5493203/ - Sergey Ovchinnikov on metagenomics data for solving the folding problem
 * http://nlp.seas.harvard.edu/2018/04/03/attention.html - annotated transformer notebook
 * https://arxiv.org/abs/2002.05202 - "GLU Variants Improve Transformer" paper
 * https://arxiv.org/pdf/1912.00349.pdf - "Not All Attention Is Needed: Gated Attention Network for Sequence Data" paper
