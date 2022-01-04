@@ -9,7 +9,7 @@ description: Here I briefly discuss some engineering aspects, related to deep le
 References
 ----------
  - https://blog.slavv.com/titan-rtx-quality-time-with-the-top-turing-gpu-fe110232a28e - Slav on RTX video cards
- - https://docs.nvidia.com/deeplearning/performance/mixed-precision-training/index.html - long post by NVidia on midex precision
+ - https://docs.nvidia.com/deeplearning/performance/mixed-precision-training/index.html - long post by NVidia on mixed precision
  - https://en.wikipedia.org/wiki/NVLink - NVLink
  - https://developer.download.nvidia.com/video/gputechconf/gtc/2019/presentation/s9926-tensor-core-performance-the-ultimate-guide.pdf - NVidia presentation on Tensor Cores
  - https://developer.nvidia.com/blog/optimizing-gpu-performance-tensor-cores/ - NVidia on Tensor Cores and quantization
@@ -19,4 +19,3 @@ References
  - https://arxiv.org/pdf/2004.08900.pdf - brief overview of model training costs
  - http://neuralnetworksanddeeplearning.com/chap2.html - long read on backprop (more of a theory)
  - https://mattmazur.com/2015/03/17/a-step-by-step-backpropagation-example - a practical example of backpropagation run
- - 
