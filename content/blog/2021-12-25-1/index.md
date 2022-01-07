@@ -24,10 +24,12 @@ description: I believe that DeepMind AlphaFold2 and Github Co-pilot were among t
   * Triangle multiplicative update
   * Triangle attention
 * Structure module
-  * Invariant-point attention (IPA), SE(3)-equivariance
+  * Invariant-point attention (IPA)
+  * Backbone prediction update
+  * Structure relaxation with physical methods: OpenMM
+* Loss function(s): FAPE and auxiliary losses
 * Refinement/recycling
 * Self-distillation
-* Loss function(s): FAPE and auxiliary losses
 * Training protocol and ablations
 
 ## Problem statement
@@ -206,13 +208,13 @@ Here is a depiction of attention mechanism from the classical "Attention is all 
 
 ![Scaled dot-product attention](./scaled_dot_product_attention_only.png)<center>**Scaled dot-product attention**</center>
 
-Suppose that attention input is a list of 3 queries, 3 keys and 3 values, where each individual query, key and value is an embedding vector of dimensionality e.g. 256.
+For instance, the inputs of attention mechanism could be lists of 3 queries, 3 keys and 3 values, where each individual query, key and value is an embedding vector of dimensionality e.g. 256:
 
 $Q = \begin{pmatrix} q_{1,1} && q_{1,2} && ... && q_{1,256} \\ q_{2,1} && q_{2,2} && ... && q_{2,256} \\ q_{3, 1} && q_{3, 2} && ... && q_{3, 256} \end{pmatrix}$,
 
 $K = \begin{pmatrix} k_{1,1} && k_{1,2} && ... && k_{1,256} \\ k_{2,1} && k_{2,2} && ... && k_{2,256} \\ k_{3, 1} && k_{3, 2} && ... && k_{3, 256} \end{pmatrix}$, 
 
-$V = \begin{pmatrix} v_{1,1} && v_{1,2} && ... && v_{1,256} \\ v_{2,1} && v_{2,2} && ... && v_{2,256} \\ v_{3, 1} && v_{3, 2} && ... && v_{3, 256} \end{pmatrix}$, 
+$V = \begin{pmatrix} v_{1,1} && v_{1,2} && ... && v_{1,256} \\ v_{2,1} && v_{2,2} && ... && v_{2,256} \\ v_{3, 1} && v_{3, 2} && ... && v_{3, 256} \end{pmatrix}$.
 
 Here is a PyTorch implementation of attention mechanism:
 
@@ -570,13 +572,37 @@ all of them affect the resulting updated sequence representation.
 
 ![Invariant point attention (IPA)](./IPA.png)
 
-The loss function that compares the predicted structure to the actual one, is called FAPE. It is invariant to the changes
-of global coordinate frame (that makes sense, as changing the viewpoint does not affect the predicted protein structure)
-and is a mixture of L2-norm with some smart regularizations/crops and other engineering tricks.
+The IPA part does not update the 3D structure itself, though. It only updates the embedding of a sequence. After IPA
+and a technical transition block the actual update of 3D structure is carried out by a backbone update module. It predicts
+the translation vector of each aminoacid residue as just a linear projection of the updated sequence embedding from IPA. It
+also predicts the rotation matrix for each residue (technically formulated in terms of [quaternions](https://en.wikipedia.org/wiki/Quaternions_and_spatial_rotation))
+from the updated sequence embedding.
 
 After the Neural network part produces the prediction of 3D structure, an OpenMM package is used to relax that structure with
 physical methods (molecular dynamics usually fails to find the global solution from scratch, but works reasonably, if the system is near its
 optimum).
+
+## Frame Aligned Point Error (FAPE) loss and auxiliary losses
+The main structural loss function, used in the course of training of AlphaFold2, is called Frame Aligned Point Error (FAPE). It is invariant to the changes
+of global coordinate frame (that makes sense, as changing the viewpoint does not affect the predicted protein structure)
+and is a mixture of L2-norm with some smart regularizations/crops and other engineering tricks.
+
+Basically, for each residue it measures a "robustified" version of L2-norm of all the heavy atoms, compared to ground truth. And then it sums
+those deviations under L1-norm. Apparently, such approach is more robust to outliers. Interestingly, it is also capable of
+distinguishing between stereoisomers. FAPE can either include or ignore aminoacid radicals and $\chi$ angles.
+
+However, the loss used for training is a weighted average of the main FAPE and auxiliary losses:
+
+* $\mathcal{L}_{FAPE}$ is FAPE loss
+* $\mathcal{L}_{aux}$ is a loss from auxiliary metrics in structure module
+* $\mathcal{L}_{dist}$ is loss from distogram prediction. AF2 tries to predict not only the distances between residues, but also distributions of distances, called *distograms*. Again, errors in those distributions are used as auxilliary losses.
+* $\mathcal{L}_{msa}$ is a loss from BERT-like masked MSA position prediction. AlphaFold2 masks-out or mutates a position of alignment and tries to predict it in a self-supervised way.
+* $\mathcal{L}_{conf}$ is a loss from model confidence in pLDDT prediction.
+* $\mathcal{L}_{exp\ resolved}$ is a loss from a head, predicting, if structure comes from a highly accurate experimental prediction, such as CryoEM or high-resolution X-ray crystallography.
+* $\mathcal{L}_{viol}$ is a loss for structural violations; penalizes unlikely lengths of bonds, torsion angles and sterically clashing atoms, even if ground truth structure is unavailable.
+
+![AlphaFold2 losses](./AF2_losses.png)<center>**AlphaFold2 losses**</center>
+
 
 ## Refinement a.k.a. "recycling" 
 
@@ -618,40 +644,6 @@ The algorithm is iterated a few times by treating the student as a teacher to re
 Noisy Student Training seeks to improve on self-training and distillation in two ways. First, it makes the student larger than, or at least equal to, the teacher so the student can better learn from a larger dataset. Second, it adds noise to the student, so that the noised student is forced to learn harder from the pseudo labels. To noise the student, it uses input noise such as RandAugment data augmentation, and model noise such as dropout and stochastic depth during training.
 
 ![Noisy Student Training](./noisy_student_training.png)
-
-## Frame Aligned Point Error (FAPE) loss and auxiliary losses
-The main structural loss function, used in the course of training of AlphaFold2, is called Frame Aligned Point Error (FAPE). 
-
-Basically, for each residue it measures a "robustified" version of L2-norm of all the heavy atoms, compared to ground truth. And then it sums
-those deviations under L1-norm. Apparently, such approach is more robust to outliers. Interestingly, it is also capable of
-distinguishing between stereoisomers. FAPE can either include or ignore aminoacid radicals and $\chi$ angles.
-
-However, the loss used for training is a weighted average of the main FAPE and auxiliary losses:
-
-* $\mathcal{L}_{FAPE}$ is FAPE loss
-* $\mathcal{L}_{aux}$ is a loss from auxiliary metrics in structure module
-* $\mathcal{L}_{dist}$ is loss from distogram prediction
-* $\mathcal{L}_{msa}$ is a loss from BERT-like masked MSA position prediction
-* $\mathcal{L}_{conf}$ is a loss from model confidence pLDDT prediction
-* $\mathcal{L}_{exp\ resolved}$ is a loss from a head, predicting, if structure comes from a highly accurate experimental prediction, such as CryoEM or high-resolution X-ray crystallography
-* $\mathcal{L}_{viol}$ is a loss for structural violations; penalizes unlikely lengths of bonds, torsion angles and sterically clashing atoms, even if ground truth structure is unavailable 
-
-![AlphaFold2 losses](./AF2_losses.png)<center>**AlphaFold2 losses**</center>
-
-#### Distogram prediction loss
-AF2 tries to predict not only the distances between residues, but also distributions of distances, called *distograms*. Again, errors in those distributions are used as auxilliary losses.
-
-#### BERT-like loss for the quality of prediction of MSA positions
-Self-supervised approach, similar to BERT approach.
-
-AlphaFold2 masks-out or mutates a position of alignment and tries to predict it.
-
-#### Confidence losses and prediction of experiment 
-AF2 outputs its confidence in the predicted residues coordinates, which are used as auxiliary losses. It also tries to predict, if a structure it looks at,
-was determined experimentally, or predicted.
-
-#### Structural violoation losses
-Another sanity-check for AF2, which penalizes unrealistic 3D structure features, such as bond lengths, angles, steric hindrances etc.
 
 ## Training protocol
 AF2 was trained on TPUv3 for about a week and than fine-tuned for 4 days.
