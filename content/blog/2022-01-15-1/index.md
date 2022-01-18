@@ -79,11 +79,11 @@ This problem is well-known and mathematically tractable. It is called [Quadratic
 
 ## Practice
 
-I implemented the solution in python/pandas/numpy and cvxopt quadratic programming library.
+I implemented the solution in python/pandas/numpy and [cvxopt](https://cvxopt.org/userguide/index.html) quadratic programming library.
 
 ### S&P 500 dataset
 
-As the dataset I used S&P 500 2013-2018 daily prices dataset from Kaggle.
+As the dataset I used S&P 500 2013-2018 daily prices [dataset](https://www.kaggle.com/camnugent/sandp500) from Kaggle.
 
 ### Covariance matrix 
 
@@ -101,18 +101,18 @@ Alternatively, they often use slipping average of shares prices + dividends as m
 
 #### Should be semi-definite, in practice is not.
 
-One more issues with the covariance matrix is that our time series of stock prices often contains NaNs. E.g. a merger occurred, and
-a company ceased to exist, or other company appeared. Stock prices after/before that even become NaNs.
+One more issue with the covariance matrix is that our time series of stock prices often contains NaNs. E.g. a merger happened, and
+a company ceased to exist, or other company appeared. Stock prices after/before that event become NaNs.
 
 The problem with NaNs is that covariance matrix stops being positive semi-definite, which breaks the quadratic programming.
 
-So, two solutions here: either remove rows with NaNs, which makes S&P500 more of an S&P470. Or apply L2 regularization by
+So, we have two solutions here: either remove rows with NaNs, which makes S&P500 more of an S&P470. Or apply L2 regularization by
 adding unit matrix with some coefficient and effectively increasing all the eigenvalues by some value until they all
 become positive, so that the covariance matrix becomes positive semi-definite.
 
-### Risk-return tradeoff curve
+### Risk-return trade-off curve
 
-Ok, here's the code. First, load our data, remove NaNs.
+Ok, here's the code. First, load our data.
 
 ```python
 all_stocks = pd.read_csv("./data/kaggle_sandp500/all_stocks_5yr.csv")
@@ -121,7 +121,7 @@ all_stocks.head(50)
 
 ![S&P500 dataset](./S&P500.png)
 
-Now, pivot the dataset, so that it could be used to construct the covariance matrix:
+Now, pivot the dataset, so that it could be used to construct the covariance matrix, and remove NaNs:
 
 ```python
 all_stocks_pivoted = all_stocks.pivot(index='Name', columns='date', values='close')
@@ -142,8 +142,8 @@ covariance_matrix
 
 Using the covariance matrix, we can run quadratic programming to optimize our portfolio. 
 
-I assume that we have \$100,000, want to have \$115,000 in a year and have our portfolio contents somewhat sparse with
-L1 norm constraint set to 1000, which results in a few dozen stocks. I assume that expected returns of the shares are
+I assume that initially we have \$100,000, want to have \$115,000 in a year and have our portfolio contents somewhat sparse with
+L1 norm constraint set to 1000, which results in a few dozen stocks. Here for simplicity I assume that expected returns of the shares are
 means of their observed returns in 2013-2018.
 
 ```python
@@ -192,7 +192,7 @@ def solve_optimization(total_cost_constraint, returns_constraint, norm_constrain
 solution = solve_optimization(total_cost_constraint=100000, returns_constraint=115000, norm_constraint=1000)
 ```
 
-Now that optimization is finished, let's take a look at our portfolio: its variance and constitutes.
+Now that optimization is finished, let's take a look at our portfolio: its variance and constituents.
 
 ```python
 from cvxopt.blas import dot
@@ -278,14 +278,16 @@ industrial companies in Russia, as historically they are managed by crooks, so m
 companies with good reputation. When I decide that it is time to buy S&P 500 more heavily, I will rely on this
 approach more. 
 
-I don't like the way I predict returns now, though. I will have to use better models, which can be automated using data from APIs of
-parsed financial statements, and be different for stable and expanding companies.
+I don't like the way I predict returns now, though. I will have to use better models. Their construction should allow for
+automation using data from APIs of parsed financial statements, and be different for stable and expanding companies.
 
 ## References
 * https://www.kaggle.com/camnugent/sandp500 - S&P 500 dataset from Kaggle
 * http://cvxopt.org/examples/tutorial/qp.html - cvxopt quadratic programming tutorial
 * https://cvxopt.org/userguide/coneprog.html - cvxopt documentation details on quadratic programming, including the risk curve and L1 norm etc.
+* https://cvxopt.org/userguide/index.html - cvxopt user guide
 * https://www.stat.cmu.edu/~ryantibs/convexopt/lectures/dual-gen.pdf - primal-dual Lagrange problems by Ryan Tibshirani (no, it's Robert's son)
 * https://www.investopedia.com/terms/r/riskreturntradeoff.asp - risk-return tradeoff
 * https://medium.com/bearnbull/demystifying-the-magic-of-modern-portfolio-theory-5ed86a03e4dc - good intro to MPF from medium
 * https://en.wikipedia.org/wiki/Markowitz_model - about Henry Markowitz
+* https://www.di.ens.fr/~aspremon/PDF/INFORMS05sparsePCA.pdf - on Sparse PCA in finance
