@@ -287,3 +287,5 @@ parsed financial statements, and be different for stable and expanding companies
 * https://cvxopt.org/userguide/coneprog.html - cvxopt documentation details on quadratic programming, including the risk curve and L1 norm etc.
 * https://www.stat.cmu.edu/~ryantibs/convexopt/lectures/dual-gen.pdf - primal-dual Lagrange problems by Ryan Tibshirani (no, it's Robert's son)
 * https://www.investopedia.com/terms/r/riskreturntradeoff.asp - risk-return tradeoff
+* https://medium.com/bearnbull/demystifying-the-magic-of-modern-portfolio-theory-5ed86a03e4dc - good intro to MPF from medium
+* https://en.wikipedia.org/wiki/Markowitz_model - about Henry Markowitz
