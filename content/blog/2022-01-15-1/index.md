@@ -150,7 +150,7 @@ means of their observed returns in 2013-2018.
 from cvxopt import matrix, solvers
 
 
-def solve_optimization(total_cost_constraint, returns_constraint, norm_constraint):
+def solve_optimization(total_cost_constraint, return_constraint, norm_constraint):
     covariance_matrix_np = covariance_matrix.to_numpy()
     dimension = covariance_matrix_np.shape[0]
 
@@ -166,30 +166,30 @@ def solve_optimization(total_cost_constraint, returns_constraint, norm_constrain
     h = np.zeros(dimension, dtype=float)
     h = matrix(h)
 
-    # construct 3 equality constraints: on total cost, on returns and on L1-norm
+    # construct 3 equality constraints: on total cost, on return and on L1-norm
 
     # total_cost_constraint specifies the total monetery value of our portfolio
     total_cost_equation_coefficients = all_stocks_pivoted["2018-02-07"].to_numpy()
 
-    # returns_constraint sets a fixed level of returns, we expect from our portfolio; for fixed return levels
-    returns_constraint_equation_coefficients = all_stocks_pivoted["2018-02-07"].divide(all_stocks_pivoted["2013-02-08"]).pow(0.2).mul(all_stocks_pivoted["2018-02-07"]).to_numpy()
+    # return_constraint sets a fixed level of return, we expect from our portfolio
+    return_constraint_equation_coefficients = all_stocks_pivoted["2018-02-07"].divide(all_stocks_pivoted["2013-02-08"]).pow(0.2).mul(all_stocks_pivoted["2018-02-07"]).to_numpy()
 
     # norm_constraint sets L1-norm on weights of instruments in our portfolio, serving as a computationally efficient proxy for L0-norm;
     # we want to get a sparse solution - not all 500 S&P companies with some weights, but only a small subset, e.g. 20;
     # by relaxing the norm_constraint, we can add more companies to our portfolio, by making it smaller - remove some
     norm_constraint_equation_coefficients = np.ones(dimension, dtype=float)
 
-    A = np.vstack((total_cost_equation_coefficients, returns_constraint_equation_coefficients, norm_constraint_equation_coefficients))
+    A = np.vstack((total_cost_equation_coefficients, return_constraint_equation_coefficients, norm_constraint_equation_coefficients))
     A = matrix(A)
 
-    b = np.array((total_cost_constraint, returns_constraint, norm_constraint), dtype=float)    
+    b = np.array((total_cost_constraint, return_constraint, norm_constraint), dtype=float)    
     b = matrix(b)
 
     # solve QP
     return solvers.qp(P, q, G, h, A, b)
 
 
-solution = solve_optimization(total_cost_constraint=100000, returns_constraint=115000, norm_constraint=1000)
+solution = solve_optimization(total_cost_constraint=100000, return_constraint=115000, norm_constraint=1000)
 ```
 
 Now that optimization is finished, let's take a look at our portfolio: its variance and constituents.
@@ -252,8 +252,8 @@ I also tried to alter the return goal in order to get the risk-return curve and 
 ```python
 risks = []
 returns = []
-for expected_returns in range(100000, 200000, 10000):
-    solution = solve_optimization(expected_returns=expected_returns)
+for expected_return in range(100000, 200000, 10000):
+    solution = solve_optimization(total_cost_constraint=100000, return_constraint=expected_return, norm_constraint=1000)
     risks.append(math.sqrt(dot(solution['x'], matrix(covariance_matrix.to_numpy()) * solution['x'])))
     returns.append(expected_returns)
 
@@ -279,10 +279,12 @@ companies with good reputation. When I decide that it is time to buy S&P 500 mor
 approach more. 
 
 I don't like the way I predict returns now, though. I will have to use better models. Their construction should allow for
-automation using data from APIs of parsed financial statements, and be different for stable and expanding companies.
+automation using data from APIs of parsed financial statements, and be different for stable and expanding companies. For
+instance, one could use the data from financialmodelingprep.com.
 
 ## References
 * https://www.kaggle.com/camnugent/sandp500 - S&P 500 dataset from Kaggle
+* https://site.financialmodelingprep.com/developer/docs - financialmodelingprep API with financial data
 * http://cvxopt.org/examples/tutorial/qp.html - cvxopt quadratic programming tutorial
 * https://cvxopt.org/userguide/coneprog.html - cvxopt documentation details on quadratic programming, including the risk curve and L1 norm etc.
 * https://cvxopt.org/userguide/index.html - cvxopt user guide
