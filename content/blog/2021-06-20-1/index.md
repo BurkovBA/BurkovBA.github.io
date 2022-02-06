@@ -57,7 +57,7 @@ $ = \mathbb{E}(\frac{1}{n}\sum \limits_{i=1}^{n} ( (\xi_i-\mu)^2) + 2\mathbb{E}(
 
 $ = \frac{n}{n}\sigma^2 - \mathbb{E}(\frac{2(\hat{\mu} - \mu)}{n} \sum \limits_{i=1}^{n}(\xi_i-\mu)) + \frac{n \frac{\sigma^2}{n}}{n} = \sigma^2 - \mathbb{E}(\frac{2(\hat{\mu}-\mu)}{n} n(\hat{\mu}-\mu)) + \frac{\sigma^2}{n} = \sigma^2 - 2\frac{\sigma^2}{n} + \frac{\sigma^2}{n} = \frac{n-1}{n}\sigma^2$.
 
-Thus, the unbiased distribution variance is $\frac{n}{n-1}\hat{S}^2 = S^2$, so that $\mathbb{E}(\frac{n}{n-1}\hat{S}^2) = \mathbb{E}(S^2) = \sigma^2$.
+Thus, the unbiased sample variance is $\frac{n}{n-1}\hat{S}^2 = S^2$, so that $\mathbb{E}(\frac{n}{n-1}\hat{S}^2) = \mathbb{E}(S^2) = \sigma^2$.
 
 ### Sample variance consists of sum of squares of non-independent normal random variables
 
