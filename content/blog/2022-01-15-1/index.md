@@ -1,5 +1,5 @@
 ---
-title: Modern Portfolio Theory... and Practice.
+title: Modern Portfolio Theory... and Practice
 date: "2022-01-15T00:00:00.284Z"
 tags: ["economy", "math"]
 cover: "./risk_return.png"
