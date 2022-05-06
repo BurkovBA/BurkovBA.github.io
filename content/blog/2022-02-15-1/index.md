@@ -16,7 +16,7 @@ Consider the problem we aim to solve. We need to minimize the weighted sum of 2 
 
 $f({\bf w}) = \underbrace{ ({\bf y} - X {\bf w})^2}_{\text{sum of squares of regression residues}}  + \underbrace{\alpha ||{\bf w}||_{1}}_\text{L1-norm of regression weights} = \underbrace{ \sum \limits_{i=1}^{n} (y_i - \sum \limits_{j=1}^{p} w_j X_{i,j})^2}_{\text{sum of squares of regression residues}} + \underbrace{\alpha ||{\bf w}||_{1}}_{ \text{L1-norm of regression weights} } \to min$
 
-Luckily, $f({\bf w})$ function is very tractable, so it is easy to perform exact calculations of its gradient, hessian etc. 
+Luckily, $f({\bf w})$ function is tractable, so it is easy to perform exact calculations of its gradient, hessian etc. 
 
 Thus, we don't have to rely on the savvy techniques from numeric optimization theory, such as line search, Wolfe conditions etc.
 
@@ -105,3 +105,6 @@ TODO
 * https://machinelearningcompass.com/machine_learning_math/subgradient_descent/ - a great post by Boris Giba on subgradient descent
 * https://davidrosenberg.github.io/mlcourse/Archive/2019/Lectures/03c.subgradient-descent-lasso.pdf - a good presentation on subgradient descent
 * https://xavierbourretsicotte.github.io/lasso_derivation.html - excellent blog post on Lasso derivation
+* https://stephentu.github.io/blog/convex-optimization/lasso/2016/08/20/dual-lasso-program.html - lasso dual derivation
+* https://en.wikipedia.org/wiki/Slater%27s_condition - Slater's condition
+* 
