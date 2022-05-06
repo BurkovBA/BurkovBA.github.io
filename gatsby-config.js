@@ -40,6 +40,8 @@ module.exports = {
               includeDefaultCss: true
             }
           },
+          `gatsby-transformer-ffmpeg`,
+          `gatsby-plugin-ffmpeg`,
           {
             resolve: `gatsby-remark-images`,
             options: {
