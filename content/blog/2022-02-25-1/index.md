@@ -6,9 +6,9 @@ cover: "./lagrange_multipliers.png"
 description: Lagrange multipliers are ubiquitous in optimization theory and natural sciences, such as mechanics and statistical physics. Here I work out its intuition and derivation.
 ---
 
-[comment]: <> (Video one:)
 
-[comment]: <> (![]&#40;LagrangeMultipliers2DScene.mp4&#41;)
+
+![Lagrange multipliers 2D scene](LagrangeMultipliers2DScene.mp4)
 
 ## References:
 * https://math.stackexchange.com/questions/2578903/lagrange-multipliers-tangency - good stack overflow post on Lagrange multipliers derivation

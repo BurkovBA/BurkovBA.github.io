@@ -43,6 +43,59 @@ module.exports = {
           `gatsby-transformer-ffmpeg`,
           `gatsby-plugin-ffmpeg`,
           {
+            resolve: 'gatsby-remark-video',
+            options: {
+                width: 800,
+                height: 'auto',
+                preload: 'auto',
+                muted: true,
+                autoplay: true,
+                playsinline: true,
+                controls: true,
+                loop: true
+            }
+          },
+          {
+            resolve: `@burkov/gatsby-remark-videos`,
+            options: {
+              pipelines: [
+                {
+                  name: 'vp9',
+                  transcode: chain =>
+                    chain
+                      .videoCodec('libvpx-vp9')
+                      .noAudio()
+                      .outputOptions(['-crf 20', '-b:v 0']),
+                  maxHeight: 480,
+                  maxWidth: 900,
+                  fileExtension: 'webm',
+                },
+                {
+                  name: 'h264',
+                  transcode: chain =>
+                    chain
+                      .videoCodec('libx264')
+                      .noAudio()
+                      .addOption('-profile:v', 'main')
+                      .addOption('-pix_fmt', 'yuv420p')
+                      .outputOptions(['-movflags faststart'])
+                      .videoBitrate('1000k'),
+                  maxHeight: 480,
+                  maxWidth: 900,
+                  fileExtension: 'mp4',
+                },
+              ],
+              attributes: [
+                'preload',
+                'autoplay',
+                'muted',
+                'loop',
+                'playsinline',
+                'controls'
+              ]
+            }
+          },
+          {
             resolve: `gatsby-remark-images`,
             options: {
               maxWidth: 990,
@@ -58,7 +111,9 @@ module.exports = {
           `gatsby-remark-copy-linked-files`,
           `gatsby-remark-smartypants`,
           {
-            resolve: `@burkov/gatsby-remark-katex`,
+            // "@burkov/gatsby-remark-katex": "^5.4.1-next.1",
+//            resolve: `@burkov/gatsby-remark-katex`,
+            resolve: `gatsby-remark-katex`,
             options: {
               // Add any KaTeX options from https://github.com/KaTeX/KaTeX/blob/master/docs/options.md here
               strict: `ignore`
@@ -144,7 +199,7 @@ module.exports = {
         shortname: "burkovba"
       }
     },
-    `gatsby-plugin-feed`,
+//    `gatsby-plugin-feed`,
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
