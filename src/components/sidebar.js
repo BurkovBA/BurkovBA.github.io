@@ -188,7 +188,7 @@ class SidebarComponent extends React.Component {
           <img src={photo} alt="my photo" />
         </AboutLink>
         <AboutSection>
-          Written by <strong>{author}</strong> who lives in Moscow, Russia and Cambridge, UK, loves to take part in
+          Written by <strong>{author}</strong> who lives in Moscow, Russia, loves to take part in
           development of cutting-edge technologies, reflects on how the world works and admires the giants of the past.
           <br />
           <br />

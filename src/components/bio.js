@@ -52,7 +52,7 @@ const Bio = () => {
         }}
       />
       <p>
-        Written by <strong>{author}</strong> who lives in Moscow, Russia and Cambridge, UK, loves to take part in
+        Written by <strong>{author}</strong> who lives in Moscow, Russia, loves to take part in
         development of cutting-edge technologies, reflects on how the world works and admires the giants of the past.
         {` `}
         <a href={`https://t.me/${social.telegram}`}>
