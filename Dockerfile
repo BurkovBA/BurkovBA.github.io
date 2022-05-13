@@ -17,6 +17,7 @@ RUN apk add --update \
     libtool \
     pkgconfig \
     nasm \
+    ffmpeg \
   && pip install virtualenv \
   && rm -rf /var/cache/apk/*
 
