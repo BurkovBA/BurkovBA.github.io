@@ -7,7 +7,8 @@ export const colors = {
   second50: `rgba(251, 250, 252, 0.5)`,
   textMain: `#000000`,
   textSecond: `#ffffff`,
-  textBody: `#222222`
+  textBody: `#222222`,
+  white: `rgba(255, 255, 255, 1)`,
 };
 
 export const queryPoints = {
