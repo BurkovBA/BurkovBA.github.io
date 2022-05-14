@@ -37,9 +37,9 @@ const Name = styled.div`
 `;
 
 const NameLink = styled.a`
-    color: ${colors.textBody};
+    color: var(--theme-ui-colors-grey-60,#635e69);
     letter-spacing: 2px;
-    font-weight: 600;
+    font-weight: 500;
 //    color: var(--theme-ui-colors-grey-60,#635e69);
 `;
 
