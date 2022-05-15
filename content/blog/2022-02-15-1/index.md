@@ -107,4 +107,4 @@ TODO
 * https://xavierbourretsicotte.github.io/lasso_derivation.html - excellent blog post on Lasso derivation
 * https://stephentu.github.io/blog/convex-optimization/lasso/2016/08/20/dual-lasso-program.html - lasso dual derivation
 * https://en.wikipedia.org/wiki/Slater%27s_condition - Slater's condition
-* 
+* https://www.eecis.udel.edu/~xwu/class/ELEG667/Lecture5.pdf - amazing lecture with graphical explanation of strong/weak duality
