@@ -116,7 +116,7 @@ We can interpret PCA as a decomposition of the input data matrix $X$ into an ord
 by outer products of principal components. Let us re-write the SVD transform as a series of outer products:
 
 $X = \sum \limits_{i=1}^{p} \lambda_i u_i v_i^T$, where $\lambda_i$ are eigenvalues, $u_i$ are column-vectors of matrix $U$
-and $v_i^T$ are row-vectors of matrix $V^T, so that $u_i v_i^T$ is an outer-product, resulting in a matrix of rank 1.
+and $v_i^T$ are row-vectors of matrix $V^T$, so that $u_i v_i^T$ is an outer-product, resulting in a matrix of rank 1.
 
 Each term of this sum contributes more to the resulting data matrix, the larger is the eigenvalue $\lambda_i$ in it. As in
 the case of Fourier transform, if we aim to compress the data, we can truncate the series early, when we believe that enough
