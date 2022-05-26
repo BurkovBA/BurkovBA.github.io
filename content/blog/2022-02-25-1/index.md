@@ -61,6 +61,10 @@ equivalent (this is called Slater condition).
 However, if $f(x)$ and $g(x)$ are not convex, the solutions of the original problem $f^*(x)$ and of the Lagrange dual problem
 $\inf_{x} \Lambda(x)$ diverge by a value, called **duality gap**.
 
+Let us depict a weird coordinate system, where instead of x, we use $f(x)$ and $g(x)$ as variables. In that coordinate
+system if conditions are not convex, the area, delimited by conditions, is not convex as well. Then there is a gap
+between the primal optimization problem and the dual problem:
+
 ![Lagrange dual](LagrangeDualScene.mp4)
 
 ## References:
