@@ -52,7 +52,7 @@ class LagrangeDualScene(Scene):
         invisible_line = Line(start=axes.c2p(0, 0), end=axes.c2p(0, 2.66))
         dual_dot = Dot(color=RED, point=axes.c2p(0, 0))
         self.play(FadeIn(dual_dot, scale=0.5), MoveAlongPath(dual_dot, invisible_line))
-        lambda_text = Tex("\inf_x \Lambda(x) = f(x) - \lambda g(x)")
+        lambda_text = Tex("\max_{\lambda} \inf_x \mathcal{L}(x) = f(x) - \lambda^* g(x)")
         lambda_text.next_to(dual_dot, direction=LEFT)
         lambda_text.set_color(RED)
         self.add(lambda_text)
@@ -69,7 +69,7 @@ class LagrangeDualScene(Scene):
         self.add(dual_line)
         self.wait()
 
-        f_star_text = Tex("f^*(x)")
+        f_star_text = Tex("f(x^*)")
         f_star_text.next_to(dual_dot, direction=LEFT)
         f_star_text.set_color(GREEN)
         self.add(f_star_text)
@@ -86,7 +86,7 @@ class LagrangeDualScene(Scene):
         self.add(duality_gap_line)
         self.wait()
 
-        duality_gap_text = Tex("gap = \inf_x \Lambda(x) - f^*(x)")
+        duality_gap_text = Tex("gap = \mathcal{L}(x, \lambda^*) - f(x^*)")
         duality_gap_text.next_to(duality_gap_line, direction=LEFT)
         duality_gap_text.set_color(BLUE)
         self.add(duality_gap_text)
