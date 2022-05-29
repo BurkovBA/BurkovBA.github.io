@@ -69,7 +69,7 @@ class LagrangeDualScene(Scene):
         self.add(dual_line)
         self.wait()
 
-        f_star_text = Tex("f(x^*)")
+        f_star_text = Tex("f(x^*): g(x^*) \ge 0" )
         f_star_text.next_to(dual_dot, direction=LEFT)
         f_star_text.set_color(GREEN)
         self.add(f_star_text)
