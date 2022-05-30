@@ -67,7 +67,7 @@ However, it is undefined for $w_k = 0$, and we cannot ignore this case, as the w
 
 $\frac{\partial |w_k|}{\partial w_k} = \begin{cases} 1, w_k > 0 \\ -1, w_k < 0 \\ \text{undefined}, w_k = 0 \end{cases}$
 
-The workaround from this situation is to replace the exact gradient with subgradient, which is a function less than or equal the gradient in every point.
+The workaround from this situation is to replace the exact gradient with subgradient, which is a function less than or equal to the gradient in every point.
 
 $sub \frac{\partial f}{\partial w_k} = \langle {\bf R}, {\bf X_k} \rangle - \frac{\alpha}{2} \cdot sub \frac{\partial|w_k|}{\partial w_k} - \underbrace{ || {\bf X_k} ||_2 \cdot w_k}_\text{0} = 0 \implies sub \frac{\partial|w_k|}{\partial w_k} = \langle {\bf R}, {\bf X_k} \rangle / \frac{\alpha}{2}$
 
