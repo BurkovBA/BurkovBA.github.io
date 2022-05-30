@@ -89,7 +89,7 @@ $w_k = \begin{cases}
   0, -\frac{\alpha}{2} \le \langle {\bf R}, {\bf X_k} \rangle \le \frac{\alpha}{2} \end{cases}
 $
 
-### Stoppage criterion: dual problem and duality gap
+### Stoppage criterion: Lasso dual problem and duality gap
 
 Now, the stoppage criterion for the Lasso procedure is formulated in terms of pair of primal-dual optimisation problems.
 
@@ -101,11 +101,45 @@ $\mathcal{L}({\bf w}, {\bf \Lambda}, {\bf z}) = {\bf z}^2 + \alpha || {\bf w} ||
 
 Lagrange dual problem is to find ${\bf \Lambda^*} = \arg \max \limits_{\bf \Lambda} \inf \limits_{\bf w, z} \mathcal{L}({\bf w}, {\bf \Lambda}, {\bf z})$
 
+First, split our Lagrangian into 2 terms that we optimize independently:
+
+$\mathcal{L}({\bf w}, {\bf \Lambda}, {\bf z}) = \underbrace{{\bf z}^2 - {\bf \Lambda}^T ({\bf z} + {\bf y} )}_\text{Term 1: minimize in {\bf z}} + \underbrace{\alpha || {\bf w} ||_1 + {\bf \Lambda}^T X {\bf w}}_\text{Term 2: minimize in {\bf w}}$
+
+#### Term 1 analysis
+
+Let us take the partial derivatives of term 1 in $z_i$:
+
+$\frac{\partial ({\bf z}^2 - {\bf \Lambda}^T ({\bf z} + {\bf y}))}{\partial z_i} = 2z_i - \Lambda_i = 0$, and $z_i = \frac{\Lambda_i}{2}$
+
+Substituting this back into term 1, we get:
+
+$\min \limits_{\bf z} T_1 = \frac{1}{4} {\bf \Lambda}^T {\bf \Lambda} - 2 \frac{1}{4} {\bf \Lambda}^T {\bf \Lambda} - {\bf \Lambda}^T {\bf y} = \frac{1}{4} {\bf \Lambda}^T {\bf \Lambda} - {\bf \Lambda}^T {\bf y}$
+
+#### Term 2 analysis
+
+Let us take the partial derivatives of term 2 in $w_i$: 
+
+$\frac{\partial ({\alpha || {\bf w} ||_1 + {\bf \Lambda}^T X {\bf w})}}{\partial w_i} = \alpha \cdot sign(w_i) + \{{\bf \Lambda}^T X\}_i = 0$
+
+$\min \limits_{w_i} T_{2} = \begin{cases} 0, |\{{\bf \Lambda}^T X\}_i| \le \alpha \\ -\infty, |\{{\bf \Lambda}^T X\}_i| > \alpha \end{cases}$
+
+(you can get $\{{\bf \Lambda}^T X\}_i w_i$ term to be negative, and it will outgrow $\alpha \cdot sign(w_i)$ if $|\{{\bf \Lambda}^T X\}_i| > \alpha$)
+
+Hence, if any of $i$ terms $|\{{\bf \Lambda}^T X\}_i| > \alpha$, $\min T_2 = -\infty$, otherwise, $\min T_2 = 0$.
+
+#### Taking the terms together and solving the Lagrange dual
+
 The optimal value of Lagrangian, corresponding to the solution of this problem is:
 
-$\inf \limits_{\bf w, z} \mathcal{L}({\bf w}, {\bf \Lambda}, {\bf z}) = \begin{cases} -\frac{1}{4} {\bf \Lambda}^T {\bf \Lambda} - {\bf \Lambda}^T {\bf y}, |X^T {\bf \Lambda}| \le \alpha \\ -\infty, otherwise \end{cases}$
+$\inf \limits_{\bf w, z} \mathcal{L}({\bf \Lambda}) = \begin{cases} -\frac{1}{4} {\bf \Lambda}^T {\bf \Lambda} - {\bf \Lambda}^T {\bf y}, \{|X^T {\bf \Lambda}|\}_i \le \alpha \\ -\infty, otherwise \end{cases}$
 
-${\bf \Lambda} = 2s (X {\bf w} - {\bf y})$, where $s = \min \limits_{i} \frac{\alpha}{2} \frac{1}{| X^T X {\bf w} - {\bf y} |}, i = 1, ..., n$
+So, we've come to a dual optimization problem: we need to achieve the maximum of dual function:
+
+$q({\bf \Lambda}) = -\frac{1}{4} {\bf \Lambda}^T {\bf \Lambda} - {\bf \Lambda}^T {\bf y}$,
+
+given a set of inequality constraints $\{|X^T {\bf \Lambda}|\}_i \le \alpha$.
+
+${\bf \Lambda} = 2s (X {\bf w} - {\bf y})$, where $s = \min \limits_{i} \frac{\alpha}{2} \frac{1}{| \{ X^T X {\bf w}\}_i - y_i |}, i = 1, ..., n$
 
 The problem is convex and by Slater's condition if the solution of primal problem is feasible, the duality is strict.
 
