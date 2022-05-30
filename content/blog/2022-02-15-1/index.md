@@ -14,7 +14,7 @@ to study L1 regularization implementation from Scikit-learn in detail.
 
 Consider the problem we aim to solve. We need to minimize the weighted sum of 2 terms: first term is the sum of squares of regression residues, second term is L1 norm of regression weights with some hyperparameter $\alpha$:
 
-$f({\bf w}) = \underbrace{ ({\bf y} - X {\bf w})^2}_{\text{sum of squares of regression residues}}  + \underbrace{\alpha ||{\bf w}||_{1}}_\text{L1-norm of regression weights} = \underbrace{ \sum \limits_{i=1}^{n} (y_i - \sum \limits_{j=1}^{p} w_j X_{i,j})^2}_{\text{sum of squares of regression residues}} + \underbrace{\alpha ||{\bf w}||_{1}}_{ \text{L1-norm of regression weights} } \to min$
+$f({\bf w}) = \underbrace{ ({\bf y} - X {\bf w})^2}_{\text{sum of squares of regression residues}} + \underbrace{\alpha ||{\bf w}||_{1}}_\text{L1-norm of regression weights} = \underbrace{ \sum \limits_{i=1}^{n} (y_i - \sum \limits_{j=1}^{p} w_j X_{i,j})^2}_{\text{sum of squares of regression residues}} + \underbrace{\alpha ||{\bf w}||_{1}}_{ \text{L1-norm of regression weights} } \to min$
 
 Luckily, $f({\bf w})$ function is tractable, so it is easy to perform exact calculations of its gradient, hessian etc. 
 
@@ -91,7 +91,25 @@ $
 
 ### Stoppage criterion: dual problem and duality gap
 
-TODO
+Now, the stoppage criterion for the Lasso procedure is formulated in terms of pair of primal-dual optimisation problems.
+
+While $\alpha$ is considered a parameter of the system, we introduce a variable substitution $X {\bf w} - {\bf y} = {\bf z}$.
+
+We present this variable substitution as a set of constraints for the optimisation problem and apply Lagrange multipliers to it:
+
+$\mathcal{L}({\bf w}, {\bf \Lambda}, {\bf z}) = {\bf z}^2 + \alpha || {\bf w} ||_1 + {\bf \Lambda}^T (X {\bf w} - {\bf y} - {\bf z})$
+
+Lagrange dual problem is to find ${\bf \Lambda^*} = \arg \max \limits_{\bf \Lambda} \inf \limits_{\bf w, z} \mathcal{L}({\bf w}, {\bf \Lambda}, {\bf z})$
+
+The optimal value of Lagrangian, corresponding to the solution of this problem is:
+
+$\inf \limits_{\bf w, z} \mathcal{L}({\bf w}, {\bf \Lambda}, {\bf z}) = \begin{cases} -\frac{1}{4} {\bf \Lambda}^T {\bf \Lambda} - {\bf \Lambda}^T {\bf y}, |X^T {\bf \Lambda}| \le \alpha \\ -\infty, otherwise \end{cases}$
+
+${\bf \Lambda} = 2s (X {\bf w} - {\bf y})$, where $s = \min \limits_{i} \frac{\alpha}{2} \frac{1}{| X^T X {\bf w} - {\bf y} |}, i = 1, ..., n$
+
+The problem is convex and by Slater's condition if the solution of primal problem is feasible, the duality is strict.
+
+Hence, duality gap converges to 0, and we can use it as a stoppage criterion in our Lasso problem.
 
 ## Alternatives: preconditioned conjugate gradients
 
