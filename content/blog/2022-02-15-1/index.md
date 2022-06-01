@@ -55,7 +55,7 @@ where ${\bf X_k} = \begin{pmatrix} X_{1,k} \\ X_{2,k} \\ ... \\ X_{n,k} \end{pma
 
 Then we can re-write in vector form:
 
-$w_k = (\langle {\bf R}, {\bf X_k} \rangle - \frac{\alpha}{2} \cdot \frac{\partial|w_k|}{\partial w_k}) / || {\bf X_k} ||_2$.
+$w_k = (\langle {\bf R}, {\bf X_k} \rangle - \frac{\alpha}{2} \cdot \frac{\partial|w_k|}{\partial w_k}) / || {\bf X_k} ||_2^2$.
 
 ### Subgradient
 
@@ -69,7 +69,7 @@ $\frac{\partial |w_k|}{\partial w_k} = \begin{cases} 1, w_k > 0 \\ -1, w_k < 0 \
 
 The workaround from this situation is to replace the exact gradient with subgradient, which is a function less than or equal to the gradient in every point.
 
-$sub \frac{\partial f}{\partial w_k} = \langle {\bf R}, {\bf X_k} \rangle - \frac{\alpha}{2} \cdot sub \frac{\partial|w_k|}{\partial w_k} - \underbrace{ || {\bf X_k} ||_2 \cdot w_k}_\text{0} = 0 \implies sub \frac{\partial|w_k|}{\partial w_k} = \langle {\bf R}, {\bf X_k} \rangle / \frac{\alpha}{2}$
+$sub \frac{\partial f}{\partial w_k} = \langle {\bf R}, {\bf X_k} \rangle - \frac{\alpha}{2} \cdot sub \frac{\partial|w_k|}{\partial w_k} - \underbrace{ || {\bf X_k} ||_2^2 \cdot w_k}_\text{0} = 0 \implies sub \frac{\partial|w_k|}{\partial w_k} = \langle {\bf R}, {\bf X_k} \rangle / \frac{\alpha}{2}$
 
 Now, the allowed values of the subgradient are bounded by the derivatives at $w_k = 0_+$ and $w_k = 0_-$:
 
@@ -84,8 +84,8 @@ $-\frac{\alpha}{2} \le \langle {\bf R}, {\bf X_k} \rangle \le \frac{\alpha}{2}$
 Now, if we substitute the exact gradient in coordinate descent formula with subgradient, we get:
 
 $w_k = \begin{cases} 
-  (\langle {\bf R}, {\bf X_k} \rangle - \frac{\alpha}{2} ) / || {\bf X_k} ||_2, w_k > 0 \iff \langle {\bf R}, {\bf X_k} \rangle > \frac{\alpha}{2} \\
-  (\langle {\bf R}, {\bf X_k} \rangle + \frac{\alpha}{2} ) / || {\bf X_k} ||_2, w_k < 0 \iff \langle {\bf R}, {\bf X_k} \rangle < -\frac{\alpha}{2} \\ 
+  (\langle {\bf R}, {\bf X_k} \rangle - \frac{\alpha}{2} ) / || {\bf X_k} ||_2^2, w_k > 0 \iff \langle {\bf R}, {\bf X_k} \rangle > \frac{\alpha}{2} \\
+  (\langle {\bf R}, {\bf X_k} \rangle + \frac{\alpha}{2} ) / || {\bf X_k} ||_2^2, w_k < 0 \iff \langle {\bf R}, {\bf X_k} \rangle < -\frac{\alpha}{2} \\ 
   0, -\frac{\alpha}{2} \le \langle {\bf R}, {\bf X_k} \rangle \le \frac{\alpha}{2} \end{cases}
 $
 
@@ -135,28 +135,36 @@ $\inf \limits_{\bf w, z} \mathcal{L}({\bf \Lambda}) = \begin{cases} -\frac{1}{4}
 
 So, we've come to a dual optimization problem: we need to achieve the maximum of dual function:
 
-$q({\bf \Lambda}) = -\frac{1}{4} {\bf \Lambda}^T {\bf \Lambda} - {\bf \Lambda}^T {\bf y}$,
+$q({\bf \Lambda}) = -\frac{1}{4} {\bf \Lambda}^T {\bf \Lambda} - {\bf \Lambda}^T {\bf y}$, 
 
-given a set of inequality constraints $\{|X^T {\bf \Lambda}|\}_i \le \alpha$.
-
-${\bf \Lambda} = 2s (X {\bf w} - {\bf y})$, where $s = \min \limits_{i} \frac{\alpha}{2} \frac{1}{| \{ X^T X {\bf w}\}_i - y_i |}, i = 1, ..., n$
+given a set of inequality constraints $\{|X^T {\bf \Lambda}|\}_i \le \alpha$ (or, in an infinity-norm notation $||X^T {\bf \Lambda}||_{\infty} \le \alpha$).
 
 The problem is convex and by Slater's condition if the solution of primal problem is feasible, the duality is strict.
 
 Hence, duality gap converges to 0, and we can use it as a stoppage criterion in our Lasso problem.
 
-## Alternatives: preconditioned conjugate gradients
+### Geometric interpretation of Lagrange dual
+
+Ryan Tibshirani [provides (page 11)](https://www.stat.cmu.edu/~ryantibs/statml/lectures/sparsity.pdf) a nice geometric interpretation of Lasso dual to help with its intuitive understanding.
+
+![Lasso dual by Tibshirani](lasso_dual_tibs.png)<center>*Right-hand side*: $\bf \Lambda$ dual vectors with $L_\infty$ norm (here denoted $v$) having each coordinate not greater than $\alpha$ (here denoted $\lambda$). Hence, those dual vectors form a cube in $\mathbb{R}^p$ space (where $p$ is the number of predictors). <br /> *Left-hand side*: if we were to multiply those dual vectors by inverse of $X^T$ matrix, we go back into the primal space $\mathbb{R}^n$. In primal space the cube of valid dual vectors $\bf \Lambda$ ($v$) is transformed into a convex polytope, where the image of each vector $\bf \Lambda$ ($v$) is denoted $u$. By solving the Lasso regression problem we find such a direction $\bf w$ that projection of the vector $\bf y$ onto this polytope along direction $X {\bf w}$ is a specific vector $u$, such that the length of the normal to this projection $|| X {\bf w} - \bf y ||_2$ is minimal.</center>
+
+## Alternatives: preconditioned conjugate gradients, quadratic programming, screening techniques
 
 TODO
 
 ## References
 * https://www.coursera.org/lecture/ml-regression/deriving-the-lasso-coordinate-descent-update-6OLyn - a great lecture on exact solution of Lasso regression with coordinate descent
 * https://web.stanford.edu/~boyd/papers/pdf/l1_ls.pdf - Kim, Gorinevsky paper on faster solution PCG, dual problem etc.
-* http://proceedings.mlr.press/v37/fercoq15.pdf - paper on duality gap
-* http://www.aei.tuke.sk/papers/2012/3/02_Buša.pdf - solving quadratic programming problem with L1 norm by variable substitution by Jan Busa
 * https://machinelearningcompass.com/machine_learning_math/subgradient_descent/ - a great post by Boris Giba on subgradient descent
 * https://davidrosenberg.github.io/mlcourse/Archive/2019/Lectures/03c.subgradient-descent-lasso.pdf - a good presentation on subgradient descent
 * https://xavierbourretsicotte.github.io/lasso_derivation.html - excellent blog post on Lasso derivation
 * https://stephentu.github.io/blog/convex-optimization/lasso/2016/08/20/dual-lasso-program.html - lasso dual derivation
 * https://en.wikipedia.org/wiki/Slater%27s_condition - Slater's condition
 * https://www.eecis.udel.edu/~xwu/class/ELEG667/Lecture5.pdf - amazing lecture with graphical explanation of strong/weak duality
+* https://www.stat.cmu.edu/~ryantibs/statml/lectures/sparsity.pdf - Ryan Tibshirani paper/tutorial with nice geometrical interpretation of Lasso dual
+* https://www.ias.ac.in/article/fulltext/reso/023/04/0439-0464 - intro to Lasso by Niharika Gauraha
+* https://sites.stat.washington.edu/courses/stat527/s13/readings/osborneetal00.pdf - on Lasso and its dual by Osborne, Presnell and Turlach
+* http://www.aei.tuke.sk/papers/2012/3/02_Buša.pdf - paper on solving quadratic programming problem with L1 norm by variable substitution by Jan Busa, alternative approach to convex optimization
+* http://proceedings.mlr.press/v37/fercoq15.pdf - paper on imporving duality gap (improvement on the seminal 2012 el Ghaoui work on fast screening techniques, pretty useless)
+* https://people.eecs.berkeley.edu/~elghaoui/Teaching/EE227A/lecture8.pdf - el Ghaoui lecture on Lasso
