@@ -114,17 +114,33 @@ Matrix norms from singular values perspective
 In the [condition numbers post](/2021-08-23-1) we considered two kinds of matrix norms: operator norm and Frobenius norm.
 
 In this post it would be appropriate to mention another family of norms: [Schatten norms](https://en.wikipedia.org/wiki/Schatten_norm)
-and their important special case, [Nuclear norm]()
+and their important special case, [Nuclear norm/Trace norm](Mirsky’s inequality)
 
-TODO: connection to L1-norm, compressed sensing, affine rank minimization problem, sparse identification of nonlinear dynamical systems.
+Trace norm is awesome: if you take a rectangular matrix, apply L1 regularization to it, and apply a Trace lasso to it,
+you will effectively find low-rank approximations of your matrix, giving you a nice alternative to non-negative matrix approximation! See [Trace Lasso](https://arxiv.org/pdf/1109.1990.pdf) paper.
+Hence, amazingly, the problems of sparse and low-rank approximations are interconnected. 
+
+Read more on affine rank minimization problem and sparse identification of nonlinear dynamical systems, if you find this topic interesting.
 
 ### A new perspective on Frobenius norm
 
-Singular values also provide another perspective on Frobenius norm: it is a square root of sum os squares of singular values:
+Singular values also provide another perspective on Frobenius norm: it is a square root of sum of squares of singular values:
 
 $\Vert A \Vert_F = \sqrt{\sum \limits_{i=1}^{m} \sum \limits_{j=1}^{n} |a_{i,j}^2|} = \sqrt{\sum \limits_{k=1}^{min(m,n)}\sigma_k^2}$
 
-TODO: prove this fact!
+To see this, consider a Gram matrix $A^T A = \begin{pmatrix} 1 && 2 && 3 \\ 4 && 5 && 6 \\ \end{pmatrix} \cdot \begin{pmatrix} 1 && 4 \\ 2 && 5 \\ 3 && 6 \\ \end{pmatrix}$.
+
+Obviously, the diagonal elements of Gram matrix are sums of squares of the rows of matrix $A$.
+
+Hence, the trace of Gram matrix equals to Frobenius norm of matrix $A$. At the same time, as we know, trace of Gram matrix
+equals to the sum of eigenvalues of Gram matrix or sum of squares of singular values of the original matrix $A$.
+
+This fact, I believe, gives rise to an uncannily useful family of statements, called [ Weyl’s perturbation theorem](https://www.arpapress.com/Volumes/Vol6Issue4/IJRRAS_6_4_02.pdf) or a similar [Hoffman–Wielandt inequality for Hermitian matrices](https://case.edu/artsci/math/mwmeckes/matrix-analysis.pdf) in matrix analysis. Both results are generalized by Mirsky’s inequality.
+
+Informally speaking, they state that if two matrices differ in Frobenius norm by less than $c$, their respective eigenvalues (also differ by less that $c$. This theorem, for instance,
+lets us prove that eigenvalues of a Toeplitz matrix converge to the eigenvalues of a circulant matrix.
+
+
 
 ### Operator/spectral norm
 
@@ -157,3 +173,5 @@ References
  - https://www.youtube.com/watch?v=DvbbXX8Bd90 - video on dynamic systems sparse model discovery
  - https://www.quora.com/What-is-the-significance-of-the-nuclear-norm - references to the meaning of nuclear norm
  - https://stats.stackexchange.com/questions/192214/prove-that-xx-top-and-x-top-x-have-the-same-eigenvalues - identical eigenvalues of left and right Gram matrices
+ - https://www.arpapress.com/Volumes/Vol6Issue4/IJRRAS_6_4_02.pdf - Wielandt matrix and Weyl theorem
+ - https://case.edu/artsci/math/mwmeckes/matrix-analysis.pdf - matrix analysis (contains Hoffman-Wielandt inequality for Hermitian matrices)
