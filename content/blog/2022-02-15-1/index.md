@@ -139,32 +139,41 @@ $q({\bf \Lambda}) = -\frac{1}{4} {\bf \Lambda}^T {\bf \Lambda} - {\bf \Lambda}^T
 
 given a set of inequality constraints $\{|X^T {\bf \Lambda}|\}_i \le \alpha$ (or, in an infinity-norm notation $||X^T {\bf \Lambda}||_{\infty} \le \alpha$).
 
+Optionally, we can subtract ${\bf y}^T {\bf y}$ to the $q({\bf \Lambda})$  function, as it does not affect the minimization, as this form is more convenient for geometric interpretation. This results in:
+
+$\max \limits_{\bf \Lambda} h({\bf \Lambda}) = || \bf \Lambda - y ||_2^2$, subject to $||X^T {\bf \Lambda}||_{\infty} \le \alpha$
+
 The problem is convex and by Slater's condition if the solution of primal problem is feasible, the duality is strict.
 
 Hence, duality gap converges to 0, and we can use it as a stoppage criterion in our Lasso problem.
 
 ### Geometric interpretation of Lagrange dual
 
-Ryan Tibshirani [provides (page 11)](https://www.stat.cmu.edu/~ryantibs/statml/lectures/sparsity.pdf) a nice geometric interpretation of Lasso dual to help with its intuitive understanding.
+The last form of Lasso dual $\max \limits_{\bf \Lambda} h({\bf \Lambda}) = || \bf \Lambda - y ||_2^2$, subject to $||X^T {\bf \Lambda}||_{\infty} \le \alpha$ allows for a direct, beautiful and intuitive geometric interpretation, provided by Ryan Tibshirani ([tutorial page 11](https://www.stat.cmu.edu/~ryantibs/statml/lectures/sparsity.pdf), [lecture 18 slides](https://www.cs.cmu.edu/~ggordon/10725-F12/slides/18-dual-uses.pdf)).
 
 ![Lasso dual by Tibshirani](lasso_dual_tibs.png)<center>*Right-hand side*: $\bf \Lambda$ dual vectors with $L_\infty$ norm (here denoted $v$) having each coordinate not greater than $\alpha$ (here denoted $\lambda$). Hence, those dual vectors form a cube in $\mathbb{R}^p$ space (where $p$ is the number of predictors). <br /> *Left-hand side*: if we were to multiply those dual vectors by inverse of $X^T$ matrix, we go back into the primal space $\mathbb{R}^n$. In primal space the cube of valid dual vectors $\bf \Lambda$ ($v$) is transformed into a convex polytope, where the image of each vector $\bf \Lambda$ ($v$) is denoted $u$. By solving the Lasso regression problem we find such a direction $\bf w$ that projection of the vector $\bf y$ onto this polytope along direction $X {\bf w}$ is a specific vector $u$, such that the length of the normal to this projection $|| X {\bf w} - \bf y ||_2$ is minimal.</center>
 
-## Alternatives: preconditioned conjugate gradients, quadratic programming, screening techniques
+## Alternatives: preconditioned conjugate gradients, quadratic programming, safe rules
 
 TODO
 
 ## References
-* https://www.coursera.org/lecture/ml-regression/deriving-the-lasso-coordinate-descent-update-6OLyn - a great lecture on exact solution of Lasso regression with coordinate descent
+* https://webdoc.agsci.colostate.edu/koontz/arec-econ535/papers/Tibshirani%20(JRSS-B%201996).pdf - the original paper by Robert Tibshirani
+* https://hastie.su.domains/Papers/glmnet.pdf - GLMnet implementation paper by Friedman, Hastie and Tibs
 * https://web.stanford.edu/~boyd/papers/pdf/l1_ls.pdf - Kim, Gorinevsky paper on faster solution PCG, dual problem etc.
-* https://machinelearningcompass.com/machine_learning_math/subgradient_descent/ - a great post by Boris Giba on subgradient descent
-* https://davidrosenberg.github.io/mlcourse/Archive/2019/Lectures/03c.subgradient-descent-lasso.pdf - a good presentation on subgradient descent
+* https://hal.archives-ouvertes.fr/hal-01833398/document - Celer, an alternative recent Lasso solver
+* https://stephentu.github.io/blog/convex-optimization/lasso/2016/08/20/dual-lasso-program.html - lasso dual derivation by Stephen Tu
+* https://www.coursera.org/lecture/ml-regression/deriving-the-lasso-coordinate-descent-update-6OLyn - a great lecture on exact solution of Lasso regression with coordinate descent by Emily Fox/Carlos Guestrin
+* https://davidrosenberg.github.io/mlcourse/Archive/2019/Lectures/03c.subgradient-descent-lasso.pdf - a good presentation on subgradient descent by David Rosenberg
+* https://davidrosenberg.github.io/mlcourse/Notes/convex-optimization.pdf - extreme abridgement of Boyd-Vanderberghe's Convex Optimization
 * https://xavierbourretsicotte.github.io/lasso_derivation.html - excellent blog post on Lasso derivation
-* https://stephentu.github.io/blog/convex-optimization/lasso/2016/08/20/dual-lasso-program.html - lasso dual derivation
+* https://machinelearningcompass.com/machine_learning_math/subgradient_descent/ - a great post by Boris Giba on subgradient descent
 * https://en.wikipedia.org/wiki/Slater%27s_condition - Slater's condition
 * https://www.eecis.udel.edu/~xwu/class/ELEG667/Lecture5.pdf - amazing lecture with graphical explanation of strong/weak duality
 * https://www.stat.cmu.edu/~ryantibs/statml/lectures/sparsity.pdf - Ryan Tibshirani paper/tutorial with nice geometrical interpretation of Lasso dual
+* https://www.cs.cmu.edu/~ggordon/10725-F12/slides/18-dual-uses.pdf - same material by Geoff Gordon & Ryan Tibshirani, but as a presentation with updates on safe rules
 * https://www.ias.ac.in/article/fulltext/reso/023/04/0439-0464 - intro to Lasso by Niharika Gauraha
 * https://sites.stat.washington.edu/courses/stat527/s13/readings/osborneetal00.pdf - on Lasso and its dual by Osborne, Presnell and Turlach
 * http://www.aei.tuke.sk/papers/2012/3/02_Buša.pdf - paper on solving quadratic programming problem with L1 norm by variable substitution by Jan Busa, alternative approach to convex optimization
-* http://proceedings.mlr.press/v37/fercoq15.pdf - paper on imporving duality gap (improvement on the seminal 2012 el Ghaoui work on fast screening techniques, pretty useless)
+* http://proceedings.mlr.press/v37/fercoq15.pdf - paper on improing safe rules for duality gap (improvement on the seminal 2012 el Ghaoui work on safe rules - fast screening techniques)
 * https://people.eecs.berkeley.edu/~elghaoui/Teaching/EE227A/lecture8.pdf - el Ghaoui lecture on Lasso
