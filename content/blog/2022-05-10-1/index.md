@@ -44,18 +44,49 @@ Again, $\nabla f(x, y, z)$ should be orthogonal to this intersection line. See i
 
 ## Duality and Lagrange dual problem
 
-### Duality explained
-
 Instead of solving the original (or **primal**) constrained optimization problem, it is sometimes more convenient to
 solve a so-called **dual** problem.
 
-If the original problem is:
+If the original problem is a Karush-Kuhn-Tucker system:
 
-$\begin{cases} f(x) \to \max \\ g(x) \le c \end{cases}$
+$\begin{cases} f(x) \to \min \\ h(x) = c_h \\ g(x) \le c_g \end{cases}$
 
-The Lagrange dual problem is:
+We can instead try to solve an unconstrained optimization problem:
 
-$\begin{cases} \mathcal{L}(x, \lambda) = f(x) + \lambda g(x) \to \min \limits_{\lambda} \sup \limits_{x} \\ g(x) \le c \end{cases}$
+$\begin{cases} \mathcal{L}(x, \lambda) = f(x) + \lambda_h h(x) + \lambda_g g(x) \to \min \limits_{x} \\ \lambda_g \ge 0 \end{cases}$
+
+As [Michel Bierlaire jokes](https://www.youtube.com/watch?v=nClTjGznkTo) if we offered an alpinist a reward for each
+meter of height he climbs within Alps, we will have to carefully control his location. Instead we can try to change the
+agreement: we allow him to go wherever he wants, but if he goes to Everest, he gets penalized at least by the difference 
+of heights of Everest and Mont Blanc, so that the solution of our unconstrained optimization is no better than the 
+solution of constrained optimization.
+
+### Dual function
+
+Denote $q(\lambda_h, \lambda_g) = \arg \min \limits_{x} f(x) + \lambda_h h(x) + \lambda_g g(x)$. 
+
+$q(\lambda_h, \lambda_g)$ is called **dual function**. 
+
+#### Lemma. The dual function is not greater than the constrained minimum of f(x).
+
+Denote $x^{\#}$ the value of $x$, where the minimum of Lagrangian is achieved (i.e. the dual function is sampled):
+
+$q(\lambda_h, \lambda_g) = \mathcal{L}(x^{\#}, \lambda^h, \lambda^g)$
+
+Denote the point $x^*$, where the constrained minimum of $f(x)$ is achieved.
+
+Then:
+
+$\mathcal{L}(x^{\#}, \lambda^h, \lambda^g) \underbrace{\le}_{\text{unconstrained} \le \text{constrained}} \mathcal{L}(x^{*}, \lambda^h, \lambda^g) = f(x^*) + \underbrace{\lambda_h h(x^*)}_{=0} + \underbrace{\lambda_g g(x^*)}_{\le 0} \le f(x^*)$
+
+### Dual problem
+
+Now, among all the dual functions let us find such that gives the tightest lower bound for our unconstrained minimization.
+
+$\max \limits_{\lambda_h, \lambda_g} q(\lambda_g, \lambda_h)$
+
+This problem is called **dual problem**. It gives a lower bound on the solution of the original problem.
+
 
 #### Example: linear programming
 
@@ -79,33 +110,21 @@ intersection is a line, and there is no upper limit to the linear programming pr
 However, if the system of constraints consisted of 3 equations, intersection of 3 hyperplanes would have consisted of a 
 single highest point. And solutions of the primal and dual problems would've been identical
 
-### Convexity and duality gap
+### Weak duality and duality gap
 
-Now, consider a Karush-Kuhn-Tucker (KKT) system for a problem with 1 constraint (same logic holds for multiple constraints):
-
-$\begin{cases} f(x) \to min \\ g(x) \ge 0 \end{cases}$
-
-It gives rise to a dual problem:
-
-$\begin{cases} \mathcal{L}(x, \lambda) = f(x) - \lambda g(x) \to \max \limits_{\lambda} \inf \limits_{x} \\ \lambda \ge 0 \end{cases}$
-
-The reason for this is as follows. Suppose that we found the optimal solution of the primal problem $x^*$, such that $f(x^*) \to max$. 
-
-Then solution of the dual problem is at least larger than the maximum value $f(x^*)$: 
-
-$\max \limits_{\lambda} \inf \limits_{x} \mathcal{L}(x, \lambda) = \inf \limits_{x} \mathcal{L}(x, \lambda^*) = f(x) - \lambda^* g(x) \ge f(x^*) - \lambda^* g(x) \ge f(x^*)$
-
-If the functions $f(x)$ and $g(x)$ in the original problem were convex (as in linear programming), the solutions of 
-the primal and dual problems are equivalent (this is called **strong duality**, which holds, if [Slater condition](https://en.wikipedia.org/wiki/Slater%27s_condition) is satisfied).
-
-However, if $f(x)$ and $g(x)$ are not convex, the solutions of the original problem $f^*(x)$ and of the Lagrange dual problem
-$\inf_{x} \mathcal{L}(x)$ diverge by a value, called **duality gap**.
+If $f(x)$, $h(x)$ and $g(x)$ are not convex, the solutions of the primal problem $f(x^*)$ and of the Lagrange dual problem
+$\max \limits_{\lambda_h, \lambda_g} q(\lambda_h, \lambda_g)$ diverge by a value, called **duality gap**.
 
 Let us depict a weird coordinate system, where instead of x, we use $f(x)$ and $g(x)$ as variables. In that coordinate
 system if conditions are not convex, the area, delimited by conditions, is not convex as well. Then there is a gap
 between the primal optimization problem and the dual problem:
 
 ![Lagrange dual](LagrangeDualScene.mp4)
+
+### Convexity and strong duality
+
+If the functions $f(x)$, $h(x)$ and $g(x)$ in the original problem were convex (as in linear programming), the solutions of 
+the primal and dual problems are equivalent (this is called **strong duality**, which holds, if [Slater condition](https://en.wikipedia.org/wiki/Slater%27s_condition) is satisfied).
 
 ## References:
 * https://math.stackexchange.com/questions/2578903/lagrange-multipliers-tangency - good stack overflow post on Lagrange multipliers derivation
@@ -116,3 +135,4 @@ between the primal optimization problem and the dual problem:
 * https://en.wikipedia.org/wiki/Slater%27s_condition - Slater's condition
 * https://optimization.mccormick.northwestern.edu/index.php/Lagrangean_duality - example of economic interpretaiton of linear programming
 * https://www.youtube.com/watch?v=4OifjG2kIJQ - proof of weak duality
+* https://cims.nyu.edu/~cfgranda/pages/MTDS_spring19/notes/duality.pdf - great post on compressed sensing
