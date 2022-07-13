@@ -148,15 +148,145 @@ series of Cambridge lectures by Emmanuel Candes).
 
 #### Step 1: dual certificate guarantees uniqueness of the solution
 
-TODO
+To prove this step I am following [lecture 2 by E.Candes](https://sms.cam.ac.uk/media/1118002) and [a separate paper with a good proof](https://cims.nyu.edu/~cfgranda/pages/MTDS_spring19/notes/duality.pdf).
 
-See [lecture 2 by E.Candes](https://sms.cam.ac.uk/media/1118002) and [a separate paper with a good proof](https://cims.nyu.edu/~cfgranda/pages/MTDS_spring19/notes/duality.pdf).
+**Dual norm** to the vector norm $||x||$ is $|| y ||_d = \max \limits_{|| x || \le 1} \langle y, x \rangle$.
+
+##### Lemma 1.1. Dual problem to the contrained norm minimization problem
+
+Given a minimization problem $\min || x ||$, constrained on $Ax = b$, the corresponding dual problem to it is:
+
+$\max \limits_{\alpha} \langle \alpha, b \rangle$, constrained on $|| \alpha^T A ||_d \le 1$
+
+To see this consider the Lagrangian:
+
+$\mathcal{L}(x, \alpha) = || x || + \alpha^T (b - Ax)$
+
+$\mathcal{L}(x, \alpha) = ||x||(1 - \alpha^T A \frac{x}{||x||}) + \alpha^T b$
+
+Now, minimize this Lagrangian. Expression $\alpha^T A \frac{x}{||x||}$ is actually used in the dual norm: $u = \frac{x}{||x||}$
+is a vector with norm 1. 
+
+Hence, $x^* = \arg \min \limits_x \mathcal{L}(x, \alpha) = \arg \max \limits_{x} \alpha^T A u = || \alpha^T A ||_d$.
+
+Now we see, that if $|| \alpha^T A ||_d \le 1$, the Lagrangian attains its minimum at: $\mathcal{L}^* = \alpha^T b$, when $||x|| \to 0$.
+
+If $|| \alpha^T A ||_d > 1$, Lagrangian can be made arbitrarily small by increasing $||x|| \to \infty$.
+
+##### Lemma 1.2. Lasso dual problem
+
+Observe that the norm, dual to L1 is L-infinity:
+
+$|| \alpha ||_\infty = \max \limits_{||x||_1 = 1} \langle \alpha, x \rangle$
+
+Thus, by Lemma 1.1, Lasso dual problem is:
+
+$\max \limits_{\alpha} \alpha^T b$, given $|| \alpha^T A ||_\infty \le 1$.
+
+Here is a graphical interpretation of the dual problem by Ryan Tibshirani
+
+![lasso dual Tibshirani](lasso_dual_tibs.png)<center>**Graphical interpretation of lasso dual problem**. Look at the right picture first. In a certain basis we know that constraints allows the feasible solutions $v = A^T \alpha$ (or $X^T \alpha$) to lie within a cube. Now transform that space, applying ${A^T}^{-1}$ (or ${X^T}^{-1}$) matrix, and we get some convex polytope, and strive to find such a projection direction $\alpha$, that projection of $b$ (or $y$) along it onto that polytope is as large as possible.</center>
+
+##### Lemma 1.3. For any feasible vector x, its dual equals the sign of x for non-zero coordinates x[i]
+
+$\alpha^T A [i] = \text{sign}(x [i])$ if $x[i] \neq 0$
+
+Applying strong duality, we get:
+
+$||x||_1 = \alpha^T b = \alpha^T A x = \sum_i \alpha^T A[i] x[i]$
+
+Hence, $\alpha^T A [i] = \text{sign}(x [i])$ (otherwise, some components will cancel each other out and we'll achieve the
+value of L1 norm less than $||x||_1$, given that $|| \alpha^T A ||_\infty \le 1$).
+
+##### Lemma 1.4. Uniqueness of dual certificate
+
+I am following E.Candes [lecture 2](https://sms.cam.ac.uk/media/1118002) here.
+
+Suppose that we've managed to find a solution to our primal problem $x_{true}$.
+
+Let us prove that any other feasible solution $x_1$ is worse than $x_{true}$. Denote $S$ the set of indices $i$, where
+$x_{true}[i]$ is non-zero. Denote $S_c$ the complementary set of indices $i$, where $x_{true}[i] = 0$.
+
+Denote $h = x_{true} - x$ the vector of difference between $x_{true}$ and $x$. Obviously,
+$h$ lies in the null space of operator $A$, so that if $Ax_{true} = y$, $Ax = y$ as well. Thus, $Ah = y$, too.
+
+Denote $v = \begin{cases} \text{sign}(x_{true}[i]), \text{if } i \in S \\ v_i, \text{where} |v_i| \le 1, \text{if } i \in S_c \end{cases}$ the dual certificate vector.
+
+![dual certificate](dual_certificate.png)<center>**Slide from Cambridge lectures of E.Candes**. Image displays a 2D case of our problem with L1 ball, null space of $A$ operator and $v$ dual certificate vector.</center>
+
+Now, suppose there is another vector $x$, which has a smaller L1 norm than our solution $x_{true}$. Let us show, that this is impossible.
+
+Consider L1 norm of $x$:
+
+$||x||_1 = ||x_{true} + h||_1 = || x_{true} + h_S ||_1 + || h_{S_c} ||_1 \ge || x_{true} ||_1 + \sum \limits_{i \in S} \text{sign}(x_{true})[i]h_S[i] + || h_{S_c} ||_1$
+
+Now, note that $\sum \limits_{i \in S} \text{sign}(x_{true})[i]h_S[i]$ is part of our dual certificate here:
+
+$|| x_{true} ||_1 + \sum \limits_{i \in S} \text{sign}(x_{true})[i]h_S[i] + || h_{S_c} ||_1 = || x_{true} ||_1 + \sum \limits_{i \in S} v_i h_i + || h_{S_c} ||_1 \ge$
+
+$\ge || x_{true} ||_1 + \langle v, h \rangle + \sum \limits_{i \in S_c}(1 - |v_i|) || h ||_1$
+
+Now recall that our dual certificate is orthogonal to the null space of $A$, i.e. $\langle v, h \rangle = 0$. Hence:
+
+$||x||_1 \ge || x_{true} ||_1 + \sum \limits_{i \in S_c} (1 - |v_i|) || h ||_1$
+
+As the absolute value of each coordinate of the dual certificate on $S_c$ set is smaller than 1, we just guaranteed that
+$||x||_1 \ge ||x_{true}||_1$, unless $x = x_{true}$.
 
 #### Step 2: a way to construct a dual certificate
 
-TODO
+I am following [this tutorial on compressed sensing](https://cims.nyu.edu/~cfgranda/pages/MTDS_spring19/notes/duality.pdf).
 
-#### Step 3: operator Bernstein inequality
+Now we show that with overwhelming probability it is possible to construct the dual certificate.
+
+$v = A^T A_S (A_S^T A_S)^{-1} sign(x_{true})_S$ and also $v^T = \alpha^T A$, hence, $\alpha = A_S (A_S^T A_S)^{-1}sign(x_{true})_S$.
+
+Let us write SVD of $A^S = U S V^T$. Then $A_S^T A_S = V S U^T U S V^T = V S^2 V^T$, then $(A_S^T A_S)^{-1} = V^{-T} S^{-2} V^{-1}$.
+
+Then $A_S (A_S^T A_S)^{-1} = U S V^T V^{-T} S^{-2} V^{-1} = U S^{-1} V^{-1}$, and recalling that $V$ is orthogonal, $V^{-1} = V^T$,
+$A_S (A_S^T A_S)^{-1} = U S^{-1} V^{-1} = U S^{-1} V^T$.
+
+Now suppose that the diagonal matrix of non-negative singular values $S$ has largest signular value $\sigma_1$ and smallest
+singular value $\sigma_S$. Hence, the largest singular value of $S^{-1}$ is $\frac{1}{\sigma_S}$.
+
+This allows us to have an upper limit the L2 norm of our vector $\alpha$:
+
+$||\alpha||_2 = || U S^{-1} V^T sign(x_{true})_S ||_2 \le \frac{||sign(x_{true})_S||_2}{\sigma_S} = \frac{\sqrt{S}}{\sigma_S}$
+
+Now, recall that $v^T = \alpha^T A$ or $v = A^T \alpha$. 
+
+Consider each coordinate of the vector $v_i = A_i^T \alpha$. Random variables $\frac{A_i^T \alpha}{||\alpha||_2^2}$ are
+standard Gaussian random variables, hence, for them holds the following simple inequality:
+
+$p(|\xi| \ge t) \le 2 e^{\frac{-t^2}{2}}$
+
+Applying this inequality, we get:
+
+$p(| A_i^T \alpha | \ge 1) = p(\frac{| A_i^T \alpha|}{|| \alpha ||_2} \ge \frac{1}{||\alpha||_2}) \le 2e^{-\frac{1}{2 ||\alpha||^2_2}} = 2e^{-\frac{\sigma_S^2}{2S}}$
+
+Now, due to inequalities, such as Johnson-Lindenstrauss lemma, we can obtain limits on largest and smallest singular values
+of our matrix A_S: $\sigma_S \ge 0.5 \sqrt{n}$, where $n$ is the number of measurements in compressed sensing.
+
+Hence $p(|| A_i^T \alpha || \ge 1) \le 2 e^{-\frac{n}{8S}}$.
+
+Now we want to limit the probability that $v_i \ge 1$ for all $i \in S^c$ of our vector $v$.
+
+Thus, we get $p (\forall v_i \le 1) = 1 - (1 - p(|| A_i^T \alpha || \ge 1))^N \le N p(|| A_i^T \alpha || \ge 1) \le N e^{-\frac{n}{8S}}$
+
+and $n \ge C \cdot S \cdot \log p (\forall v_i \le 1) \cdot \log N $
+
+We now see how the required number of measurements $n$ depends on total dimensionality $N$ and sparsity $S$, and we can
+choose it so that $\log p (\forall v_i \le 1)$ can be made arbitrarily small, and dual certificate
+is almost guaranteed to exist in practice.
+
+#### Step 3 (optional): operator Bernstein inequality
+
+I am following the [appendix of this paper on matrix completion](https://arxiv.org/pdf/0910.0651.pdf)
+
+Alternatively, one can use operator versions of exponentiated Markov inequalities.
+
+Recall that $A^T$ is a random matrix and apply operator form of Bernstein inequality (I will outline its proof in the next step)
+to the operator norm $|| A^T ||$ or to a random vector $|| A^T \alpha ||$.
 
 Operator form of Bernstein inequality is a stronger form of Bernstein inequality for random variables, which is, in
 turn, a strong alternative version of Markov inequality (a.k.a. Chebyshev's first inequality in Russian tradition).
@@ -181,10 +311,6 @@ inequality.
 
 Speaking informally, matrices $A_{\Omega T}$ are almost orthogonal with overwhelming probability. Take note of this fact,
 it will be central for Theorems 2 and 3 in deterministic approach.
-
-#### Step 4: golfing scheme
-
-TODO
 
 ## Robustness of compressed sensing
 
@@ -264,7 +390,7 @@ Here is an example of reconstruction of an approximately (but not perfectly) spa
 that some low-amplitude noise is discarded by compressed sensing, resulting in a slightly sparser signal, than it was
 originally:
 
-![approximately sparse signal](approximately_sparse_signal.png) <center>*Recovery of approximately sparse signal by compressed sensing*. Left image: 
+![approximately sparse signal](approximately_sparse_signal.png) <center>**Recovery of approximately sparse signal by compressed sensing.** Left image: 
 original signal which is approximately sparse, but with some tiny noise. Right image: sparser signal, recovered by compressed sensing, 
 is slightly more sparse and less noisy.</center>
 
