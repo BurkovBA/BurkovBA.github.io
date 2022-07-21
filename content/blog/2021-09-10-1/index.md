@@ -172,7 +172,7 @@ suggests that $k = \sim 100$ is a good rule of thumb. It is small enough and pre
 ### Compressed sensing
 
 Johnson-Lindenstrauss provides an excellent intuition on how to achieve a sparse space in compressed sensing. I'll dedicate
-a [whole separate post](/2021-09-14-1) to this beautiful mathematical theory.
+a [whole separate post](/2022-06-25-1) to this beautiful mathematical theory.
 
 
 References
