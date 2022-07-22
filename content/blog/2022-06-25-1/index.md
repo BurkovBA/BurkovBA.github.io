@@ -134,7 +134,7 @@ to be $\sqrt{N}$, if all the vector values are 0, and one value is $\sqrt{N}$, t
 is concentrated in one point. However, if it is spread evenly (e.g. all the coordinates of each vector have an absolute
 value of 1), that should work perfectly, and the required number of measurements $n$ would be minimal.
 
-### Theorem 1: exact formulation and proof outline
+## Theorem 1: exact formulation and proof outline
 
 The exact formulation of Theorem 1 is probabilistic: set a small enough probability $\delta$, e.g. $\delta=0.001$. 
 
@@ -146,13 +146,13 @@ partial Fourier transform as sensing matrix, its [extension](https://arxiv.org/p
 unitary sensing matrices and, finally, a simplified proof in [Lecture 4](https://sms.cam.ac.uk/media/1119053) of the 
 series of Cambridge lectures by Emmanuel Candes).
 
-#### Step 1: dual certificate guarantees uniqueness of the solution
+### Step 1: dual certificate guarantees uniqueness of the solution
 
 To prove this step I am following [lecture 2 by E.Candes](https://sms.cam.ac.uk/media/1118002) and [a separate paper with a good proof](https://cims.nyu.edu/~cfgranda/pages/MTDS_spring19/notes/duality.pdf).
 
 **Dual norm** to the vector norm $||x||$ is $|| y ||_d = \max \limits_{|| x || \le 1} \langle y, x \rangle$.
 
-##### Lemma 1.1. Dual problem to the contrained norm minimization problem
+#### Lemma 1.1. Dual problem to the contrained norm minimization problem
 
 Given a minimization problem $\min || x ||$, constrained on $Ax = b$, the corresponding dual problem to it is:
 
@@ -173,7 +173,7 @@ Now we see, that if $|| \alpha^T A ||_d \le 1$, the Lagrangian attains its minim
 
 If $|| \alpha^T A ||_d > 1$, Lagrangian can be made arbitrarily small by increasing $||x|| \to \infty$.
 
-##### Lemma 1.2. Lasso dual problem
+#### Lemma 1.2. Lasso dual problem
 
 Observe that the norm, dual to L1 is L-infinity:
 
@@ -187,7 +187,7 @@ Here is a graphical interpretation of the dual problem by Ryan Tibshirani
 
 ![lasso dual Tibshirani](lasso_dual_tibs.png)<center>**Graphical interpretation of lasso dual problem**. Look at the right picture first. In a certain basis we know that constraints allows the feasible solutions $v = A^T \alpha$ (or $X^T \alpha$) to lie within a cube. Now transform that space, applying ${A^T}^{-1}$ (or ${X^T}^{-1}$) matrix, and we get some convex polytope, and strive to find such a projection direction $\alpha$, that projection of $b$ (or $y$) along it onto that polytope is as large as possible.</center>
 
-##### Lemma 1.3. For any feasible vector x, its dual equals the sign of x for non-zero coordinates x[i]
+#### Lemma 1.3. For any feasible vector x, its dual equals the sign of x for non-zero coordinates x[i]
 
 $\alpha^T A [i] = \text{sign}(x [i])$ if $x[i] \neq 0$
 
@@ -198,7 +198,7 @@ $||x||_1 = \alpha^T b = \alpha^T A x = \sum_i \alpha^T A[i] x[i]$
 Hence, $\alpha^T A [i] = \text{sign}(x [i])$ (otherwise, some components will cancel each other out and we'll achieve the
 value of L1 norm less than $||x||_1$, given that $|| \alpha^T A ||_\infty \le 1$).
 
-##### Lemma 1.4. Uniqueness of dual certificate
+#### Lemma 1.4. Uniqueness of dual certificate
 
 I am following E.Candes [lecture 2](https://sms.cam.ac.uk/media/1118002) here.
 
@@ -233,7 +233,7 @@ $||x||_1 \ge || \bar{x} ||_1 + \sum \limits_{i \in S_c} (1 - |v_i|) || h ||_1$
 As the absolute value of each coordinate of the dual certificate on $S_c$ set is smaller than 1, we just guaranteed that
 $||x||_1 \ge ||\bar{x}||_1$, unless $x = \bar{x}$.
 
-#### Step 2: a way to construct a dual certificate
+### Step 2: a way to construct a dual certificate
 
 I am following [this tutorial on compressed sensing](https://cims.nyu.edu/~cfgranda/pages/MTDS_spring19/notes/duality.pdf).
 
@@ -279,7 +279,7 @@ We now see how the required number of measurements $n$ depends on total dimensio
 choose it so that $\log p (\forall v_i \le 1)$ can be made arbitrarily small, and dual certificate
 is almost guaranteed to exist in practice.
 
-#### Step 3 (optional): operator Bernstein inequality
+### Step 3 (optional): operator Bernstein inequality
 
 I am following the [appendix of this paper on matrix completion](https://arxiv.org/pdf/0910.0651.pdf)
 
@@ -414,6 +414,9 @@ non-exact sparseness of the input vector. If both of them are not too large, the
 
 ## Theorem 3 and Theorem 2 proof outlines
 
+I am following two papers: a [short one](https://www.sciencedirect.com/science/article/pii/S1631073X08000964) by E.Candes
+and a [long one](https://arxiv.org/pdf/math/0503066.pdf) by the whole team.
+
 ### Theorem 2
 
 We need to show that in the noiseless case (i.e. for any feasible $x$, $Ax = y$):
@@ -424,9 +427,9 @@ Or, denoting $h = x-\bar{x}$:
 
 $||h||_1 \le С ||\bar{x}_{S^c}||_1$
 
-##### Lemma 2.1
+#### Lemma 2.1. L1 cube/cone constraint
 
-First step to construct this inequality is the cone constraint: 
+First step to construct this inequality is the cone constraint:
 
 $||\bar{x}||_1 = ||\bar{x}_S||_1 + ||\bar{x}_{S_c}|| \ge ||\bar{x} + h||_1 = ||x_{S_0} + h_{S_0}||_1 + ||x_{S_c} + h_{S_c}|| \ge$
 
@@ -440,7 +443,7 @@ or $||h_{S_c}||_1 - ||h_{S}||_1 \le 2 ||\bar{x}_{S_c}||_1$
 
 This is very close to what we need. If we could find a way to express $||h_{S}||_1$ and $||h_{S_c}||_1$ through $||h||_1$ - we'd be done.
 
-##### Lemma 2.2
+#### Lemma 2.2. RIP application
 
 Here the RIP comes in handy:
 
@@ -452,7 +455,7 @@ Equivalently, $(1-\delta_S) ||h_{S}||_2 \le (1+\delta_{|S_j|}) \sum \limits_{j=1
 
 Now what's left is to convert these L2 norms to L1 norm. Luckily, we have:
 
-##### Lemma 2.3
+#### Lemma 2.3. L2 norm bounds L1 from both top and bottom
 
 $||x||_2 \le ||x||_1 \le \sqrt{\dim x} ||x||_2$
 
@@ -483,99 +486,53 @@ This concludes the proof.
 
 ### Theorem 3
 
-I will prove the general case of Theorem 3. Theorem 2 follows from its general case. However, to prove the general case
-of Theorem 3 it is instrumental to proove a special case first, where the vector $\bar{x}$ is assumed to be sparse.
+We need to show that:
 
-#### Theorem 3: sparse case
+$|| \bar{x} - x ||_2 \le C || \bar{x}_{S_c}||_1 + C_1 \epsilon$
 
-I will first proof a sparse case of Theorem 3, which shows that if the vector $\bar{x}$ is $S$-sparse, l2 noise in
-measurements allows to recover $\bar{x}$ up to a fixed error:
+Theorem 3 follows the general logic of Theorem 2, but now our measurements are noisy, so the application of RIP now
+requires a Tube constraint.
 
-I am following two papers: a [short one](https://www.sciencedirect.com/science/article/pii/S1631073X08000964) by E.Candes
-and a [long one](https://arxiv.org/pdf/math/0503066.pdf) by the whole team.
+#### Lemma 3.1.Tube constraint 
 
-If $||A\bar{x} - y||_2 \le \epsilon$, $||\bar{x} - x||_2 < C \epsilon$
-
-![theorem 3 geometry in 2D](theorem_3_geometry_in_2d.png)
-
-To prove this, observe two facts.
-
-1) **Tube constraint.** Suppose that true point $\bar{x}$ resulted in a measurement $y$, but due to noise a different solution $x$ was found. This solution is still going to lie within a tube of radius $\epsilon$, surrounding the null space of $A$:
+Suppose that true point $\bar{x}$ resulted in a measurement $y$, but due to noise a different solution $x$ was found. 
+This solution is still going to lie within a tube of radius $\epsilon$, surrounding the null space of $A$:
    
 $|| A (\bar{x} - x) ||_2 = ||(A\bar{x} - y) - (Ax - y)||_2 \le || A \bar{x} - y ||_2 + || A x - y ||_2 \le 2 \epsilon$
 
 Both $\bar{x}$ and $x$ are feasible solutions, resulting in measurement $y$ with some l2 noise.
 
-2) **L1 cube/cone constraint.** Obviously, due to noise solution $x$ should have a better L1 norm than $\bar{x}$.
+![theorem 3 geometry in 2D](theorem_3_geometry_in_2d.png)
 
-$||\bar{x}||_1 \ge ||\bar{x} + h||_1 \ge ||\bar{x}||_1 - || h_S ||_1 + || h_{S_c} ||_1$
+If we substitute the result of lemma 3.1 into the lemma 2.2, we get:
 
-This leads to an interesting conclusion:
+$\frac{(1-\delta_S)}{\sqrt{S} } ||h_S||_1 \le (1+\delta_{S_c}) ||h_{S_c}||_1 + 2 \epsilon$ or $||h_S||_1 \le \frac{\sqrt{S} \cdot (1+\delta_{S_c})}{1-\delta_S} ||h_{S_c}||_1 + 2 \epsilon \frac{\sqrt{S}}{1-\delta_S}$
 
-$|| h_{S_c} ||_1 \le || h_S ||_1$
+Now apply lemma 2.1:
 
-I.e. most of the "mass" in the difference vector is concentrated in the support of $\bar{x}$, rather than outside it.
+$||h_{S_c}||_1 - ||h_{S}||_1 \le 2 ||\bar{x}_{S_c}||_1$, hence:
 
-Now we aim to show that $||h||_2 \le C \epsilon$, while we already know that $||Ah||_2 \le 2 \epsilon$. As $A$ is almost
-orthogonal, and thus, preserves distances well, the structure of the proof is basically to show that:
+$||h_{S_c}||_1 - 2||\bar{x}_{S_c}||_1  \le ||h_{S}||_1 \le \frac{\sqrt{S} \cdot (1+\delta_{S_c})}{1-\delta_S} ||h_{S_c}||_1 + 2 \epsilon \frac{\sqrt{S}}{1-\delta_S}$
 
-$||h||_2 \le ||Ah||_2 \le 2 \epsilon$
+$||h_{S_c}||_1 (1 - \frac{\sqrt{S} \cdot (1+\delta_{S_c})}{1-\delta_S}) \le 2||\bar{x}_{S_c}||_1 + 2 \epsilon \frac{\sqrt{S}}{1-\delta_S}$
 
-This is almost intuitive, given restricted isometry property (RIP): $(1-\delta_S)||h||_2 \le ||Ah||_2$, but the problem is
-that vectors $x_S$ have to be $S$-sparse. Hence, we cut the vector $h$ into bands with support at most $S$: $h_0$, $h_1$
-etc.
+$||h_{S_c}||_1 (1 - \frac{\sqrt{S} \cdot (1+\delta_{S_c})}{1-\delta_S}) \le 2||\bar{x}_{S_c}||_1 + 2 \epsilon \frac{\sqrt{S}}{1-\delta_S}$ or
 
-However, note that RIP holds for $S$-sparse vectors only. Hence, we will split our set of indices S into groups of size
-$|S|$ in a descending order: first group $S$ will contain the largest $|S|$ coordinates, second group $S_1$ will contain
-the next $|S|$ largest coordinates etc. Corresponding vectors will be called $h_S$ (or, equivalently, $h_{S_0}$), $h_{S_1}$
-etc. 
+$||h_{S_c}||_1 (\frac{\sqrt{S} \cdot (1+\delta_{S_c})}{1-\delta_S} - 1) \ge 2||\bar{x}_{S_c}||_1 + 2 \epsilon \frac{\sqrt{S}}{1-\delta_S}$
 
-We shall prove some upper limits on norms of those vectors $h_{S_j}$.
+Now recall that $2||h_{S_c}||_1 - ||h||_1 \le 2 ||\bar{x}_{S_c} ||_1$ or $||h_{S_c}||_1 \le ||\bar{x}_{S_c} ||_1 - \frac{1}{2} ||h||_1$ and get:
 
-1) $||h_{S_j}||_2 \le \sqrt{S} ||h_{S_j}||_{\infty}$
+$(\frac{\sqrt{S} \cdot (1+\delta_{S_c})}{1-\delta_S} - 1) (||\bar{x}_{S_c} ||_1 - \frac{1}{2} ||h||_1) \ge ||h_{S_c}||_1 (\frac{\sqrt{S} \cdot (1+\delta_{S_c})}{1-\delta_S} - 1) \ge 2||\bar{x}_{S_c}||_1 + 2 \epsilon \frac{\sqrt{S}}{1-\delta_S}$
 
-This is almost obvious: take the largest coordinate of vector $h_{S_j}$ (denoted as $||h_{S_j}||_{\infty}$ with L-infinity 
-norm), then L2 norm of your vector $h_{S_j}$ is smaller than L2 norm of a vector that consists of $S$ values $||h_{S_j}||_{\infty}$.
+$(\frac{\sqrt{S} \cdot (1+\delta_{S_c})}{1-\delta_S} - 3) ||\bar{x}_{S_c} ||_1 - 2 \epsilon \frac{\sqrt{S}}{1-\delta_S} \ge ||h||_1 \cdot \frac{1}{2} \cdot (\frac{\sqrt{S} \cdot (1+\delta_{S_c})}{1-\delta_S} - 1)$
 
-2) $\sqrt{S} ||h_{S_j}||_{\infty} \le \frac{1}{\sqrt{S}} ||h_{S_{j-1}}||_1$
+$||h||_1 \cdot \frac{1}{2} \cdot (\frac{\sqrt{S} \cdot (1+\delta_{S_c})}{1-\delta_S} - 1) \le (\frac{\sqrt{S} \cdot (1+\delta_{S_c})}{1-\delta_S} - 3) ||\bar{x}_{S_c} ||_1 - 2 \epsilon \frac{\sqrt{S}}{1-\delta_S}$
 
-Almost as obvious: all the elements of the previous chunk-vector are greater than the greatest element of the current.
-There are $S$ elements, larger than this one, so $||h_{S_j}||_{\infty} \le \frac{||h_{S_{j-1}}||_1}{S}$.
+$||h||_1 \le C_1 || \bar{x}_{S_c} ||_1 + C_2 \epsilon$
 
-3) $|| \sum \limits_j h_{S_j} ||_2 \le \sum \limits_j ||h_{S_j}||_2$
+As $||h||_2 \le ||h||_1$, this leads to:
 
-Basically, extension of triangle inequality: hypothenuse of a triangle is not greater than the sum of cathetes.
-
-4) $||h||_2 \le ||h||_1 \le \sqrt{N} ||h||_2$
-
-First inequality $||h||_2 \le ||h||_1$ is obvious, if you take a square: $||h||_1^2 = (\sum_i |h|_i)^2 \ge \sum_i |h|_i^2 = ||h||_2^2$.
-
-Second inequality is a non-obvious consequence of Cauchy-Schwarz inequality: $||h||_1 = \langle ||h||_1, 1 \rangle \le ||h||_2 \cdot \sqrt{2} $
-
-5) $|| h_{S_2} + h_{S_3} + ... + h_{S_n} ||_2 \le \sum \limits_{j=2}^n || h_{S_j} ||_2 \le \frac{ ||h_{S_0}||_1 + ||h_{S_1}||_1 }{\sqrt{S}} \le \sqrt{S} || h_{S_0} + h_{S_1}||_2$
-
-This result is achieved through combining results 1-4.
-
-
-
-
-
-6) Apply tube constraint $||A h||_2 \le 2 \epsilon$ and RIP $(1 - \delta_S)||h_{S_j}||_2 \le ||A h||_2 \le (1 + \delta_S)||h_{S_j}||_2$ to get an upper bound on $||h||_2$:
-
-$||A h||_2 = ||A (h_{S_0} + h_{S_1} + \sum \limits_{j=2} h_{S_j})||_2 \ge || A (h_{S_0} + h_{S_1}) ||_2 - ||\sum \limits_{j=2} h_{S_j})||_2\ge$
-
-$\ge || A (h_{S_0} + h_{S_1}) ||_2 - \sum \limits_{j=2} ||A h_{S_j})||_2 \ge$
-
-$\ge (1 + \delta_{S_0+S_1}) ||h_{S_0} + h_{S_1}||_2 - (1 - \delta_S) \sum \limits_{j=2} || h_{S_j}||_2$
-
-7) Apply the fact that $\sum \limits_{j=2} ||h_{S_j}||_2 \le \frac{ ||h_{S_0}||_1 + ||h_{S_1}||_1 }{\sqrt{S}} \le \sqrt{S} ||h_{S_0} + h_{S_1}||_2$ (5):
-
-$2 \epsilon \ge ||A h||_2 \ge (1 + \delta_{S_0 + S_1}) || h_{S_0} + h_{S_1}||_2 - \frac{(1 - \delta_S)}{\sqrt{S}} || h_{S_0} + h_{S_1}||_2$
-
-#### Theorem 3: general case
-
-TODO
-
+$||h||_2 \le C_1 || \bar{x}_{S_c} ||_2 + C_2 \epsilon$.
 
 References
 ----------
