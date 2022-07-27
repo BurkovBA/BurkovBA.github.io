@@ -27,7 +27,8 @@ Or is it?
 In 1995 Chen and Donoho realised that in reality most of your signals are sparse in some basis. I.e. if you have a recording of music, in reality
 most of your harmonics have 0 amplitude, and only a very small subset of those are non-zero.
 
-The problem of recovery of $n$ non-zero harmonics out of $N$ is generally NP-hard (this constraint is also known of L0 norm). 
+The problem of recovery of $n$ non-zero harmonics out of $N$ is generally NP-hard (this problem can be posed as a 
+constrained optimization of L0 norm). 
 
 In 1980s it became clear, however, that you could relax this problem with L0 constraint to a convex problem with L1 constraint,
 which is still able to recover a small subset of non-zero coefficients, but does this in a small polynomial time.
@@ -54,15 +55,16 @@ What's left unclear is how to construct such a sensing matrix and in which basis
 
 Here comes the method of random projections. In [an older post](/2021-09-10-1) I wrote about an incredibly beautiful and unbelievably powerful statement,
 called Johnson-Lindenstrauss lemma, which basically states that if you project any point cloud of finite amount of points (e.g. ~1000) of arbitrarily
-large dimensionality $N$ with gaussian random projection matrix onto a space of small dimensionality $n$ (in the ballpark of ~100-200 dimensions),
-all the distances between the point will be preserved up to a tiny error with a probability, approaching 1.
+large dimensionality $N$ with e.g. gaussian random projection matrix onto a space of small dimensionality $n$ (in the ballpark of ~100-200 dimensions),
+all the distances between every pair of points will be preserved up to a tiny error with a probability, approaching 1.
 
-Turns out, we can use this gaussian random projection basis as a sensing basis for our signal, and we should be able to
-recover the full signal of e.g. 40000 harmonics with just a few hundred measurements, if that signal is sparse.
+Turns out, we can use this gaussian random projection basis (or other basis, satisfying some criteria) as a sensing basis
+for our signal, and we should be able to recover the full signal of e.g. 40000 harmonics with just a few hundred 
+measurements, if that signal is sparse.
 
 ## Theorem 1 (exact recovery of sparse signal in noiseless case is bounded by mutual coherence)
 
-In reality our measurement devices are never perfect, and they have some level of noise, and later on I will show
+In reality our measurement devices are never perfect, and they generate some level of noise, and later on I will show
 that even noisy measurements allow for compressed sensing.
 
 But first let us consider a "spherical horse in vacuum", the perfect noiseless measurements case.
@@ -152,7 +154,7 @@ To prove this step I am following [lecture 2 by E.Candes](https://sms.cam.ac.uk/
 
 **Dual norm** to the vector norm $||x||$ is $|| y ||_d = \max \limits_{|| x || \le 1} \langle y, x \rangle$.
 
-#### Lemma 1.1. Dual problem to the contrained norm minimization problem
+#### Lemma 1.1. Dual problem to the constrained norm minimization problem
 
 Given a minimization problem $\min || x ||$, constrained on $Ax = b$, the corresponding dual problem to it is:
 
@@ -655,7 +657,7 @@ Magic!
 
 References
 ----------
- - https://authors.library.caltech.edu/10092/1/CANieeespm08.pdf - a great introduction to compressed sensing by Emanuel Candes and Michael Wakin
+ - https://authors.library.caltech.edu/10092/1/CANieeespm08.pdf - a great introduction to compressed sensing by Emmanuel Candes and Michael Wakin
  - https://cims.nyu.edu/~cfgranda/pages/MTDS_spring19/notes/duality.pdf - an amazing full paper on Compressed sensing from lagrange duality to Theorem 1
  - https://www.youtube.com/watch?v=zytez36XlCU - a good talk on compressed sensing by Richard Baraniuk
  - https://asa.scitation.org/doi/10.1121/1.5043089 - another good introduction to compressed sensing
@@ -683,3 +685,5 @@ References
  - https://authors.library.caltech.edu/23952/1/Candes2005.pdf - error correction codes with compressed sensing by Candes, Tao, Vershinin, Rudelson
  - https://math.stackexchange.com/questions/701062/derivative-of-the-nuclear-norm/704271#704271 - nuclear norm via semidefinite programming
  - https://math.stackexchange.com/questions/746332/dual-of-a-semidefinite-program/746883#746883 - dual of semidefinite programming problems
+ - https://www.math.cuhk.edu.hk/~lmlui/dct.pdf - explanation of DCT, quantization and sparse coding in JPEG
+ - https://www.youtube.com/watch?v=DS8N8cFVd-E - video about DCT in JPEG
