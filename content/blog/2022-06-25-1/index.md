@@ -534,9 +534,9 @@ $||h||_1 \le C_1 || \bar{x}_{S_c} ||_1 + C_2 \epsilon$
 
 As $||h||_2 \le ||h||_1$, this leads to:
 
-$||h||_2 \le C_1 || \bar{x}_{S_c} ||_2 + C_2 \epsilon$.
+$||h||_2 \le C_1 || \bar{x}_{S_c} ||_1 + C_2 \epsilon$.
 
-### Practical example
+## Practical example
 
 Let us generate a wav-file with a simple chord:
 
