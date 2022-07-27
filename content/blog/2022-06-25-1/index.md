@@ -545,7 +545,7 @@ Let us generate a wav-file with a simple chord:
 Let us take a perfect piano and consider a Discrete Cosine Transform of A-E-A chord (I don't want to deal with
 complex numbers in this case, otherwise, I'd use Fourier). 
 
-I'll open a Jupyter-notebook and programmatically generate DCT spectrum of this signal, then synthesizeze an artificial
+I'll open a Jupyter-notebook and programmatically generate DCT spectrum of this signal, then synthesize an artificial
 wav-file with sound pressures out of it and play it:
 
 
