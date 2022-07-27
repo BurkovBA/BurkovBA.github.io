@@ -8,9 +8,9 @@ description: For almost a century the field of signal processing existed in the 
 
 ## Motivation: Nyquist-Shannon (Kotelnikov) theorem
 
-Suppose that you have a WAV file. It basically contains sound pressures, measured 44100 times a second.
+Suppose that you have a WAV file. It basically contains sound pressures, measured 44 100 or 48 000 times a second.
 
-Why 44 100?
+Why 44 100/48 000?
 
 Suppose that you want to recover harmonics of frequencies 1 Hz, 2 Hz, 3 Hz, ... up to 20 kHz (more or less the upper threshold of what a human ear can hear). Each harmonic of your sound of frequency $\omega_i$ is described by 2 variables: amplitude $A_i$ and phase $\phi_i$.
 
@@ -291,7 +291,7 @@ to the operator norm $|| A^T ||$ or to a random vector $|| A^T \alpha ||$.
 Operator form of Bernstein inequality is a stronger form of Bernstein inequality for random variables, which is, in
 turn, a strong alternative version of Markov inequality (a.k.a. Chebyshev's first inequality in Russian tradition).
 
-Recall Markov (Chevyshev's first) inequality:
+Recall Markov (a.k.a. Chebyshev's first) inequality:
 
 $p(\xi \ge \epsilon) \le \frac{\mathbb{E} \xi}{\epsilon}$
 
@@ -368,6 +368,8 @@ TODO: Kashin-Garnaev-Gluskin lemma
 
 ### Partial Fourier transform matrix: Rudelson-Vershinin lemma
 
+A similar result was proven by Mark Rudelson and Roman Vershinin for partial Fourier transform matrices.
+
 TODO: mention $\log^5$ convergence
 
 ## Theorem 2 (robust recovery of a sparse subset of the largest vector coordinates, even if the vector is not sparse)
@@ -417,7 +419,7 @@ non-exact sparseness of the input vector. If both of them are not too large, the
 I am following two papers: a [short one](https://www.sciencedirect.com/science/article/pii/S1631073X08000964) by E.Candes
 and a [long one](https://arxiv.org/pdf/math/0503066.pdf) by the whole team.
 
-### Theorem 2
+### Theorem 2 proof
 
 We need to show that in the noiseless case (i.e. for any feasible $x$, $Ax = y$):
 
@@ -484,7 +486,7 @@ follows the fact that $||h||_2 \le ||h||_1$. Not sure about the exact origins of
 
 This concludes the proof.
 
-### Theorem 3
+### Theorem 3 proof
 
 We need to show that:
 
@@ -533,6 +535,123 @@ $||h||_1 \le C_1 || \bar{x}_{S_c} ||_1 + C_2 \epsilon$
 As $||h||_2 \le ||h||_1$, this leads to:
 
 $||h||_2 \le C_1 || \bar{x}_{S_c} ||_2 + C_2 \epsilon$.
+
+### Practical example
+
+Let us generate a wav-file with a simple chord:
+
+![piano roll](piano_roll.png)<center>A-E-A chord</center>
+
+Let us take a perfect piano and consider a Discrete Cosine Transform of A-E-A chord (I don't want to deal with
+complex numbers in this case, otherwise, I'd use Fourier). 
+
+I'll open a Jupyter-notebook and programmatically generate DCT spectrum of this signal, then synthesizeze an artificial
+wav-file with sound pressures out of it and play it:
+
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy import fftpack
+from scipy.io import wavfile
+from IPython.display import Audio
+
+dim = 48000
+
+a_e_a_chord_dct = np.zeros(dim)
+
+a_e_a_chord_dct[440] = 1
+a_e_a_chord_dct[660] = 1
+a_e_a_chord_dct[880] = 1
+
+
+generated_wav = idct(a_e_a_chord_dct)
+
+Audio(generated_wav, rate=dim)
+```
+
+<audio controls>
+  <source src="a_e_a_chord.wav" type="audio/wav">
+  Your browser does not support the audio tag.
+</audio>
+
+Sounds like a chord, right?
+
+Now, let us show that with compressed sensing we don't have to measure our sound at 48 000 points a second, we will be
+able to recover the initial signal pretty accurately from just 100 measurement points. 
+
+```python
+import random
+import math
+
+from sklearn import linear_model
+
+
+# generate a DCT matrix to select just a few random rows from it and use them as a sensing matrix
+I = np.identity(dim)
+dct_matrix = dct(I)
+
+n_measurements = 100  # measure the sound pressure at this amount of points 
+
+
+def get_random_indices(n_indices=n_measurements, dim=dim):
+    output = []
+    counter = 0
+    while counter < n_indices:
+        prospective_random_index = math.floor(random.random() * dim)
+        if prospective_random_index not in output:
+            output.append(prospective_random_index)
+            counter += 1
+        else:
+            pass  # redraw, if random index was already used
+    
+    return output
+
+
+# select a few rows from our DCT matrix to use this partial DCT matrix as sensing matrix
+random_indices = get_random_indices()
+partial_dct = np.take(dct_matrix, get_random_indices(), axis=1)
+
+# measure sound pressures at a small number of points by applying sensing matrix to the signal spectrum
+y = np.dot(partial_dct.T, a_e_a_chord_dct)
+
+# make the measurement noisy
+noise = 0.01 * np.random.normal(0, 1, n_measurements)
+signal = y + noise
+
+# recover the initial spectrum from the measurements with L1-regularized regression (implemented as sklearn's Lasso in this case)
+lasso = linear_model.Lasso(alpha=0.1)
+lasso.fit(partial_dct.T, signal)
+for index, i in enumerate(lasso.coef_):
+    if i > 0:
+        print(f"index = {index}, coefficient = {i}")
+```
+
+```
+index = 440, coefficient = 0.9322433129902213
+index = 660, coefficient = 0.9479368288017439
+index = 880, coefficient = 0.9429783262003731
+```
+
+Here we go, using just 100 noisy measurements we've managed to perfectly recover the spectrum of our signal, and made
+just 6-7% error in amplitudes. 
+
+Let us listen to the result:
+
+```python
+recovered_wav = idct(lasso.coef_)
+Audio(recovered_wav, rate=dim)
+```
+
+<audio controls>
+  <source src="recovered_chord.wav" type="audio/wav">
+  Your browser does not support the audio tag.
+</audio>
+
+Can your ear tell the difference? I can not.
+
+Magic!
+
 
 References
 ----------
