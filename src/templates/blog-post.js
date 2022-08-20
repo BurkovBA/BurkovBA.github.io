@@ -47,7 +47,7 @@ class BlogPostTemplate extends React.Component {
           <span><IoIosTime /> {post.timeToRead} min read</span>
         </p>
 
-        <p>{post.frontmatter.description}</p>
+        <p style={{ marginTop: rhythm(1) }}>{post.frontmatter.description}</p>
         <div dangerouslySetInnerHTML={{ __html: post.html }} />
         <hr
           style={{

@@ -33,7 +33,7 @@ class BlogIndex extends React.Component {
                 </small>
               </h3>
               <GatsbyImage image={node.frontmatter.cover.childImageSharp.gatsbyImageData} alt="cover" />
-              <p
+              <p style={{ marginTop: rhythm(1) }}
                 dangerouslySetInnerHTML={{
                   __html: node.frontmatter.description || node.excerpt,
                 }}
