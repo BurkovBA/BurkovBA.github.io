@@ -1,12 +1,16 @@
 ---
-title: Correspondence between NMF, k-means, biclustering and spectral clustering 
+title: Correspondence between symmetric NMF, k-means, biclustering and spectral clustering 
 date: "2022-08-21T00:00:00.284Z"
 tags: ["math", "biomed"]
 cover: "./NMF.png"
 description: Non-negative matrix factorization (NMF) is the most fashionable method of matrix decomposition among productive, but mathematically illiterate biologists, much more popular than PCA due to its perceived simplicity. However, if you start digging deeper, it happens to have profound connections to a multitude of other techniques from linear algebra and matrix analysis. In this post I discuss those connections.
 ---
 
-## Introduction to NMF and k-means
+In this post I will follow the general logic of [this paper](https://ranger.uta.edu/~chqding/papers/NMF-SDM2005.pdf),
+including the numeration of chapters. I will provide my own remarks, as I spent several months, working with the object,
+discussed in this post.
+
+## 1. Introduction to NMF and k-means
 
 ### NMF and recommender systems
 
@@ -23,9 +27,10 @@ $\hat{V} = W \cdot H = \begin{pmatrix} w_{1,1} && w_{1,k} \\ w_{2,1} && w_{2,k} 
 Since the Netflix challenge, this approach was very popular in the recommender systems. If $V$ matrix represents
 $n$ users rating $p$ movies, then $W$ matrix represents the characterization of each of the $n$ users in terms of $k$
 psychological parameters (e.g. how much the user likes humour, violence, sentimentality etc.) and $H$ matrix characterizes
-each of $p$ movies in terms of these $k$ scales - how humorous, violent, sentimental etc. they are. Obvious application
-is data imputation - most of the user reviews are missing, hence, we need to predict user ratings for movies they haven't
-seen and suggest the movies with the highest expected ratings.
+each of $p$ movies in terms of these $k$ scales - how humorous, violent, sentimental etc. they are. 
+
+An obvious application of NMF is data imputation - most of the user reviews are missing, hence, we need to predict user
+ratings for movies they haven't seen and suggest the movies with the highest expected ratings.
 
 ### NMF as a special case of k-means
 
@@ -33,7 +38,7 @@ A less obvious application of NMF is data clustering. Turns out, NMF algorithm i
 
 We can interpret the rows of matrix $H$ as centroids of our clusters:
 
-![k-means](K_Means.png)<center>**k-means clustering**. Here we see 3 clusters. Data points are depicted with rectangles, centroid are depicted with circles.</center>
+![k-means](K_Means.png)<center>**k-means clustering**. Here we see 3 clusters. Data points are depicted with rectangles, cluster centroids are depicted with circles.</center>
 
 ### k-means solution with EM algorithm
 
@@ -54,22 +59,44 @@ interpretations. For instance, NMF with Kullback-Leibler divergence as energy fu
 probabilistic latent semantic analysi (PLSA) algorithm. We are going to use Frobenius norm as the energy function, which
 results in a multitude of truncated PCA/biclustering/spectral clustering interpretations.
 
-
-## Theorem 1. Maximum of Frobenius norm is minimum of truncated PCA
-
-TODO
-
-## Theorem 2. Biclustering problems can be re-formulated through quadratic programming
+## 2. Symmtric NMF interpretation through k-means 
 
 TODO
 
-## Theorem 3. k-means corresponds to spectral clustering
+### Lemma 2.0. Minimum of Frobenius norm corresponds to the maximum of Rayleigh quotient
 
 TODO
+
+### Lemma 2.1. Symmetric NMF is equivalent to kernel K-means clustering
+
+TODO
+
+### Lemma 2.2. Symmetric NMF matrix is near orhtogonal
+
+TODO
+
+## 3. Biclustering problem and quadratic programming/NMF
+
+TODO
+
+### Lemma 3.1. Biclustering problem is equivalent to quadratic programming/NMF low-rank approximation of a Jordan-Wieldant matrix
+
+TODO
+
+## 4. k-means corresponds to spectral clustering
+
+TODO
+
+### Lemma 4.0. If a graph consists of multiple non-connected components, they correspond to the graph Laplacian eigenvectors
+
+TODO
+
+### Lemma 4.1. MinMax Cut/Normalized Cut problems on a graph correspond to the  
 
 ---
 This post is inspired by my ongoing research on L1-regularized biclustering algorithms and sparse transformers, as well 
-as discussions with Alexander Chervov and Anvar Kurmukov in Sberloga Data Science community (thanks to them).
+as discussions with Olga Zolotareva, Alexander Chervov, Anvar Kurmukov and Sberloga Data Science community. Many thanks
+to them.
 
 ---
 
