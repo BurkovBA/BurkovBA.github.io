@@ -59,7 +59,142 @@ interpretations. For instance, NMF with Kullback-Leibler divergence as energy fu
 probabilistic latent semantic analysi (PLSA) algorithm. We are going to use Frobenius norm as the energy function, which
 results in a multitude of truncated PCA/biclustering/spectral clustering interpretations.
 
-## 2. Symmtric NMF interpretation through k-means 
+Here is an implementation of k-means (with k-means++ initialization):
+
+```python
+import random
+from typing import Tuple, Enum
+
+import numpy as np
+import numpy.typing as npt
+
+
+class ConvergenceException(Exception):
+    def __init__(self):
+        Exception.__init__(self, "Iterations limit exceeded")
+
+
+def k_means_clustering(
+        X: npt.NDarray,
+        k: int,
+        tol: float = 1e-5,
+        max_iter:int = 100,
+        energy: Enum['KL', 'F'] = 'F'
+) -> Tuple[npt.NDarray, npt.NDarray]:
+    """A minimal implementation of k-means clustering algorithm.
+
+    :param X: n x p data matrix, where each point of data is a p-dimensional np.array
+    :param k: number of cluster centroids, we aim to find
+    :param tol: tolerance in energy; stop and return result, if the decrease in energy between 2 steps is below tol
+    :param max_iter: maximum number of iterations of the algorithm allowed; abort with ConvergenceException if exceeded
+    :param energy: monotonically non-increasing energy function to calculate (options: Kullback-Leibler, Frobenius norm)
+    :return: (centroids, clusters) - a 2-Tuple of 2 matrices:
+     - centroids - k x p matrix of cluster centroids
+     - clusters - n x k indicator vectors, which define a set of data points, which belongs to each cluster
+    """
+    n = X.shape[0]
+    p = X.shape[1]
+
+    centroids = init_centroids(X, k)
+    clusters = np.empty(shape=(n, k))
+
+    iterations = 0
+    next_energy = np.Inf
+    previous_energy = np.Inf
+    while not (previous_energy - next_energy < tol):
+        clusters = e_step(X, centroids)
+        centroids = m_step(X, centroids, clusters)
+
+        if iterations > max_iter:
+            raise ConvergenceException
+        else:
+            iterations += 1
+            previous_energy = energy
+            next_energy = calculate_energy(X, centroids, clusters, energy)
+
+    return centroids, clusters
+
+
+def init_centroids(X, k) -> npt.NDarray:
+    """Initialization procedure for settings the initial locations of
+    centroids, based on k-means++ (2006-2007) algorithm:
+    https://en.wikipedia.org/wiki/K-means%2B%2B.
+    """
+    n = X.shape[0]
+    centroids = np.zeros((n, k))
+    random_point_index = random.randrange(n)
+    np.copyto(X[random_point_index], centroids[0])
+    for _ in range(k):
+        # find closest centroid to each data point
+        clusters = e_step(X, centroids)
+
+        # construct probability distribution of selecting data points as centroids
+        distribution = np.zeros(n)
+        for index, data_point in enumerate(X):
+            nearest_centroid = clusters[index]
+
+            # probability of a point being selected as a new centroid is ~ square distance D(point, centroid)
+            distribution[index] = np.dot(data_point - nearest_centroid, data_point - nearest_centroid)
+
+        # pick a data point to be the next centroid at random
+        new_centroid = random.choices(X, weights=distribution)
+        centroids = numpy.vstack([centorids, new_centroid])
+
+    return centroids
+
+
+def e_step(X, centroids):
+    """Assign the nearest cluster to each data point."""
+    clusters = np.zeros(shape=(X.shape[0], centroids.shape[0]))
+
+    for data_point_index, data_point in enumerate(X):
+        nearest_centroid_index = 0
+        shortest_distance_to_centroid = np.infty
+        for index, centroid in enumerate(centroids):
+            direction = data_point - centroid
+            distance = math.sqrt(np.dot(direction, direction))
+            if distance < shortest_distance_to_centroid:
+                shortest_distance_to_centroid = distance
+                nearest_centroid_index = index
+
+        clusters[data_point_index][nearest_centroid_index] = 1
+
+    return clusters
+
+
+def m_step(X, centroids, clusters):
+    """Re-calculate new centroids based on the updated clusters."""
+    new_centroids = np.empty(shape=centroids.shape)
+
+    for index, cluster in enumerate(clusters):
+        new_centroids[index] = np.dot(cluster, X)
+
+    return new_centroids
+
+
+def calculate_energy(X, centroids, clusters, energy: Enum['KL', 'F']) -> float:
+    """Implementation of several energy functions calculation."""
+    if energy == 'F':
+        X_hat = np.dot(centroids, clusters)
+        difference = X - X_hat
+        result = 0
+        for i in difference:
+            for j in difference[i]:
+                result += j ** 2
+    elif energy == 'KL':
+        result = 0  # TODO
+    else:
+        raise ValueError(f"Undefined energy function type '{energy}'")
+
+    return result
+```
+
+
+### Symmetric NMF
+
+TODO
+
+## 2. Symmetric NMF interpretation through k-means 
 
 TODO
 
@@ -77,21 +212,41 @@ TODO
 
 ## 3. Biclustering problem and quadratic programming/NMF
 
-TODO
+Another related problem is the problem of biclustering. 
 
-### Lemma 3.1. Biclustering problem is equivalent to quadratic programming/NMF low-rank approximation of a Jordan-Wieldant matrix
+Suppose that you have a matrix with expressions of $p$ genes, measured in $n$ patients, and you want to find sub-groups
+of patients with similar patterns of expression (e.g. you're looking for subtypes of cancer).
+
+![Biclustering](biclustering.png)<center>**Biclustering in a differential expression matrix**</center>
+
+So, you want to simultaneously detect subsets of columns and subsets of rows, such that they explain e.g. a large chunk
+of variance in your data (the variance in a bicluster is expected to be low, though).
+
+Equivalently, this problem can be re-formulated as detection of dense subgraphs in a bipartite graph
+
+![Bipartite graph clustering](bipartite_graph_clustering.png)<center>**Dense subgraphs in a bipartite graph**</center>
+
+### Lemma 3.1. Biclustering problem is equivalent to quadratic programming/NMF low-rank approximation of a Wieldant-Jordan matrix
 
 TODO
 
 ## 4. k-means corresponds to spectral clustering
 
+Another interesting interpretation of k-means algorithm is though spectral graph theory.
+
+To give you a taste of this field, suppose that we have a graph that consists of multiple disjoint subsets.
+
+It can be shown, that each disjoint connected component in this graph is an eigenvector of [graph Laplacian](https://en.wikipedia.org/wiki/Laplacian_matrix).
+
+![Laplacian](Laplacian.png)<center>**Example of graph Laplacian calculation.**</center>
+
+Now, instead of strictly disjoint graph, we might have a loosely disjoint one - with relatively dense subgraphs, 
+interconnected with just a few "bridge" edges. We might want to find those dense subgraphs. And they would
+serve as good clusters as well, if we re-formulated the problem as clustering?
+
+### Lemma 4.1. MinMax Cut/Normalized Cut problems on a graph correspond to the k-means clustering problem
+
 TODO
-
-### Lemma 4.0. If a graph consists of multiple non-connected components, they correspond to the graph Laplacian eigenvectors
-
-TODO
-
-### Lemma 4.1. MinMax Cut/Normalized Cut problems on a graph correspond to the  
 
 ---
 This post is inspired by my ongoing research on L1-regularized biclustering algorithms and sparse transformers, as well 
@@ -104,5 +259,7 @@ References
 ----------
 * https://en.wikipedia.org/wiki/Non-negative_matrix_factorization#Clustering_property - NMF and clustering property
 * https://ranger.uta.edu/~chqding/papers/NMF-SDM2005.pdf - the original paper on the equivalence of k-means and spectral clustering
-* https://www.cs.utexas.edu/users/inderjit/public_papers/kdd_spectral_kernelkmeans.pdf - 
+* https://www.cs.utexas.edu/users/inderjit/public_papers/kdd_spectral_kernelkmeans.pdf - on correspondence between spectral clustering and k-means
+* https://faculty.cc.gatech.edu/~hpark/papers/GT-CSE-08-01.pdf - on correspondence between sparse Nonnegative Matrix Factorization and Clustering
 * https://www.researchgate.net/publication/2540554_A_Min-max_Cut_Algorithm_for_Graph_Partitioning_and_Data_Clustering - MinMax cut algorithm
+* https://www.biorxiv.org/content/10.1101/2022.04.24.489301v1.full - fresh paper on spectral biclustering
