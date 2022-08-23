@@ -6,9 +6,10 @@ cover: "./NMF.png"
 description: Non-negative matrix factorization (NMF) is the most fashionable method of matrix decomposition among productive, but mathematically illiterate biology students, much more popular than PCA due to its perceived simplicity. However, if you start digging deeper, it happens to have profound connections to a multitude of other techniques from linear algebra and matrix analysis. In this post I discuss those connections.
 ---
 
-I will be following the general logic of [this paper](https://ranger.uta.edu/~chqding/papers/NMF-SDM2005.pdf),
-including the numeration of chapters, in this post. I will provide my own remarks, as I spent several months, working 
-with objects, discussed in this post.
+I am following the general logic of [this paper](https://ranger.uta.edu/~chqding/papers/NMF-SDM2005.pdf),
+including the numeration of chapters, in this post. However, I will provide lots of my own remarks, as I spent several 
+months, working with objects, discussed in this post and "rehydrate" a very clear, but somewhat condensed 4.5-page paper
+into a much larger blog post.
 
 ## 1. Introduction to NMF and k-means
 
@@ -51,7 +52,73 @@ quality metric.
 
 ### NMF solver
 
-TODO
+One of the reasons of NMF popularity is its simple iterative solver. 
+
+In a series of alternating steps it updates the values of $W$ and $H$ matrices using the following update rules:
+
+$W \leftarrow W  \cdot \frac{(VH^T)}{(WHH^T)}$
+
+$H \leftarrow H  \cdot \frac{(W^TV)}{(W^TWH)}$
+
+Let us derive this formula.
+
+We want to solve the following optimization problem:
+
+$\min \limits_{W \ge 0, H \ge 0}|| V - WH ||_F$
+
+Or, equivalently, expressing Frobenius norm through trace notation, we have:
+
+$\min \limits_{W \ge 0, H \ge 0} Tr((V - WH)^T(V - WH))$
+
+This is a minimization problem which can be solved through taking a derivative of a scalar function with respect to a 
+matrix argument, which is explained in more detail [here](https://www.youtube.com/watch?v=9fc-kdSRE7Y) and [here](https://en.wikipedia.org/wiki/Matrix_calculus#Scalar-by-matrix).
+
+We will be doing a gradient descent, iteratively decreasing Frobenius norm of our trace with respect to $W$ matrix with $H$
+fixed every odd step and with respect to $H$ matrix with $W$ matrix fixed every even step:
+
+$W \leftarrow W -   \eta_W \cdot  \nabla_W f(W,H)$
+
+$H \leftarrow H -   \eta_H \cdot  \nabla_H f(W,H)$
+
+Here $\eta_W$ and $\eta_H$ are gradient step size.
+
+Now let us decompose our trace into 4 terms and take its derivative $\nabla_W Tr((V - WH)^T(V - WH))$ and $\nabla_H Tr((V - WH)^T(V - WH))$ with respect to matrices $W$ and $H$:
+
+$Tr((V^T - H^TW^T)(V-WH) ) = Tr( V^TV - V^TWH - H^TW^TV + H^TW^WWH) =$
+
+$ = Tr( V^TV) - Tr(V^TWH) - Tr(H^TW^TV) + Tr(H^TW^TWH)$
+
+Taking derivative of each term separately:
+
+$\nabla_W Tr( V^TV) = 0$
+
+$\nabla_W Tr(V^TWH) = \nabla_W Tr(HV^T W) = (H V^T)^T = VH^T$ (using the fact that $\nabla_W Tr(AW) = A^T$)
+
+$\nabla_W Tr(H^TW^TV) = \nabla_W Tr(W^T V H^T) = VH^T$ (using the fact that $\nabla_W Tr(W^TA) = A$)
+
+$\nabla_W Tr(H^TW^TWH) = \nabla Tr(HH^TW^TW) = 2 W HH^T$ (using the fact that $\nabla_W Tr(W HH^T W^T) = W (HH^T + HH^T)$)
+
+Aggregating the results:
+
+$\nabla_W Tr((V - WH)^T(V - WH)) = 0 - VH^T - VH^T + 2 W HH^T = 2 (W HH^T - VH^T) = 2 (WH - V) H^T$
+
+And carrying out similar calculations for $H$ we get:
+
+$\nabla_H Tr((V - WH)^T(V - WH)) = -2 W^T V + 2 W^TW H = 2 W^T (WH - V)$
+
+Substituting this back into the original update formula (ignoring "2", as it can be included into the gradient step):
+
+$W \leftarrow W - \eta_W \cdot  (WH - V) H^T$
+
+$H \leftarrow H - \eta_H \cdot  W^T (WH - V)$
+
+Now the authors of the original paper suggest to set specific values of gradient update steps:
+
+$\eta_W = \frac{W}{WHH^T}$
+
+$\eta_H = \frac{H}{W^TWH}$
+
+This leads us to the declared algorithm.
 
 ### NMF as a special case of k-means
 
@@ -71,9 +138,9 @@ are non-negative as well. $W$ is non-negative, too. So, all the requirements of 
 
 ![k-means](K_Means.png)<center>**k-means clustering**. Here we see 3 clusters. Data points are depicted with rectangles, cluster centroids are depicted with circles.</center>
 
-### k-means solution with EM algorithm
+### k-means solution with EM-like algorithm
 
-In practice, k-means can be solved with a two-step iterative [EM algorithm](https://en.wikipedia.org/wiki/Expectation%E2%80%93maximization_algorithm).
+In practice, k-means can be solved with a two-step iterative [EM-like algorithm](https://en.wikipedia.org/wiki/Expectation%E2%80%93maximization_algorithm).
 
 Initialize cluster centroids with random values (obviously, we can get smarter with initialization, but even random will do for now).
 
