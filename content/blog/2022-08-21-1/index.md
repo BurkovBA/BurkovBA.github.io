@@ -118,7 +118,70 @@ $\eta_W = \frac{W}{WHH^T}$
 
 $\eta_H = \frac{H}{W^TWH}$
 
-This leads us to the declared algorithm.
+This leads us to the declared algorithm. Here is a python implementation:
+
+```python
+import numpy as np
+import numpy.typing as npt
+
+
+class ConvergenceException(Exception):
+    def __init__(self):
+        Exception.__init__(self, "Iterations limit exceeded; algorithm failed to converge!")
+
+
+def nmf(V: npt.NDarray, k: int, tol: float = 1e-4, max_iter: int=100) -> Tuple[npt.NDarray, npt.NDarray]:
+    """An NMF  solver implementation which approximates an n x p input matrix V
+    as a product W x H of n x k matrix W and k x p matrix H. This solver
+    minimizes Frobenius norm of the difference between V and W H and implements
+    an algorithm, described by Lee and Seung (2000) in:
+    https://proceedings.neurips.cc/paper/2000/file/f9d1152547c0bde01830b7e8bd60024c-Paper.pdf.
+
+    :param V: n x p matrix to be approximated with NMF low-rank approximation
+    :param k: rank of low-rank approximation
+    :param tol: threshold value of decrease in energy function between two consecutive iterations for the algorithm to
+     be considered converged
+    :param max_iter: maximum number of iterations allowed; if reached before convergence, ConvergenceException is thrown
+    :return: 2-tuple of two matrices:
+     - W - n x k matrix
+     - H - k x p matrix
+    """
+    n = V.shape[0]
+    p = V.shape[1]
+
+    previous_energy = np.inf
+    next_energy = np.inf
+
+    iterations = 0
+
+    W = np.ones((n, k))
+    H = np.ones((k, p))
+
+    while previous_energy - next_energy > tol:
+        W_update = np.dot(V, H.T) / np.dot(W, np.dot(H, H.T))
+        W = np.dot(W, W_update)
+
+        H_update = np.dot(W.T, V) / np.dot(W.T, np.dot(W, H))
+        H = np.dot(H, H_update)
+
+        if iterations > max_iter:
+            raise ConvergenceException
+        else:
+            iterations += 1
+            next_energy = numpy.linalg.norm(V - np.dot(W, H), 'fro')  # calculate Frobenius norm
+            previous_energy = next_energy
+
+    return W, H
+```
+
+And due to the fact that it is so easy to implement, it is probably the favourite algorithm of your typical favourite 
+bioinformatics student:
+
+![Your favourite bioinformatics student in a wet lab](i_have_no_idea_what_i_am_doing1.webp)<center>**Your favourite bioinformatics student.**</center>
+
+
+![Your favourite bioinformatics student in an IT/ML lab](i_have_no_idea_what_i_am_doing2.webp)<center>**More of your favourite bioinformatics student.** Cause doing things fast is what matters, right?</center>
+
 
 ### NMF as a special case of k-means
 
