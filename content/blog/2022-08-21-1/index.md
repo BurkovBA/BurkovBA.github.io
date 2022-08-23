@@ -3,12 +3,12 @@ title: Correspondence between symmetric NMF, k-means, biclustering and spectral 
 date: "2022-08-21T00:00:00.284Z"
 tags: ["math", "biomed"]
 cover: "./NMF.png"
-description: Non-negative matrix factorization (NMF) is the most fashionable method of matrix decomposition among productive, but mathematically illiterate biologists, much more popular than PCA due to its perceived simplicity. However, if you start digging deeper, it happens to have profound connections to a multitude of other techniques from linear algebra and matrix analysis. In this post I discuss those connections.
+description: Non-negative matrix factorization (NMF) is the most fashionable method of matrix decomposition among productive, but mathematically illiterate biology students, much more popular than PCA due to its perceived simplicity. However, if you start digging deeper, it happens to have profound connections to a multitude of other techniques from linear algebra and matrix analysis. In this post I discuss those connections.
 ---
 
-In this post I will follow the general logic of [this paper](https://ranger.uta.edu/~chqding/papers/NMF-SDM2005.pdf),
-including the numeration of chapters. I will provide my own remarks, as I spent several months, working with the object,
-discussed in this post.
+I will be following the general logic of [this paper](https://ranger.uta.edu/~chqding/papers/NMF-SDM2005.pdf),
+including the numeration of chapters, in this post. I will provide my own remarks, as I spent several months, working 
+with objects, discussed in this post.
 
 ## 1. Introduction to NMF and k-means
 
@@ -25,24 +25,55 @@ Here I use outer product notation to represent $\hat{V}$ as a product of two rec
 $\hat{V} = W \cdot H = \begin{pmatrix} w_{1,1} && w_{1,k} \\ w_{2,1} && w_{2,k} \\ w_{n,1} && w_{n,k} \end{pmatrix} \cdot \begin{pmatrix} h_{1,1} && h_{1,2} && h_{1,p} \\ h_{k,1} && h_{k,2} && h_{k,p} \end{pmatrix}$
 
 Since the Netflix challenge, this approach was very popular in the recommender systems. If $V$ matrix represents
-$n$ users rating $p$ movies, then $W$ matrix represents the characterization of each of the $n$ users in terms of $k$
-psychological parameters (e.g. how much the user likes humour, violence, sentimentality etc.) and $H$ matrix characterizes
-each of $p$ movies in terms of these $k$ scales - how humorous, violent, sentimental etc. they are. 
+$n$ users, who assigned ratings for $p$ movies, then $W$ matrix represents the characterization of each of the $n$ users
+in terms of $k$ psychological traits (e.g. how much the user likes humour, violence, sentimentality etc.) and $H$ matrix
+characterizes each of $p$ movies in terms of these $k$ scales - how humorous, violent, sentimental etc. they are. 
 
-An obvious application of NMF is data imputation - most of the user reviews are missing, hence, we need to predict user
-ratings for movies they haven't seen and suggest the movies with the highest expected ratings.
+Then an obvious application of NMF is data imputation - most of the user reviews are missing, hence, we need to predict 
+user ratings for movies they haven't seen and suggest the movies with the highest expected ratings.
+
+How would we search for NMF in practice? We would require Frobenius norm of the difference between NMF and the original 
+matrix $V$ to be as small as possible:
+
+$\min \limits_{W,H \ge 0} ||V - WH ||_F$
+
+Frobenius norm is a good measure for the quality of our approximation not only because of its intuitiveness. A family of 
+theorems in matrix analysis (such as [Hoffman-Wielandt inequality](https://djalil.chafai.net/blog/2011/12/03/the-hoffman-wielandt-inequality/))
+show that if matrix approximation converges to the true matrix in terms of Frobenius norm, then so do their eigenvalues
+and eigenvectors.
+
+An alternative option for the measure of quality of approximation is Kullback-Leibler divergence $D(V || W H)$, which in
+matrix case evaluates to $D(A||B) = \sum \limits_{i,j} (A_{i,j} \log \frac{A_{i,j}}{B_{i,j}} - A_{i,j} + B_{i,j})$. In
+this case NMF bears similarities to various Bayesian methods, such as Probabilistic Latent Semantic Analysis (PLSA) method.
+
+However, I won't delve into Kullback-Liebler-minimizing approach and will focus on the Frobenius norm as approximation
+quality metric.
+
+### NMF solver
+
+TODO
 
 ### NMF as a special case of k-means
 
-A less obvious application of NMF is data clustering. Turns out, NMF algorithm is basically a special case of k-means clustering.
+A less obvious application of NMF is data clustering. Turns out, k-means clustering is a special case of NMF.
 
-We can interpret the rows of matrix $H$ as centroids of our clusters:
+Suppose that we have identified $k$ clusters $C_k$ among our data points $\bf v_i$. 
+
+We can interpret the rows ${\bf h_k}$ of matrix $H$ as centroids of our clusters: ${\bf h_k} = \sum_{i \in C_k }{\bf v_i}$
+
+Then is matrix $W$ is made orthogonal non-negative, it represents attribution of data points to clusters. E.g.:
+
+$\hat{V} = W \cdot H = \begin{pmatrix} 1 && 0 \\ 0 && \frac{1}{\sqrt{2}} \\ 0 && \frac{1}{\sqrt{2}} \end{pmatrix} \cdot \begin{pmatrix} h_{1,1} && h_{1,2} && h_{1,p} \\ h_{k,1} && h_{k,2} && h_{k,p} \end{pmatrix}$
+
+Here matrix $W$ describes two clusters, the first contains data point {$\bf v_1$} and the second - {$\bf v_2$, $\bf v_3$}. 
+If all the coordinates of the data are non-negative, this means that coordinates of all the cluster centroids $\bf h_i$ 
+are non-negative as well. $W$ is non-negative, too. So, all the requirements of NMF are satisfied.
 
 ![k-means](K_Means.png)<center>**k-means clustering**. Here we see 3 clusters. Data points are depicted with rectangles, cluster centroids are depicted with circles.</center>
 
 ### k-means solution with EM algorithm
 
-In practice, k-means can be solved with an two-step iterative [EM algorithm](https://en.wikipedia.org/wiki/Expectation%E2%80%93maximization_algorithm).
+In practice, k-means can be solved with a two-step iterative [EM algorithm](https://en.wikipedia.org/wiki/Expectation%E2%80%93maximization_algorithm).
 
 Initialize cluster centroids with random values (obviously, we can get smarter with initialization, but even random will do for now).
 
@@ -206,7 +237,7 @@ TODO
 
 TODO
 
-### Lemma 2.2. Symmetric NMF matrix is near orhtogonal
+### Lemma 2.2. Symmetric NMF matrix is near orthogonal
 
 TODO
 
@@ -217,14 +248,14 @@ Another related problem is the problem of biclustering.
 Suppose that you have a matrix with expressions of $p$ genes, measured in $n$ patients, and you want to find sub-groups
 of patients with similar patterns of expression (e.g. you're looking for subtypes of cancer).
 
-![Biclustering](biclustering.png)<center>**Biclustering in a differential expression matrix**</center>
+![Biclustering](biclustering.png)<center>**Biclustering in a differential expression matrix.** Rows of the matrix correspond to patients; columns - to genes; the intensity of color of each pixel represents the gene expression in a patient (e.g. how much RNA product is synthesized from this gene). By rearranging the order of genes and patients we can clearly identify groups of patients, in which groups of genes behave similarly.</center>
 
 So, you want to simultaneously detect subsets of columns and subsets of rows, such that they explain e.g. a large chunk
 of variance in your data (the variance in a bicluster is expected to be low, though).
 
 Equivalently, this problem can be re-formulated as detection of dense subgraphs in a bipartite graph
 
-![Bipartite graph clustering](bipartite_graph_clustering.png)<center>**Dense subgraphs in a bipartite graph**</center>
+![Bipartite graph clustering](bipartite_graph_clustering.png)<center>**Dense subgraphs in a bipartite graph.** Again, left part of the graph represents patients, right - genes, edges are expressions of genes in a patient.</center>
 
 ### Lemma 3.1. Biclustering problem is equivalent to quadratic programming/NMF low-rank approximation of a Wieldant-Jordan matrix
 
@@ -238,7 +269,7 @@ To give you a taste of this field, suppose that we have a graph that consists of
 
 It can be shown, that each disjoint connected component in this graph is an eigenvector of [graph Laplacian](https://en.wikipedia.org/wiki/Laplacian_matrix).
 
-![Laplacian](Laplacian.png)<center>**Example of graph Laplacian calculation.**</center>
+![Laplacian](Laplacian.png)<center>**Example of graph Laplacian calculation.** Here $D$ - degree matrix, $A$ - adjacency matrix, $L = D - A$ - graph Laplacian.</center>
 
 Now, instead of strictly disjoint graph, we might have a loosely disjoint one - with relatively dense subgraphs, 
 interconnected with just a few "bridge" edges. We might want to find those dense subgraphs. And they would
@@ -262,4 +293,8 @@ References
 * https://www.cs.utexas.edu/users/inderjit/public_papers/kdd_spectral_kernelkmeans.pdf - on correspondence between spectral clustering and k-means
 * https://faculty.cc.gatech.edu/~hpark/papers/GT-CSE-08-01.pdf - on correspondence between sparse Nonnegative Matrix Factorization and Clustering
 * https://www.researchgate.net/publication/2540554_A_Min-max_Cut_Algorithm_for_Graph_Partitioning_and_Data_Clustering - MinMax cut algorithm
-* https://www.biorxiv.org/content/10.1101/2022.04.24.489301v1.full - fresh paper on spectral biclustering
+* https://www.biorxiv.org/content/10.1101/2022.04.24.489301v1.full - fresh paper on spectral biclustering (source of images)
+* https://www.youtube.com/watch?v=9fc-kdSRE7Y - derivative of trace with respect to a matrix
+* https://en.wikipedia.org/wiki/Matrix_calculus#Scalar-by-matrix - derivative with respect to a matrix
+* https://proceedings.neurips.cc/paper/2000/file/f9d1152547c0bde01830b7e8bd60024c-Paper.pdf - seminal Lee and Seung NMF solver paper
+* https://stats.stackexchange.com/questions/351359/deriving-multiplicative-update-rules-for-nmf - summary of Lee and Seung NMF solver
