@@ -174,13 +174,10 @@ def nmf(V: npt.NDarray, k: int, tol: float = 1e-4, max_iter: int=100) -> Tuple[n
     return W, H
 ```
 
-And due to the fact that it is so easy to implement, it is probably the favourite algorithm of your typical favourite 
+And due to the fact that it is so easy to implement, it is probably the favourite algorithm of your favourite 
 bioinformatics student:
 
-![Your favourite bioinformatics student in a wet lab](i_have_no_idea_what_i_am_doing1.webp)<center>**Your favourite bioinformatics student.**</center>
-
-
-![Your favourite bioinformatics student in an IT/ML lab](i_have_no_idea_what_i_am_doing2.webp)<center>**More of your favourite bioinformatics student.** Cause doing things fast is what matters, right?</center>
+![Your favourite bioinformatics student](i_have_no_idea_what_i_am_doing2.webp)<center>**Your favourite bioinformatics student.** Cause doing things fast is what truly matters, right?</center>
 
 
 ### NMF as a special case of k-means
@@ -353,7 +350,17 @@ def calculate_energy(X, centroids, clusters, energy: Enum['KL', 'F']) -> float:
 
 ### Symmetric NMF
 
-TODO
+NMF is not unique. For instance, you could obviously insert a matrix and its inverse in between $W$ and $H$:
+
+$V = WH = W B B^{-1} H = \hat{W} \hat{H}$.
+
+Hence, there are plenty of options for additional constraints on $W$ and $H$. 
+
+You could demand that one of them, $W$ or $H$ is orthogonal. This special case leads to k-means interpretation (where 
+the orthogonal matrix represents clusters and the other one - coordinates of centroids).
+
+Or you can demand that NMF is symmetric and $W = H^T$. This special case is called *symmetric NMF* and will be
+considered further.
 
 ## 2. Symmetric NMF interpretation through k-means 
 
@@ -387,7 +394,7 @@ Equivalently, this problem can be re-formulated as detection of dense subgraphs 
 
 ![Bipartite graph clustering](bipartite_graph_clustering.png)<center>**Dense subgraphs in a bipartite graph.** Again, left part of the graph represents patients, right - genes, edges are expressions of genes in a patient.</center>
 
-### Lemma 3.1. Biclustering problem is equivalent to quadratic programming/NMF low-rank approximation of a Wieldant-Jordan matrix
+### Lemma 3.1. Biclustering problem is equivalent to quadratic programming/NMF low-rank approximation of a Jordan-Wielandt matrix
 
 TODO
 
@@ -399,10 +406,18 @@ To give you a taste of this field, suppose that we have a graph that consists of
 
 It can be shown, that each disjoint connected component in this graph is an eigenvector of [graph Laplacian](https://en.wikipedia.org/wiki/Laplacian_matrix).
 
-![Laplacian](Laplacian.png)<center>**Example of graph Laplacian calculation.** Here $D$ - degree matrix, $A$ - adjacency matrix, $L = D - A$ - graph Laplacian.</center>
+For example, consider this disjoint graph, its degree matrix $D$, adjacency matrix $A$ and Laplacian $L = D - A$:
+
+![disjoint graph](graph.png)<center>**A graph with 2 connected components**</center>
+
+$D = \begin{pmatrix} 2 && 0 && 0 && 0 && 0 \\ 0 && 2 && 0 && 0 && 0 \\ 0 && 0 && 2 && 0 && 0 \\ 0 && 0 && 0 && 1 && 0 \\ 0 && 0 && 0 && 0 && 1 \end{pmatrix}$, $A = \begin{pmatrix} 0 && 1 && 1 && 0 && 0 \\ 1 && 0 && 1 && 0 && 0 \\ 1 && 1 && 0 && 0 && 0 \\ 0 && 0 && 0 && 0 && 1 \\ 0 && 0 && 0 && 1 && 0 \end{pmatrix}$, $L = \begin{pmatrix} 2 && -1 && -1 && 0 && 0 \\ -1 && 2 && -1 && 0 && 0 \\ -1 && -1 && 2 && 0 && 0 \\ 0 && 0 && 0 && 1 && -1 \\ 0 && 0 && 0 && -1 && 1 \end{pmatrix}$
+
+It is easy to see that vectors $\begin{pmatrix} 1 \\ 1 \\ 1 \\ 0 \\ 0 \end{pmatrix}$ and $\begin{pmatrix} 0 \\ 0 \\ 0 \\ 1 \\ 1 \end{pmatrix}$, which define two connected components, are eigenvectors with 0 eigenvalue for graph Laplacian:
+
+$\begin{pmatrix} 2 && -1 && -1 && 0 && 0 \\ -1 && 2 && -1 && 0 && 0 \\ -1 && -1 && 2 && 0 && 0 \\ 0 && 0 && 0 && 1 && -1 \\ 0 && 0 && 0 && -1 && 1 \end{pmatrix} \cdot \begin{pmatrix} 1 \\ 1 \\ 1 \\ 0 \\ 0 \end{pmatrix} = 0 \cdot \begin{pmatrix} 1 \\ 1 \\ 1 \\ 0 \\ 0 \end{pmatrix}$
 
 Now, instead of strictly disjoint graph, we might have a loosely disjoint one - with relatively dense subgraphs, 
-interconnected with just a few "bridge" edges. We might want to find those dense subgraphs. And they would
+interconnected with just a few "bridge" edges. We might want to find those dense sub-graphs. And they would
 serve as good clusters as well, if we re-formulated the problem as clustering?
 
 ### Lemma 4.1. MinMax Cut/Normalized Cut problems on a graph correspond to the k-means clustering problem
@@ -428,3 +443,4 @@ References
 * https://en.wikipedia.org/wiki/Matrix_calculus#Scalar-by-matrix - derivative with respect to a matrix
 * https://proceedings.neurips.cc/paper/2000/file/f9d1152547c0bde01830b7e8bd60024c-Paper.pdf - seminal Lee and Seung NMF solver paper
 * https://stats.stackexchange.com/questions/351359/deriving-multiplicative-update-rules-for-nmf - summary of Lee and Seung NMF solver
+* https://people.eecs.berkeley.edu/~malik/papers/SM-ncut.pdf - famous normalized cut algorithm by Shi and Malik (2000)
