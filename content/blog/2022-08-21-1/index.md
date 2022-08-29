@@ -71,10 +71,9 @@ Or, equivalently, expressing Frobenius norm through trace notation, we have:
 $\min \limits_{W \ge 0, H \ge 0} Tr((V - WH)^T(V - WH))$
 
 This is a minimization problem which can be solved through taking a derivative of a scalar function with respect to a 
-matrix argument, which is explained in more detail [here](https://www.youtube.com/watch?v=9fc-kdSRE7Y) and [here](https://en.wikipedia.org/wiki/Matrix_calculus#Scalar-by-matrix).
+matrix argument (the concept and mechanics of derivative of a scalar function with respect to a matrix argument is explained in detail [here](https://www.youtube.com/watch?v=9fc-kdSRE7Y) and [here](https://en.wikipedia.org/wiki/Matrix_calculus#Scalar-by-matrix)).
 
-We will be doing a gradient descent, iteratively decreasing Frobenius norm of our trace with respect to $W$ matrix with $H$
-fixed every odd step and with respect to $H$ matrix with $W$ matrix fixed every even step:
+We will be doing a gradient descent, iteratively decreasing Frobenius norm with respect to $W$ matrix with $H$ fixed every odd step and with respect to $H$ matrix with $W$ matrix fixed every even step:
 
 $W \leftarrow W -   \eta_W \cdot  \nabla_W f(W,H)$
 
@@ -420,9 +419,117 @@ Now, instead of strictly disjoint graph, we might have a loosely disjoint one - 
 interconnected with just a few "bridge" edges. We might want to find those dense sub-graphs. And they would
 serve as good clusters as well, if we re-formulated the problem as clustering?
 
-### Lemma 4.1. MinMax Cut/Normalized Cut problems on a graph correspond to the k-means clustering problem
+### Lemma 4.0. MinMax Cut solution through optimization of a quadratic form with Laplacian matrix
 
-TODO
+In 1993 Wu and Leahy suggested an algorithm of finding a minimal/maximal cut in graphs, based on spectral clustering.
+
+The cut was meant to be the set of edges, that would split the graph into 2 halves, $A$ and $B$, so that the sum of
+edges, which connect these two parts, is minimal: $cut(A, B) = \sum \limits_{u \in A, v \in B} w(u, v)$. 
+
+Speaking in terms of Laplacian and spectral graph theory, we can re-formulate MinCut optimization problem as follows. We
+introduce indicator vectors ${\bf h} = (1, 1, ..., 1, -1, -1, ..., -1)$, where $h_i = 1$, if vertex $i \in A$ and $h_i = -1$,
+if $i \in B$.
+
+Now, you can see that if we defined some partition of our graph $V$ into halves $A$ and $B$, adjacency matrix gets split
+into 4 blocks: block diagonal elements of the matrix represent nodes within $A$ and $B$ subgraphs,
+and off-diagonal elements represent $cut(A, B)$:
+
+![MinCut](min_cut_matrix.png)<center>**MinCut adjacency matrix**: diagonal blocks represent connections within $A$ and $B$ halves of the graph, and off-diagonal blocks represnt graph cut.</center>
+
+Now consider a quadratic form ${\bf h}^T A {\bf h}$:
+
+${\bf h}^T A {\bf h} = \begin{pmatrix} 1 && 1 && -1 && -1 && -1 \end{pmatrix} \cdot \begin{pmatrix} w_{1,1} && w_{1,2} && w_{1,3} && w_{1,4} && w_{1,5} \\ w_{2,1} && w_{2,2} && w_{2,3} && w_{2,4} && w_{2,5} \\ w_{3,1} && w_{3,2} && w_{3,3} && w_{3,4} && w_{3,5} \\ w_{4,1} && w_{4,2} && w_{4,3} && w_{4,4} && w_{4,5} \\ w_{5,1} && w_{5,2} && w_{5,3} && w_{5,4} && w_{5,5} \end{pmatrix} \cdot \begin{pmatrix} 1 \\ 1 \\ -1 \\ -1 \\ -1 \end{pmatrix} = $
+
+$ = \sum \limits_{i,j \in A} w_{i,j} + \sum \limits_{i,j \in B} w_{i,j} - \sum \limits_{i \in A, j \in B} w_{i,j} - \sum \limits_{i \in B, j \in A} w_{i,j} = \sum \limits_{i,j \in A} w_{i,j} + \sum \limits_{i,j \in B} w_{i,j} - 2 \cdot \sum \limits_{i, j \in cut(A, B)} w_{i,j}$.
+
+Now, take the degree matrix $D$, create a similar quadratic form out of if:
+
+${\bf h}^T D {\bf h} = \begin{pmatrix} 1 && 1 && -1 && -1 && -1 \end{pmatrix} \cdot \begin{pmatrix} \sum \limits_j{w_{1,j}} && ... && 0 \\ 0 && \sum \limits_j{w_{i,j}} && 0 \\ 0 && ... && \sum \limits_j{w_{|V|,j}} \end{pmatrix} \cdot \begin{pmatrix} 1 \\ 1 \\ -1 \\ -1 \\ -1 \end{pmatrix}$.
+
+If we now subtract the quadratic forms, we'd see that all edges, except by the members of $cut(A, B)$, cancel each other out:
+
+${\bf h}^T D {\bf h} - {\bf h}^T A {\bf h} = {\bf h}^T (D-A) {\bf h} = {\bf h}^T L {\bf h} = 4 \cdot \sum \limits_{i, j \in cut(A, B)} w_{i,j}$.
+
+In other words, to minimize the $cut(A, B)$, we need to find indicator vectors ${\bf h}$, such that they minimize the
+quadratic form ${\bf h}^T L {\bf h}$, where $L$ is graph Laplacian. We just discovered another interesting connection with
+linear algebra and spectral graph theory, which is going to be instrumental a bit later.
+
+For now, I shall notice that although MinMaxCut algorithm was enlightening, in its raw form it was prone to a fallacy of selecting a single
+most disconnected vertex as $A$ and cutting it off of the rest of the graph:
+
+![MinCut](MinCut.png)<center>**MinCut**: typical undesired behaviour of the algorithm, when it cuts away single vertices.</center>
+
+### Lemma 4.1. Normalized Cut problems on a graph correspond to the k-means clustering problem
+
+To address the problem of undesired behaviour of MinMaxCut, Shi and Malik (1997, 2000) came up with their (now famous) Normalized Cut 
+algorithm. They tweaked the optimized function to cut away a sizable portion of the edges of the graph relative to the 
+total weights of edges, kept within its halves: 
+
+$Ncut(A, B) = \frac{cut(A, B)}{assoc(A, V)} + \frac{cut(A, B)}{assoc(B, V)}$,
+where $assoc(A, V) = \sum \limits_{u \in A, t \in V} w(u, t)$.
+
+If we take a look at the weighted adjacency matrix, representing the graph, and would cluster subgraphs $A$ and $B$ at
+diagonal blocks, we'd see that $cut(A, B)$ corresponds to the sum of weights of the off-diagonal blocks, while denominators
+$assoc(A, V)$ and $assoc(B, V)$ form full-width horizontal (or full-width vertical) blocks: 
+
+![Normalized cut matrix](normalized_cut_matrix.png)<center>**Normalized cut matrix.**</center>
+
+Shi and Malik use a bit different version of indicator vectors. Unlike MinMaxCut their indicator vectors are comprised of 0-1 coordinates $\bf h$: $h_i = \begin{cases} 1, i \in A \\ 0, i \in B \end{cases}$.
+
+Then $Ncut(A, B) = \frac{cut(A, B)}{assoc(A, V)} + \frac{cut(A, B)}{assoc(B, V)} = \frac{{\bf h}^T(D-A){\bf h}}{{\bf h}^T D {\bf h}} + \frac{{\bf (1-h)}^T(D-A){\bf (1-h)}}{{\bf (1-h)}^T D {\bf (1-h)}}$.
+
+Now, if we take a look at the denominators, ${\bf h}^T D {\bf h} = {\bf 1}^T D {\bf 1} - {\bf (1-h)}^T D {\bf (1-h)}$. 
+
+Shi and Malik then  define a constant $k$, such that ${\bf h}^T D {\bf h} = k \cdot {\bf 1}^T D {\bf 1}$ and ${\bf (1-h)}^T D {\bf (1-h)} = (1-k) \cdot {\bf 1}^T D {\bf 1}$.
+
+Then $Ncut(A, B) = \frac{{\bf h}^T(D-A){\bf h}}{{\bf h}^T D {\bf h}} + \frac{{\bf (1-h)}^T(D-A){\bf (1-h)}}{{\bf (1-h)}^T D {\bf (1-h)}} = \frac{{\bf h}^T(D-A){\bf h}}{k \cdot {\bf 1}^T D {\bf 1}} + \frac{{\bf (1-h)}^T(D-A){\bf (1-h)}}{(1-k) \cdot {\bf 1}^T D {\bf 1}} = \frac{ (1-k) \cdot {\bf h}^T(D-A){\bf h} + k \cdot {\bf (1-h)}^T(D-A){\bf (1-h)} }{k \cdot (1-k) \cdot {\bf 1}^T D {\bf 1}}$.
+
+After that Shi and Malik define a ratio $b = \frac{k}{1-k}$. Then they perform a long series of simplifications and show that:
+
+$Ncut(A, B) = \frac{ (1-k) \cdot {\bf h}^T(D-A){\bf h} + k \cdot {\bf (1-h)}^T(D-A){\bf (1-h)} }{k \cdot (1-k) \cdot {\bf 1}^T D {\bf 1}} = \frac{({\bf h} - b \cdot ({\bf 1-h}))^T (D-A) ({\bf h} - b \cdot ({\bf 1-h})) }{b \cdot {\bf 1}^T D {\bf 1}}$.
+
+Finally, Shi and Malik define a new variable $\bf y = {\bf h} - b ({\bf 1-h)}$ and apply two changes to the resulting formula:
+
+1) They notice that the denominator can be altered: ${\bf y}^T D {\bf y} = \sum \limits_{i \in A}d_i + b^2 \sum \limits_{i \in B}d_i = b \sum \limits_{i \in B}d_i + b^2 \sum \limits_{i \in B}d_i = b (\sum \limits_{i \in B}d_i + b \sum \limits_{i \in B}d_i) = b {\bf 1}^T D {\bf 1}$.
+
+2) They re-formulate the condition $\bf y = {\bf h} - b ({\bf 1-h)}$ as a pair of conditions:
+
+$\begin{cases} {\bf y}^T D {\bf 1} = 0 \\ y_i \in \{-b, 1\} \end{cases}$
+
+First equation in this pair is explained by the fact that ${\bf h}^T D {\bf 1} = b {\bf (1-h)}^T D {\bf 1}$ by definition of the constant $b$.
+
+Hence, our optimization problem results in the following minimizer and two constraints:
+
+$\begin{cases} \min \limits_{\bf y} \frac{{\bf y}^T (D-A) {\bf y} }{b \cdot {\bf y}^T D {\bf y}} \\ {\bf y}^T D {\bf 1} = 0 \\ y_i \in \{-b, 1\} \end{cases}$
+
+Note that the minimized quantity $\min \limits_{\bf y} \frac{{\bf y}^T (D-A) {\bf y} }{b \cdot {\bf y}^T D {\bf y}}$ is
+essentially a generalized Rayleigh quotient. Its solution is generalized eigenvectors:
+
+$(D-W) \bf{y} = \lambda D {\bf y}$
+
+The generalized eigensystem is solved through introducing a variable replacement:
+
+${\bf z} = D^{\frac{1}{2}} {\bf y}$
+
+Then we come to an eigenvectors equation with [symmetrically normalized Laplacian](https://en.wikipedia.org/wiki/Laplacian_matrix#Symmetrically_normalized_Laplacian) matrix:
+
+$D^{-\frac{1}{2}} (D-W) D^{-\frac{1}{2}} z = \lambda z$
+
+We aim to minimize $\lambda$. The smallest $\lambda_0 = 0$, and it corresponds to eigenvector ${\bf y_0} = {\bf 1}$. Hence, 
+we are interested in the next smallest eigenvalue. Luckily for us eigenvectors of a symmetric matrix are orthogonal, too,
+making the condition ${\bf y}^T D {\bf 1}$ tautological: $0 = {\bf z_0} {\bf z_1} = {\bf 1} D {\bf y}$.
+
+Hence, we need to solve the problem:
+
+$\begin{cases} \min \limits_{\bf z} \frac{{\bf z}^T D^{-\frac{1}{2}} (D-A) D^{-\frac{1}{2}} {\bf z} }{ {\bf z}^T {\bf z}} \\ D^{-\frac{1}{2}} {\bf z}[i] \in \{-b, 1\} \end{cases}$
+
+We know, how to solve the first problem of finding Rayleigh quotient, but we don't know, how to do this as a binary 
+optimization problem, which arises due to the condition.
+
+Shi and Malik just drop this binary value condition, find the second smallest eigenvector, and then binarize its 
+coordinates (e.g. just check, if the value of a coordinate is closer to $1$ or $-b$ and replace it with the closest).
+
+If they want to find multiple cuts, they repeat the process on sub-graphs, found at the first step.
 
 ---
 This post is inspired by my ongoing research on L1-regularized biclustering algorithms and sparse transformers, as well 
@@ -444,3 +551,4 @@ References
 * https://proceedings.neurips.cc/paper/2000/file/f9d1152547c0bde01830b7e8bd60024c-Paper.pdf - seminal Lee and Seung NMF solver paper
 * https://stats.stackexchange.com/questions/351359/deriving-multiplicative-update-rules-for-nmf - summary of Lee and Seung NMF solver
 * https://people.eecs.berkeley.edu/~malik/papers/SM-ncut.pdf - famous normalized cut algorithm by Shi and Malik (2000)
+* https://people.orie.cornell.edu/dpw/orie6334/Fall2016/lecture7.pdf - on normalized Laplacian
