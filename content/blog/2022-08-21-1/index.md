@@ -395,7 +395,30 @@ Equivalently, this problem can be re-formulated as detection of dense subgraphs 
 
 ### Lemma 3.1. Biclustering problem is equivalent to quadratic programming/NMF low-rank approximation of a Jordan-Wielandt matrix
 
-TODO
+Let us formalize the biclustering problem. 
+
+We need to find a pair of indicator vectors 
+
+${\bf x}: x_i = \begin{cases} 1, i \in A \\ 0, i \in B \end{cases}$
+
+${\bf y}: y_i = \begin{cases} 1, i \in A \\ 0, i \in B \end{cases}$
+
+such that ${\bf x}^T V {\bf y} \to \max / \min$
+
+I call this bilinear programming, as we need to optimize the value of a bilinear form.
+
+Turns out, we can re-formulate this bilinear optimization as a quadratic optimization problem. Let us put the vectors
+$x$ and $y$ on top of each other, concatenating them into a unified vector $h = (x_1, x_2, ..., x_n, y_1, y_2, ..., y_p)^T$.
+
+Replace the $V$ matrix with the following Jordan-Wielandt matrix:
+
+$B = \begin{pmatrix} 0 && V \\ V^T && 0 \end{pmatrix}$
+
+Then our optimization problem is to find $\frac{1}{2}{\bf h}^T B {\bf h} \to \max / \min$.
+
+If we want to find multiple biclusters, instead of a single vector $h$, we use a whole matrix $H$, and then our optimization
+problem takes a familiar form $\max \limits_{H} \frac{1}{2} Tr H^T B H$.
+
 
 ## 4. k-means corresponds to spectral clustering
 
@@ -503,7 +526,7 @@ Hence, our optimization problem results in the following minimizer and two const
 $\begin{cases} \min \limits_{\bf y} \frac{{\bf y}^T (D-A) {\bf y} }{b \cdot {\bf y}^T D {\bf y}} \\ {\bf y}^T D {\bf 1} = 0 \\ y_i \in \{-b, 1\} \end{cases}$
 
 Note that the minimized quantity $\min \limits_{\bf y} \frac{{\bf y}^T (D-A) {\bf y} }{b \cdot {\bf y}^T D {\bf y}}$ is
-essentially a generalized Rayleigh quotient. Its solution is generalized eigenvectors:
+essentially a generalized [Rayleigh quotient](https://en.wikipedia.org/wiki/Rayleigh_quotient). Its solution is generalized eigenvectors:
 
 $(D-W) \bf{y} = \lambda D {\bf y}$
 
