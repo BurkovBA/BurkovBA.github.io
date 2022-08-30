@@ -367,7 +367,29 @@ TODO
 
 ### Lemma 2.0. Minimum of Frobenius norm corresponds to the maximum of Rayleigh quotient
 
-TODO
+Assume that matrices $W$ and $H^T$ are orthogonal, i.e. 
+
+$\langle {\bf w_i}, {\bf w_j} \rangle = \begin{cases}0, i \ne j \\ 1, i = j \end{cases}$
+
+$\langle {\bf h_i}, {\bf h_j} \rangle = \begin{cases}0, i \ne j \\ 1, i = j \end{cases}$
+
+Then the following holds:
+
+$W^*, H^* = \arg \min \limits_{W, H} || V - WH ||_F = \arg \max \limits_{W, H} Tr (H V W)$,
+
+or, in case of rank $k=1$, and single vectors $\bf w$ and $\bf h$ we get:
+
+${\bf w}^*, {\bf h}^* = \arg \min \limits_{ {\bf w}, {\bf h} } || V - {\bf w} {\bf h}^T ||_F = \arg \max \limits_{ {\bf w}, {\bf h} } {\bf h}^T V {\bf w}$,
+
+Let us show this result for the rank $k=1$ case (a pair of vectors) and then generalize to arbitrary rank.
+
+$|| V - {\bf w}{\bf h}^T ||_F = Tr (V - {\bf w}{\bf h}^T)^T (V - {\bf w}{\bf h}^T) = \underbrace{Tr (V^T V)}_\text{const} - Tr({\bf h}^T V {\bf w}) - Tr({\bf h}^T V {\bf w}) + \underbrace{ Tr({\bf h} {\bf w}^T {\bf w} {\bf h}^T) }_{||h||_2 \cdot ||w||_2 = 1}$.
+
+Hence, $|| V - {\bf w}{\bf h}^T ||_F$ attains its minimum when $- 2 \cdot Tr({\bf h}^T V {\bf w})$ attains its minimum or $Tr({\bf h}^T V {\bf w})$ attains its maximum.
+
+Now consider $k=2$ case ($k=3, 4, ...$ etc. works similarly):
+
+$|| V - WH ||_F = Tr (V - {\bf w_1}{\bf h_1}^T - {\bf w_2}{\bf h_2}^T)^T (V - {\bf w_1}{\bf h_1}^T - {\bf w_2}{\bf h_2}^T) = \underbrace{Tr (V^T V)}_\text{const} - 2 Tr({\bf h_1}^T V {\bf w_1}) - 2 Tr({\bf h_2}^T V {\bf w_2}) + \underbrace{ Tr({\bf h_1} {\bf w_1}^T {\bf w_1} {\bf h_1}^T) }_{\langle h_1, h_1 \rangle \cdot \langle w_1, w_1 \rangle = 1} + \underbrace{ Tr({\bf h_1} {\bf w_1}^T {\bf w_2} {\bf h_2}^T) }_{\langle h_1, h_2 \rangle \cdot \langle w_1, w_2 \rangle = 0} + \underbrace{ Tr({\bf h_2} {\bf w_2}^T {\bf w_1} {\bf h_1}^T) }_{\langle h_2, h_1 \rangle \cdot \langle w_2, w_1 \rangle = 0} + \underbrace{ Tr({\bf h_2} {\bf w_2}^T {\bf w_2} {\bf h_2}^T) }_{\langle h_2, h_2 \rangle \cdot \langle w_2, w_2 \rangle = 1} = -2 Tr(H V W)$.
 
 ### Lemma 2.1. Symmetric NMF is equivalent to kernel K-means clustering
 
