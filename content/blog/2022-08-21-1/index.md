@@ -126,6 +126,8 @@ $H \leftarrow H - \frac{H}{W^T W H} W^T (WH - V) = H \cdot \frac{W^TW}{W^TWH}$
 Here is a python implementation:
 
 ```python
+from typing import Tuple
+
 import numpy as np
 import numpy.typing as npt
 
@@ -135,7 +137,7 @@ class ConvergenceException(Exception):
         Exception.__init__(self, "Iterations limit exceeded; algorithm failed to converge!")
 
 
-def nmf(V: npt.NDarray, k: int, tol: float = 1e-4, max_iter: int=100) -> Tuple[npt.NDarray, npt.NDarray]:
+def nmf(V: npt.NDArray, k: int, tol: float = 1e-4, max_iter: int=100) -> Tuple[npt.NDArray, npt.NDArray]:
     """An NMF  solver implementation which approximates an n x p input matrix V
     as a product W x H of n x k matrix W and k x p matrix H. This solver
     minimizes Frobenius norm of the difference between V and W H and implements
@@ -162,25 +164,69 @@ def nmf(V: npt.NDarray, k: int, tol: float = 1e-4, max_iter: int=100) -> Tuple[n
     W = np.ones((n, k))
     H = np.ones((k, p))
 
-    while previous_energy - next_energy > tol:
+    while (previous_energy - next_energy > tol) or next_energy == np.inf:
         W_update = np.dot(V, H.T) / np.dot(W, np.dot(H, H.T))
-        W = np.dot(W, W_update)
+        W = W * W_update
 
         H_update = np.dot(W.T, V) / np.dot(W.T, np.dot(W, H))
-        H = np.dot(H, H_update)
+        H = H * H_update
 
         if iterations > max_iter:
             raise ConvergenceException
         else:
             iterations += 1
-            next_energy = numpy.linalg.norm(V - np.dot(W, H), 'fro')  # calculate Frobenius norm
             previous_energy = next_energy
+            next_energy = np.linalg.norm(V - np.dot(W, H), 'fro')  # calculate Frobenius norm
 
     return W, H
 ```
 
-And due to the fact that it is so easy to implement, it is probably the favourite algorithm of your favourite 
-bioinformatics student:
+If we run this code, the approximation is very decent:
+
+```python
+import unittest
+import numpy as np
+
+from ..biclustering_lasso import nmf
+
+
+class NMFTestCase(unittest.TestCase):
+    """
+    python3 -m unittest biclustering_lasso.tests.test_nmf.NMFTestCase
+    """
+    def test_nmf(self):
+        V = np.array([[2.1, 0.4, 1.2, 0.3, 1.1],
+                      [2.1, 0.7, 2.3, 0.4, 2.2],
+                      [2.4, 0.5, 3.2, 0.7, 3.3]])
+
+        W, H = nmf(V, k=2)
+
+        print(f"W = {W}")
+        print(f"H = {H}")
+```
+
+```python
+>>> W
+array([[0.49893966, 0.49893966],
+       [0.76064226, 0.76064226],
+       [1.02271335, 1.02271335]])
+
+>>> H
+array([[1.36102025, 0.33184111, 1.50013542, 0.31221326, 1.49381373],
+       [1.36102025, 0.33184111, 1.50013542, 0.31221326, 1.49381373]])
+
+>>> np.dot(W, H)
+array([[1.35813395, 0.33113738, 1.49695411, 0.31155116, 1.49064583],
+       [2.07049903, 0.50482475, 2.2821328 , 0.47496521, 2.27251571],
+       [2.78386716, 0.67875667, 3.06841706, 0.63860935, 3.05548651]])
+
+>>> V
+array([[2.1, 0.4, 1.2, 0.3, 1.1],
+       [2.1, 0.7, 2.3, 0.4, 2.2],
+       [2.4, 0.5, 3.2, 0.7, 3.3]])
+```
+As you can see, `np.dot(W, H)` approximates `V` very well. And due to the fact that it is so easy to implement, it is 
+probably the favourite algorithm of your favourite bioinformatics student:
 
 ![Your favourite bioinformatics student](i_have_no_idea_what_i_am_doing2.webp)<center>**Your favourite bioinformatics student.** Cause doing things fast is what truly matters, right?</center>
 
