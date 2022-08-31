@@ -11,6 +11,10 @@ including the numeration of chapters, in this post. However, I will provide lots
 months, working with objects, discussed in this post and "rehydrate" a very clear, but somewhat condensed 4.5-page paper
 into a much larger blog post.
 
+In this post I will present 4 seemingly different algorithms: symmetric NMF, k-means, biclustering and spectral clustering
+via normalized cuts method. I will establish the correspondence between all 4 methods and show that essentially they
+represent variations of the same mathematics.
+
 ## 1. Introduction to NMF and k-means
 
 ### NMF and recommender systems
@@ -446,7 +450,7 @@ array([[2.1, 0.4, 1.2, 0.3, 1.1],
        [2.4, 0.5, 3.2, 0.7, 3.3]])
 ```
 
-Again, we get a decent low-rank approximation.
+Again, we get a decent low-rank approximation of `X` matrix by k-means cluster `np.dot(clusters, centroids)`.
 
 
 ### Symmetric NMF
@@ -465,7 +469,20 @@ considered further.
 
 ## 2. Symmetric NMF interpretation through k-means 
 
-TODO
+It turns out that symmetric NMF algorithm can be interpreted as a variation of "soft" k-means clustering. 
+
+In "hard" k-means clustering each point belongs to strictly one cluster. In "soft" clustering every point is assigned 
+weights, which show how close it is to each cluster. 
+
+In "hard" clustering clusters matrix is orthogonal. As we'll see further in this post, in "soft" clustering weights
+matrix is approximately orthogonal as well.
+
+In order to establish correspondence between symmetric NMF and k-means I will first need a technical lemma, which shows
+that minimum of Frobenius norm of error of rank-$1$ matrix approximation coincides with the maximum of quadratic form of the 
+approximated matrix. Moreover, in case of rank-$k$ matrix approximation via $\hat{V} = W \cdot H$, minimum of Frobenius
+norm of error $||V - \hat{V}||_F$ corresponds to a trace $Tr(H V W)$.
+
+I will use this fact to establish correspondence between all 4 algorithms in this post.
 
 ### Lemma 2.0. Minimum of Frobenius norm corresponds to the maximum of Rayleigh quotient
 
@@ -560,7 +577,9 @@ ${\bf y}: y_i = \begin{cases} 1, i \in A \\ 0, i \in B \end{cases}$
 
 such that ${\bf x}^T V {\bf y} \to \max / \min$
 
-I call this bilinear programming, as we need to optimize the value of a bilinear form.
+I call this bilinear programming, as we need to optimize the value of a bilinear form. In a more general case we might
+need to find matrices ($X$, $Y$) (i.e. multiple pairs ($\bf x_i$, $\bf y_i$), potentially covering the whole
+matrix; vector pairs may intersect or may not, depending on the problem statement).
 
 Turns out, we can re-formulate this bilinear optimization as a quadratic optimization problem. Let us put the vectors
 $x$ and $y$ on top of each other, concatenating them into a unified vector $h = (x_1, x_2, ..., x_n, y_1, y_2, ..., y_p)^T$.
@@ -571,17 +590,19 @@ $B = \begin{pmatrix} 0 && V \\ V^T && 0 \end{pmatrix}$
 
 Then our optimization problem is to find $\frac{1}{2}{\bf h}^T B {\bf h} \to \max / \min$.
 
-If we want to find multiple biclusters, instead of a single vector $h$, we use a whole matrix $H$, and then our optimization
+Again, if we want to find multiple biclusters, instead of a single vector $h$, we use a whole matrix $H$, and then our optimization
 problem takes a familiar form $\max \limits_{H} \frac{1}{2} Tr H^T B H$.
+
+This problem already looks awfully familiar, right? Let us consider one more face of it.
 
 
 ## 4. k-means corresponds to spectral clustering
 
-Another interesting interpretation of k-means algorithm is though spectral graph theory.
+Another interesting interpretation of the same algorithm comes from spectral graph theory.
 
-To give you a taste of this field, suppose that we have a graph that consists of multiple disjoint subsets.
+To get a taste of this field first, suppose that we have a graph that consists of multiple disjoint subsets.
 
-It can be shown, that each disjoint connected component in this graph is an eigenvector of [graph Laplacian](https://en.wikipedia.org/wiki/Laplacian_matrix).
+It can be shown, that each disjoint connected component in this graph is an eigenvector of so-called [graph Laplacian](https://en.wikipedia.org/wiki/Laplacian_matrix).
 
 For example, consider this disjoint graph, its degree matrix $D$, adjacency matrix $A$ and Laplacian $L = D - A$:
 
