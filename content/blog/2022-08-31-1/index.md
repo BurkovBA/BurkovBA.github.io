@@ -508,7 +508,7 @@ Hence, $|| V - {\bf w}{\bf h}^T ||_F$ attains its minimum when $- 2 \cdot Tr({\b
 
 Now consider $k=2$ case ($k=3, 4, ...$ etc. works similarly):
 
-$|| V - WH ||_F = Tr (V - {\bf w_1}{\bf h_1}^T - {\bf w_2}{\bf h_2}^T)^T (V - {\bf w_1}{\bf h_1}^T - {\bf w_2}{\bf h_2}^T) = \underbrace{Tr (V^T V)}_\text{const} - 2 Tr({\bf h_1}^T V {\bf w_1}) - 2 Tr({\bf h_2}^T V {\bf w_2}) + \underbrace{ Tr({\bf h_1} {\bf w_1}^T {\bf w_1} {\bf h_1}^T) }_{\langle h_1, h_1 \rangle \cdot \langle w_1, w_1 \rangle = 1} + \underbrace{ Tr({\bf h_1} {\bf w_1}^T {\bf w_2} {\bf h_2}^T) }_{\langle h_1, h_2 \rangle \cdot \langle w_1, w_2 \rangle = 0} + \underbrace{ Tr({\bf h_2} {\bf w_2}^T {\bf w_1} {\bf h_1}^T) }_{\langle h_2, h_1 \rangle \cdot \langle w_2, w_1 \rangle = 0} + \underbrace{ Tr({\bf h_2} {\bf w_2}^T {\bf w_2} {\bf h_2}^T) }_{\langle h_2, h_2 \rangle \cdot \langle w_2, w_2 \rangle = 1} = -2 Tr(H V W)$.
+$|| V - WH ||_F = Tr ((V - WH)^T (V - WH)) = \underbrace{Tr (V^T V)}_\text{const} - Tr (V^T WH) - Tr(H^T W^T V) + \underbrace{Tr(H^T W^T W H)}_{const} = - 2 Tr(W^T V H^T) + const$.
 
 ### Lemma 2.1. Symmetric NMF is equivalent to kernel K-means clustering
 
@@ -518,7 +518,7 @@ $V = H^T H$
 
 And the goal is to find $H^* = \arg \min \limits_{H: H \ge 0} ||V - H^T H ||_F$.
 
-If we assume that $H$ is orthogonal ($H^T H = I$, where $I$ is identity matrix), then by Lemma 0 we immediately see that:
+If we assume that $H$ is orthogonal ($H^T H = I$, where $I$ is identity matrix), then by Lemma 2.0 we immediately see that:
 
 $H^* = \arg \min \limits_{H: H \ge 0, H^T H = I} ||V - H^T H ||_F = \arg \max \limits_{H: H \ge 0, H^T H = I} H V H^T$.
 
@@ -534,20 +534,19 @@ $||V - H^T H||_F = Tr (V - H^T H)^T(V - H^T H) = \underbrace{Tr(V^T V)}_\text{co
 Here the term $Tr(HVH^T)$ corresponds to the minimization problem, similar to k-means. The term $|| H H^T ||_F$ works
 almost like a constraint. Let's focus on it:
 
-$H H^T = \begin{pmatrix} h_{1,1} && h_{1,2} && h_{1,3} && h_{1,4} \\ h_{2,1} && h_{2,2} && h_{2,3} && h_{2,4} \end{pmatrix} \cdot \begin{pmatrix} h_{1,1} && h_{2,1} \\ h_{1,2} && h_{2,2} \\ h_{1,3} && h_{2,3} \\ h_{1,4} && h_{2,4} \end{pmatrix} = \begin{pmatrix} \langle {\bf h_1}, {\bf h_1} \rangle && \langle {\bf h_1}, {\bf h_2} \rangle && \langle {\bf h_1}, {\bf h_3} \rangle && \langle {\bf h_1}, {\bf h_4} \rangle \\ \langle {\bf h_2}, {\bf h_1} \rangle && \langle {\bf h_2}, {\bf h_2} \rangle && \langle {\bf h_2}, {\bf h_3} \rangle && \langle {\bf h_2}, {\bf h_4} \rangle \\ \langle {\bf h_3}, {\bf h_1} \rangle && \langle {\bf h_3}, {\bf h_2} \rangle && \langle {\bf h_3}, {\bf h_3} \rangle && \langle {\bf h_3}, {\bf h_4} \rangle \\ \langle {\bf h_4}, {\bf h_1} \rangle && \langle {\bf h_4}, {\bf h_2} \rangle && \langle {\bf h_4}, {\bf h_3} \rangle && \langle {\bf h_4}, {\bf h_4} \rangle \\ \end{pmatrix}$,
+$H H^T = \begin{pmatrix} h_{1,1} && h_{1,2} && h_{1,3} && h_{1,4} \\ h_{2,1} && h_{2,2} && h_{2,3} && h_{2,4} \end{pmatrix} \cdot \begin{pmatrix} h_{1,1} && h_{2,1} \\ h_{1,2} && h_{2,2} \\ h_{1,3} && h_{2,3} \\ h_{1,4} && h_{2,4} \end{pmatrix} = \begin{pmatrix} \langle {\bf h_1}, {\bf h_1} \rangle && \langle {\bf h_1}, {\bf h_2} \rangle \\ \langle {\bf h_2}, {\bf h_1} \rangle && \langle {\bf h_2}, {\bf h_2} \rangle \end{pmatrix}$,
 
-$W = H^T H = \begin{pmatrix} h_{1,1} && h_{2,1} \\ h_{1,2} && h_{2,2} \\ h_{1,3} && h_{2,3} \\ h_{1,4} && h_{2,4} \end{pmatrix} \cdot \begin{pmatrix} h_{1,1} && h_{1,2} && h_{1,3} && h_{1,4} \\ h_{2,1} && h_{2,2} && h_{2,3} && h_{2,4} \end{pmatrix} = \begin{pmatrix} \langle {\bf h_1}, {\bf h_1} \rangle && \langle {\bf h_1}, {\bf h_2} \rangle && \langle {\bf h_1}, {\bf h_3} \rangle && \langle {\bf h_1}, {\bf h_4} \rangle \\ \langle {\bf h_2}, {\bf h_1} \rangle && \langle {\bf h_2}, {\bf h_2} \rangle && \langle {\bf h_2}, {\bf h_3} \rangle && \langle {\bf h_2}, {\bf h_4} \rangle \\ \langle {\bf h_3}, {\bf h_1} \rangle && \langle {\bf h_3}, {\bf h_2} \rangle && \langle {\bf h_3}, {\bf h_3} \rangle && \langle {\bf h_3}, {\bf h_4} \rangle \\ \langle {\bf h_4}, {\bf h_1} \rangle && \langle {\bf h_4}, {\bf h_2} \rangle && \langle {\bf h_4}, {\bf h_3} \rangle && \langle {\bf h_4}, {\bf h_4} \rangle \\ \end{pmatrix}$,
+where e.g. ${\bf h_1} = \begin{pmatrix} h_{1,1} \\ h_{1,2} \\ h_{1,3} \\ h_{1,4} \end{pmatrix}$.
 
-where e.g. ${\bf h_1} = \begin{pmatrix} h_{1,1} \\ h_{2,1} \end{pmatrix}$.
-
-From the definition of Frobenius norm then $|| H^T H ||_F = \langle {\bf h_1}, {\bf h_1} \rangle^2 + \langle {\bf h_1}, {\bf h_2} \rangle^2 + ... + \langle {\bf h_2}, {\bf h_1} \rangle^2 + \langle {\bf h_2}, {\bf h_2} \rangle^2 + ... + \langle {\bf h_4}, {\bf h_4} \rangle^2 = \sum \limits_{k=1}^p \sum \limits_{l=1}^n \langle {\bf h_k}, {\bf h_l} \rangle^2$.
+From the definition of Frobenius norm then $|| H H^T ||_F = \langle {\bf h_1}, {\bf h_1} \rangle^2 + \langle {\bf h_1}, {\bf h_2} \rangle^2 + ... + \langle {\bf h_2}, {\bf h_1} \rangle^2 + \langle {\bf h_2}, {\bf h_2} \rangle^2 + ... + \langle {\bf h_4}, {\bf h_4} \rangle^2 = \sum \limits_{k=1}^p \sum \limits_{l=1}^n \langle {\bf h_k}, {\bf h_l} \rangle^2$.
 
 Let us split this sum into two parts: diagonal elements and non-diagonal elements separately:
 
-$|| H^T H ||_F = \sum \limits_{l \ne k} \langle {\bf h_l}, {\bf h_k} \rangle^2 + \sum \limits_{l=k} \langle {\bf h_k}, {\bf h_k} \rangle^2$
+$|| H H^T ||_F = \sum \limits_{l \ne k} \langle {\bf h_l}, {\bf h_k} \rangle^2 + \sum \limits_{l=k} \langle {\bf h_k}, {\bf h_k} \rangle^2$
 
-Minimization of the term $\sum \limits_{l \ne k} \langle {\bf h_l}, {\bf h_k} \rangle^2$ essentially enforces orthogonality,
-while the second term is responsible for normalization $\sum \limits_{l=k} \langle {\bf h_k}, {\bf h_k} \rangle^2 = \sum \limits_{l=k} ||{\bf h_k}||^4_2$.
+Minimization of the term $\sum \limits_{l \ne k} \langle {\bf h_l}, {\bf h_k} \rangle^2$ essentially enforces approximate orthogonality,
+while the second term is responsible for normalization $\sum \limits_{l=k} \langle {\bf h_k}, {\bf h_k} \rangle^2 = \sum \limits_{l=k} ||{\bf h_k}||^4_2$. This term
+attains minimum when all the norms of vectors are approximately balanced ($||{\bf h_1}||_2 \approx ||{\bf h_2}||_2 \approx ... \approx ||{\bf h_k}||_2$).
 
 ## 3. Biclustering problem and quadratic programming/NMF
 
