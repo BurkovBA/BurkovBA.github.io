@@ -117,7 +117,13 @@ $\eta_W = \frac{W}{WHH^T}$
 
 $\eta_H = \frac{H}{W^TWH}$
 
-This leads us to the declared algorithm. Here is a python implementation:
+This leads us to the declared algorithm: 
+
+$W \leftarrow W - \frac{W}{W H H^T} (WH - V)H^T = \frac{W}{WHH^T} \cdot (\cancel{WHH^T} - \cancel{WHH^T} + VH^T) = W \cdot \frac{VH^T}{WHH^T}$
+
+$H \leftarrow H - \frac{H}{W^T W H} W^T (WH - V) = H \cdot \frac{W^TW}{W^TWH}$
+
+Here is a python implementation:
 
 ```python
 import numpy as np
@@ -383,9 +389,9 @@ ${\bf w}^*, {\bf h}^* = \arg \min \limits_{ {\bf w}, {\bf h} } || V - {\bf w} {\
 
 Let us show this result for the rank $k=1$ case (a pair of vectors) and then generalize to arbitrary rank.
 
-$|| V - {\bf w}{\bf h}^T ||_F = Tr (V - {\bf w}{\bf h}^T)^T (V - {\bf w}{\bf h}^T) = \underbrace{Tr (V^T V)}_\text{const} - Tr({\bf h}^T V {\bf w}) - Tr({\bf h}^T V {\bf w}) + \underbrace{ Tr({\bf h} {\bf w}^T {\bf w} {\bf h}^T) }_{||h||_2 \cdot ||w||_2 = 1}$.
+$|| V - {\bf w}{\bf h}^T ||_F = Tr (V - {\bf w}{\bf h}^T)^T (V - {\bf w}{\bf h}^T) = \underbrace{Tr (V^T V)}_\text{const} - \underbrace{Tr(V^T {\bf w}{\bf h}^T)}_{Tr({\bf h}^T V^T {\bf w}) = Tr({\bf w}^T V {\bf h}) } - \underbrace{Tr({\bf h} {\bf w}^T V )}_{Tr({\bf w}^T V {\bf h})} + \underbrace{ Tr({\bf h} {\bf w}^T {\bf w} {\bf h}^T) }_{= {\bf w}^T{\bf w} \cdot Tr({\bf h}{\bf h}^T) = ||w||_2 \cdot ||h||_2 = 1}$.
 
-Hence, $|| V - {\bf w}{\bf h}^T ||_F$ attains its minimum when $- 2 \cdot Tr({\bf h}^T V {\bf w})$ attains its minimum or $Tr({\bf h}^T V {\bf w})$ attains its maximum.
+Hence, $|| V - {\bf w}{\bf h}^T ||_F$ attains its minimum when $- 2 \cdot Tr({\bf w}^T V {\bf h})$ attains its minimum or $Tr({\bf w}^T V {\bf h})$ attains its maximum.
 
 Now consider $k=2$ case ($k=3, 4, ...$ etc. works similarly):
 
@@ -393,11 +399,42 @@ $|| V - WH ||_F = Tr (V - {\bf w_1}{\bf h_1}^T - {\bf w_2}{\bf h_2}^T)^T (V - {\
 
 ### Lemma 2.1. Symmetric NMF is equivalent to kernel K-means clustering
 
-TODO
+Consider a special case of NMF, when $W = H^T$, called symmetric NMF. In this case we're looking for an approximation:
+
+$V = H^T H$
+
+And the goal is to find $H^* = \arg \min \limits_{H: H \ge 0} ||V - H^T H ||_F$.
+
+If we assume that $H$ is orthogonal ($H^T H = I$, where $I$ is identity matrix), then by Lemma 0 we immediately see that:
+
+$H^* = \arg \min \limits_{H: H \ge 0, H^T H = I} ||V - H^T H ||_F = \arg \max \limits_{H: H \ge 0, H^T H = I} H V H^T$.
 
 ### Lemma 2.2. Symmetric NMF matrix is near orthogonal
 
-TODO
+Interestingly, we might not need to explicitly impose the requirement that $H^T H = I$, yet still $H$ turns out to be 
+approximately orthogonal, if we find it through a symmetric NMF.
+
+$H^* = \arg \min \limits_{H}||V - H^T H||_F$
+
+$||V - H^T H||_F = Tr (V - H^T H)^T(V - H^T H) = \underbrace{Tr(V^T V)}_\text{const} - Tr((H^T H)^T V) - Tr(V^T (H^T H)) + Tr(H^T H H^T H) = const -2 Tr((H^T H)^T V) + Tr(H^T H H^T H) = const -2 Tr(HVH^T) + || H H^T ||_F $
+
+Here the term $Tr(HVH^T)$ corresponds to the minimization problem, similar to k-means. The term $|| H H^T ||_F$ works
+almost like a constraint. Let's focus on it:
+
+$H H^T = \begin{pmatrix} h_{1,1} && h_{1,2} && h_{1,3} && h_{1,4} \\ h_{2,1} && h_{2,2} && h_{2,3} && h_{2,4} \end{pmatrix} \cdot \begin{pmatrix} h_{1,1} && h_{2,1} \\ h_{1,2} && h_{2,2} \\ h_{1,3} && h_{2,3} \\ h_{1,4} && h_{2,4} \end{pmatrix} = \begin{pmatrix} \langle {\bf h_1}, {\bf h_1} \rangle && \langle {\bf h_1}, {\bf h_2} \rangle && \langle {\bf h_1}, {\bf h_3} \rangle && \langle {\bf h_1}, {\bf h_4} \rangle \\ \langle {\bf h_2}, {\bf h_1} \rangle && \langle {\bf h_2}, {\bf h_2} \rangle && \langle {\bf h_2}, {\bf h_3} \rangle && \langle {\bf h_2}, {\bf h_4} \rangle \\ \langle {\bf h_3}, {\bf h_1} \rangle && \langle {\bf h_3}, {\bf h_2} \rangle && \langle {\bf h_3}, {\bf h_3} \rangle && \langle {\bf h_3}, {\bf h_4} \rangle \\ \langle {\bf h_4}, {\bf h_1} \rangle && \langle {\bf h_4}, {\bf h_2} \rangle && \langle {\bf h_4}, {\bf h_3} \rangle && \langle {\bf h_4}, {\bf h_4} \rangle \\ \end{pmatrix}$,
+
+$W = H^T H = \begin{pmatrix} h_{1,1} && h_{2,1} \\ h_{1,2} && h_{2,2} \\ h_{1,3} && h_{2,3} \\ h_{1,4} && h_{2,4} \end{pmatrix} \cdot \begin{pmatrix} h_{1,1} && h_{1,2} && h_{1,3} && h_{1,4} \\ h_{2,1} && h_{2,2} && h_{2,3} && h_{2,4} \end{pmatrix} = \begin{pmatrix} \langle {\bf h_1}, {\bf h_1} \rangle && \langle {\bf h_1}, {\bf h_2} \rangle && \langle {\bf h_1}, {\bf h_3} \rangle && \langle {\bf h_1}, {\bf h_4} \rangle \\ \langle {\bf h_2}, {\bf h_1} \rangle && \langle {\bf h_2}, {\bf h_2} \rangle && \langle {\bf h_2}, {\bf h_3} \rangle && \langle {\bf h_2}, {\bf h_4} \rangle \\ \langle {\bf h_3}, {\bf h_1} \rangle && \langle {\bf h_3}, {\bf h_2} \rangle && \langle {\bf h_3}, {\bf h_3} \rangle && \langle {\bf h_3}, {\bf h_4} \rangle \\ \langle {\bf h_4}, {\bf h_1} \rangle && \langle {\bf h_4}, {\bf h_2} \rangle && \langle {\bf h_4}, {\bf h_3} \rangle && \langle {\bf h_4}, {\bf h_4} \rangle \\ \end{pmatrix}$,
+
+where e.g. ${\bf h_1} = \begin{pmatrix} h_{1,1} \\ h_{2,1} \end{pmatrix}$.
+
+From the definition of Frobenius norm then $|| H^T H ||_F = \langle {\bf h_1}, {\bf h_1} \rangle^2 + \langle {\bf h_1}, {\bf h_2} \rangle^2 + ... + \langle {\bf h_2}, {\bf h_1} \rangle^2 + \langle {\bf h_2}, {\bf h_2} \rangle^2 + ... + \langle {\bf h_4}, {\bf h_4} \rangle^2 = \sum \limits_{k=1}^p \sum \limits_{l=1}^n \langle {\bf h_k}, {\bf h_l} \rangle^2$.
+
+Let us split this sum into two parts: diagonal elements and non-diagonal elements separately:
+
+$|| H^T H ||_F = \sum \limits_{l \ne k} \langle {\bf h_l}, {\bf h_k} \rangle^2 + \sum \limits_{l=k} \langle {\bf h_k}, {\bf h_k} \rangle^2$
+
+Minimization of the term $\sum \limits_{l \ne k} \langle {\bf h_l}, {\bf h_k} \rangle^2$ essentially enforces orthogonality,
+while the second term is responsible for normalization $\sum \limits_{l=k} \langle {\bf h_k}, {\bf h_k} \rangle^2 = \sum \limits_{l=k} ||{\bf h_k}||^4_2$.
 
 ## 3. Biclustering problem and quadratic programming/NMF
 
