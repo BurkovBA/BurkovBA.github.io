@@ -18,7 +18,7 @@ RUN apk add --update \
     pkgconfig \
     nasm \
     ffmpeg \
-  && pip install virtualenv \
+  && pip install --ignore-installed virtualenv \
   && rm -rf /var/cache/apk/*
 
 RUN npm install
