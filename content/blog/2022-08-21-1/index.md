@@ -271,8 +271,9 @@ results in a multitude of truncated PCA/biclustering/spectral clustering interpr
 Here is an implementation of k-means (with k-means++ initialization):
 
 ```python
+import math
 import random
-from typing import Tuple, Enum
+from typing import Tuple, Union
 
 import numpy as np
 import numpy.typing as npt
@@ -280,16 +281,16 @@ import numpy.typing as npt
 
 class ConvergenceException(Exception):
     def __init__(self):
-        Exception.__init__(self, "Iterations limit exceeded")
+        Exception.__init__(self, "Iterations limit exceeded; algorithm failed to converge!")
 
 
 def k_means_clustering(
-        X: npt.NDarray,
+        X: npt.NDArray,
         k: int,
         tol: float = 1e-5,
-        max_iter:int = 100,
-        energy: Enum['KL', 'F'] = 'F'
-) -> Tuple[npt.NDarray, npt.NDarray]:
+        max_iter: int = 100,
+        energy: Union['KL', 'fro'] = 'fro'
+) -> Tuple[npt.NDArray, npt.NDArray]:
     """A minimal implementation of k-means clustering algorithm.
 
     :param X: n x p data matrix, where each point of data is a p-dimensional np.array
@@ -318,42 +319,45 @@ def k_means_clustering(
             raise ConvergenceException
         else:
             iterations += 1
-            previous_energy = energy
+            previous_energy = next_energy
             next_energy = calculate_energy(X, centroids, clusters, energy)
 
     return centroids, clusters
 
 
-def init_centroids(X, k) -> npt.NDarray:
+def init_centroids(X, k) -> npt.NDArray:
     """Initialization procedure for settings the initial locations of
     centroids, based on k-means++ (2006-2007) algorithm:
     https://en.wikipedia.org/wiki/K-means%2B%2B.
     """
     n = X.shape[0]
-    centroids = np.zeros((n, k))
+    p = X.shape[1]
+    centroids = np.zeros((1, p))
     random_point_index = random.randrange(n)
-    np.copyto(X[random_point_index], centroids[0])
-    for _ in range(k):
+    np.copyto(centroids[0], X[random_point_index])  # use a random row of X matrix as a centroid
+    for _ in range(k-1):
         # find closest centroid to each data point
         clusters = e_step(X, centroids)
 
         # construct probability distribution of selecting data points as centroids
         distribution = np.zeros(n)
         for index, data_point in enumerate(X):
-            nearest_centroid = clusters[index]
+            # find the coordinate of 1 in clusters[index] - it will be the index of centroid
+            nearest_centroid_index = np.argmax(clusters[index])  # finds the location of 1
+            nearest_centroid = centroids[nearest_centroid_index]
 
             # probability of a point being selected as a new centroid is ~ square distance D(point, centroid)
             distribution[index] = np.dot(data_point - nearest_centroid, data_point - nearest_centroid)
 
         # pick a data point to be the next centroid at random
         new_centroid = random.choices(X, weights=distribution)
-        centroids = numpy.vstack([centorids, new_centroid])
+        centroids = np.vstack([centroids, new_centroid])
 
     return centroids
 
 
 def e_step(X, centroids):
-    """Assign the nearest cluster to each data point."""
+    """Assign each data point to a cluster with the nearest centroid."""
     clusters = np.zeros(shape=(X.shape[0], centroids.shape[0]))
 
     for data_point_index, data_point in enumerate(X):
@@ -373,23 +377,22 @@ def e_step(X, centroids):
 
 def m_step(X, centroids, clusters):
     """Re-calculate new centroids based on the updated clusters."""
-    new_centroids = np.empty(shape=centroids.shape)
+    # divide each cluster element by the number of elements in it for averaging (e.g. [0, 1, 1] -> [0, 0.5, 0.5])
+    normalized_clusters = clusters.T
+    for index, cluster in enumerate(normalized_clusters):
+        np.copyto(normalized_clusters[index], cluster / cluster.sum())
+    normalized_clusters = normalized_clusters.T
 
-    for index, cluster in enumerate(clusters):
-        new_centroids[index] = np.dot(cluster, X)
+    # move each centroid to the center of mass of its respective cluster
+    new_centroids = np.dot(X.T, normalized_clusters).T
 
     return new_centroids
 
 
-def calculate_energy(X, centroids, clusters, energy: Enum['KL', 'F']) -> float:
+def calculate_energy(X, centroids, clusters, energy: Union['KL', 'fro']) -> float:
     """Implementation of several energy functions calculation."""
-    if energy == 'F':
-        X_hat = np.dot(centroids, clusters)
-        difference = X - X_hat
-        result = 0
-        for i in difference:
-            for j in difference[i]:
-                result += j ** 2
+    if energy == 'fro':
+        result = np.linalg.norm(X - np.dot(clusters, centroids), 'fro')
     elif energy == 'KL':
         result = 0  # TODO
     else:
@@ -397,6 +400,53 @@ def calculate_energy(X, centroids, clusters, energy: Enum['KL', 'F']) -> float:
 
     return result
 ```
+
+Let us test our implementation:
+
+```python
+import unittest
+import numpy as np
+
+from ..biclustering_lasso import k_means_clustering
+
+
+class KMeansTestCase(unittest.TestCase):
+    """
+    python3 -m unittest biclustering_lasso.tests.test_nmf.NMFTestCase
+    """
+    def test_k_means(self):
+        X = np.array([[2.1, 0.4, 1.2, 0.3, 1.1],
+                      [2.1, 0.7, 2.3, 0.4, 2.2],
+                      [2.4, 0.5, 3.2, 0.7, 3.3]])
+
+        centroids, clusters = k_means_clustering(X, k=2)
+
+        print(f"centroids = {centroids}")
+        print(f"clusters = {clusters}")
+```
+
+```python
+>>> centroids
+array([[2.1 , 0.4 , 1.2 , 0.3 , 1.1 ],
+       [2.25, 0.6 , 2.75, 0.55, 2.75]])
+
+>>> clusters
+array([[1. , 0. ],
+       [0. , 0.5],
+       [0. , 0.5]])
+
+>>> np.dot(clusters, centroids)
+array([[2.1  , 0.4  , 1.2  , 0.3  , 1.1  ],
+       [1.125, 0.3  , 1.375, 0.275, 1.375],
+       [1.125, 0.3  , 1.375, 0.275, 1.375]])
+
+>>> X
+array([[2.1, 0.4, 1.2, 0.3, 1.1],
+       [2.1, 0.7, 2.3, 0.4, 2.2],
+       [2.4, 0.5, 3.2, 0.7, 3.3]])
+```
+
+Again, we get a decent low-rank approximation.
 
 
 ### Symmetric NMF
