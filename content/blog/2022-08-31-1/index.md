@@ -8,7 +8,7 @@ description: Non-negative matrix factorization (NMF) is the most fashionable met
 
 I am following the general logic of [this paper](https://ranger.uta.edu/~chqding/papers/NMF-SDM2005.pdf),
 including the numeration of chapters, in this post. However, I will provide lots of my own remarks, as I spent several 
-months, working with objects, discussed in this post and "rehydrate" a very clear, but somewhat condensed 4.5-page paper
+months, working with objects, discussed in this post and "rehydrate" this very clear, but somewhat condensed 4.5-page paper
 into a much larger blog post.
 
 In this post I will present 4 seemingly different algorithms: symmetric NMF, k-means, biclustering and spectral clustering
@@ -30,7 +30,7 @@ Here I use outer product notation to represent $\hat{V}$ as a product of two rec
 $\hat{V} = W \cdot H = \begin{pmatrix} w_{1,1} && w_{1,k} \\ w_{2,1} && w_{2,k} \\ w_{n,1} && w_{n,k} \end{pmatrix} \cdot \begin{pmatrix} h_{1,1} && h_{1,2} && h_{1,p} \\ h_{k,1} && h_{k,2} && h_{k,p} \end{pmatrix}$
 
 Since the Netflix challenge, this approach was very popular in the recommender systems. If $V$ matrix represents
-$n$ users, who assigned ratings for $p$ movies, then $W$ matrix represents the characterization of each of the $n$ users
+$n$ users, who assigned ratings to $p$ movies, then $W$ matrix represents the characterization of each of the $n$ users
 in terms of $k$ psychological traits (e.g. how much the user likes humour, violence, sentimentality etc.) and $H$ matrix
 characterizes each of $p$ movies in terms of these $k$ scales - how humorous, violent, sentimental etc. they are. 
 
@@ -40,17 +40,22 @@ user ratings for movies they haven't seen and suggest the movies with the highes
 How would we search for NMF in practice? We would require Frobenius norm of the difference between NMF and the original 
 matrix $V$ to be as small as possible:
 
-$\min \limits_{W,H \ge 0} ||V - WH ||_F$
+$\min \limits_{W,H \ge 0} ||V - WH ||_F = \sum \limits_{i=1}^n \sum \limits_{j=1}^p (v_{i,j} - \langle {\bf w_{i,k}}, {\bf h_{k,j}} \rangle)^2$
 
-Frobenius norm is a good measure for the quality of our approximation not only because of its intuitiveness. A family of 
-theorems in matrix analysis (such as [Hoffman-Wielandt inequality](https://djalil.chafai.net/blog/2011/12/03/the-hoffman-wielandt-inequality/))
+Frobenius norm is just a square root of sum of squares of elements of matrix (if we considered the matrix a regular vector,
+it would'be been its L2 norm). Thus it could be interpreted as the distance between matrices.
+
+However, Frobenius norm is a good measure for the quality of our approximation not only because of its intuitiveness. A 
+family of theorems in matrix analysis (such as [Hoffman-Wielandt inequality](https://djalil.chafai.net/blog/2011/12/03/the-hoffman-wielandt-inequality/))
 show that if matrix approximation converges to the true matrix in terms of Frobenius norm, then so do their eigenvalues
 and eigenvectors.
 
+Another important way of representing the Frobenius norm is through the trace of Gram matrix, created out of the initial
+matrix: $||V - WH||_F = \sqrt{Tr{(V - WH)^T (V-WH)}}$. We will heavily rely on this representation in this post.
+
 An alternative option for the measure of quality of approximation is Kullback-Leibler divergence $D(V || W H)$, which in
 matrix case evaluates to $D(A||B) = \sum \limits_{i,j} (A_{i,j} \log \frac{A_{i,j}}{B_{i,j}} - A_{i,j} + B_{i,j})$. In
-this case NMF bears similarities to various Bayesian methods, such as Probabilistic Latent Semantic Analysis (PLSA) method.
-
+this case NMF bears similarities to various Bayesian methods, such as Probabilistic Latent Semantic Analysis (PLSA) method. 
 However, I won't delve into Kullback-Liebler-minimizing approach and will focus on the Frobenius norm as approximation
 quality metric.
 
@@ -72,7 +77,7 @@ $\min \limits_{W \ge 0, H \ge 0}|| V - WH ||_F$
 
 Or, equivalently, expressing Frobenius norm through trace notation, we have:
 
-$\min \limits_{W \ge 0, H \ge 0} Tr((V - WH)^T(V - WH))$
+$\min \limits_{W \ge 0, H \ge 0} \sqrt{Tr((V - WH)^T(V - WH))} = \min \limits_{W \ge 0, H \ge 0} Tr((V - WH)^T(V - WH))$
 
 This is a minimization problem which can be solved through taking a derivative of a scalar function with respect to a 
 matrix argument (the concept and mechanics of derivative of a scalar function with respect to a matrix argument is explained in detail [here](https://www.youtube.com/watch?v=9fc-kdSRE7Y) and [here](https://en.wikipedia.org/wiki/Matrix_calculus#Scalar-by-matrix)).
@@ -243,7 +248,7 @@ Suppose that we have identified $k$ clusters $C_k$ among our data points $\bf v_
 
 We can interpret the rows ${\bf h_k}$ of matrix $H$ as centroids of our clusters: ${\bf h_k} = \sum_{i \in C_k }{\bf v_i}$
 
-Then is matrix $W$ is made orthogonal non-negative, it represents attribution of data points to clusters. E.g.:
+Then matrix $W$ can be made orthogonal non-negative, representing attribution of data points to clusters. E.g.:
 
 $\hat{V} = W \cdot H = \begin{pmatrix} 1 && 0 \\ 0 && \frac{1}{\sqrt{2}} \\ 0 && \frac{1}{\sqrt{2}} \end{pmatrix} \cdot \begin{pmatrix} h_{1,1} && h_{1,2} && h_{1,p} \\ h_{k,1} && h_{k,2} && h_{k,p} \end{pmatrix}$
 
@@ -471,18 +476,18 @@ considered further.
 
 It turns out that symmetric NMF algorithm can be interpreted as a variation of "soft" k-means clustering. 
 
-In "hard" k-means clustering each point belongs to strictly one cluster. In "soft" clustering every point is assigned 
-weights, which show how close it is to each cluster. 
+In "hard" k-means clustering each data point belongs to strictly one cluster. In "soft" clustering every point is 
+assigned weights, which show how close (or likely to belong) it is to each cluster. 
 
 In "hard" clustering clusters matrix is orthogonal. As we'll see further in this post, in "soft" clustering weights
-matrix is approximately orthogonal as well.
+matrix is not orthogonal, but tends to be approximately orthogonal.
 
 In order to establish correspondence between symmetric NMF and k-means I will first need a technical lemma, which shows
 that minimum of Frobenius norm of error of rank-$1$ matrix approximation coincides with the maximum of quadratic form of the 
 approximated matrix. Moreover, in case of rank-$k$ matrix approximation via $\hat{V} = W \cdot H$, minimum of Frobenius
 norm of error $||V - \hat{V}||_F$ corresponds to a trace $Tr(H V W)$.
 
-I will use this fact to establish correspondence between all 4 algorithms in this post.
+This fact will prove useful for all the 4 algorithms, described in this post.
 
 ### Lemma 2.0. Minimum of Frobenius norm corresponds to the maximum of Rayleigh quotient
 
