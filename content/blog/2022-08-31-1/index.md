@@ -77,7 +77,7 @@ $\min \limits_{W \ge 0, H \ge 0}|| V - WH ||_F$
 
 Or, equivalently, expressing Frobenius norm through trace notation, we have:
 
-$\min \limits_{W \ge 0, H \ge 0} \sqrt{Tr((V - WH)^T(V - WH))} = \min \limits_{W \ge 0, H \ge 0} Tr((V - WH)^T(V - WH))$
+$W^*, H^* = \arg \min \limits_{W \ge 0, H \ge 0} \sqrt{Tr((V - WH)^T(V - WH))} = \arg \min \limits_{W \ge 0, H \ge 0} Tr((V - WH)^T(V - WH))$
 
 This is a minimization problem which can be solved through taking a derivative of a scalar function with respect to a 
 matrix argument (the concept and mechanics of derivative of a scalar function with respect to a matrix argument is explained in detail [here](https://www.youtube.com/watch?v=9fc-kdSRE7Y) and [here](https://en.wikipedia.org/wiki/Matrix_calculus#Scalar-by-matrix)).
