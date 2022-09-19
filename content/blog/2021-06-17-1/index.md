@@ -112,15 +112,40 @@ $ = \frac{ (O_2^2 - 2O_2np_2 + n^2p_2^2)(p_2p_3 + p_3^2) + (O_3^2 - 2O_3np_3 + n
 
 $ = \frac{(\cancel{O_2^2p_2p_3} + O_2^2p_3^2 - \cancel{2O_2np_2^2p_3} - \cancel{2O_2np_2p_3^2} + \cancel{n^2p_2^3p_3} + \cancel{n^2p_2^2p_3^2}) + (O_3^2p_2^2 + \cancel{O_3^2p_2p_3} - \cancel{2O_3np_3p_2^2} - \cancel{2O_3np_2p_3^2} + \cancel{n^2p_2^2p_3^2} + \cancel{n^2p_2p_3^3} ) - (\cancel{O_2^2p_2p_3} + 2O_2O_3p_2p_3 + \cancel{O_3^2p_2p_3} - \cancel{2O_2np_2^2p_3} - \cancel{2O_2np_2p_3^2} - \cancel{2O_3np_2^2p_3} - \cancel{2O_3np_2p_3^2} + \cancel{n^2p_2^3p_3} + \cancel{2n^2p_2^2p_3^2} + \cancel{n^2p_2p_3^3}) }{np_2p_3(p_2+p_3)} = $
 
-$ = \frac{O_2^2p_3^2 + O_3^2p_2^2 + 2O_2O_3p_2p_3}{np_2p_3(p_2+p_3)} = \frac{(O_2p_3 + O_3p_2)^2}{np_2p_3(p_2+p_3)}$.
+$ = \frac{O_2^2p_3^2 + O_3^2p_2^2 - 2O_2O_3p_2p_3}{np_2p_3(p_2+p_3)} = \frac{(O_2p_3 - O_3p_2)^2}{np_2p_3(p_2+p_3)}$.
 
-The random variable that we've received has a $\chi_1^2$ distribution because it is a square of $\xi = \frac{O_2p_3 + O_3p_2}{\sqrt{np_2p_3(p_2+p_3)}}$ random variable, which is a standard normal one. Let's show this fact: indeed $O_2$ and $O_3$ are gaussian r.v. (by de Moivre-Laplace/C.L.T.)
-with expectations of $np_2$ and $np_3$ and variance of $np_2(1-p_2)$ and $np_3(1-p_3)$ respectively. 
+The random variable that we've received has a $\chi_1^2$ distribution because it is a square of $\xi = \frac{O_2p_3 - O_3p_2}{\sqrt{np_2p_3(p_2+p_3)}}$ random variable, which is a standard normal one. 
+
+Let's show this fact: indeed $O_2$ and $O_3$ are gaussian r.v. (by de Moivre-Laplace/C.L.T.)
+with expectations of $\mathbb{E}[O_2] = np_2$ and $\mathbb{E}[O_3] = np_3$ and variances $Var[O_2] = np_2(1-p_2)$ and $Var[O_3] = np_3(1-p_3)$ respectively. 
 
 Sum of 2 gaussian random variables is gaussian with expectation equal to sum of expectations and variance equal to sum of
-variances, this fact [can be proved using either convolutions or Fourier transform](https://en.wikipedia.org/wiki/Sum_of_normally_distributed_random_variables) (traditionally known as characteristic functions in the field theory of probabilities).
+variances, plus covariance: $\sigma_{X+Y} = \sqrt{\sigma_{X}^2 + \sigma_{Y}^2 + 2 \rho \sigma_{X} \sigma_{Y}}$. This fact [can be proved using either convolutions or Fourier transform](https://en.wikipedia.org/wiki/Sum_of_normally_distributed_random_variables) (traditionally known as characteristic functions in the field theory of probabilities).
 
-Obviously, $\mathbb{E}\xi = np_2p_3 - np_3p_2 = 0$ and $Var\xi = \frac{np_2(1-p_2)p_3^2 - np_3(1-p_3)p_2^2}{np_2p_3(p_2+p_3)} = 1$. Thus, $\xi^2 \sim \chi_1^2$. This concludes our proof.
+$\mathbb{E}[\xi] = \frac{np_2p_3 - np_3p_2}{\sqrt{n p_2 p_3 (p_2 + p_3)}} = 0$
 
-The proof was following the logic of proof number 6 from [this paper about 7 ways to prove Pearson's test](https://arxiv.org/pdf/1808.09171.pdf).
+Now, let us calculate the variance of $\xi$. Our random variables $O_2$ and $O_3$ are non-independent, so recall that the
+[variance of their difference is the sum of individual variances, minus the double covariance](https://stats.stackexchange.com/questions/142745/what-is-the-demonstration-of-the-variance-of-the-difference-of-two-dependent-var):
 
+$Var[\xi] = Var[\frac{p_3 O_2 - p_2 O_3}{n p_2 p_3 (p_2 + p_3)}] = \frac{1}{n^2 p^2_2 p^2_3 (p_2 + p_3)^2} Var[p_3 O_2 - p_2 O_3] = \frac{1}{n^2 p^2_2 p^2_3 (p_2 + p_3)^2} (Var[p_3 O_2] + Var[p_2 O_3] - 2 Cov[p_3 O_2, p_2 O_3]) =$
+
+$ = \frac{1}{n^2 p^2_2 p^2_3 (p_2 + p_3)^2} (Var[O_2] \cdot p_3^2 + Var[O_3] \cdot p_2^2 - 2 p_2 p_3 \cdot Cov[O_2, O_3]) = \frac{np_2(1-p_2)p_3^2 + np_3(1-p_3)p_2^2 - 2 p_2 p_3 \cdot Cov[O_2, O_3]}{n^2p^2_2p^2_3(p_2+p_3)^2} = \frac{n p_2 p_3 (p_2 + p_3) - 2 n p_2^2 p_3^2 - 2 p_2 p_3 \cdot Cov[O_2, O_3]}{n^2p^2_2p^2_3(p_2+p_3)^2}.$
+
+Now, how do we calculate the covariance $Cov[O_2, O_3]$? 
+
+We take a look at a single roll of our dice and consider the indicator Bernoulli random variables $o_2 = \begin{cases}0, dice roll \ne 2 \\ 1, dice roll = 2\end{cases}$ and $o_3 = \begin{cases}0, dice roll \ne 3 \\ 1, dice roll = 3\end{cases}$:
+
+$Cov[o_2, o_3] = \mathbb{E}(o_2 - \mathbb{E}o_2)(o_3 - \mathbb{E}o_3) = \mathbb{E}o_2o_3 - 2 \mathbb{E}o_2 \mathbb{E}o_3 + \mathbb{E}o_2 \mathbb{E}o_3 = \underbrace{\mathbb{E}o_2o_3}_{=0, \text{because }o_2\text{ and }o_3\text{ can never be 1 at the same time}} - \underbrace{\mathbb{E}o_2 \mathbb{E}o_3}_{np_2 \cdot np_3} = -p_2 p_3$.
+
+$Cov[O_2, O_3] = n Cov[o_2, o_3] = -n p_2 p_3$
+
+$Var[\xi] = \frac{n p_2 p_3 (p_2 + p_3) - 2 n p_2^2 p_3^2 - 2 p_2 p_3 \cdot Cov[O_2, O_3]}{n p_2 p_3 (p_2+p_3)} = \frac{n p_2 p_3 (p_2 + p_3) - \cancel{2 n p_2^2 p_3^2} - \cancel{2 p_2 p_3 \cdot (-n p_2 p_3)} }{n p_2 p_3 (p_2+p_3)} = 1$
+
+Thus, $\xi^2 \sim \chi_1^2$. This concludes the proof.
+
+---
+
+Derivation of Pearson’s goodness of fit test statistic follows the logic of 
+the proof number 6 from [this paper about 7 ways to prove Pearson's test](https://arxiv.org/pdf/1808.09171.pdf).
+
+Many thanks to Ming Zhang for finding an error in this post.
