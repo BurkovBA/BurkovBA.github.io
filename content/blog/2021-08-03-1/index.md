@@ -69,11 +69,11 @@ Example: simple regression problem with basic least squares
 
 Recall, how the [least squares](https://en.wikipedia.org/wiki/Least_squares) work in case of normal features. 
 
-Let $X = \begin{pmatrix} {\bf x_1} \\ ... \\ {\bf x_p} \end{pmatrix} = \begin{pmatrix} x_{1,1} && x_{1,2} && ... && x_{1,n} \\ ... && ... && ... && ... \\ x_{p,1} && x_{p,2} && ... && x_{p,n} \end{pmatrix}$ be the $n$ x $p$ matrix of data (e.g. n genes, p patients), 
+Let $X = \begin{pmatrix} {\bf x_1} \\ ... \\ {\bf x_n} \end{pmatrix} = \begin{pmatrix} x_{1,1} && x_{1,2} && ... && x_{1,p} \\ ... && ... && ... && ... \\ x_{n,1} && x_{n,2} && ... && x_{n,p} \end{pmatrix}$ be the $n$ x $p$ matrix of data (e.g. n genes, p patients), 
 
 where ${\bf x_i} = (x_{i,1} ... x_{i,n})$ are n-vectors, corresponding to each element of data (e.g. gene expressions for the patient ${\bf x_i}$).
 
-Let ${\bf y} = \begin{pmatrix} y_1 \\ ... \\ y_p \end{pmatrix}$ be the vector of results and ${\bf w} = \begin{pmatrix} w_1 \\ ... \\ w_n \end{pmatrix}$ be the vector of weights of factors. So, our prediction is $h(X) = X{\bf w}$.
+Let ${\bf y} = \begin{pmatrix} y_1 \\ ... \\ y_n \end{pmatrix}$ be the vector of results and ${\bf w} = \begin{pmatrix} w_1 \\ ... \\ w_p \end{pmatrix}$ be the vector of weights of factors. So, our prediction is $h(X) = X{\bf w}$.
 
 The aim is to minimize the following sum of squares of prediction errors:
 
@@ -107,20 +107,20 @@ If we were to solve $\begin{pmatrix} 1 && 1 \\ 1 && 1 \end{pmatrix} \cdot \begin
 
 Expression $(X^T X)^{-1} \cdot X^T$ is called Moore-Penrose pseudo-inverse matrix.
 
-The $n$ x $n$ matrix $C = X^T X = \begin{pmatrix} x_{1,1} && x_{p,1} \\ x_{1,2} && x_{p,2} \\ ... && ... \\ x_{1,n} && x_{p,n} \\ \end{pmatrix} \cdot \begin{pmatrix} x_{1,1} && x_{1,2} && ... && x_{1,n} \\ x_{p,1} && x_{p,2} && ... && x_{p,n} \end{pmatrix}$ is often called a covariance matrix.
+The $n$ x $n$ matrix $C = X^T X = \begin{pmatrix} x_{1,1} && x_{n,1} \\ x_{1,2} && x_{n,2} \\ ... && ... \\ x_{1,p} && x_{n,p} \\ \end{pmatrix} \cdot \begin{pmatrix} x_{1,1} && x_{1,2} && ... && x_{1,p} \\ x_{n,1} && x_{n,2} && ... && x_{n,p} \end{pmatrix}$ is often called a covariance matrix.
 
 It is a Gram matrix by construction, and, thus, is positive (semi-)definite with positive/non-negative eigenvalues.
 
 Kernel trick
 ------------
 
-Now, we shall replace the matrix $X$ of basic features with matrix $\Phi$ of advanced features, where each row ${\bf x_i}$ of length $n$, corresponding to gene expressions of a single patient, is replaced by a row of feature maps ${\bf \varphi(x_i)}$ of length $N$ of feature maps of those gene expressions:
+Now, we shall replace the matrix $X$ of basic features with matrix $\Phi$ of advanced features, where each row ${\bf x_i}$ of length $p$, corresponding to gene expressions of a single patient, is replaced by a row of feature maps ${\bf \varphi(x_i)}$ of length $P$ of feature maps of those gene expressions:
 
-$\Phi = \begin{pmatrix} \varphi_1({\bf x_1}) && \varphi_2({\bf x_1}) && ... && \varphi_N({\bf x_1}) \\ \varphi_1({\bf x_p}) && \varphi_2({\bf x_p}) && ... && \varphi_N({\bf x_p}) \end{pmatrix} = \begin{pmatrix} {\bf \varphi(x_1)} \\ {\bf \varphi(x_p)} \end{pmatrix}$
+$\Phi = \begin{pmatrix} \varphi_1({\bf x_1}) && \varphi_2({\bf x_1}) && ... && \varphi_P({\bf x_1}) \\ \varphi_1({\bf x_n}) && \varphi_2({\bf x_n}) && ... && \varphi_P({\bf x_n}) \end{pmatrix} = \begin{pmatrix} {\bf \varphi(x_1)} \\ {\bf \varphi(x_n)} \end{pmatrix}$
 
 Accordingly, the estimation function $h(X)$ is replaced with $h(\Phi)$, such that ${\bf w} = (\Phi^T \Phi)^{-1} \cdot \Phi^T{\bf y}$ (again, the vector of weights ${\bf w}$ is now $N$-dimensional).
 
-$n$ x $n$ positive-definite symmetric covariance matrix $C = X^TX$ is replaced with an $N$ x $N$ positive-definite symmetric matrix $C = \Phi^T \Phi$. Note that $N$ can be infinite, in which case matrices $\Phi$ and $C$ become infinite-dimensional.  
+$p$ x $p$ positive-definite symmetric covariance matrix $C = X^TX$ is replaced with a $P$ x $P$ positive-definite symmetric matrix $C = \Phi^T \Phi$. Note that $P$ can be infinite, in which case matrices $\Phi$ and $C$ become infinite-dimensional.  
 
 Later in this post I am going to show that when we are looking for our function $h({\bf \varphi({\bf x_i})})$, we can actually get rid of an explicit $\Phi$ in its expression and make $h$ depend only on the kernel matrix $K$.
 
@@ -153,7 +153,7 @@ In reality, the number of samples in your data matrix $p$ is rarely equal to the
 
 In case of kernel ridge regression, for many kernels the number of features is infinite (see RBF kernel example below).
 
-If $n \gg p$, $\Phi^T \Phi$ is a non-full rank matrix with lots of zero eigenvalues, thus, its inverse $(\Phi^T \Phi)^{-1}$ does not exist. 
+If $P \gg N$, $\Phi^T \Phi$ is a non-full rank matrix with lots of zero eigenvalues, thus, its inverse $(\Phi^T \Phi)^{-1}$ does not exist. 
 
 However, in order to overcome this problem, we can add a Tikhonov regularization term: $(\lambda I + \Phi^T \Phi)$, effectively increasing all the matrix  eigenvalues by $\lambda$ and thus making it invertible.
 
