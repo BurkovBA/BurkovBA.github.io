@@ -2,7 +2,7 @@
 title: Economic Complexity Index (ECI)
 date: "2022-11-11T00:00:00.284Z"
 tags: ["math"]
-cover: "./eci_pci.png"
+cover: "./oec.png"
 description: The death of globalism in 2022 brings all kinds of economic sanctions. Lately I've been running into the term Economic Complexity Index (ECI), which reflects the diversification of exports of a country. In this post I investigate the mathematics behind it and draw connections to the problems of Ncut, biclustering etc.  
 ---
 
@@ -10,9 +10,7 @@ Economic complexity index is often used to describe diversification of a country
 diversified exports also produce a multitude of technologically advanced products and thus are more self-sustained (although
 they might be highly dependent on imports of commodities from countries, lagging behind in technology).
 
-![oec.png](oec.png)<center>**China's profile at [oec.world](https://oec.world/en/profile/country/chn)**. China has ECI=0.96, which means that it has rather average level of economic complexity.</center>
-
-For comparison, Japan and Germany are among the world leaders in OEC, being No. 1 and No. 4 with ECI=2.19 and ECI=1.88 respectively. The US has ECI=1.56, the UK has ECI=1.42, Russian and Ukraine have ECI=0.5.
+For comparison, Japan and Germany are among the world leaders in OEC, being No. 1 and No. 4 with ECI=2.19 and ECI=1.88 respectively. The US has ECI=1.56, the UK has ECI=1.42. China has ECI=0.96, which means that it has an average level of economic complexity. Russian and Ukraine have ECI=0.5.
 
 However, Russian economy is much more self-sustainable than Ukrainian, while their ECI is the same, so I decided to sort 
 out, what this number means exactly.
@@ -104,6 +102,10 @@ we are interested in the second largest eigenvalue and corresponding eigenvector
 Hence, ECI of a country $c$ is ${\bf d^{(\infty)}}[с]$. 
 
 Similarly, PCI of product $p$ corresponds to ${\bf u^{(\infty)}}[p]$, where $\lambda {\bf u^{(\infty)}} = P M^T C M {\bf u^{(\infty)}}$.
+
+With PCI and ECI as sorting functions, we get a similar "triangular" structure of country-product matrix:
+
+![eci_pci.png](./eci_pci.png)<center>**Countries and products, sorted by ECI and PCI.**</center>
 
 ### Reminder: Normalized Cut
 
