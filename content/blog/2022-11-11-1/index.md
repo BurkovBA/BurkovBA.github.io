@@ -18,8 +18,8 @@ represents the degree of autonomy of the Ukrainian economy.
 
 ## Economic Complexity Index construction
 
-In order to define ECI first we need to define a country-product matrix $M$. Each element of this matrix $M_{c,p}$ 
-corresponds to a so-called Revealed Competitive Advantage (RCA) of the country $c$ in producing a product $p$:
+In order to define ECI first we need to define a *country-product matrix* $M$. Each element $M_{c,p}$ of this matrix 
+corresponds to a so-called *Revealed Competitive Advantage (RCA)* of the country $c$ in producing a product $p$:
 
 E.g. if we have just 2 countries and just 3 products, we shall have a 2-by-3 country-product matrix:
 
@@ -34,19 +34,19 @@ the share of oil in their exports is more than fair and their RCA in oil is very
 
 $RCA = \frac{\frac{x_{c,p}}{\sum_p x_{c,p}}}{ \frac{\sum_c x_{c,p}}{\sum_c \sum_p x_{c,p}} } = \frac{30}{13}$
 
-So, for every product $p$ and every country $c$ we set the value of country-product matrix to 1, if
+We define a *discretized country-product matrix* $\tilde{M}$ as follows: for every product $p$ and every country $c$ we set the value of country-product matrix to 1, if
 country exports more than a fair share of this good, and 0, if less than fair share:
 
-$M_{c,p} = \begin{cases}1, RCA \ge 1 \\ 0, RCA < 1 \end{cases}$
+$\tilde{M}_{c,p} = \begin{cases}1, RCA \ge 1 \\ 0, RCA < 1 \end{cases}$
 
-Note that many countries will have $M_{c,p} = 1$ in oil (e.g. Russia, Saudi Arabia, UAE, Iraq, Iran, Norway, Canada, US, Venezuela etc.),
-while a very short list of countries will have $M_{c,p} = 1$ in 7 nm semiconductors (US, Taiwan, South Korea).
+Note that many countries will have $\tilde{M}_{c,p} = 1$ in oil (e.g. Russia, Saudi Arabia, UAE, Iraq, Iran, Norway, Canada, US, Venezuela etc.),
+while a very short list of countries will have $\tilde{M}_{c,p} = 1$ in 7 nm semiconductors (US, Taiwan, South Korea).
 
 Thus we can define two more entities, product ubiqity and economic complexity:
 
-*Product ubiquity* is $k_p = \sum_c M_{c,p}$.
+*Product ubiquity* is $k_p = \sum_c \tilde{M}_{c,p}$.
 
-*Economy complexity* is $k_c = \sum_p M_{c,p}$.
+*Economy complexity* is $k_c = \sum_p \tilde{M}_{c,p}$.
 
 Oil is a pretty ubiquitous product (or *commodity*, as people often call those), as $k_p > 10$. 7 nm chips are not
 very ubiquitous products, as $k_p = 3$ for them, their market is an oligopoly.
@@ -55,7 +55,7 @@ Now, if a country exports a broad range of products, its economic complexity is 
 all kinds of nuts-and-bolts, machines, pharmaceuticals etc.). If a country exports a bulk of one good (e.g. just oil),
 its economic complexity is low.
 
-If we were to sort the countries in our country-product matrix $M_{c,p}$ by economic complexity and products by product 
+If we were to sort the countries in our discretized country-product matrix $\tilde{M}_{c,p}$ by economic complexity and products by product 
 ubiquity, we'd find out that the matrix tends to have an almost triangular shape (e.g. countries with smalller economic
 complexity tend to export commodities):
 
@@ -71,7 +71,7 @@ The process of definition is iterative. We introduce the notions of *product ubi
 Initially we start by defining all the product ubiquity $u^{(0)}_p=k_p$ and all the economies diversifications $d^{(0)}_c = k_c$
 and then iteratively update vectors of economy competitiveness and product complexity according to the following formula:
 
-$\begin{cases} d^{(n)}_c = \frac{1}{k_c} \sum_p M_{c,p} u^{(n-1)}_p \\ u^{(n)}_p = \frac{1}{k_p} \sum_c M_{c,p} d^{(n-1)}_c \end{cases}$
+$\begin{cases} d^{(n)}_c = \frac{1}{k_c} \sum_p \tilde{M}_{c,p} u^{(n-1)}_p \\ u^{(n)}_p = \frac{1}{k_p} \sum_c \tilde{M}_{c,p} d^{(n-1)}_c \end{cases}$
 
 After a number of iterations our process will converge to some $d^{(\infty)}_c$ and $u^{(\infty)}_p$.
 
@@ -87,19 +87,19 @@ To do this, we need to define two diagonal matrices of country-by-country dimens
 
 Then our iterative definition takes form:
 
-$\begin{cases}{\bf d^{(n)}} = C M {\bf u^{(n-1)}} \\ {\bf u^{(n)}} = P M^T {\bf d^{(n-1)}} \end{cases}$
+$\begin{cases}{\bf d^{(n)}} = C \tilde{M} {\bf u^{(n-1)}} \\ {\bf u^{(n)}} = P \tilde{M}^T {\bf d^{(n-1)}} \end{cases}$
 
 Substituting the equations, we get a recurrent formula:
 
-${\bf d^{(n)}} = C M P M^T {\bf d^{(n-1)}}$
+${\bf d^{(n)}} = C \tilde{M} P \tilde{M}^T {\bf d^{(n-1)}}$
 
 At $n \to \infty$ we come to an eigenvector-eigenvalue equation:
 
-$\lambda {\bf d^{(\infty)}} = C M P M^T {\bf d^{(\infty)}}$
+$\lambda {\bf d^{(\infty)}} = C \tilde{M} P \tilde{M}^T {\bf d^{(\infty)}}$
 
 Hence, ECI of a country $c$ is ${\bf d^{(\infty)}}[с]$. 
 
-Similarly, PCI of product $p$ corresponds to ${\bf u^{(\infty)}}[p]$, where $\lambda {\bf u^{(\infty)}} = P M^T C M {\bf u^{(\infty)}}$.
+Similarly, PCI of product $p$ corresponds to ${\bf u^{(\infty)}}[p]$, where $\lambda {\bf u^{(\infty)}} = P \tilde{M}^T C \tilde{M} {\bf u^{(\infty)}}$.
 
 With PCI and ECI as sorting functions, we get a similar "triangular" structure of country-product matrix:
 
@@ -148,7 +148,7 @@ if i-th coordinate takes a positive value, assume it 1, and if negative, assume 
 
 ### Connection between Ncut and ECI
 
-Let us establish correspondence between the ECI equation $\lambda {\bf d^{(\infty)}} = C M P M^T {\bf d^{(\infty)}}$
+Let us establish correspondence between the ECI equation $\lambda {\bf d^{(\infty)}} = C \tilde{M} P \tilde{M}^T {\bf d^{(\infty)}}$
 and Ncut equation. Start with Ncut:
 
 $D^{-\frac{1}{2}} (D-S) D^{-\frac{1}{2}} z = \lambda z$
@@ -161,7 +161,7 @@ $D^{-1} D D^{-\frac{1}{2}} - D^{-1} S D^{-\frac{1}{2}} z = \lambda D^{-\frac{1}{
 
 $- D^{-1} S D^{-\frac{1}{2}} z = - D^{-\frac{1}{2}} z + \lambda D^{-\frac{1}{2}} z$
 
-$\underbrace{D^{-1} S}_{C M P M^T} \underbrace{D^{-\frac{1}{2}} z}_{d} = \underbrace{(1-\lambda)}_{\lambda} \underbrace{D^{-\frac{1}{2}} z}_{d}$
+$\underbrace{D^{-1} S}_{C \tilde{M} P \tilde{M}^T} \underbrace{D^{-\frac{1}{2}} z}_{d} = \underbrace{(1-\lambda)}_{\lambda} \underbrace{D^{-\frac{1}{2}} z}_{d}$
 
 Hence, we've established the correspondence between Ncut and ECI.
 
@@ -299,3 +299,4 @@ took large negative or 0 values. Great!
 * https://people.eecs.berkeley.edu/~malik/papers/SM-ncut.pdf - normalized cut
 * https://people.eecs.berkeley.edu/~wainwrig/stat241b/scholkopf_kernel.pdf - Scholkopf on kernel PCA
 * https://web.cse.ohio-state.edu/~belkin.8/papers/LEM_NC_03.pdf - original paper on spectral embedding/Laplacian eigenmaps
+* https://stats.stackexchange.com/questions/463141/what-is-the-difference-between-spectral-clustering-and-laplacian-eigenmaps - on correspondence of spectral clustering and LLE
