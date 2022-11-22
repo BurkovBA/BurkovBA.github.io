@@ -12,8 +12,9 @@ they might be highly dependent on imports of commodities from countries, lagging
 
 For comparison, Japan and Germany are among the world leaders in OEC, being No. 1 and No. 4 with ECI=2.19 and ECI=1.88 respectively. The US has ECI=1.56, the UK has ECI=1.42. China has ECI=0.96, which means that it has an average level of economic complexity. Russian and Ukraine have ECI=0.5.
 
-However, Russian economy is much more self-sustainable than Ukrainian, while their ECI is the same, so I decided to sort 
-out, what this number means exactly.
+China has a relatively low ECI of 0.96, approximately 2 times lower than the US. This is a very low for the 1st economy
+in the world, which is counterintuitive. I decided to dig into the meaning of this number and to check, if it accurately
+represents the degree of autonomy of the Ukrainian economy.
 
 ## Economic Complexity Index construction
 
@@ -31,14 +32,14 @@ product were exported by each country uniformly. Then the fair share of exports 
 been 13% of its total exports. However, for some countries like Russia or Norway oil constitutes 30% of exports, meaning that
 the share of oil in their exports is more than fair and their RCA in oil is very high:
 
-$RCA = \frac{\frac{x_{c,p}}{\sum_p x_{c,p}}}{ \frac{\sum_c x_{c,p}}{\sum_c \sum_p x_{c,p}} } = \frac{30}{1}$
+$RCA = \frac{\frac{x_{c,p}}{\sum_p x_{c,p}}}{ \frac{\sum_c x_{c,p}}{\sum_c \sum_p x_{c,p}} } = \frac{30}{13}$
 
 So, for every product $p$ and every country $c$ we set the value of country-product matrix to 1, if
 country exports more than a fair share of this good, and 0, if less than fair share:
 
 $M_{c,p} = \begin{cases}1, RCA \ge 1 \\ 0, RCA < 1 \end{cases}$
 
-So, many countries will have $M_{c,p} = 1$ in oil (e.g. Russia, Saudi Arabia, UAE, Iraq, Iran, Norway, Canada, US, Venezuela etc.),
+Note that many countries will have $M_{c,p} = 1$ in oil (e.g. Russia, Saudi Arabia, UAE, Iraq, Iran, Norway, Canada, US, Venezuela etc.),
 while a very short list of countries will have $M_{c,p} = 1$ in 7 nm semiconductors (US, Taiwan, South Korea).
 
 Thus we can define two more entities, product ubiqity and economic complexity:
@@ -96,9 +97,6 @@ At $n \to \infty$ we come to an eigenvector-eigenvalue equation:
 
 $\lambda {\bf d^{(\infty)}} = C M P M^T {\bf d^{(\infty)}}$
 
-The matrix $C M P M^T$ is row-stochastic, so its main eigenvalue is 1 and main eigenvector is $(1, 1, ..., 1)^T$. Hence,
-we are interested in the second largest eigenvalue and corresponding eigenvector.
-
 Hence, ECI of a country $c$ is ${\bf d^{(\infty)}}[с]$. 
 
 Similarly, PCI of product $p$ corresponds to ${\bf u^{(\infty)}}[p]$, where $\lambda {\bf u^{(\infty)}} = P M^T C M {\bf u^{(\infty)}}$.
@@ -110,9 +108,13 @@ With PCI and ECI as sorting functions, we get a similar "triangular" structure o
 ### Reminder: Normalized Cut
 
 In my [previous post](/2022-08-31-1) I looked into the Normalized Cut algorithm in detail (including its connections to the 
-biclustering problem in bioinformatics, detection of dense subset of a bipartite graph, NMF, k-means etc.).
+biclustering problem in bioinformatics, detection of dense subset of a bipartite graph, NMF, k-means etc.). Basically,
+if finds a minimal cut in a graph, such that the volumes of 2 subsets, it splits the graph into, are balanced.
 
-The Ncut algorithm solution has a form of generalized eigenvalues problem:
+![ncut.png](./ncut.png)<center>**Normalized cut finds the max/min cut in a graph, such that the weights of halves are comparable.**</center>
+
+The Ncut algorithm solution has a form of generalized eigenvalues problem (I am not going to work through the problem
+statement in this post again, please, refer to the Ncut part of my [previous post](/2022-08-31-1)):
 
 $\begin{cases} \min \limits_{y} \frac{y^T (D-S) y}{y^T D y} \\ y^T D 1 = 0 \\ y[i] \in \{1, -b\} \end{cases}$
 
@@ -163,6 +165,132 @@ $\underbrace{D^{-1} S}_{C M P M^T} \underbrace{D^{-\frac{1}{2}} z}_{d} = \underb
 
 Hence, we've established the correspondence between Ncut and ECI.
 
+### Practical example
+
+Download a world exports dataset from the WTO website: https://stats.wto.org/. The groupings of products in this dataset are pretty crude, but still they should suffice for the purpose of understanding ECI.
+
+Read in and clean the dataset:
+
+```python
+wto_df = pd.read_excel('./data/WtoData_20221121023331.xlsx', skiprows=1, header=1)
+# remove some columns with duplicates etc.
+wto_df = wto_df[wto_df['Reporting Economy'] != 'European Union']
+wto_df = wto_df[wto_df['Partner Economy'] == 'World']
+wto_df = wto_df[wto_df['Reporting Economy'] != 'World']
+```
+
+![wto_dataset.png](./wto_dataset.png)
+
+Pivot the dataset:
+
+```python
+pivoted_wto = wto_df.pivot(index='Reporting Economy', columns='Product/Sector', values='2020')
+pivoted_wto = pivoted_wto.fillna(0).astype('int64')
+pivoted_wto
+```
+
+![pivoted_wto_dataset.png](./pivoted_wto_dataset.png)
+
+Calculate the RCA numerator and denominator for the future country-product matrix:
+
+```python
+# calculate the rca_numerator
+rca_numerator = pivoted_wto.div(pivoted_wto.sum(axis=1), axis=0)
+
+# calculate the rca_denominator
+rca_denominator = pivoted_wto.copy(deep=True)
+product_sums = pivoted_wto.sum(axis=0)
+for item in product_sums.index:
+    rca_denominator[item] = product_sums[item]
+rca_denominator = rca_denominator.div(product_sums.sum(), axis=0)
+rca_denominator
+
+# calculate the country-product matrix (without the 0-1 discretization so far)
+M = rca_numerator.div(rca_denominator)
+M = M.fillna(0)
+M
+```
+
+![country_product_matrix.png](./country_product_matrix.png)
+
+Let us look into the row of the country-product matrix, corresponding to China:
+
+```python
+M.loc['China']
+```
+
+![China_products.png](./China_products.png)
+
+Now we get a hint on why China has a relatively low ECI for the first economy in the World: it lacks some commodities, 
+such as food supplies and fuels as well as automotive parts (although it is now the single mightiest producer of 
+automobiles in the World, manufacturing 26 million units a year, it is consuming most of them itself; however this 
+situation is quickly changing, as Chinese automotive industry rapidly expands to the Russian and CIS markets in 2022).
+
+We shall discretize the country-product matrix and sort its rows (countries) by $k_c$:
+
+```python
+discrete_M = M.applymap(lambda x: 1 if x >= 1 else 0)
+sorted_discrete_M = discrete_M.loc[discrete_M.sum(1).sort_values(ascending=False).index]
+sorted_discrete_M
+```
+
+![sorted_country_product_matrix.png](./sorted_country_product_matrix.png)
+
+This is already starting to make sense: developed European coutries, such as Netherlands or Germany top the list,
+as well as the US and UK. China is in 40s, Russia is closer to the middle of the list.
+
+If we were to draw the discretized country-product matrix, with rows sorted by $k_c$, we get something like this:
+
+```python
+from matplotlib import pyplot as plt
+
+plt.matshow(sorted_discrete_M)
+```
+
+![cpm.png](./cpm.png)
+
+As you can see, the matrix indeed has a triangular nature.
+
+At last, let us proceed with calculating the ECI as the second main eigenvector of normalized discretized country-product matrix:
+
+```python
+# calculate economy complexities; some economies have 0 complexities, making matrix singular - regularize by adding a tiny number
+economy_complexities = np.diag(sorted_discrete_M.sum(1).map(lambda x: 1/10 if x == 0 else x))
+# get a diagonal C matrix
+C = np.linalg.inv(economy_complexities)
+
+# calculate product ubiquities
+product_ubiquities = np.diag(sorted_discrete_M.sum(0))
+# get a diagonal P matrix
+P = np.linalg.inv(product_ubiquities)
+
+# calculate the normalized discretized country-product matrix for ECI calculation
+eci_matrix = C @ sorted_discrete_M.to_numpy() @ P @ sorted_discrete_M.to_numpy().T
+
+# get eigenvalue and eigenvectors of the normalized discretized country-product matrix
+values, vectors = np.linalg.eig(eci_matrix)
+
+# get the second main eigenvector
+vectors[:,1]
+```
+
+![eci_vector.png](./eci_vector.png)
+
+As you can see, we got our ECI vector, but most values in it are negative, and there is also a tail of positive/zero
+ values, corresponding to countries, which were regularized by adding 1/10 etc.
+
+Eigenvectors are defined up to a constant, so let us multiply all the coordinates by (-150) to get a more reasonable range
+of values:
+
+```python
+vectors[:,1] * (-150)
+```
+
+![eci_vector_normalized.png](./eci_vector_normalized.png)
+
+Now we can see that most of our ECI vector coordinates took reasonable values, and the normalized variables
+took large negative or 0 values. Great!
+
 ## References:
 * https://en.wikipedia.org/wiki/Revealed_comparative_advantage - revealed competitive advantage/Balassa index
 * https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0070726
@@ -170,3 +298,4 @@ Hence, we've established the correspondence between Ncut and ECI.
 * https://arxiv.org/pdf/1711.08245.pdf - connections with normalized cut, diffusion map, kernel PCA etc.
 * https://people.eecs.berkeley.edu/~malik/papers/SM-ncut.pdf - normalized cut
 * https://people.eecs.berkeley.edu/~wainwrig/stat241b/scholkopf_kernel.pdf - Scholkopf on kernel PCA
+* https://web.cse.ohio-state.edu/~belkin.8/papers/LEM_NC_03.pdf - original paper on spectral embedding/Laplacian eigenmaps
