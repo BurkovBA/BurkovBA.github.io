@@ -97,13 +97,19 @@ At $n \to \infty$ we come to an eigenvector-eigenvalue equation:
 
 $\lambda {\bf d^{(\infty)}} = C \tilde{M} P \tilde{M}^T {\bf d^{(\infty)}}$
 
-Hence, ECI of a country $c$ is ${\bf d^{(\infty)}}[с]$. 
+There are many eigenvalues and eigenvectors, which work as the solution. The main eigenvalue equals 1,
+the matrix is stochastic, and the main eigenvector is $(1, 1, 1, 1, ..., 1)^T$. Therefore, we are interested in the eigenvector,
+corresponding to the second-largest eigenvalue.
+
+Hence, ECI of a country $c$ is the $c$-th coordinate of our second main eigenvector ${\bf d^{(\infty)}}[с]$.
 
 Similarly, PCI of product $p$ corresponds to ${\bf u^{(\infty)}}[p]$, where $\lambda {\bf u^{(\infty)}} = P \tilde{M}^T C \tilde{M} {\bf u^{(\infty)}}$.
 
 With PCI and ECI as sorting functions, we get a similar "triangular" structure of country-product matrix:
 
 ![eci_pci.png](./eci_pci.png)<center>**Countries and products, sorted by ECI and PCI.**</center>
+
+## Correspondence between ECI and normalized cut algorithm
 
 ### Reminder: Normalized Cut
 
@@ -165,7 +171,7 @@ $\underbrace{D^{-1} S}_{C \tilde{M} P \tilde{M}^T} \underbrace{D^{-\frac{1}{2}} 
 
 Hence, we've established the correspondence between Ncut and ECI.
 
-### Practical example
+## Practical example
 
 Download a world exports dataset from the WTO website: https://stats.wto.org/. The groupings of products in this dataset are pretty crude, but still they should suffice for the purpose of understanding ECI.
 
