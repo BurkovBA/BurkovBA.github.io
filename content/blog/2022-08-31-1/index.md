@@ -755,3 +755,5 @@ References
 * https://stats.stackexchange.com/questions/351359/deriving-multiplicative-update-rules-for-nmf - summary of Lee and Seung NMF solver
 * https://people.eecs.berkeley.edu/~malik/papers/SM-ncut.pdf - famous normalized cut algorithm by Shi and Malik (2000)
 * https://people.orie.cornell.edu/dpw/orie6334/Fall2016/lecture7.pdf - on normalized Laplacian
+* http://oa.ee.tsinghua.edu.cn/~zhangyujin/Download-Paper/E224%3DTKDE-13.pdf - NMF: a comprehensive review paper
+* https://www.nature.com/articles/44565 - Lee and Seung original Nature paper on NMF 
