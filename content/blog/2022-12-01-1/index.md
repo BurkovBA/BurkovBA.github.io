@@ -87,7 +87,7 @@ $ = (I - \frac{1}{n} {\bf 1} {\bf 1}^T ) 2 X X^T {\bf 1} {\bf 1}^T  - (I - \frac
 
 Hence, as we've just seen, double centering of distances matrix gives us the centered kernel matrix $K_c$.
 
-# Isomap and Locally Linear Embeddings (LLE)
+## Isomap and Locally Linear Embeddings (LLE)
 
 It is not hard to find a limitation in the classical MDS algorithm: oftentimes data points form a so-called manifold in
 the enveloping space. For instance, real-life photos form some shape of the space of all theoretically possible
@@ -103,26 +103,45 @@ TODO: swiss roll with pandas
 
 In 2000 two manifold-aware methods were published in the same Science magazine issue.
 
-## Isomap
+### Isomap
 
 Isomap works in 3 simple steps:
 
-1. Find k nearest neighbours of each point via kNN. Construct a weighted graph, connecting neighbouring points with edges, where weight of each edge is the Euclidean distance between those points.
+1. Find k nearest neighbours of each point. Construct a weighted graph, connecting neighbouring points with edges, where weight of each edge is the Euclidean distance between those points.
 
-2. Construct a distance matrix on that graph, using e.g. Dijkstra algorithm.
+2. Construct a distance matrix on that graph, using e.g. Dijkstra's algorithm.
 
 3. Using this distance matrix, perform MDS.
 
-## Locally Linear Embeddings (LLE)
+### Locally Linear Embeddings (LLE)
 
 LLE is very similar to Isomap, but with a slightly different premise.
 
-1. Find k nearest neighbours of each point via kNN. Construct a weighted graph, connecting neighbouring points with edges, where weight of each edge is the Euclidean distance between those points.
+1. Find k nearest neighbours of each point. Construct a weighted graph, connecting neighbouring points with edges, where weight of each edge is the Euclidean distance between those points.
 
 2. Construct a matrix W, such that each data point $X_i$ is most accurately represented as a linear combindation of its neighbours with the weights from this matrix: $\bar{X}_i = \sum \limits_{j=1}^{k} W_{i,i} X_j$, so that $\Phi(X) = \sum \limits_{i=1}^n |X_i - \sum \limits_{j=1}^k W_{i,j} X_j|^2$ is minimal (least square problem).
 
 3. Using this matrix as a similarity matrix, find matrix $Y$ of vectors $Y_i$ of low dimensionality, such that the following function is minimized: $\Phi(Y) = |Y_i - \sum \limits_{j=1}^{k} W_{i,j} Y_j|^2$.
 
+
+The matrix W could be find with a simple least squares regression. 
+
+If you have a data matrix $X$ and you're looking for $W$, which best approximates $X$ $\hat{X} = W \cdot X$:
+
+$\begin{pmatrix} \hat{X}_{1,1} && \hat{X}_{1,2} && \hat{X}_{1,3} && \hat{X}_{1,4} \\ \hat{X}_{2,1} && \hat{X}_{2,2} && \hat{X}_{2,3} && \hat{X}_{2,4} \\ \hat{X}_{3,1} && \hat{X}_{3,2} && \hat{X}_{3,3} && \hat{X}_{3,4} \end{pmatrix} = \begin{pmatrix} W_{1,1} && W_{1,2} && W_{1,3} \\ W_{2,1} && W_{2,2} && W_{2,3} \\ W_{3,1} && W_{3,2} && W_{3,3} \end{pmatrix} \cdot \begin{pmatrix} X_{1,1} && X_{1,2} && X_{1,3} && X_{1,4} \\ X_{2,1} && X_{2,2} && X_{2,3} && X_{2,4} \\ X_{3,1} && X_{3,2} && X_{3,3} && X_{3,4} \end{pmatrix}$
+
+Essentially we have a linear regression problem for each row vector $\begin{pmatrix}\hat{X}_{1,1} && \hat{X}_{1,2} && \hat{X}_{1,3} && \hat{X}_{1,4}\end{pmatrix}$, where each of
+its coordinates can be perceived as $y$-s of a data point in regression problem, weights $(W_{1,1}, W_{1,2}, W_{1,3})$ can be viewed
+as regression weights and column-vectors $\begin{pmatrix} X_{1,1} \\ X_{2,1} \\ X_{3,1} \end{pmatrix}$ can be viewed as
+regression factors for current data point.
+
+When it comes to reconstructing low-dimensional representations $Y_i$ from the matrix $W$, again, partial EVD/SVD comes
+in handy.
+
+
+## Spectral embedding and its connection to LLE
+
+TODO
 
 ## References:
 * https://stats.stackexchange.com/questions/14002/whats-the-difference-between-principal-component-analysis-and-multidimensional#:~:text=PCA%20is%20just%20a%20method,MDS%20is%20only%20a%20mapping.
