@@ -71,15 +71,58 @@ $K_c = X_c X_c^T = (I - \frac{1}{n}{\bf 1}_n) X X^T (I - \frac{1}{n}{\bf 1}_n)^T
 
 Now let us consider the pairwise distance matrix $D$ between the $n$ data points:
 
-$D^{(2)} = X X^T$
+$D^{(2)} = \begin{pmatrix} ||X_1||^2_2 - 2 \langle X_1, X_1 \rangle + ||X_1||^2_2 && ||X_1||^2_2 - 2 \langle X_1, X_2 \rangle + ||X_2||^2_2 && ... && ||X_1||^2_2 - 2 \langle X_1, X_n \rangle + ||X_n||^2_2 \\ ... && ... && ... && ... \\ ||X_n||^2_2 - 2 \langle X_n, X_1 \rangle + ||X_1||^2_2 && ||X_n||^2_2 - 2 \langle X_n, X_2 \rangle + ||X_2||^2_2 && ... && ||X_n||^2_2 - 2 \langle X_n, X_n \rangle + ||X_n||^2_2 \end{pmatrix} = $
+
+$ = \underbrace{\begin{pmatrix}||X_1||^2_2 && ||X_1||^2_2 && ... && ||X_1||^2_2 \\ ... && ... && ... && ... \\ ||X_n||^2_2 && ||X_n||^2_2 && ... && ||X_n||^2_2 \end{pmatrix}}_{Z} - 2 \underbrace{\begin{pmatrix} \langle X_1, X_1 \rangle && \langle X_1, X_2 \rangle && ... && \langle X_1, X_n \rangle \\ ... && ... && ... && ... \\ \langle X_n, X_1 \rangle && \langle X_n, X_2 \rangle && ... && \langle X_n, X_n \rangle \end{pmatrix}}_{X X^T} + \underbrace{\begin{pmatrix} ||X_1||^2_2 && ||X_2||^2_2 && ... && ||X_n||^2_2 \\ ... && ... && ... && ... \\ ||X_1||^2_2 && ||X_2||^2_2 && ... && ||X_n||^2_2 \end{pmatrix}}_{Z^T} = $
+
+$ = Z - 2 X X^T + Z^T = {\bf 1} {\bf z}^T - 2 X X^T + {\bf z} {\bf 1}^T$.
+
+Now, $(I - \frac{1}{n} {\bf 1}{\bf 1}^T) D^{(2)} (I - \frac{1}{n} {\bf 1}{\bf 1}^T)^T  =  (I - \frac{1}{n} {\bf 1}{\bf 1}^T) ({\bf 1} {\bf z}^T - 2 X X^T + {\bf z} {\bf 1}^T) (I - \frac{1}{n} {\bf 1}{\bf 1}^T)^T = $
+
+$ = (\cancel{{\bf 1} {\bf z}^T} - \cancel{{\bf 1} {\bf z}^T} - 2 X X^T + \frac{2}{n} {\bf 1}{\bf 1}^T X X^T + {\bf z}{\bf 1}^T - \frac{||\bf z||_1}{n} {\bf 1}{\bf 1}^T) (I - \frac{1}{n} {\bf 1}{\bf 1}^T)^T = $
+
+$ = - 2 X X^T + \frac{2}{n} {\bf 1}{\bf 1}^T X X^T + \cancel{ {\bf z}{\bf 1}^T } - \cancel{ \frac{||\bf z||_1}{n} {\bf 1}{\bf 1}^T } + 2 X X^T \frac{1}{n} {\bf 1}{\bf 1}^T - \frac{2}{n} {\bf 1}{\bf 1}^T X X^T \frac{1}{n} {\bf 1}{\bf 1}^T - \cancel{ {\bf z}{\bf 1}^T \frac{1}{n} {\bf 1}{\bf 1}^T } + \cancel{ \frac{||\bf z||_1}{n} {\bf 1}{\bf 1}^T \frac{1}{n} {\bf 1}{\bf 1}^T } = $
+
+$ = (I - \frac{1}{n} {\bf 1} {\bf 1}^T ) 2 X X^T {\bf 1} {\bf 1}^T  - (I - \frac{1}{n} {\bf 1} {\bf 1}^T ) 2 X X^T = 2 (I - \frac{1}{n} {\bf 1} {\bf 1}^T ) X X^T (I - \frac{1}{n} {\bf 1} {\bf 1}^T ) = 2 (I - \frac{1}{n} {\bf 1} {\bf 1}^T ) K (I - \frac{1}{n} {\bf 1} {\bf 1}^T ) = 2 K_c$.
+
+Hence, as we've just seen, double centering of distances matrix gives us the centered kernel matrix $K_c$.
+
+# Isomap and Locally Linear Embeddings (LLE)
+
+It is not hard to find a limitation in the classical MDS algorithm: oftentimes data points form a so-called manifold in
+the enveloping space. For instance, real-life photos form some shape of the space of all theoretically possible
+640x480 pixel signals. Moreover, this shape is continuous and smooth - you can transition from one real-life photo to
+another one applying small changes.
+
+Hence, the correct way to measure the distances between our data points is not euclidean distances in the enveloping
+space, but geodesic on the manifold. For instance, if we compare photos of lesser panda and giant panda, they'd be close
+in the enveloping space and euclidean distance between them would be small, but they'd be far apart on the manifold,
+because lesser panda is a racoon, and giant panda is a bear.
+
+TODO: swiss roll with pandas
+
+In 2000 two manifold-aware methods were published in the same Science magazine issue.
 
 ## Isomap
 
-TODO
+Isomap works in 3 simple steps:
+
+1. Find k nearest neighbours of each point via kNN. Construct a weighted graph, connecting neighbouring points with edges, where weight of each edge is the Euclidean distance between those points.
+
+2. Construct a distance matrix on that graph, using e.g. Dijkstra algorithm.
+
+3. Using this distance matrix, perform MDS.
 
 ## Locally Linear Embeddings (LLE)
 
-TODO
+LLE is very similar to Isomap, but with a slightly different premise.
+
+1. Find k nearest neighbours of each point via kNN. Construct a weighted graph, connecting neighbouring points with edges, where weight of each edge is the Euclidean distance between those points.
+
+2. Construct a matrix W, such that each data point $X_i$ is most accurately represented as a linear combindation of its neighbours with the weights from this matrix: $\bar{X}_i = \sum \limits_{j=1}^{k} W_{i,i} X_j$, so that $\Phi(X) = \sum \limits_{i=1}^n |X_i - \sum \limits_{j=1}^k W_{i,j} X_j|^2$ is minimal (least square problem).
+
+3. Using this matrix as a similarity matrix, find matrix $Y$ of vectors $Y_i$ of low dimensionality, such that the following function is minimized: $\Phi(Y) = |Y_i - \sum \limits_{j=1}^{k} W_{i,j} Y_j|^2$.
+
 
 ## References:
 * https://stats.stackexchange.com/questions/14002/whats-the-difference-between-principal-component-analysis-and-multidimensional#:~:text=PCA%20is%20just%20a%20method,MDS%20is%20only%20a%20mapping.
@@ -89,3 +132,5 @@ TODO
 * https://www.youtube.com/watch?v=RPjPLlGefzw - a good lecture by Ali Ghodsi
 * https://cs.nyu.edu/~roweis/lle/papers/lleintro.pdf - intro to LLE by Saul and Roweis
 * https://math.stackexchange.com/questions/791877/minimizing-frobenius-norm-for-two-variables
+* https://www.robots.ox.ac.uk/~az/lectures/ml/lle.pdf - LLE paper
+* http://www.cs.umd.edu/~djacobs/CMSC828/MDSexplain.pdf - good explanation of centering in MDS
