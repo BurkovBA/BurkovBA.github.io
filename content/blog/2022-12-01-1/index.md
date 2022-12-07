@@ -87,6 +87,9 @@ $ = (I - \frac{1}{n} {\bf 1} {\bf 1}^T ) 2 X X^T {\bf 1} {\bf 1}^T  - (I - \frac
 
 Hence, as we've just seen, double centering of distances matrix gives us the centered kernel matrix $K_c$.
 
+For this matrix we can easily find an EVD/SVD and use it as a low-dimensional approximation of the matrix $K_c$ (and,
+hence, $D^{(2)}$), providing us with the dimensionality reduction method.
+
 ## Isomap and Locally Linear Embeddings (LLE)
 
 It is not hard to find a limitation in the classical MDS algorithm: oftentimes data points form a so-called manifold in
@@ -96,10 +99,12 @@ another one applying small changes.
 
 Hence, the correct way to measure the distances between our data points is not euclidean distances in the enveloping
 space, but geodesic on the manifold. For instance, if we compare photos of lesser panda and giant panda, they'd be close
-in the enveloping space and euclidean distance between them would be small, but they'd be far apart on the manifold,
-because lesser panda is a racoon, and giant panda is a bear.
+in the enveloping space and euclidean distance $d_e$ between them would be small, but they'd be far apart on the manifold,
+because lesser panda is a racoon, and giant panda is a bear, so geodesic distance between them $d_g$ would be large.
 
-TODO: swiss roll with pandas
+![pandas](./pandas.png)<center>**Manifold of photos.** Each data point corresponds to a photo. Photos of giant panda and
+lesser panda are close in euclidean distance $d_e$, because they look similar, but far apart in geodesic distance $d_g$,
+because they actually belong to very different taxa.</center>
 
 In 2000 two manifold-aware methods were published in the same Science magazine issue.
 
@@ -139,13 +144,155 @@ When it comes to reconstructing low-dimensional representations $Y_i$ from the m
 in handy.
 
 
-## Spectral embedding and its connection to LLE
+## Spectral embedding
+
+Finally, let us consider Laplacian Eigenmaps algorithm as an implementation of spectral embedding.
+
+It turns out that it draws connections to both LLE and normalized cut algorithm, considered in my [previous post](http://localhost:8000/2022-08-31-1/).
+
+Again, the alogrithm consists of 3 steps, similar to those considered above:
+
+1. Find k nearest neighbours (or, alternatively, $\epsilon$-neighbourhood) of each data point.
+
+2. Construct a weighted graph, so that the weights of each edge, connecting neighbouring vertices is a heat kernel: $W_{i,j} = e^{-\frac{|| x_i - x_j ||^2}{t}}$. Alternatively just assign neighbour edges lengths 1 and non-neighbour - length 0 (which actually corresponds to $t = \infty$). 
+
+3. Calculate the Laplacian matrix of this graph $L = D - W$ (where $D$ is as usual a diagonal matrix of degrees of vertices) and solve the normalized Laplacian equation for eigenvectors and eigenvalues:
+
+$L f = \lambda D f$
+
+Again, 0 eigenvalue corresponds to a trivial solution. Eigenvectors other than that are useful. 
+
+### Justification of algorithm
+
+#### Representation as a trace of Laplacian
+
+Suppose that you want to project the dataset onto a single line that preserves the squares of distances between points
+as well as possible. This is very similar to a directional derivative: when you're looking for a direction vector 
+$\bf d$, which maximizes the derivative of a function $f()$ in that direction, which means that $\langle {\bf d}, \nabla f \rangle$., 
+which means that the optimal ${\bf d} = \nabla f$, because $\langle \nabla f, \nabla f \rangle$ is the maximum.
+
+So, let us write this mathematically: we're looking for a vector ${\bf y} = (y_1, y_2, ..., y_n)^T$ maximizing $\langle W, Y^{(i-j)} \rangle$,
+where 
+
+$Y^{i-j} = \begin{pmatrix} (y_{1} - y_{1})^2 && (y_{1} - y_{2})^2 && ... && (y_{1} - y_{n})^2 \\ (y_{2} - y_{1})^2 && (y_{2} - y_{2})^2 && ... && (y_{2} - y_{n})^2 \\ ... && ... && ... && ... \\ (y_{n} - y_{1})^2 && (y_{n} - y_{2})^2 && ... && (y_{n} - y_{n})^2 \end{pmatrix}$
+
+Rewriting this in a one-line notation, we're looking for ${\bf y} = (y_1, y_2, ..., y_n)^T$, such that ${\bf y^*} = \arg \max_{\bf y} \sum \limits_i \sum \limits_j W_{i,j} (y_i - y_j)^2$.
+
+This maximization problem is equivalent to minimization problem of a quadratic form with a Laplacian attaining its minimum:
+
+${\bf y^*} = \arg \max_{\bf y} \sum \limits_i \sum \limits_j W_{i,j} (y_i - y_j)^2 = \arg \min \limits_{\substack{ {\bf y^T} D {\bf y} = 1 \\ {\bf y}^T D {\bf 1} = 0 } } {\bf y}^T L {\bf y}$.
+
+Let us show this fact:
+
+${\bf y}^T L {\bf y} = \begin{pmatrix} y_1 && y_2 && ... && y_n \end{pmatrix} \begin{pmatrix} W_{1,1} - \sum_i W_{1,i} && W_{1,2} && ... && W_{1,n} \\ W_{2,1} && W_{2,2} - \sum_i W_{2,i} && ... && W_{2,n} \\ ... && ... && ... && ... \\ W_{n,1} && W_{n,2} && ... && W_{n,n} - \sum_i W_{n,i} \end{pmatrix} \begin{pmatrix} y_1 \\ y_2 \\ ... \\ y_n \end{pmatrix} = $
+
+$ = \begin{pmatrix} W_{1,1} y_1 y_1 && W_{1,2} y_1 y_2 && ... && W_{1,n} y_1 y_n \\ W_{2,1} y_2 y_1 && W_{2,2} y_2 y_2 && ... && W_{2,n} y_2 y_n \\ ... && ... && ... && ... \\ W_{n,1} y_n y_1 && W_{n,2} y_n y_2 && ... && W_{n,n} y_n y_n \\ \end{pmatrix} - \begin{pmatrix} \sum_i W_{1,i} y_1^2 && 0 && ... && 0 \\ 0 && \sum_i W_{2,i} y_2^2 && ... && 0 \\ ... && ... && ... && ... \\ 0 && 0 && ... && \sum_i W_{n,i} y_n^2 \end{pmatrix} =$
+
+$ = \sum_{i,j} W_{i,j} y_i y_j - \sum_i \sum_j W_{i,j} y_j^2 = - \frac{1}{2} (\sum_i \sum_j W_{i,j} y_i^2 - 2 \sum_{i,j} W_{i,j} y_i y_j + \sum_i \sum_j W_{i,j} y_j^2) = -\frac{1}{2} \sum_i \sum_j W_{i,j} (y_i - y_j)^2$.
+
+Conditions are the same as in Normalized Cut algorithm, see my two previous posts on ECI and Normalized Cut.
+
+In a more general case, if we're looking for a low-dimensional ($p$-dimensional) approximation $Y = \begin{pmatrix} y_{1,1} && y_{1,2} && ... && y_{1,p} \\ y_{2,1} && y_{2,2} && ... && y_{2,p} \\ ... && ... && ... && ... \\ y_{n,1} && y_{n,2} && ... && y_{n,p} \end{pmatrix}$ of our distance matrix $W$, we come to:
+
+$\arg \min \limits_{Y^T D Y^T = I} Tr(Y^T L Y)$
+
+Again, this result was shown in the section of [one of my previous posts](/2022-08-31-1), dedicated to the Normalized Cut algorithm.
+
+#### Laplace-Beltrami operator on a manifold guarantees optimality of mapping
+
+Interestingly, here algebraic theory connects with differential geometry.
+
+Recall that Laplacian of a graph bears this name for a reason: it is essentially the same Laplacian as in field theory (see my [post on Laplacian in field theory](/2021-09-20-1/)). In case of functions, defined on manifolds, is also generalized by Laplace-Beltrami operator.
+
+Suppose that our data points lie on a manifold. We shall be looking for a function $f: \mathcal{M} \to \mathbb{R}$, mapping points of our manifold to a line ($\mathbb{R}^1$). This approach is somewhat similar to PCA.
+
+Consider two points $x$ and $z$, lying at a small distance $l$ from each other. Consider a geodesic curve $c$, connecting them. Then $x = c(0)$ and $z = c(l)$.
+
+$f(z) = f(x) + \int \limits_0^l \langle \nabla f(c(t)), c'(t) \rangle$ dt
+
+TODO: explain, how we come from here to minimization of gradient square:
+
+Hence, we are looking for a function $f$, such that it minimizes the following quantity:
+
+$f^* = \arg \min \limits_{ ||f||_{ L^2(\mathcal{M}) } = 1 } \int_{\mathcal{M}} || \nabla f(x) ||^2$
+
+This statement corresponds to $\sum \limits_{i} \sum \limits_{j} W_{i,j} (y_i - y_j)^2$ in discrete case.
+
+TODO: explain, why!
+
+Recall that Laplacian is by definition divergence of gradient (again, see my [post on Laplacian in field theory](/2021-09-20-1/)):
+
+$\mathcal{L}(f) = - div \nabla (f) = \nabla \cdot \nabla f$
+
+Stokes' theorem states that $\int_{\mathcal{M}} \langle X, \nabla f \rangle = \int_{\mathcal{M}} - div(X) f$. 
+
+TODO: give an idea of Stokes theorem in a few words
+
+Apply this to our previous line: 
+
+$\int_{\mathcal{M}} || f(x) ||^2 = \int_{\mathcal{M}} \langle \nabla f, \nabla f \rangle = \int_{\mathcal{M}} -div(\nabla f) f = \int_{\mathcal{M}} \mathcal{L}(f) f$
+
+#### Heat Kernel
+
+Solution of our optimization problem draws close analogies with diffusion/heat equation:
+
+$\frac{\partial u}{\partial t} = - \mathcal{L} u$
+
+This equation gives us an idea of how the eigenfunctions for Laplacian would look like:
+
+$H_t(x,y) = (4 \pi t)^{-\frac{m}{2}} e^{-\frac{||x - y||^2}{4t}}$
+
+$\mathcal{L} f(x) \approx \frac{1}{t} (f(x) - (4 \pi t)^{-\frac{m}{2}} \int_{\mathcal{M}} e^{- \frac{|| x - y ||^2}{4t} } f(y) dy )$
+
+$\mathcal{L} f(x) \approx \frac{1}{t} (f(x) - (4 \pi t)^{-\frac{m}{2}} \int_{\mathcal{M}} e^{- \frac{|| x - y ||^2}{4t} } f(y) dy )$
+
+In discrete case, quantify this expression to:
+
+$\mathcal{L} f(x_i) \approx \frac{1}{t} (f(x_i) - \frac{1}{k} (4 \pi t)^{-\frac{m}{2}} \sum \limits_{x_j: 0 < || x_i - x_j || < \epsilon} e^{ -\frac{||x_i - x_j||^2}{4t}} f(x_j))$
+
+Inherent dimensionality of $\mathcal{M}$ might be unknown, hence, we put $\alpha = \frac{1}{k} (4 \pi t)^{-\frac{m}{2} }$.
+
+Since Laplacian of a constant function is 0, $\alpha = ( \sum \limits_{x_j: 0 < || x_i - x_j || < \epsilon} e^{ -\frac{||x_i - x_j||^2}{4t}} f(x_j) )^{-1}$
+
+This leads to several approximation schemes, and the authors of Laplacian eigenmaps use the following:
+
+$W_{i,j} = \begin{cases} e^{-\frac{|| x_i - x_j ||^2}{4t}}, if || x_i - x_j || \le \epsilon \\ 0, otherwise \end{cases}$
+
+### Connection to Normalized Cut
+
+Please, refer to my previous posts on [Normalized Cut](/2022-08-31-1) and [Economic Complexity Index](/2022-11-11-1).
+
+### Connection to LLE
+
+This one is instetsting.
+
+$E = (I - W)^T (I - W)$
+
+$Ef \approx \frac{1}{2} \mathcal{L}^2 f$
+
+Hence, eigenvectors of $E$ coincide with the eigenvectors of Laplacian $\mathcal{L}$. Let us prove this.
+
+#### Step 1. Hessian approximation
+
+$(I-W) f \approx -\frac{1}{2} \sum \limits_j W_{i,j} (x_i - x_j)^T H (x_i - x_j)$
+
+TODO
+
+#### Step 2. Laplacian is a trace of Hessian
+
+$\sum_j v_j^T H v_j = tr(H) = \mathcal{L} f$
+
+TODO
+
+#### Step 3. Apply the results of steps 1 and 2
+
+$(I-W)^T (I-W) f \approx \frac{1}{2} \mathcal{L}^2 f$
 
 TODO
 
 ## References:
 * https://stats.stackexchange.com/questions/14002/whats-the-difference-between-principal-component-analysis-and-multidimensional#:~:text=PCA%20is%20just%20a%20method,MDS%20is%20only%20a%20mapping.
-* https://web.cse.ohio-state.edu/~belkin.8/papers/LEM_NC_03.pdf - a great paper by M.Belkin and P.Niyogi on connections between LLE and spectral embeddings
+* https://web.cse.ohio-state.edu/~belkin.8/papers/LEM_NC_03.pdf - a great paper by M.Belkin and P.Niyogi on connections between LLE and Laplacian Eigenmaps spectral embeddings
 * https://scikit-learn.org/stable/modules/manifold.html
 * https://www.youtube.com/watch?v=GEn-_dAyYME
 * https://www.youtube.com/watch?v=RPjPLlGefzw - a good lecture by Ali Ghodsi
