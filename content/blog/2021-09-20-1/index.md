@@ -34,7 +34,7 @@ $\nabla \cdot F(x,y,z) = \lim \limits_{S, V \to 0} \oiint \limits_S \frac{1}{|V|
 
 ### Technical definition
 
-Technically, divergence of a vector field $\vec{F}$ is a sum of its partial derivatives of the vector field coordinates: $\nabla \cdot F(x,y,z) = \frac{\partial F_x}{x} + \frac{\partial F_y}{y} + \frac{\partial F_y}{z}$. 
+Technically, divergence of a vector field $\vec{F}$ is a sum of its partial derivatives of the vector field coordinates: $\nabla \cdot F(x,y,z) = \frac{\partial F_x}{\partial x} + \frac{\partial F_y}{\partial y} + \frac{\partial F_y}{\partial z}$. 
 
 Note that $\vec{F}$ is a vector field, not a scalar field. So, divergence **is not** just a dot product of gradient 
 by (1,1,1) vector, as the notation abuse might suggest.
@@ -55,13 +55,13 @@ Thus, the total divergence equals $\nabla \cdot F(x,y,z) = \nabla_x \cdot F(x,y,
 
 Let us calculate the divergence through the two faces, orthogonal to $x$ axis: 
 
-$\nabla_x F(x, y, z) = \frac{1}{V} (F_x(x+\frac{dx}{2}, y, z) - F_x(x-\frac{dx}{2}, y, z)) \cdot S = \frac{1}{dx \cdot dy \cdot dz} (F_x(x+\frac{dx}{2}, y, z) - F_x(x-\frac{dx}{2}, y, z)) \cdot dy \cdot dz =$
+$\nabla_x \cdot F(x, y, z) = \frac{1}{V} (F_x(x+\frac{dx}{2}, y, z) - F_x(x-\frac{dx}{2}, y, z)) \cdot S = \frac{1}{dx \cdot dy \cdot dz} (F_x(x+\frac{dx}{2}, y, z) - F_x(x-\frac{dx}{2}, y, z)) \cdot dy \cdot dz =$
 
 $ = \frac{1}{dx \cdot dy \cdot dz} F_x'(x, y ,z) \cdot dx \cdot dy \cdot dz = F_x'(x, y ,z)$
 
 So, the total divergence is:
 
-$\nabla F(x, y, z) = \nabla_x F(x, y, z) + \nabla_y F(x, y, z) + \nabla_z F(x, y, z) = F_x'(x, y ,z) + F_y'(x, y ,z) + F_z'(x, y ,z)$
+$\nabla \cdot F(x, y, z) = \nabla_x F(x, y, z) + \nabla_y F(x, y, z) + \nabla_z F(x, y, z) = F_x'(x, y ,z) + F_y'(x, y ,z) + F_z'(x, y ,z)$
 
 We see that conceptual definition converged to the technical definition.
 
