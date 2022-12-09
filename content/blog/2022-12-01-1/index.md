@@ -124,7 +124,7 @@ LLE is very similar to Isomap, but with a slightly different premise.
 
 1. Find k nearest neighbours of each point. Construct a weighted graph, connecting neighbouring points with edges, where weight of each edge is the Euclidean distance between those points.
 
-2. Construct a matrix W, such that each data point $X_i$ is most accurately represented as a linear combindation of its neighbours with the weights from this matrix: $\bar{X}_i = \sum \limits_{j=1}^{k} W_{i,i} X_j$, so that $\Phi(X) = \sum \limits_{i=1}^n |X_i - \sum \limits_{j=1}^k W_{i,j} X_j|^2$ is minimal (least square problem).
+2. Construct a matrix W, such that each data point $X_i$ is most accurately represented as a linear combindation of its neighbours with the weights from this matrix: $\bar{X}_i = \sum \limits_{j=1}^{k} W_{i,j} X_j$, so that $\Phi(X) = \sum \limits_{i=1}^n |X_i - \sum \limits_{j=1}^k W_{i,j} X_j|^2$ is minimal (least square problem).
 
 3. Using this matrix as a similarity matrix, find matrix $Y$ of vectors $Y_i$ of low dimensionality, such that the following function is minimized: $\Phi(Y) = |Y_i - \sum \limits_{j=1}^{k} W_{i,j} Y_j|^2$.
 
@@ -162,7 +162,7 @@ $L f = \lambda D f$
 
 Again, 0 eigenvalue corresponds to a trivial solution. Eigenvectors other than that are useful. 
 
-### Justification of algorithm
+### Justification of the algorithm
 
 #### Representation as a trace of Laplacian
 
@@ -208,9 +208,15 @@ Suppose that our data points lie on a manifold. We shall be looking for a functi
 
 Consider two points $x$ and $z$, lying at a small distance $l$ from each other. Consider a geodesic curve $c$, connecting them. Then $x = c(0)$ and $z = c(l)$.
 
-$f(z) = f(x) + \int \limits_0^l \langle \nabla f(c(t)), c'(t) \rangle$ dt
+$f(z) = f(x) + \int \limits_0^l \langle \nabla f(c(t)), c'(t) \rangle dt$
 
-TODO: explain, how we come from here to minimization of gradient square:
+In this expression $c'(t)$ defines the direction of the geodesic curve at each point and its dot product with the 
+gradient of $f(c(t))$ gives us directional derivative. Integrating this directional derivative over the length of
+the curve results in the distance between the ends of the geodesic.
+
+By Schwartz Inequality $\langle \nabla f(c(t)), c'(t) \rangle \le || \nabla f(c(t)) || \cdot || c'(t) || = || \nabla f(c(t)) ||$
+
+TODO: finish the logic of this piece
 
 Hence, we are looking for a function $f$, such that it minimizes the following quantity:
 
@@ -224,13 +230,21 @@ Recall that Laplacian is by definition divergence of gradient (again, see my [po
 
 $\mathcal{L}(f) = - div \nabla (f) = \nabla \cdot \nabla f$
 
-Stokes' theorem states that $\int_{\mathcal{M}} \langle X, \nabla f \rangle = \int_{\mathcal{M}} - div(X) f$. 
+We shall establish that $\int_{\mathcal{M}} || \nabla f(x) ||^2 = \int_{\mathcal{M}} \mathcal{L}(f) f$.
 
-TODO: give an idea of Stokes theorem in a few words
+This fact is shown in 3 steps (see [this answer on StackOverflow](https://math.stackexchange.com/questions/2509357/why-is-negative-divergence-an-adjoint-of-gradient)). Consider a function $f$ and a vector field $X$:
+
+1) multivariate/operator calculus version of product derivative rule: $\nabla \cdot (f X) = \langle \nabla f, X \rangle + f \nabla \cdot X$
+
+2) application of Gauss-Ostrogradsky theorem: $\int_{\mathcal{M}} \nabla \cdot (f X) dV = \int_{\delta \mathcal{M}} \langle (f X), n \rangle dS$
+
+3) manifold has 0 bound, hence $\int_{\delta \mathcal{M}} \langle (f X), n \rangle dS = 0$
+
+Applying (3) to (1), we get: $\int_{\mathcal{M}} \langle \nabla f, X \rangle dV + \int_{\mathcal{M}} f \nabla \cdot X dV = 0$ and $\int_{\mathcal{M}} \langle \nabla f, X \rangle dV = - \int_{\mathcal{M}} f \nabla \cdot X dV$
 
 Apply this to our previous line: 
 
-$\int_{\mathcal{M}} || f(x) ||^2 = \int_{\mathcal{M}} \langle \nabla f, \nabla f \rangle = \int_{\mathcal{M}} -div(\nabla f) f = \int_{\mathcal{M}} \mathcal{L}(f) f$
+$\int_{\mathcal{M}} || \nabla f(x) ||^2 = \int_{\mathcal{M}} \langle \nabla f, \nabla f \rangle = \int_{\mathcal{M}} -div(\nabla f) f = \int_{\mathcal{M}} \mathcal{L}(f) f$
 
 #### Heat Kernel
 
@@ -260,7 +274,9 @@ $W_{i,j} = \begin{cases} e^{-\frac{|| x_i - x_j ||^2}{4t}}, if || x_i - x_j || \
 
 ### Connection to Normalized Cut
 
-Please, refer to my previous posts on [Normalized Cut](/2022-08-31-1) and [Economic Complexity Index](/2022-11-11-1).
+Please, refer to my previous posts on [Normalized Cut](/2022-08-31-1) and [Economic Complexity Index](/2022-11-11-1), where
+Normalized Cut algorithm is derived and explained. Conditions of Laplacian Eigenmaps are identical to
+the conditions of Normalized Cut.
 
 ### Connection to LLE
 
@@ -276,19 +292,45 @@ Hence, eigenvectors of $E$ coincide with the eigenvectors of Laplacian $\mathcal
 
 $(I-W) f \approx -\frac{1}{2} \sum \limits_j W_{i,j} (x_i - x_j)^T H (x_i - x_j)$
 
-TODO
+Let us use Taylor series approximation of our function $f()$ at each of the neighbouring points $x_j$ near the point $x_i$:
+
+$f(x_j) = f(x_i) + \langle \nabla f(x_i), (x_i - x_j) \rangle + \frac{1}{2} (x_i - x_j)^T H (x_i - x_j) + o(||x_i - x_j||^2)$
+
+At the same time each row of $(I-W) f(x)$ equals $f(x_i) - \sum \limits_j f(x_j)$. Substitute Taylor series approximation of $f(x_j)$ into it:
+
+$f(x_i) - \sum \limits_j W_{i,j} f(x_j) \approx f(x_i) - \sum \limits_j W_{i,j} f(x_i) - \sum \limits_j W_{i,j} \langle \nabla f(x_i), (x_i - x_j) \rangle - \frac{1}{2} \sum \limits_j W_{i,j} (x_i - x_j)^T H (x_i - x_j) + o(||x_i - x_j|^2)$
+
+First, recall that $\sum \limits_j W_{i,j} = 1$ and $\sum \limits_j W_{i,j} f(x_i) = f(x_i)$.
+
+Second, $\sum \limits_j W_{i,j} (x_i - x_j) \approx 0$, because $\sum \limits_j W_{i,j} x_i = x_i$ and $\sum \limits_j W_{i,j} x_j \approx x_i$. 
+
+So, $\sum \limits_j W_{i,j} \langle \nabla f(x_i), (x_i - x_j) \rangle = \langle \nabla f(x_i), \sum \limits_j W_{i,j} (x_i - x_j) \rangle \approx \langle \nabla f(x_i), 0 \rangle = 0 $
+
+Hence, $f(x_i) - \sum \limits_j W_{i,j} f(x_j) \approx \cancel{f(x_i)} - \cancel{f(x_i)} - \cancel{ \sum \limits_j W_{i,j} \langle \nabla f(x_i), (x_i - x_j) \rangle } - \frac{1}{2} \sum \limits_j W_{i,j} (x_i - x_j)^T H (x_i - x_j) + o(||x_i - x_j|^2) \approx$
+
+$\approx - \frac{1}{2} \sum \limits_j W_{i,j} (x_i - x_j)^T H (x_i - x_j)$.
 
 #### Step 2. Laplacian is a trace of Hessian
 
-$\sum_j v_j^T H v_j = tr(H) = \mathcal{L} f$
+$\sum \limits_j W_{i,j} (x_i - x_j)^T H (x_i - x_j) = Tr(H) = \mathcal{L} f$
 
-TODO
+Denote eigenvectors of Hessian $\bf e_k$ and corresponding eigenvalues $\lambda_k$.
+
+$(x_i - x_j) = \sum \limits_k \langle e_k, (x_i - x_j) \rangle {\bf e_k}$
+
+Hence, $(x_i - x_j)^T H (x_i - x_j) = \sum \limits_k \langle e_k, (x_i - x_j) \rangle^2 \lambda_k \underbrace{||{\bf e_k}||^2}_{=1} = \sum \limits_k \langle e_k, (x_i - x_j) \rangle^2 \lambda_k$.
+
+Under assumption that points $x_j$ are randomly sampled around $x_i$, we assume that $\mathbb{E} \langle e_k, (x_i - x_j) \rangle = r$ and hence:
+
+$\mathbb{E} (x_i - x_j)^T H (x_i - x_j) = r \sum \limits_k \lambda_k = r \cdot Tr(H) = r \cdot \mathcal{L} f$
+
+Hence, $\sum \limits_j W_{i,j} (x_i - x_j)^T H (x_i - x_j) \approx \mathbb{E} (x_i - x_j)^T H (x_i - x_j) = r \cdot Tr(H) = r \cdot \mathcal{L} f$
 
 #### Step 3. Apply the results of steps 1 and 2
 
-$(I-W)^T (I-W) f \approx \frac{1}{2} \mathcal{L}^2 f$
+$(I - W)^T (I - W) f \approx \frac{1}{2} \mathcal{L}^2 f$
 
-TODO
+$f^T (I - W)^T (I - W) f \approx \frac{1}{2} (\mathcal{L} f)^T \mathcal{L} f = \frac{1}{2} \mathcal{L}^2 f$
 
 ## References:
 * https://stats.stackexchange.com/questions/14002/whats-the-difference-between-principal-component-analysis-and-multidimensional#:~:text=PCA%20is%20just%20a%20method,MDS%20is%20only%20a%20mapping.
@@ -300,3 +342,6 @@ TODO
 * https://math.stackexchange.com/questions/791877/minimizing-frobenius-norm-for-two-variables
 * https://www.robots.ox.ac.uk/~az/lectures/ml/lle.pdf - LLE paper
 * http://www.cs.umd.edu/~djacobs/CMSC828/MDSexplain.pdf - good explanation of centering in MDS
+* https://math.stackexchange.com/questions/12894/distinction-between-adjoint-and-formal-adjoint - on formally adjoint operators
+* https://www.johndcook.com/multi_index.pdf - on multi-index notation
+* https://math.stackexchange.com/questions/2509357/why-is-negative-divergence-an-adjoint-of-gradient - on why gradient and neg divergence are adjoint
