@@ -1,6 +1,6 @@
 ---
 title: MDS, Isomap, LLE, Spectral embedding
-date: "2022-12-01T00:00:00.284Z"
+date: "2022-12-10T00:00:00.284Z"
 tags: ["math"]
 cover: "./geodesic_vs_euclidean.png"
 description: In this post I investigate the multi-dimentional scaling algorithm and its manifold structure-aware flavours.  
