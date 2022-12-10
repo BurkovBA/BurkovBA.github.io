@@ -140,12 +140,16 @@ its coordinates can be perceived as $y$-s of a data point in regression problem,
 as regression weights and column-vectors $\begin{pmatrix} X_{1,1} \\ X_{2,1} \\ X_{3,1} \end{pmatrix}$ can be viewed as
 regression factors for current data point.
 
-When it comes to reconstructing low-dimensional representations $Y_i$ from the matrix $W$, again, partial EVD/SVD comes
-in handy.
+An alternative representation of our optimization problem is $Y^T (I-W)^T (I-W) Y$. Again, this is a quadratic form,
+which can be minimized by finding eigenvectors and eigenvalues of an extreme value decomposition of matrix
+$E = (I-W)^T (I-W)$: 
 
-It can be shown, that you need to find eigenvectors of a matrix $(I-W)^T (I-W)$.
+$E Y = \Lambda Y$,
 
-## Spectral embedding
+where $\Lambda$ is a diagonal matrix of eigenvalues and $Y$ is the matrix of eigenvectors. We might need double centering
+just as in MDS, which will lead us to a generalized EVD problem.
+
+## Spectral embedding through Laplacian Eigenmaps
 
 Finally, let us consider Laplacian Eigenmaps algorithm as an implementation of spectral embedding.
 
@@ -191,7 +195,7 @@ $ = \begin{pmatrix} W_{1,1} y_1 y_1 && W_{1,2} y_1 y_2 && ... && W_{1,n} y_1 y_n
 
 $ = \sum_{i,j} W_{i,j} y_i y_j - \sum_i \sum_j W_{i,j} y_j^2 = - \frac{1}{2} (\sum_i \sum_j W_{i,j} y_i^2 - 2 \sum_{i,j} W_{i,j} y_i y_j + \sum_i \sum_j W_{i,j} y_j^2) = -\frac{1}{2} \sum_i \sum_j W_{i,j} (y_i - y_j)^2$.
 
-Conditions are the same as in Normalized Cut algorithm, see my two previous posts on ECI and Normalized Cut.
+Conditions are the same as in Normalized Cut algorithm, see my two previous posts on [ECI](/2022-11-11-1) and [final Normalized Cut part of NMF/k-means/Normalized Cut](/2022-08-31-1).
 
 In a more general case, if we're looking for a low-dimensional ($p$-dimensional) approximation $Y = \begin{pmatrix} y_{1,1} && y_{1,2} && ... && y_{1,p} \\ y_{2,1} && y_{2,2} && ... && y_{2,p} \\ ... && ... && ... && ... \\ y_{n,1} && y_{n,2} && ... && y_{n,p} \end{pmatrix}$ of our distance matrix $W$, we come to:
 
@@ -201,16 +205,17 @@ Again, this result was shown in the section of [one of my previous posts](/2022-
 
 #### Laplace-Beltrami operator on a manifold guarantees optimality of mapping
 
-Interestingly, here algebraic theory connects with differential geometry.
+Interestingly, here algebraic graph theory connects with differential geometry.
 
-Recall that Laplacian of a graph bears this name for a reason: it is essentially the same Laplacian as in field theory (see my [post on Laplacian in field theory](/2021-09-20-1/)). In case of functions, defined on manifolds, is also generalized by Laplace-Beltrami operator.
+Recall that Laplacian of a graph bears this name for a reason: it is essentially the same Laplacian as in field theory (see my [post on Laplacian in field theory](/2021-09-20-1/)) and [this excellent post by Matthew Bernstein](https://mbernste.github.io/posts/laplacian_matrix/). In case of functions, defined on manifolds, it is also generalized by Laplace-Beltrami operator.
 
-Suppose that our data points lie on a manifold. We shall be looking for a function $f: \mathcal{M} \to \mathbb{R}$, mapping points of our manifold to a line ($\mathbb{R}^1$). This approach is somewhat similar to PCA.
+Suppose that our data points lie on a manifold. We shall be looking for a function $f: \mathcal{M} \to \mathbb{R}$, mapping points of our manifold to a line ($\mathbb{R}^1$). This approach is somewhat similar to incrementally finding more and more directions that maximize explained variance in data in [PCA](/2021-07-12-1/).
 
-In discrete graph case we were looking for vectors $\bf y$ such that the 
-quantity $\sum \limits_{i} \sum \limits_{j} W_{i,j} (y_i - y_j)^2$ was maximized. Recall that it can be represented as
+In discrete graph case we were looking for vectors $\bf y$, analogous to $f$, such that the
+quantity $\sum \limits_{i} \sum \limits_{j} W_{i,j} (y_i - y_j)^2$ was maximized. Recall that the optimized quantity was
+alternatively represented as
 $\sum \limits_{i} \sum \limits_{j} W_{i,j} (y_i - y_j)^2 = {\bf y}^T L {\bf y} = {\bf y}^T V^T \cdot V {\bf y}$. Here
-$V$ is a discrete matrix, analogous to divergence, applied at each point of vector $y$ of points.
+$V$ is a discrete matrix, analogous to divergence (again, see [Matthew Bernstein post](https://mbernste.github.io/posts/laplacian_matrix/)), applied at each point of vector $\bf y$ of points.
 
 In a continuous case the counterpart of this expression would be $\int_{\mathcal{M}} \langle \nabla f(x), \nabla f(x) \rangle = \int_{\mathcal{M}} ||\nabla f(x)||^2$. Here we replaced the discrete $V$ matrix with a continuous gradient, 
 their dot product draws similarities to divergence and sum is replaced with integral over the manifold.
@@ -334,4 +339,5 @@ $f^T (I - W)^T (I - W) f \approx \frac{1}{2} (\mathcal{L} f)^T \mathcal{L} f = \
 * https://math.stackexchange.com/questions/12894/distinction-between-adjoint-and-formal-adjoint - on formally adjoint operators
 * https://www.johndcook.com/multi_index.pdf - on multi-index notation
 * https://math.stackexchange.com/questions/2509357/why-is-negative-divergence-an-adjoint-of-gradient - on why gradient and neg divergence are adjoint
-; https://mbernste.github.io/posts/laplacian_matrix/ - great explanation of graph/continuous Laplacian
+* https://mbernste.github.io/posts/laplacian_matrix/ - great explanation of graph/continuous Laplacian
+* https://stats.stackexchange.com/questions/82037/explain-steps-of-lle-local-linear-embedding-algorithm - an alternative representation of LLE
