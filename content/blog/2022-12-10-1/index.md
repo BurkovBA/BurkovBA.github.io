@@ -41,15 +41,15 @@ The best rank 2 approximation of $K$ in terms of Frobenius norm is given by its 
 
 This can be shown by iteratively applying $|| K - \sigma_1 u_1 v_1^T||^2_F = \sum \limits_{i=2}^n \sigma_i^2$ (e.g. see [this SO post](https://math.stackexchange.com/questions/791877/minimizing-frobenius-norm-for-two-variables))
 
-In this case $S$ matrix is a Gram matrix, so its SVD is symmetrix $K = U D V^T = U D U^T$.
+In this case $K$ matrix is a Gram matrix, so its SVD is symmetrix $K = U D V^T = U D U^T$.
 
 Now, how do we get from $D$ matrix to $K$ matrix? See the next section.
 
 ### Kernelization and double centering
 
-For now consider a matrix $X_c = \begin{pmatrix} x_{1,1} - \frac{\sum_{i=1}^{n} x_{i,1}}{n} && x_{1,2} - \frac{\sum_{i=1}^{n} x_{i,2}}{n} && x_{1,p} - \frac{\sum_{i=1}^{n} x_{i,p}}{n} \\ ... && ... && ... \\ x_{n,1} - \frac{\sum_{i=1}^{n} x_{i,1}}{n} && x_{n,2} - \frac{\sum_{i=1}^{n} x_{i,2}}{n} && x_{n,p} - \frac{\sum_{i=1}^{n} x_{i,p}}{n} \end{pmatrix}$, where we subtracted column means from each element, so that all the columns have 0 sum.
+For now consider a matrix $X_c = \begin{pmatrix} x_{1,1} - \frac{\sum_{i=1}^{n} x_{i,1}}{n} && x_{1,2} - \frac{\sum_{i=1}^{n} x_{i,2}}{n} && x_{1,p} - \frac{\sum_{i=1}^{n} x_{i,p}}{n} \\ ... && ... && ... \\ x_{n,1} - \frac{\sum_{i=1}^{n} x_{i,1}}{n} && x_{n,2} - \frac{\sum_{i=1}^{n} x_{i,2}}{n} && x_{n,p} - \frac{\sum_{i=1}^{n} x_{i,p}}{n} \end{pmatrix}$, where we subtracted column means from each element, so that all the columns have zero sum.
 
-We can do its SVD $X_c = U D V^T$. And we can attain two Gram matrices out of it, left and right.
+Through SVD we can represent it as $X_c = U D V^T$. And we can attain two Gram matrices out of it, left and right.
 
 One of our Gram matrices would be a $p$-by-$p$ covariance matrix, used in PCA:
 
@@ -92,10 +92,10 @@ hence, $D^{(2)}$), providing us with the dimensionality reduction method.
 
 ## Isomap and Locally Linear Embeddings (LLE)
 
-It is not hard to find a limitation in the classical MDS algorithm: oftentimes data points form a so-called manifold in
-the enveloping space. For instance, real-life photos form some shape of the space of all theoretically possible
-640x480 pixel signals. Moreover, this shape is continuous and smooth - you can transition from one real-life photo to
-another one applying small changes.
+It is easy to observe a limitation to the classical MDS algorithm: oftentimes data points form a so-called manifold in
+the enveloping space. For instance, real-life 640x480 photos occupy only a small part of the space of all theoretically 
+possible 640x480 pixel signals. Moreover, this shape is continuous and smooth - you can transition from one real-life 
+photo to another one applying small changes.
 
 Hence, the correct way to measure the distances between our data points is not euclidean distances in the enveloping
 space, but geodesic on the manifold. For instance, if we compare photos of lesser panda and giant panda, they'd be close
@@ -117,6 +117,8 @@ Isomap works in 3 simple steps:
 2. Construct a distance matrix on that graph, using e.g. Dijkstra's algorithm.
 
 3. Using this distance matrix, perform MDS.
+
+I don't know what to add. The method is straightforward and self-explanatory, but beautiful.
 
 ### Locally Linear Embeddings (LLE)
 
@@ -140,7 +142,7 @@ its coordinates can be perceived as $y$-s of a data point in regression problem,
 as regression weights and column-vectors $\begin{pmatrix} X_{1,1} \\ X_{2,1} \\ X_{3,1} \end{pmatrix}$ can be viewed as
 regression factors for current data point.
 
-An alternative representation of our optimization problem is $Y^T (I-W)^T (I-W) Y$. Again, this is a quadratic form,
+An alternative representation of our optimization problem is $(Y_i - \sum \limits_j W_{i,j}Y_j)^2 = Y^T (I-W)^T (I-W) Y$. Again, this is a quadratic form,
 which can be minimized by finding eigenvectors and eigenvalues of an extreme value decomposition of matrix
 $E = (I-W)^T (I-W)$: 
 
