@@ -143,6 +143,7 @@ regression factors for current data point.
 When it comes to reconstructing low-dimensional representations $Y_i$ from the matrix $W$, again, partial EVD/SVD comes
 in handy.
 
+It can be shown, that you need to find eigenvectors of a matrix $(I-W)^T (I-W)$.
 
 ## Spectral embedding
 
@@ -206,27 +207,15 @@ Recall that Laplacian of a graph bears this name for a reason: it is essentially
 
 Suppose that our data points lie on a manifold. We shall be looking for a function $f: \mathcal{M} \to \mathbb{R}$, mapping points of our manifold to a line ($\mathbb{R}^1$). This approach is somewhat similar to PCA.
 
-Consider two points $x$ and $z$, lying at a small distance $l$ from each other. Consider a geodesic curve $c$, connecting them. Then $x = c(0)$ and $z = c(l)$.
+In discrete graph case we were looking for vectors $\bf y$ such that the 
+quantity $\sum \limits_{i} \sum \limits_{j} W_{i,j} (y_i - y_j)^2$ was maximized. Recall that it can be represented as
+$\sum \limits_{i} \sum \limits_{j} W_{i,j} (y_i - y_j)^2 = {\bf y}^T L {\bf y} = {\bf y}^T V^T \cdot V {\bf y}$. Here
+$V$ is a discrete matrix, analogous to divergence, applied at each point of vector $y$ of points.
 
-$f(z) = f(x) + \int \limits_0^l \langle \nabla f(c(t)), c'(t) \rangle dt$
+In a continuous case the counterpart of this expression would be $\int_{\mathcal{M}} \langle \nabla f(x), \nabla f(x) \rangle = \int_{\mathcal{M}} ||\nabla f(x)||^2$. Here we replaced the discrete $V$ matrix with a continuous gradient, 
+their dot product draws similarities to divergence and sum is replaced with integral over the manifold.
 
-In this expression $c'(t)$ defines the direction of the geodesic curve at each point and its dot product with the 
-gradient of $f(c(t))$ gives us directional derivative. Integrating this directional derivative over the length of
-the curve results in the distance between the ends of the geodesic.
-
-By Schwartz Inequality $\langle \nabla f(c(t)), c'(t) \rangle \le || \nabla f(c(t)) || \cdot || c'(t) || = || \nabla f(c(t)) ||$
-
-TODO: finish the logic of this piece
-
-Hence, we are looking for a function $f$, such that it minimizes the following quantity:
-
-$f^* = \arg \min \limits_{ ||f||_{ L^2(\mathcal{M}) } = 1 } \int_{\mathcal{M}} || \nabla f(x) ||^2$
-
-This statement corresponds to $\sum \limits_{i} \sum \limits_{j} W_{i,j} (y_i - y_j)^2$ in discrete case.
-
-TODO: explain, why!
-
-Recall that Laplacian is by definition divergence of gradient (again, see my [post on Laplacian in field theory](/2021-09-20-1/)):
+Recall that Laplacian is a divergence of gradient by definition (again, see my [post on Laplacian in field theory](/2021-09-20-1/)):
 
 $\mathcal{L}(f) = - div \nabla (f) = \nabla \cdot \nabla f$
 
@@ -345,3 +334,4 @@ $f^T (I - W)^T (I - W) f \approx \frac{1}{2} (\mathcal{L} f)^T \mathcal{L} f = \
 * https://math.stackexchange.com/questions/12894/distinction-between-adjoint-and-formal-adjoint - on formally adjoint operators
 * https://www.johndcook.com/multi_index.pdf - on multi-index notation
 * https://math.stackexchange.com/questions/2509357/why-is-negative-divergence-an-adjoint-of-gradient - on why gradient and neg divergence are adjoint
+; https://mbernste.github.io/posts/laplacian_matrix/ - great explanation of graph/continuous Laplacian
