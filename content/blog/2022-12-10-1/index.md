@@ -331,9 +331,11 @@ $f^T (I - W)^T (I - W) f \approx \frac{1}{2} (\mathcal{L} f)^T \mathcal{L} f = \
 ## References:
 * https://stats.stackexchange.com/questions/14002/whats-the-difference-between-principal-component-analysis-and-multidimensional#:~:text=PCA%20is%20just%20a%20method,MDS%20is%20only%20a%20mapping.
 * https://web.cse.ohio-state.edu/~belkin.8/papers/LEM_NC_03.pdf - a great paper by M.Belkin and P.Niyogi on connections between LLE and Laplacian Eigenmaps spectral embeddings
-* https://scikit-learn.org/stable/modules/manifold.html
-* https://www.youtube.com/watch?v=GEn-_dAyYME
-* https://www.youtube.com/watch?v=RPjPLlGefzw - a good lecture by Ali Ghodsi
+* https://scikit-learn.org/stable/modules/manifold.html - manifold learning page on 
+* https://www.youtube.com/watch?v=GEn-_dAyYME - lecture on MDS and PCoE
+* https://www.youtube.com/watch?v=r_lAEjWeH-8 - on Riemanian manifolds basics
+* https://www.youtube.com/watch?v=nJpONHO_X5o - on vectors and covectors and difference of gradient and derivative
+* https://www.youtube.com/watch?v=RPjPLlGefzw - a good lecture by Ali Ghodsi on MDS, LLE, Isomap
 * https://cs.nyu.edu/~roweis/lle/papers/lleintro.pdf - intro to LLE by Saul and Roweis
 * https://math.stackexchange.com/questions/791877/minimizing-frobenius-norm-for-two-variables
 * https://www.robots.ox.ac.uk/~az/lectures/ml/lle.pdf - LLE paper
@@ -343,3 +345,4 @@ $f^T (I - W)^T (I - W) f \approx \frac{1}{2} (\mathcal{L} f)^T \mathcal{L} f = \
 * https://math.stackexchange.com/questions/2509357/why-is-negative-divergence-an-adjoint-of-gradient - on why gradient and neg divergence are adjoint
 * https://mbernste.github.io/posts/laplacian_matrix/ - great explanation of graph/continuous Laplacian
 * https://stats.stackexchange.com/questions/82037/explain-steps-of-lle-local-linear-embedding-algorithm - an alternative representation of LLE
+* https://www.khanacademy.org/math/multivariable-calculus/greens-theorem-and-stokes-theorem/stokes-theorem/v/conditions-for-stokes-theorem - Khan academy on Stokes' theorem (alternative to divergence theorem for Spectral clustering=LLE proof)
