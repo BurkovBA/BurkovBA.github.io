@@ -1,5 +1,5 @@
 ---
-title: How DeepMind AlphaFold2 works?
+title: How does DeepMind AlphaFold2 work?
 date: "2021-12-25T00:00:00.284Z"
 tags: ["math", "programming", "biomed"]
 cover: "./AF2_bird_eye_view.png"
