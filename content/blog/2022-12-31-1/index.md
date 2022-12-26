@@ -1,100 +1,132 @@
 ---
-title: How does Stable Diffusion work?
+title: Variational Autoencoder (VAE)
 date: "2022-12-31T00:00:00.284Z"
 tags: ["math", "programming"]
-cover: "./stable_diffusion.png"
-description: Stable diffusion model blew the minds of non-specialists in AI this 2022. In this post I am going to discuss the concepts, it is assembled of. 
+cover: "./vae.png"
+description: Here I discuss one of the two most popular classes of generative models for creating images. 
 ---
 
-## Encoder-decoder architecture
+## Autoencoders
 
-Stable Diffusion model has an encoder-decoder architecture at its core. This approach was popularized in the ancient times of Information Theory.
+The concept of Autoencoders stems from the information theory. 
 
-Suppose that you have a signal (e.g. long text in English) and you need to transmit it through a channel (e.g. wire) with a severely limited
-bandwidth. Hence, it would be beneficial to compress this signal, using some kind of encoding, transfer the compressed signal,
-and then decompress it on the receiving side. Entropy coding, such as Huffman coding, was described in these terms.
+TODO: Y. Bengio, denoising autoencoders, stacked denoising autoencoders.
 
-![Encoder-decoder architecture](Encoder-decoder.png)<center>**Encoder-decoder architecture.** High-dimensional data (e.g. image, text or sound) come on input, they are encoded into a low-dimensional latent representation, which is decoded by the decoder back into high-dimensional representation, which is meant to be exactly or approximately equal to the input high-dimensional data.</center>
+##  Variational autoencoder (VAE)
 
-This approach was later employed by machine learning practitioners to convert high-dimensional data, such as images, texts
-and sound to low-dimensional latent representation (typically, 128-256-dimensional, as [Johnson-Lindenstrauss lemma](/2021-09-10-1/) implies that this number of
-dimensions is sufficient to preserve the distances between data points).
+VAE, devised by Max Welling group, is formulated in Bayesian terms. The idea of this approach starts from the information
+theory perspective: we want to train such an encoder neural network $\mathcal{E}_{\phi}$ with parameters $\phi$ that the 
+Kullback-Liebler divergence between the input image $\bf x$ and its latent representation $\bf z$ is minimized:
+$KL({\bf x}, {\bf z}) \to min$.
 
-In ML case we often assume that the essence of the input signal is condensed to a low-dimensional embedding
-vector. Moreover, those latent vectors often allow for arithmetics.
+Computationally VAE minimizes the divergence using stochastic gradient descent. However, as we'll see later using
+a regular neural network training approach does not get the job done, as normal gradient estimator has a very high 
+variance and does not converge computationally (we'll see this in a moment).
 
-![king queen arithmetics](king_queen_parallelogram.png)<center>**Latent space arithmetics**. If we represented the words
-'king' and 'queen' with data points in a 128-dimensional latent space, we can perform arithmetics 
-on them. 'king' - 'queen' vector is the same as 'man' - 'woman' vector. Hence, specific notions, such as
-'female' or 'royal' can be represented as vectors.</center>
+Hence, training VAE employs a specific computational technique, called doubly-stochastic gradient descent and a special
+trick, called re-parametrization trick, which we will explore later.
 
-The class of ML models, which compress the high-dimensional input signal to latent space data point, and then recover them
-as close to the original as possible, are called **autoencoders**. Autoencoder models, based on convolutional neural networks, became especially popular for working with visual information, 
-such as images. 
+But first we need to understand the language, in which VAE is described, as it is a Bayesian model, and we will have to 
+cover a lot of background in Bayesian ML.
 
-An important aspect of encoder-decoder models is the fact that they can often be used as **generative** models. I.e. if
-you come up with some reasonable data point in the latent space, you can throw away encoder, just pass that data point
-to the decoder and generate some high-dimensional data (image).
+![Bayes formula](bayes.png)<center>**All hail our lord and saviour Bayes...** (meh, just kidding)</center>
 
-**Transformers** are another popular class of encoder-decoder models, proved to be efficient in processing
-natural languages/sound, such as texts or sounds.
+### Bayes formula
 
-Interestingly, you can mix different encoders of one data type (e.g. transformer encoders, processing text into latent
-representation) with decoders, producing other data type (e.g. autoencoders, receiving a latent vector and producing
-images). That's how you get a model that receives text query and produces an image. 
+To explain the Bayesian framework, employed by VAE, we have to start with Bayes formula:
 
-Stable Diffusion is an advanced model of this class. Its encoder is a transformer network (like GPT or BERT) and its 
-decoder is a variation of a convolutional **Variational Autoencoder (VAE)**. It also incorprorates a number of performance
-improvements over the regular VAE-based models, which I will discuss later. Let us start with dicsuccing the regular VAE.
+$\underbrace{ p(z | x) }_\text{posterior} = \frac{ \overbrace{ p(x | z)}^\text{evidence} \cdot \overbrace{p(z)}^{prior} }{ \underbrace{ p(x) }_\text{evidence} }$
 
-###  Variational autoencoder (VAE)
+In case of VAE the notation is as follows:
 
-Unfortunately, VAE, devised by Max Welling group, is formulated in Bayesian terms, so to understand it we will have to cover a lot of background.
+* we have a dataset of images $X = \{ {\bf x^{(i)}} \}$ 
+* each input image is denoted $\bf x^{(i)}$
+* its latent representation, which is generated by VAE's encoder half, is denoted $\bf z^{(i)}$
+* the weights of encoder network $\mathcal{E}$ are denoted $\phi$; Kingma and Welling call them **variational parameters**
+* the weights of decoder network $\mathcal{D}$ are denoted $\theta$; Kingma and Welling call them **generative parameters**
 
-#### Variational inference, variational EM
+The authors of VAE, D. Kingma and M. Welling, assume that there exists some prior distribution of latent parameters $p({\bf z})$, from which latent 
+representation of each data point is sampled. For each image ${\bf x}$ we maximize the posterior $p_{\phi}(z|x)$.
 
-TODO
+### Variational inference
 
-#### Re-parametrization trick
+Direct calculation of posterior $p({\bf z} | {\bf x})$ using Bayes formula is impossible, as we need to calculate the probability of evidence $p(x)$, 
+for which the integral $p({\bf x}) = \int p({\bf x} | {\bf z}) p({\bf z}) d {\bf z}$ is intractable (i.e. it is not 
+possible to calculate it analytically or computationally in practice).
 
-TODO
+So we need to come up with a practical way of overcoming this obstacle. 
 
-### Attention mechanism and transformers
+Typically Bayesians have two solutions for problems like this: one solution is Markov Chain Monte Carlo methods. In this
+particular case MCMC estimator is time-consuming and gradient, calculated with it, has a high variance, so the model 
+fails to converge.
+
+An alternative approach is Variational Inference approach, which we explain here.
+
+![variational inference](variational_inference.png)<center>**Variational inference.** Variational inference aims to approximate the true variational posterior $p({\bf z}|{\bf x})$ with the best approximation $q^*({\bf z})$ from a certain class of functions $Q$. This optimization process minimizes the Kullback-Liebler divergence between the approximation $q({\bf z})$ and true posterior $p({\bf z}|{\bf x})$. Image taken from [Gregory Gundersen blog post](https://gregorygundersen.com/blog/2019/11/10/em/) on Variational Inference.</center>
+
+In variational inference we choose a class of functions $Q$, from which we will try to pick an approximation $q({\bf z})$ 
+(called **guide**) of the posterior $p({\bf z} | {\bf x})$, such that Kullback-Liebler divergence between this approximation and true
+posterior is minimal.
+
+### ELBO maximization
+
+Now, we need to come up with a technical way to find this optimal guide $q({\bf z})$ numerically.
+
+Out of blue sky we consider $\log p(x)$. Let us do 2 tricks with it, first represent it as an integral, and then split it into 2 terms:
+
+$\log p({\bf x}) = \int q({\bf z}) \log{p(x)} d{\bf z} = \int q({\bf z}) \log \frac{p({\bf x}, {\bf z})}{p({\bf z} | {\bf x})} d {\bf z} = \int q({\bf z}) \log \frac{p({\bf x}, {\bf z}) q({\bf z})}{p( {\bf z} | {\bf x} ) q({\bf z})} d{\bf z} = $
+
+$ = \int q({\bf z}) \log \frac{p({\bf x}, {\bf z})}{q({\bf z})} d{\bf z} + \int q({\bf z}) \log \frac{q({\bf z})}{p({\bf z} | {\bf x})}  d {\bf z} = \mathcal{L}(q({\bf z})) + KL(q({\bf z}) \Vert p({\bf z} | {\bf x}))$.
+
+Now we see that log-evidence $\log p({\bf x})$ consists of two non-negative terms. Let us interpret them: 
+
+$\log p({\bf x}) = \underbrace{ \mathcal{L}(q({\bf z})) }_\text{ELBO - Evidence lower bound} + KL(q({\bf z}) \Vert p({\bf z} | {\bf x}))$
+
+The first term is called **Evidence Lower BOund (ELBO)**. The second term is our cost function $KL(q({\bf z}) \Vert p({\bf z} | {\bf x}))$, 
+which Variational Inference aims to minimize. As log-evidence $\log p({\bf x})$ is fixed, the greater ELBO gets, the closer in terms of 
+KL divergence guide $q({\bf z})$ approximates the posterior $p({\bf z} | {\bf x})$:
+
+$KL \ge 0 \Rightarrow KL(q({\bf z}) \Vert p({\bf z} | {\bf x})) \to \min \Leftrightarrow \mathcal{L}(q({\bf z})) \to \max$
+
+Hence, to find the optimal guide $q({\bf z})$, in practice we have to maximize ELBO. Let us break it down further:
+
+$\mathcal{L}(q({\bf z})) = \int q({\bf z}) \log \frac{p({\bf x}, {\bf z})}{q({\bf z})} d{\bf z} = \int q({\bf z}) \log \frac{ p({\bf x}|{\bf z}) p({\bf z}) }{q({\bf z})} d{\bf z} = $
+
+$= \int q({\bf z}) \log p({\bf x}, {\bf z}) d{\bf z} + \int q({\bf z}) \log \frac{ p({\bf z}) }{q({\bf z})} d{\bf z} = \underbrace{ \mathbb{E}_{ q({\bf z}) } \log p({\bf x}|{\bf z}) }_\text{Expected log-likelihood} - \underbrace{ KL(q({\bf z}) \Vert p({\bf z}))}_\text{Regulariser term KL-divergence}$
+
+We see that our loss function consists of 2 terms. The first term characterizes the quality of reconstruction. The second
+term is a regularizer term that requires that our guide stays relatively close to the prior $p({\bf z})$, which is 
+usually chosen to be Gaussian.
+
+### Re-parametrization trick
+
+TODO: explain, how we make parameters of distribution static variables and inject randomness as a fixed distribution.
+
+## Transformers and attention mechanism
 
 For explanation of attention mechansim and transformers, see my [older post on AlphaFold2](/2021-12-25-1).
 
-### Denoising autoencoders
+## Denoising autoencoders
 
 TODO
 
-### Denoising VAE
+## Denoising VAE
 
 TODO
-
-### Diffusion kernel, diffusion maps
-
-TODO
-
-### Diffusion models
-
-TODO
-
-### Stable diffusion
-
-TODO
-
-## A couple of examples of generated images
-
-I generated some covers for some XXI century sci-fi book classics. Could you name a few: 
-
-![Three body problem](./grid-0023.png) ![Blindsight](./grid-0033.png)
-![Ball lightning](./grid-0027.png)
-
 
 ## References:
-* https://arxiv.org/pdf/2112.10752.pdf - original Stable Diffusion paper by Rombach et al.
-* https://en.wikipedia.org/wiki/Diffusion_map - diffusion maps
 * https://www.stats.ox.ac.uk/~teh/research/compstats/WelTeh2011a.pdf - Bayesian Learning in Stochastic Gradient Langevin Dynamics by M.Welling, Y.W.Teh
 * https://www.researchgate.net/publication/272086159_Static_hand_gesture_recognition_using_stacked_Denoising_Sparse_Autoencoders
-* https://arxiv.org/pdf/1511.06406.pdf - denoising VAE by Bengio et al.
+* https://gregorygundersen.com/blog/2021/04/16/variational-inference/ - Gregory Gundersen on Variational Inference (VI)
+* https://gregorygundersen.com/blog/2019/11/10/em/ - Gregory Gunderson on Variational EM
+* https://towardsdatascience.com/difference-between-autoencoder-ae-and-variational-autoencoder-vae-ed7be1c038f2 - blog post by Aqeel Anwar on VAE with good images 
+* https://chrischoy.github.io/research/Expectation-Maximization-and-Variational-Inference/ - blog post on VI and Variational EM
+* https://www.jmlr.org/papers/volume11/vincent10a/vincent10a.pdf - stacked denoising autoencoders by Y.Bengio group
+* https://www.youtube.com/watch?v=xH1mBw3tb_c - 2019 lecture by D. Vetrov on variational inference
+* https://arxiv.org/pdf/1312.6114.pdf - VAE paper by D. Kingma and M. Welling
+* https://www.youtube.com/watch?v=9zKuYvjFFS8 - video on AE and VAEs
+* https://arxiv.org/pdf/1511.06406.pdf - denoising VAE by Y. Bengio et al.
 * https://arxiv.org/pdf/2105.05233.pdf - diffusion models beat GANs by Alex Nichol, Prafulla Dhariwal
+* https://arxiv.org/pdf/1606.05328.pdf - pixelCNN encoder paper
+* https://arxiv.org/pdf/1711.00937.pdf - VQ-VAE paper
+* https://arxiv.org/pdf/2110.03318.pdf - on detecting holes in VAE latent space
