@@ -10,12 +10,12 @@ description: Here I discuss one of the two most popular classes of generative mo
 inner structure in them and producing new data points (e.g. new images), which bear the properties of the training data set.
 
 Since its inception in the late 2013 **Variational Autoencoder (VAE)** has become one of two most popular 
-generative models for producing photorealistic images. A popular alternative is Generative Adversarial Networks (GANs),
+generative models for producing photorealistic images. A popular alternative is called Generative Adversarial Networks (GANs),
 they are beyond the scope of this post.
 
 To understand the ideas behind VAE, first we need to understand regular **autoencoders**. To understand motivation for
-both regular autoencoders and VAE, we shall need some background in information theory. For understanding VAE we will 
-also need some background in Bayesian machine learning.
+both regular autoencoders and VAE, we need some background in information theory. For understanding VAE we will 
+also cover some background in Bayesian machine learning.
 
 ## Information theory: entropy, mutual information and KL-divergence
 
@@ -65,11 +65,12 @@ this quantity is known as **Cross entropy**.
 Inspired by information theory, machine learning practitioners employed the concept of **Autoencoders**.
 
 To the best of my knowledge first publication of autoencoders or autoassociative neural networks was made by Mark Kramer
-in 1991, where autoencoders were seen as a non-linear dimensionality reduction tool, non-linear PCA.
+in 1991, where autoencoders were seen as a non-linear dimensionality reduction tool, a non-linear analogue of PCA.
 
-The logic of this model is to train such encoder $\mathcal{E}_{\phi}$ and decoder $\mathcal{D}_{\theta}$ neural networks
-that the encoder can compress the high-dimensional input data $x$ to a low-dimensional latent representation $z$ and then
-the decoder is able to reconstruct $\hat{x}$ accurately enough from this latent representation.
+The logic of autoencoder is to train such encoder $\mathcal{E}_{\phi}$ and decoder $\mathcal{D}_{\theta}$ neural networks
+that encoder can compress the high-dimensional input data $x$ to a low-dimensional latent representation $z$ (or $h$ on
+the image below) and then the decoder is able to reconstruct $\hat{x}$ (or $x'$ on the image below) accurately enough from 
+this latent representation.
 
 ![Autoencoder](autoencoder.png)<center>**Autoencoder neural network**.</center>
 
