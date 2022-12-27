@@ -175,7 +175,7 @@ We see that our loss function consists of 2 terms. The first term characterizes 
 term is a regularizer term that requires that our guide stays relatively close to the prior $p({\bf z})$, which is 
 usually chosen to be Gaussian.
 
-### Re-parametrization trick
+### Reparametrization trick
 
 Unlike the normal convolutional neural networks, VAE makes use of **doubly stochastic gradient descent**. Input images
 are the first source of stochasticity in VAE. 
@@ -197,8 +197,9 @@ First, as I mentioned previously, it is a practical way to achieve a gradient
 estimator that would actually converge. MCMC gradient estimator, used normally, would have too big of a variance, and
 fails to train in practice.
 
-Second, we need the distribution parameters $\bf mu$ and $\bf \sigma$ to be differentiable in order to learn them via
-error backpropagation. Randomness wouldn't be differentiable, but a random variable, sampled from a distribution, is.
+Second, we need the parameters $\bf \mu$ and $\bf \sigma$ to be differentiable in order to learn them via
+error backpropagation. Randomness wouldn't be differentiable, but if we keep them deterministic, and inject randomness
+with a separate variable $\epsilon$, it keeps $\bf \mu$ and $\bf \sigma$ differentiable and lets the model learn them.
 
 Third, the data points in the training set might not cover the whole latent space. Randomness helps to partially 
 mitigate the issue of presernce of holes in the latent space.
@@ -224,13 +225,13 @@ How to explain this phenomenon? Consider latent space of a VAE, trained to recog
 
 ![MNIST VAE latent space](mnist_vae.png)<center>**Latent space of VAE, trained to recognize MNIST handwritten digits.**</center>
 
-Some classes (e.g. fours and nines) intersect with each other. If you sample a point from latent space, where both fours
-and nines are frequent, VAE would basically produce a superposition of nine and four. This results in such a
-blurry image.
+Some classes (e.g. fours and nines) intersect with each other. If you sample a point from a region of latent space, 
+where both fours and nines are frequent, VAE would basically produce a superposition of nine and four. This results in 
+such a blurry image.
 
-So, there are plenty of issue left with regularization of the latent space of VAE. There are millions of improvements of
-VAE that address these and other issues, such as denoising VAE (DVAE), vector quantization VAE (VQ-VAE) and tons of 
-others, which I won't cover here.
+So, there are plenty of issues left with regularization of the latent space of VAE. There are dozens of flavours of
+VAE, which address these and other issues, such as denoising VAE (DVAE), vector quantization VAE (VQ-VAE) and other, 
+which I won't cover here.
 
 ## References:
 
