@@ -193,7 +193,7 @@ whose mean $\bf \mu$ and variance $\bf sigma$ the model aims to learn.
 So the mean and variance of $\bf z$ are deterministic, but then for each data point in the training batch we sample a
 random point from that distribution, introducing some extra noise.
 
-![Reparametrization trick](reparametrization_trick.png)<center>**Re-parametrization trick**. In VAE our latent representation $\bf z$ is a vector-valued random variable, not just a deterministic vector. In order to keep the doubly stochastic gradient differentiable, we keep distribution mean and variance deterministic (on this image they and other weights of encoder are incorporated into $\phi$ parameter), but inject randomness through a random variable $\epsilon$</center>
+![Reparametrization trick](reparametrization_trick.png)<center>**Re-parametrization trick**. In VAE our latent representation $\bf z$ is a vector-valued random variable, not just a deterministic vector. In order to keep the doubly stochastic gradient differentiable, we keep distribution mean and variance deterministic (on this picture they and other weights of encoder are included into $\phi$ parameter), but inject randomness through a random variable $\epsilon$</center>
 
 Why doing so?
 
@@ -214,7 +214,7 @@ mitigate the issue of presernce of holes in the latent space.
 
 ### Holes in the latent space
 
-There are a number of issues with VAE. 
+VAE as a generative model has a number of known issues.
 
 One of the obvious problems is the fact that training data points oftentimes do not cover the whole latent space, 
 and even smoothening $\bf z$ through randomness does not cure this problem entirely. In the worst-case scenario
