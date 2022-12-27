@@ -57,7 +57,7 @@ The difference in length between the optimal encoding and sub-optimal encoding i
 $D(p, q) = - \sum \limits_i p_i \log q_i - (-\sum \limits_i p_i \log p_i) = - \sum \limits_i p_i \frac{ \log q_i }{ \log p_i }$.
 
 This quantity is called **Kullback-Liebler divergence**, and for encoding to be optimal it should be minimal. As entropy
-$H(p) = \sum \limits_i p_i \log p_i$ does not depend on $q$, it would suffice to optimize $H(p,q) = \sum \limits_i p_i \log p_i$,
+$H(p) = \sum \limits_i p_i \log p_i$ does not depend on $q$, it would suffice to optimize $H(p,q) = \sum \limits_i p_i \log q_i$,
 this quantity is known as **Cross entropy**.
 
 ## Autoencoders
