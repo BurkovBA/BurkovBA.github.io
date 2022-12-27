@@ -74,10 +74,10 @@ this latent representation.
 
 ![Autoencoder](autoencoder.png)<center>**Autoencoder neural network**.</center>
 
-This approach was re-used much later, circa 2010, by Yoshua Bengio group. They figured out autoencoders can be used for
-other purposes, such as denoising.
+This approach was re-used much later, circa 2010, by Yoshua Bengio group. They figured out that autoencoders can be used
+for other purposes, such as denoising:
 
-![Denoising autoencoder](dae.png)<center>**Desoising autoencoder (DAE)**. Suppose that you had a dataset of hand-written
+![Denoising autoencoder](dae.png)<center>**Denoising autoencoder (DAE)**. Suppose that you had a dataset of hand-written
 digits (MNIST). Each digit's image is corrupted with white noise and then passed to a Denoising Autoencoder. The purpose
 of the DAE is to recover the original image as accurately as possible.</center>
 
