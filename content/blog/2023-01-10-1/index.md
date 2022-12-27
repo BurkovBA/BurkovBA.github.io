@@ -10,16 +10,6 @@ description: Stable diffusion model blew the minds of non-specialists in AI this
 
 Stable Diffusion model has an encoder-decoder architecture at its core. This approach was popularized in the ancient times of Information Theory.
 
-Suppose that you have a signal (e.g. long text in English) and you need to transmit it through a channel (e.g. wire) with a severely limited
-bandwidth. Hence, it would be beneficial to compress this signal, using some kind of encoding, transfer the compressed signal,
-and then decompress it on the receiving side. Entropy coding, such as Huffman coding, was described in these terms.
-
-![Encoder-decoder architecture](Encoder-decoder.png)<center>**Encoder-decoder architecture.** High-dimensional data (e.g. image, text or sound) come on input, they are encoded into a low-dimensional latent representation, which is decoded by the decoder back into high-dimensional representation, which is meant to be exactly or approximately equal to the input high-dimensional data.</center>
-
-Information theory implies that the optimal encoding is achieved, when mutual information between the input data $\bf x$
-and its encoding (latent representation) is maximal, or, when Kullback-Liebler divergence 
-$KL({\bf x}, {\bf z}) = \sum \limits_i p({\bf x_i}) \log p({\bf z_i})$ is minimal.
-
 This approach was later employed by machine learning practitioners to convert high-dimensional data, such as images, texts
 and sound to low-dimensional latent representation (typically, 128-256-dimensional, as [Johnson-Lindenstrauss lemma](/2021-09-10-1/) implies that this number of
 dimensions is sufficient to preserve the distances between data points).
@@ -51,6 +41,10 @@ Stable Diffusion is an advanced model of this class. Its encoder is a transforme
 decoder is a variation of a convolutional **Variational Autoencoder (VAE)**. It also incorprorates a number of performance
 improvements over the regular VAE-based models, which I will discuss later. Let us start with dicsussing the regular VAE.
 
+## DAE and D-VAE
+
+TODO
+
 ## Diffusion kernel, diffusion maps
 
 TODO
@@ -75,3 +69,5 @@ I generated some covers for XXI century sci-fi classics. Could you name them?
 * https://arxiv.org/pdf/2112.10752.pdf - original Stable Diffusion paper by Rombach et al.
 * https://en.wikipedia.org/wiki/Diffusion_map - diffusion maps
 * https://stackdiary.com/stable-diffusion-resources/ - stable diffusion resources
+* https://arxiv.org/pdf/2105.05233.pdf - diffusion models beat GANs by Alex Nichol, Prafulla Dhariwal
+* https://arxiv.org/pdf/2209.04747.pdf - a good review of diffusion models
