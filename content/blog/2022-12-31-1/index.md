@@ -171,9 +171,15 @@ $\mathcal{L}(q({\bf z})) = \int q({\bf z}) \log \frac{p({\bf x}, {\bf z})}{q({\b
 
 $= \int q({\bf z}) \log p({\bf x}, {\bf z}) d{\bf z} + \int q({\bf z}) \log \frac{ p({\bf z}) }{q({\bf z})} d{\bf z} = \underbrace{ \mathbb{E}_{ q({\bf z}) } \log p({\bf x}|{\bf z}) }_\text{Expected log-likelihood} - \underbrace{ KL(q({\bf z}) \Vert p({\bf z}))}_\text{Regulariser term KL-divergence}$
 
-We see that our loss function consists of 2 terms. The first term characterizes the quality of reconstruction. The second
-term is a regularizer term that requires that our guide stays relatively close to the prior $p({\bf z})$, which is 
-usually chosen to be Gaussian.
+We see that our loss function consists of 2 terms. The first term characterizes the quality of reconstruction of image
+from its latent representation. The second term is a regularizer term that guarantees that our guide (i.e. latent space)
+distribution stays relatively close to the prior $p({\bf z})$, which is usually chosen to be Gaussian.
+
+VAE makes use of ELBO as its loss function for training. It approximates its true gradient with stochastic gradients
+over mini-batches of data points (e.g. images), so that integrals are replaced with sums.
+
+There is also one nitpick: in VAE our latent representation vector $\bf z$ is not deterministic, but stochastic. Hence,
+in order to make the gradient of ELBO differentiable, we'll have to use a special reparametrization trick.
 
 ### Reparametrization trick
 
