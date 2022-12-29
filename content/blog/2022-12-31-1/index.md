@@ -133,7 +133,7 @@ possible to calculate it analytically or computationally in practice).
 
 So we need to come up with a practical way of overcoming this obstacle. 
 
-Typically Bayesians have two solutions for problems like this: one solution is Markov Chain Monte Carlo methods. In this
+Typically, Bayesians have two solutions for problems like this: one solution is Markov Chain Monte Carlo methods. In this
 particular case MCMC estimator is time-consuming and gradient, calculated with it, has a high variance, so the model 
 fails to converge.
 
@@ -208,7 +208,38 @@ error backpropagation. Randomness wouldn't be differentiable, but if we keep the
 with a separate variable $\epsilon$, it keeps $\bf \mu$ and $\bf \sigma$ differentiable and lets the model learn them.
 
 Third, the data points in the training set might not cover the whole latent space. Randomness helps to partially 
-mitigate the issue of presernce of holes in the latent space.
+mitigate the issue of presense of holes in the latent space.
+
+### Practical implementation of loss and its gradients
+
+Ok, now we're done with Bayesian theory. It might by nice for drawing inspiration, but it is "more like guidelines, 
+rather than actual rules". Time to implement our loss and its gradient it in practice. Look at the loss function again:
+
+$\mathcal{L}(q({\bf z})) = \underbrace{ \mathbb{E}_{ q({\bf z}) } \log p({\bf x}|{\bf z}) }_\text{Expected log-likelihood} - \underbrace{ KL(q({\bf z}) \Vert p({\bf z}))}_\text{Regulariser term KL-divergence}$
+
+First, let us interpret the terms. In case of VAE, our guide $q({\bf z})$ is the output of encoder neural network. As
+encoder output depends on variational parameters $\phi$ and input data $\bf x$, we will denote $q({\bf z})$ in case
+of VAE $q_\phi({\bf z} | {\bf x})$.
+
+Second, $p({\bf x}|{\bf z})$ corresponds to reconstruction of image from the latent representation by decoder, so it 
+also depends on decoder (generative) parameters $\theta$, we shall denote it $p_{\theta}({\bf x}|{\bf z})$.
+
+Third, $p({\bf z})$ is a prior of latent representation, again, parametrized on variantional (encoder) parameters $\theta$. Prior is often assumed to be Gaussian with zero mean and identity matrix of variance: $p(\mathcal{N}({\bf z}; {\bf 0}, {\bf I})$
+
+So, we get:
+
+$\mathcal{L}(q({\bf z})) = \int \int \log p_{\theta}({\bf x} | {\bf z}) q_{\phi}({\bf z} | {\bf x}) d{\bf z} d{\bf x} + \int \int q_{\phi}({\bf z} | {\bf x}) \log \frac{p_{\theta}({\bf z})}{q_{\phi}({\bf z} | {\bf x})} d{\bf z} d{\bf x}$
+
+
+
+
+
+The term $p({\bf z})$ is though of as a multivariate Gaussian prior (with a diagonal covariance matrix): $p({\bf t}) \sim \prod \limits_j \sigma_j e^{-\frac{({\bf t}-{\bf \mu})^2}{2 \prod \limits_j \sigma_j^2}}$, hence, $\log p(t) = \sum \limits_j \log \sigma_j$ + .
+
+In practice we are working with finite sets of points and are using Monte-Carlo estimators.
+
+$\mathcal{L} (\theta;\phi;x^{i})\backsimeq \frac{1}{2} \cdot \sum \limits_{j=1}^J(1 + 2\log\sigma^i_j-(\mu^i)^2) - (\sigma^i)^2) + \frac{1}{L}\sum \limits_{l=1}^L \log p_\theta(x^i|z^{i,l})$.
+
 
 ## Problems and improvements of VAE
 
@@ -236,6 +267,9 @@ How to explain this phenomenon? Consider latent space of a VAE, trained to recog
 Some classes (e.g. fours and nines) intersect with each other. If you sample a point from a region of latent space, 
 where both fours and nines are frequent, VAE would basically produce a superposition of nine and four. This results in 
 such a blurry image.
+
+### Posterior collapse
+
 
 So, there are plenty of issues left with regularization of the latent space of VAE. There are dozens of flavours of
 VAE, which address these and other issues, such as denoising VAE (DVAE), vector quantization VAE (VQ-VAE) and other, 
@@ -265,3 +299,6 @@ which I won't cover here.
 * https://arxiv.org/pdf/2110.03318.pdf - on detecting holes in VAE latent space
 * https://pyro.ai/examples/svi_part_i.html - implementations of Stochastic VI, VAE etc. in Pyro library
 * https://ai.stackexchange.com/questions/8885/why-is-the-variational-auto-encoders-output-blurred-while-gans-output-is-crisp - on blurred outputs of VAE
+* https://datascience.stackexchange.com/questions/48962/what-is-posterior-collapse-phenomenon - on posterior collapse
+* https://stats.stackexchange.com/questions/347378/variational-autoencoder-why-reconstruction-term-is-same-to-square-loss - on practical aspects of VAE loss
+* https://openreview.net/pdf?id=r1xaVLUYuE - Posterior Collapse in VAE paper
