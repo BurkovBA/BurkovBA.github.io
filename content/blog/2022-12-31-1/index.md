@@ -219,22 +219,28 @@ $\mathcal{L}(q({\bf z})) = \underbrace{ \mathbb{E}_{ q({\bf z}) } \log p({\bf x}
 
 First, let us interpret the terms. In case of VAE, our guide $q({\bf z})$ is the output of encoder neural network. As
 encoder output depends on variational parameters $\phi$ and input data $\bf x$, we will denote $q({\bf z})$ in case
-of VAE $q_\phi({\bf z} | {\bf x})$.
+of VAE $q_\phi({\bf z} | {\bf x})$. We are searching for the guide in the form of a multivariate Gaussian: $q_{\phi}({\bf z} | {\bf x}) = \mathcal{N}(\bf{z}; {\bf \mu}, {\bf \sigma})$.
 
-Second, $p({\bf x}|{\bf z})$ corresponds to reconstruction of image from the latent representation by decoder, so it 
-also depends on decoder (generative) parameters $\theta$, we shall denote it $p_{\theta}({\bf x}|{\bf z})$.
+Second, $p({\bf x}|{\bf z})$ corresponds to reconstruction of image from the latent representation by the decoder, so it 
+is rather $p({\bf \hat{x}}|{\bf z})$; the term also depends on the decoder (generative) parameters $\theta$, thus we 
+shall denote it $p_{\theta}({\bf \hat{x}}|{\bf z})$. Possible options for it are Bernoulli (essentially, cross-entropy) and Gaussian errors. Hence, adding the tree terms and replacing integrals with sums we get:
 
-Third, $p({\bf z})$ is a prior of latent representation, again, parametrized on variantional (encoder) parameters $\theta$. Prior is often assumed to be Gaussian with zero mean and identity matrix of variance: $p(\mathcal{N}({\bf z}; {\bf 0}, {\bf I})$
+Third, $p({\bf z})$ is a prior of latent representation, again, parametrized on variational (encoder) parameters $\theta$. Prior is often assumed to be Gaussian with zero mean and identity matrix of variance: $p({\bf z}) = \mathcal{N}({\bf z}; {\bf 0}, {\bf I})$
 
 So, we get:
 
-$\mathcal{L}(q({\bf z})) = \int \int \log p_{\theta}({\bf x} | {\bf z}) q_{\phi}({\bf z} | {\bf x}) d{\bf z} d{\bf x} + \int \int q_{\phi}({\bf z} | {\bf x}) \log \frac{p_{\theta}({\bf z})}{q_{\phi}({\bf z} | {\bf x})} d{\bf z} d{\bf x}$
+$\mathcal{L}(q({\bf z})) = \int \int \log p_{\theta}({\bf x} | {\bf z}) q_{\phi}({\bf z} | {\bf x}) d{\bf z} d{\bf x} + \int \int q_{\phi}({\bf z} | {\bf x}) \log \frac{p_{\theta}({\bf z})}{q_{\phi}({\bf z} | {\bf x})} d{\bf z} d{\bf x} = $
 
+$ = \int \int \log p_{\theta}({\bf x} | {\bf z}) q_{\phi}({\bf z} | {\bf x}) d{\bf z} d{\bf x} + \int \int q_{\phi}({\bf z} | {\bf x}) \log p_{\theta}({\bf z}) d{\bf z} d{\bf x} - \int \int q_{\phi}({\bf z} | {\bf x}) \log q_{\phi}({\bf z} | {\bf x}) d{\bf z} d{\bf x}$.
 
+Let us work with individual terms:
 
+1) $\int \int \log p_{\theta}({\bf x} | {\bf z}) q_{\phi}({\bf z} | {\bf x}) d{\bf z} d{\bf x}$ - this term depends on the choice of reconstruction error function.
 
+2) $\int \int q_{\phi}({\bf z} | {\bf x}) \log p_{\theta}({\bf z}) d{\bf z} d{\bf x} = \int \mathcal{N}({\bf z}; {\bf \mu}, {\bf \sigma}) \log \mathcal{N}({\bf z}; {\bf 0}, {\bf I}) = -\frac{J}{2} \log(2\pi) - \frac{1}{2} \sum \limits_{j=1}^J (\mu_j^2 + \sigma_j^2)$
 
-The term $p({\bf z})$ is though of as a multivariate Gaussian prior (with a diagonal covariance matrix): $p({\bf t}) \sim \prod \limits_j \sigma_j e^{-\frac{({\bf t}-{\bf \mu})^2}{2 \prod \limits_j \sigma_j^2}}$, hence, $\log p(t) = \sum \limits_j \log \sigma_j$ + .
+3) $\int \int q_{\phi}({\bf z} | {\bf x}) \log q_{\phi}({\bf z} | {\bf x}) d{\bf z} d{\bf x} = \int \mathcal{N}({\bf z}; {\bf \mu}, {\bf \sigma}) \log \mathcal{N}({\bf z}; {\bf \mu}, {\bf \sigma}) = - \frac{J}{2} \log(2\pi) - \frac{1}{2} \sum \limits_{j=1}^J (1 + \log \sigma_j^2)$
+
 
 In practice we are working with finite sets of points and are using Monte-Carlo estimators.
 
