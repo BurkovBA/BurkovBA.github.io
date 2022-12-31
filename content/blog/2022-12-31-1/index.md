@@ -84,9 +84,23 @@ of the DAE is to recover the original image as accurately as possible.</center>
 Moreover, Bengio borrowed the idea of stacking individual encoders/decoders from Hinton's RBMs and this approach 
 gave rise to stacked denoising autoencoders and, eventually, Diffusion models, but that's a topic for another day.
 
+### Holes in the latent space
+
+Now, what happens, if we drop the decoder part, just sample a random point from the encoder latent space and generate
+an output from it with the decoder? This is supposed to produce us an image. Hence, our model would be generative.
+
+However, one of the obvious problems that arises is the fact that training data points oftentimes do not cover the whole 
+latent space. In the worst-case scenario theoretically our autoencoder could just map all the data points to a straight
+line, effectively enumerating them.
+
+Thus, if we sample a point that belongs to a hole for generating and images, we won't get a valid output. So, we are
+facing a problem: we need a way to regularize our latent space, so that the whole manifold of images is mapped to the
+whole latent space, preferably smoothly. This is the motivation for VAE.
+
 ##  Variational autoencoder (VAE)
 
 VAE, devised by Max Welling group in the late 2013, has arguably become the most wide-spread flavour of autoencoders.
+It maps the data points to a distribution (usually, Gaussian), so that the mapping is smooth and no holes are produced.
 It is formulated in Bayesian terms. 
 
 The idea of this approach starts from the information theory perspective: we want to train such an encoder neural network 
@@ -188,7 +202,7 @@ are the first source of stochasticity in VAE.
 
 But there is also a second source: in case of VAE the latent representation $\bf z$ is not just a deterministic 
 low-dimensional vector like in normal autoencoders. Instead, it is a random variable (usually, multivariate gaussian),
-whose mean $\bf \mu$ and variance $\bf sigma$ the model aims to learn. 
+whose mean $\bf \mu$ and variance $\bf \sigma$ the model aims to learn. 
 
 So the mean and variance of $\bf z$ are deterministic, but then for each data point in the training batch we sample a
 random point from that distribution, introducing some extra noise.
@@ -223,7 +237,8 @@ of VAE $q_\phi({\bf z} | {\bf x})$. We are searching for the guide in the form o
 
 Second, $p({\bf x}|{\bf z})$ corresponds to reconstruction of image from the latent representation by the decoder, so it 
 is rather $p({\bf \hat{x}}|{\bf z})$; the term also depends on the decoder (generative) parameters $\theta$, thus we 
-shall denote it $p_{\theta}({\bf \hat{x}}|{\bf z})$. Possible options for it are Bernoulli (essentially, cross-entropy) and Gaussian errors. Hence, adding the tree terms and replacing integrals with sums we get:
+shall denote it $p_{\theta}({\bf \hat{x}}|{\bf z})$. Possible options for it are Bernoulli MLP and Gaussian MLP errors.
+I'd go with Gaussian - in that case  ${\bf \hat{x}}$ with
 
 Third, $p({\bf z})$ is a prior of latent representation, again, parametrized on variational (encoder) parameters $\theta$. Prior is often assumed to be Gaussian with zero mean and identity matrix of variance: $p({\bf z}) = \mathcal{N}({\bf z}; {\bf 0}, {\bf I})$
 
@@ -242,23 +257,12 @@ Let us work with individual terms:
 3) $\int \int q_{\phi}({\bf z} | {\bf x}) \log q_{\phi}({\bf z} | {\bf x}) d{\bf z} d{\bf x} = \int \mathcal{N}({\bf z}; {\bf \mu}, {\bf \sigma}) \log \mathcal{N}({\bf z}; {\bf \mu}, {\bf \sigma}) = - \frac{J}{2} \log(2\pi) - \frac{1}{2} \sum \limits_{j=1}^J (1 + \log \sigma_j^2)$
 
 
-In practice we are working with finite sets of points and are using Monte-Carlo estimators.
+In practice we are working with finite sets of points and are using Monte-Carlo estimators. Hence, adding the three terms together and replacing integrals with sums we get:
 
 $\mathcal{L} (\theta;\phi;x^{i})\backsimeq \frac{1}{2} \cdot \sum \limits_{j=1}^J(1 + 2\log\sigma^i_j-(\mu^i)^2) - (\sigma^i)^2) + \frac{1}{L}\sum \limits_{l=1}^L \log p_\theta(x^i|z^{i,l})$.
 
 
 ## Problems and improvements of VAE
-
-### Holes in the latent space
-
-VAE as a generative model has a number of known issues.
-
-One of the obvious problems is the fact that training data points oftentimes do not cover the whole latent space, 
-and even smoothening $\bf z$ through randomness does not cure this problem entirely. In the worst-case scenario
-theoretically VAE could just map all the data points to a straight line, effectively enumerating them.
-
-So, if we use VAE decoder for generation of images and sample a point in latent space, which belongs to a hole, 
-we won't get a valid output.
 
 ### Fuzzy results
 
@@ -275,7 +279,6 @@ where both fours and nines are frequent, VAE would basically produce a superposi
 such a blurry image.
 
 ### Posterior collapse
-
 
 So, there are plenty of issues left with regularization of the latent space of VAE. There are dozens of flavours of
 VAE, which address these and other issues, such as denoising VAE (DVAE), vector quantization VAE (VQ-VAE) and other, 
@@ -308,3 +311,4 @@ which I won't cover here.
 * https://datascience.stackexchange.com/questions/48962/what-is-posterior-collapse-phenomenon - on posterior collapse
 * https://stats.stackexchange.com/questions/347378/variational-autoencoder-why-reconstruction-term-is-same-to-square-loss - on practical aspects of VAE loss
 * https://openreview.net/pdf?id=r1xaVLUYuE - Posterior Collapse in VAE paper
+* https://arxiv.org/pdf/1907.06845.pdf - on Bernoulli posterior in VAE
