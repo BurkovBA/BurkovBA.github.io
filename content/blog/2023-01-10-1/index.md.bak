@@ -1,6 +1,6 @@
 ---
 title: How does Stable Diffusion work?
-date: "2022-12-31T00:00:00.284Z"
+date: "2023-01-10T00:00:00.284Z"
 tags: ["math", "programming"]
 cover: "./stable_diffusion.png"
 description: Stable diffusion model blew the minds of non-specialists in AI this 2022. In this post I am going to discuss the concepts, it is assembled of. 
