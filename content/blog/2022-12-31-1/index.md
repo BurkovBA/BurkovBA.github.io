@@ -243,7 +243,7 @@ of VAE $q_\phi({\bf z} | {\bf x})$. We are searching for the guide in the form o
 Second, $p({\bf x}|{\bf z})$ corresponds to reconstruction of image from the latent representation by the decoder, so it 
 is rather $p({\bf \hat{x}}|{\bf z})$; the term also depends on the decoder (generative) parameters $\theta$, thus we 
 shall denote it $p_{\theta}({\bf \hat{x}}|{\bf z})$. Possible options for it are Bernoulli MLP and Gaussian MLP errors.
-I'd go with Gaussian - in that case  ${\bf \hat{x}}$ with
+I'd go with Gaussian - in that case reconstruction error takes the form of L2 error: $\log p({\bf x} | {\bf \hat{x}}) = \log e^{- \frac{({\bf x} - \bf \hat{x})^2}{2} } = ||{\bf x} - {\bf \hat{x}}||^2_2$.
 
 Third, $p({\bf z})$ is a prior of latent representation, again, parametrized on variational (encoder) parameters $\theta$. Prior is often assumed to be Gaussian with zero mean and identity matrix of variance: $p({\bf z}) = \mathcal{N}({\bf z}; {\bf 0}, {\bf I})$
 
@@ -255,7 +255,7 @@ $ = \int \int \log p_{\theta}({\bf x} | {\bf z}) q_{\phi}({\bf z} | {\bf x}) d{\
 
 Let us work with individual terms:
 
-1) $\int \int \log p_{\theta}({\bf x} | {\bf z}) q_{\phi}({\bf z} | {\bf x}) d{\bf z} d{\bf x}$ - this term depends on the choice of reconstruction error function.
+1) $\int \int \log p_{\theta}({\bf x} | {\bf z}) q_{\phi}({\bf z} | {\bf x}) d{\bf z} d{\bf x}$ - this term depends on the choice of reconstruction error function. In case of Gaussian posterior it will look like an L2 norm, in case of Bernoulli - like cross-entropy. 
 
 2) $\int \int q_{\phi}({\bf z} | {\bf x}) \log p_{\theta}({\bf z}) d{\bf z} d{\bf x} = \int \mathcal{N}({\bf z}; {\bf \mu}, {\bf \sigma}) \log \mathcal{N}({\bf z}; {\bf 0}, {\bf I}) = -\frac{J}{2} \log(2\pi) - \frac{1}{2} \sum \limits_{j=1}^J (\mu_j^2 + \sigma_j^2)$
 
