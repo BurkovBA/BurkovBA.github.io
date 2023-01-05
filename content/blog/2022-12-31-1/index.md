@@ -93,9 +93,14 @@ However, one of the obvious problems that arises is the fact that training data 
 latent space. In the worst-case scenario theoretically our autoencoder could just map all the data points to a straight
 line, effectively enumerating them.
 
-Thus, if we sample a point that belongs to a hole for generating and images, we won't get a valid output. So, we are
-facing a problem: we need a way to regularize our latent space, so that the whole manifold of images is mapped to the
-whole latent space, preferably smoothly. This is the motivation for VAE.
+Thus, if we wanted to generate an image and sampled a point from the latent space that belongs to a hole, we won't get a
+valid output. So, we face a problem: we have to come up with a way to regularize our latent space, so that the whole
+manifold of images is mapped to the whole latent space, preferably in a smooth way. This is the motivation for VAE.
+
+VAE makes sure that the latent space has a Gaussian distribution, so that by gradually moving from one point of latent
+space to its neighbour, we get a meaningful gradually changing output:
+
+![latent space](latent_space.png)<center>**Sampling from nearby points of VAE latent space produces similar output images.** Illustration from the original paper.</center>
 
 ##  Variational autoencoder (VAE)
 
@@ -280,9 +285,14 @@ such a blurry image.
 
 ### Posterior collapse
 
-So, there are plenty of issues left with regularization of the latent space of VAE. There are dozens of flavours of
-VAE, which address these and other issues, such as denoising VAE (DVAE), vector quantization VAE (VQ-VAE) and other, 
-which I won't cover here.
+There are plenty of other issues left with regularization of the latent space of VAE. 
+
+For instance, sometimes generative part of VAE almost ignores the input image and generates a very generic image,
+very dissimilar from the input. Some authors claim that this happens when the regularization term of VAE (that moves
+prior on $\bf z$ closer to Gaussian) takes over the reconstruction term.
+
+This gave rise to dozens of flavours of VAE, which address these and other issues, such as beta VAE, vector quantization 
+VAE (VQ-VAE) and other, which I won't cover here.
 
 ## References:
 
@@ -305,10 +315,14 @@ which I won't cover here.
 * https://www.youtube.com/watch?v=9zKuYvjFFS8 - video on AE and VAEs
 * https://arxiv.org/pdf/1606.05328.pdf - pixelCNN encoder paper
 * https://arxiv.org/pdf/1711.00937.pdf - VQ-VAE paper
+* https://arxiv.org/pdf/1812.02833.pdf - disentanglement in VAE paper
 * https://arxiv.org/pdf/2110.03318.pdf - on detecting holes in VAE latent space
 * https://pyro.ai/examples/svi_part_i.html - implementations of Stochastic VI, VAE etc. in Pyro library
 * https://ai.stackexchange.com/questions/8885/why-is-the-variational-auto-encoders-output-blurred-while-gans-output-is-crisp - on blurred outputs of VAE
 * https://datascience.stackexchange.com/questions/48962/what-is-posterior-collapse-phenomenon - on posterior collapse
 * https://stats.stackexchange.com/questions/347378/variational-autoencoder-why-reconstruction-term-is-same-to-square-loss - on practical aspects of VAE loss
 * https://openreview.net/pdf?id=r1xaVLUYuE - Posterior Collapse in VAE paper
+* https://www.youtube.com/watch?v=oHtqlRIsXcQ - a talk on Posterior Collapse by the same author as the paper above
+* https://www.robots.ox.ac.uk/~cvrg/hilary2006/ppca.pdf - on pPCA (used to understand posterior collapse)
+* https://www.tensorflow.org/probability/examples/Probabilistic_PCA - Tensorflow pPCA tutorial
 * https://arxiv.org/pdf/1907.06845.pdf - on Bernoulli posterior in VAE
