@@ -220,7 +220,7 @@ There are 3 reasons, all technical.
 
 First, as I mentioned previously, it is a practical way to achieve a gradient 
 estimator that would actually converge. MCMC gradient estimator, used normally, would have too big of a variance, and
-fails to train in practice.
+training process fails to converge in practice.
 
 Second, we need the parameters $\bf \mu$ and $\bf \sigma$ to be differentiable in order to learn them via
 error backpropagation. Randomness wouldn't be differentiable, but if we keep them deterministic, and inject randomness
@@ -264,8 +264,11 @@ Let us work with individual terms:
 
 In practice we are working with finite sets of points and are using Monte-Carlo estimators. Hence, adding the three terms together and replacing integrals with sums we get:
 
-$\mathcal{L} (\theta;\phi;x^{i})\backsimeq \frac{1}{2} \cdot \sum \limits_{j=1}^J(1 + 2\log\sigma^i_j-(\mu^i)^2) - (\sigma^i)^2) + \frac{1}{L}\sum \limits_{l=1}^L \log p_\theta(x^i|z^{i,l})$.
+$\mathcal{L} (\theta;\phi;x^{i})\backsimeq \underbrace{ \frac{1}{2} \cdot \sum \limits_{j=1}^J(1 + 2\log\sigma^i_j-(\mu^i)^2 - (\sigma^i)^2) }_\text{regularization term} + \underbrace{ \frac{1}{L}\sum \limits_{l=1}^L \log p_\theta(x^i|z^{i,l}) }_\text{reconstruction quality term}$.
 
+As I said before, in practice reconstruction quality term takes form of either L2 norm of difference between input and 
+reconstructed image in case of Gaussian posterior $p_{\theta}({\bf x} | {\bf z})$, or cross-entropy in case of 
+multivariate Bernoulli posterior $p_{\theta}({\bf x} | {\bf z})$.
 
 ## Problems and improvements of VAE
 
@@ -289,7 +292,11 @@ There are plenty of other issues left with regularization of the latent space of
 
 For instance, sometimes generative part of VAE almost ignores the input image and generates a very generic image,
 very dissimilar from the input. Some authors claim that this happens when the regularization term of VAE (that moves
-prior on $\bf z$ closer to Gaussian) takes over the reconstruction term.
+prior on $\bf z$ closer to Gaussian) takes over the reconstruction term. Basically, reconstruction term conflicts with
+regularization term, and if regularization term wins, input image is ignored by VAE to a significant extent.
+
+Another reason, possibly contributing to the posterior collapse, is the fact that variance of the Gaussian distribution,
+used in VAE, is diagonal, while in the real distribution the coordinates might not be independent.
 
 This gave rise to dozens of flavours of VAE, which address these and other issues, such as beta VAE, vector quantization 
 VAE (VQ-VAE) and other, which I won't cover here.
