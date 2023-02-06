@@ -66,6 +66,9 @@ I generated some covers for XXI century sci-fi classics. Could you name them?
 
 
 ## References:
+
+### Diffusion models
+
 * https://arxiv.org/pdf/2112.10752.pdf - original Stable Diffusion paper by Rombach et al.
 * https://en.wikipedia.org/wiki/Diffusion_map - diffusion maps
 * https://stackdiary.com/stable-diffusion-resources/ - stable diffusion resources
@@ -79,3 +82,14 @@ I generated some covers for XXI century sci-fi classics. Could you name them?
 * https://www.youtube.com/watch?v=5YKAxgZEvbQ - Sergey Nikolenko on diffusion models
 * https://arxiv.org/pdf/2206.03992.pdf - neural diffusion process by Z.Ghahramani
 * https://www.youtube.com/watch?v=WyWLu1MVkXY - a good seminar on VAE by Igor Korsunov from Sber Speech Technologies Center (in Russian)
+* https://www.youtube.com/watch?v=hDCVU_hDblE - a good talk by Vetrov himself on diffusion models (in Russian)
+* https://www.youtube.com/watch?v=2Y2Qbsgnfiw - a talk by Vetrov group on diffusion models (in Russian)
+* https://www.youtube.com/watch?v=a4Yfz2FxXiY - a good step-by-step tutorial on creation of a simplified diffusion model
+
+### Other components of Stable Diffusion
+* https://openai.com/blog/clip/#rf12 - CLIP (its text part is used in Stable Diffusion for processing text queries)
+* https://jalammar.github.io/illustrated-gpt2/ - illustrated guide to GPT-2
+
+### Deforum
+* https://www.youtube.com/watch?v=lztn6qLc9UE - explanation of Deforum parameters
+* https://www.youtube.com/watch?v=dtvMUyWaFrs - running Deforum on Vast.ai
