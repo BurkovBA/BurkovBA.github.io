@@ -337,6 +337,8 @@ class VAE(nn.Module):
         
         hidden_layers_channels_reversed = self.hidden_layers_channels[::-1]
         
+        self.latent_space_dimension = latent_space_dimension
+        
         # encoder
         # -------
         encoder_modules = []
@@ -358,12 +360,12 @@ class VAE(nn.Module):
         # Hence, by the time we reach latent layer, the image dimensionality is halved len(self.hidden_layers_channels) times. 
         self.downscaled_image_dimensionality = int(config['data_params']['patch_size'] / (2 ** len(self.hidden_layers_channels)))
         
-        self.mu = nn.Linear(self.hidden_layers_channels[-1] * (self.downscaled_image_dimensionality ** 2), latent_space_dimension)
-        self.log_var = nn.Linear(self.hidden_layers_channels[-1] * (self.downscaled_image_dimensionality ** 2), latent_space_dimension)
+        self.mu = nn.Linear(self.hidden_layers_channels[-1] * (self.downscaled_image_dimensionality ** 2), self.latent_space_dimension)
+        self.log_var = nn.Linear(self.hidden_layers_channels[-1] * (self.downscaled_image_dimensionality ** 2), self.latent_space_dimension)
         
         # decoder
         # -------
-        self.decoder_input = nn.Linear(latent_space_dimension, self.hidden_layers_channels[-1] * (self.downscaled_image_dimensionality ** 2))  # feed-forward layer, converting latent space vector into the first hidden layer of decoder
+        self.decoder_input = nn.Linear(self.latent_space_dimension, self.hidden_layers_channels[-1] * (self.downscaled_image_dimensionality ** 2))  # feed-forward layer, converting latent space vector into the first hidden layer of decoder
 
         decoder_modules = []
         current_in_channels = self.hidden_layers_channels[-1]
@@ -455,7 +457,8 @@ class VAE(nn.Module):
 
 We shall train our VAE to synthesize new human faces. I am using CelebA dataset as the basis. For some reason Torchvision
 wrapper around it failed to load from the Google Drive for me, so I've manually downloaded the dataset from Kaggle and
-written my own version of it:
+written my own version of it with `kaggle datasets download -d jessicali9530/celeba-dataset` command and unzipped it in
+`/Data/celeba` folder of my jupyter lab workspace:
 
 ```python
 import os
