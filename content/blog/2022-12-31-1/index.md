@@ -261,7 +261,6 @@ Let us work with individual terms:
 
 3) $\int \int q_{\phi}({\bf z} | {\bf x}) \log q_{\phi}({\bf z} | {\bf x}) d{\bf z} d{\bf x} = \int \mathcal{N}({\bf z}; {\bf \mu}, {\bf \sigma}) \log \mathcal{N}({\bf z}; {\bf \mu}, {\bf \sigma}) = - \frac{J}{2} \log(2\pi) - \frac{1}{2} \sum \limits_{j=1}^J (1 + \log \sigma_j^2)$
 
-
 In practice we are working with finite sets of points and are using Monte-Carlo estimators. Hence, adding the three terms together and replacing integrals with sums we get:
 
 $\mathcal{L} (\theta;\phi;x^{i})\backsimeq \underbrace{ \frac{1}{2} \cdot \sum \limits_{j=1}^J(1 + 2\log\sigma^i_j-(\mu^i)^2 - (\sigma^i)^2) }_\text{regularization term} + \underbrace{ \frac{1}{L}\sum \limits_{l=1}^L \log p_\theta(x^i|z^{i,l}) }_\text{reconstruction quality term}$.
@@ -269,6 +268,488 @@ $\mathcal{L} (\theta;\phi;x^{i})\backsimeq \underbrace{ \frac{1}{2} \cdot \sum \
 As I said before, in practice reconstruction quality term takes form of either L2 norm of difference between input and 
 reconstructed image in case of Gaussian posterior $p_{\theta}({\bf x} | {\bf z})$, or cross-entropy in case of 
 multivariate Bernoulli posterior $p_{\theta}({\bf x} | {\bf z})$.
+
+## Implementation
+
+There is [a nice repository on Github](https://github.com/AntixK/PyTorch-VAE) with various flavours of VAE, implemented in PyTorch. I've reproduced
+it, removing some of the optional abstraction layers.
+
+First, let us define the configuration options for our VAE training:
+
+```python
+config = {
+    'model_params': {
+      'name': 'VAE',
+      'in_channels': 3,
+      'latent_dim': 128
+    },
+
+    'data_params': {
+      'root_dir': "Data/celeba/",
+      'annotations_file_name': "list_eval_partition.csv",
+      'annotations_file_name': "list_eval_partition.csv", 
+      'train_batch_size': 64,
+      'val_batch_size':  64,
+      'patch_size': 64,
+      'num_workers': 4
+    },
+
+    'exp_params': {
+      'LR': 0.005,
+      'weight_decay': 0.0,
+      'scheduler_gamma': 0.95,
+      'kld_weight': 0.00025,
+      'manual_seed': 1265
+    },
+
+    'trainer_params': {
+      # 'gpus': [1],
+      'max_epochs': 100
+    },
+
+    'logging_params': {
+      'save_dir': "logs/",
+      'name': "VAE"
+    }
+}
+```
+
+Second, let us set implement the VAE itself.
+
+```python
+from typing import *
+import torch
+from torch import nn
+
+
+class VAE(nn.Module):
+    """Vanilla Variational Autoencoder (VAE) implementation.
+    
+    Based on: https://github.com/AntixK/PyTorch-VAE.
+    """
+    def __init__(self, in_channels: int, latent_space_dimension: int, hidden_layers_channels: List = None, **kwargs):
+        super(VAE, self).__init__()
+
+        if hidden_layers_channels is None:
+            self.hidden_layers_channels = [512, 256, 128, 64, 32]
+        else:
+            self.hidden_layers_channels = hidden_layers_channels
+        
+        hidden_layers_channels_reversed = self.hidden_layers_channels[::-1]
+        
+        # encoder
+        # -------
+        encoder_modules = []
+        current_in_channels = in_channels
+        for index, dim in enumerate(self.hidden_layers_channels):
+            encoder_modules.append(nn.Sequential(
+                nn.Conv2d(in_channels=current_in_channels, out_channels=dim, kernel_size=3, stride=2, padding=1),
+                nn.BatchNorm2d(self.hidden_layers_channels[index]),
+                nn.ReLU()
+            ))
+            current_in_channels = dim
+        
+        self.encoder = nn.Sequential(*encoder_modules)
+        
+        # latent vector
+        # -------------
+        
+        # Each convolutional layer of the encoder downscales the image, halving its dimensionality.
+        # Hence, by the time we reach latent layer, the image dimensionality is halved len(self.hidden_layers_channels) times. 
+        self.downscaled_image_dimensionality = int(config['data_params']['patch_size'] / (2 ** len(self.hidden_layers_channels)))
+        
+        self.mu = nn.Linear(self.hidden_layers_channels[-1] * (self.downscaled_image_dimensionality ** 2), latent_space_dimension)
+        self.log_var = nn.Linear(self.hidden_layers_channels[-1] * (self.downscaled_image_dimensionality ** 2), latent_space_dimension)
+        
+        # decoder
+        # -------
+        self.decoder_input = nn.Linear(latent_space_dimension, self.hidden_layers_channels[-1] * (self.downscaled_image_dimensionality ** 2))  # feed-forward layer, converting latent space vector into the first hidden layer of decoder
+
+        decoder_modules = []
+        current_in_channels = self.hidden_layers_channels[-1]
+        for index, dim in enumerate(hidden_layers_channels_reversed):
+            decoder_modules.append(nn.Sequential(
+                nn.ConvTranspose2d(in_channels=current_in_channels, out_channels=dim, kernel_size=3, stride=2, padding=1, output_padding=1),
+                nn.BatchNorm2d(dim),
+                nn.ReLU(),
+                
+            ))
+            current_in_channels = dim
+        self.decoder = nn.Sequential(*decoder_modules)
+        
+        # output layer
+        # ------------
+        self.final_layer = nn.Sequential(
+            nn.Conv2d(self.hidden_layers_channels[0], out_channels=3, kernel_size=3, padding=1)
+        )
+        
+        
+    def encode(self, input: torch.Tensor) -> List[torch.Tensor]:
+        """Generates a latent representation vector from an input."""
+        result = self.encoder(input)
+        result = torch.flatten(result, start_dim=1)
+        
+        mu = self.mu(result)
+        log_var = self.log_var(result)
+        
+        return [mu, log_var]
+
+    def decode(self, latent_vector: torch.Tensor, batch_size: int) -> torch.Tensor:
+        """Re-constructs an input from a latent representation."""
+        result = self.decoder_input(latent_vector)
+        # result = result.view(-1, 512, 2, 2)
+        result = result.view(batch_size, self.hidden_layers_channels[-1], self.downscaled_image_dimensionality, self.downscaled_image_dimensionality)
+        result = self.decoder(result)
+        #print(f"decode() decoder result.size() = {result.size()}")
+        result = self.final_layer(result)
+        return result
+
+    def reparametrize(self, mu: torch.Tensor, log_var: torch.Tensor):
+        """Re-parametrization trick implementation. We sample N(mu, var) using N(0, 1)."""
+        std = torch.exp(0.5 * log_var)
+        eps = torch.randn_like(std)
+        return eps * std + mu
+    
+    def forward(self, input: torch.Tensor, **kwargs) -> List[torch.Tensor]:
+        mu, log_var = self.encode(input)
+        z = self.reparametrize(mu, log_var)
+        batch_size = input.size()[0]
+        return [self.decode(z, batch_size), input, mu, log_var]
+
+    def loss_function(self, *args, **kwargs) -> dict:
+        """
+        VAE loss, consisting of 2 terms, reconstruction term and regularization term
+        KL(N(\mu, \sigma), N(0, 1)) = \log \frac{1}{\sigma} + \frac{\sigma^2 + \mu^2}{2} - \frac{1}{2}.
+        """
+        recons = args[0]
+        input = args[1]
+        mu = args[2]
+        log_var = args[3]
+
+        kld_weight = kwargs['M_N']  # Account for the minibatch samples from the dataset
+        reconstruction_loss = nn.functional.mse_loss(recons, input)
+
+        kld_loss = torch.mean(-0.5 * torch.sum(1 + log_var - mu ** 2 - log_var.exp(), dim = 1), dim = 0)
+
+        loss = reconstruction_loss + kld_weight * kld_loss
+
+        return {
+            'loss': loss, 
+            'Reconstruction loss': reconstruction_loss.detach(), 
+            'Regularization loss': -kld_loss.detach()
+        }
+
+    def sample(self, batch_size: int, current_device: int, **kwargs):
+        """Samples a batch of random points (vectors) from the latent space
+        and generates a batch of output images from it."""
+        z = torch.randn(batch_size, self.latent_space_dimension)
+        z = z.to(current_device)
+        samples = self.decode(z, batch_size)
+
+        return samples
+    
+    def generate(self, latent_vector: torch.Tensor):
+        """Given an input latent space vector, generates an output form it."""
+        return self.forward(latent_vector)[0]
+```
+
+We shall train our VAE to synthesize new human faces. I am using CelebA dataset as the basis. For some reason Torchvision
+wrapper around it failed to load from the Google Drive for me, so I've manually downloaded the dataset from Kaggle and
+written my own version of it:
+
+```python
+import os
+
+# from torchvision.datasets import CelebA - failed to load from google drive
+from torch.utils.data import Dataset
+from torchvision import transforms
+import pandas as pd
+from skimage import io
+from PIL import Image
+
+
+transform = transforms.Compose([
+    transforms.RandomHorizontalFlip(),
+    transforms.CenterCrop(148),
+    transforms.Resize(config['data_params']['patch_size']),
+    transforms.ToTensor()
+])
+
+
+class CelebADataset(Dataset):
+    """A manually-written wrapper around CelebA dataset, downloaded from Kaggle.
+    
+    Kaggle: https://www.kaggle.com/datasets/jessicali9530/celeba-dataset?resource=download
+    Docs: https://pytorch.org/tutorials/beginner/data_loading_tutorial.html
+    
+    Download the folder from Kaggle and put it into Data/ folder.
+    """
+    def __init__(
+        self,
+        partition_file: str = 'Data/celeba/list_eval_partition.csv',
+        root_dir: str = 'Data/celeba/img_align_celeba/img_align_celeba',
+        transform=transform,
+        split: str = "train"
+    ):
+        super(CelebADataset, self).__init__()
+
+        self.partitions = pd.read_csv(partition_file)
+        self.root_dir = root_dir
+        self.transform = transform
+        self.split = split
+
+    def split_to_index(self):
+        if self.split == "train":
+            split_index = 0
+        elif self.split == "validation":
+            split_index = 1
+        elif self.split == "test":
+            split_index = 2
+        else:
+            raise ValueError(f"Unknown pratition type: {partition}")        
+
+        return split_index
+            
+    def __len__(self):
+        split_index = self.split_to_index()
+        data_in_split = self.partitions[self.partitions['partition'] == split_index]
+        
+        return len(data_in_split)
+
+    def __getitem__(self, idx):
+        if torch.is_tensor(idx):
+            idx = idx.tolist()
+
+        # get index of dataset partition
+        split_index = self.split_to_index()
+
+        # fetch the sample, transform it and return the result
+        img_name = os.path.join(self.root_dir, self.partitions[self.partitions['partition'] == split_index].iloc[idx, 0])
+        image = Image.open(img_name)
+
+        if self.transform:
+            image = self.transform(image)
+
+        return image
+    
+
+# Load the dataset from file and apply transformations
+celeba_dataset = CelebADataset()
+```
+
+Wrap this dataset into a LightningDataModule abstraction:
+
+```python
+from pytorch_lightning import LightningDataModule
+from torch.utils.data import DataLoader
+
+
+# Create a torch dataloader for testing purposes
+# ----------------------------------------------
+
+if torch.backends.mps.is_available():
+    device = torch.device("mps")
+elif torch.cuda.is_available():
+    device = torch.device("cuda")
+else: 
+    device = torch.device("cpu")
+
+celeba_dataloader = torch.utils.data.DataLoader(
+    celeba_dataset,
+    batch_size=config['data_params']['train_batch_size'],
+    num_workers=0 if device.type == 'cuda' else 2,
+    pin_memory=True if device.type == 'cuda' else False,
+    shuffle=True
+)
+
+
+# Wrap into LightningDataModule
+# -----------------------------
+
+class CelebADataModule(LightningDataModule):
+    def __init__(
+        self,
+        train_batch_size: int = 8,
+        val_batch_size: int = 8,
+        patch_size: Union[int, Sequence[int]] = (256, 256),
+        num_workers: int = 0,
+        pin_memory: bool = False,
+        **kwargs,
+    ):
+        super(CelebADataModule, self).__init__()
+
+        self.train_batch_size = train_batch_size
+        self.val_batch_size = val_batch_size
+        self.patch_size = patch_size
+        self.num_workers = num_workers
+        self.pin_memory = pin_memory
+        
+    def setup(self, stage: Optional[str] = None) -> None:
+        self.train_dataset = CelebADataset(split='train')    
+        self.val_dataset = CelebADataset(split='test')
+    
+    def train_dataloader(self) -> DataLoader:
+        return DataLoader(
+            self.train_dataset,
+            batch_size=self.train_batch_size,
+            num_workers=self.num_workers,
+            shuffle=True,
+            pin_memory=self.pin_memory,
+        )
+
+    def val_dataloader(self) -> DataLoader:
+        return DataLoader(
+            self.val_dataset,
+            batch_size=self.val_batch_size,
+            num_workers=self.num_workers,
+            shuffle=False,
+            pin_memory=self.pin_memory,
+        )
+
+    def test_dataloader(self) -> DataLoader:
+        return DataLoader(
+            self.val_dataset,
+            batch_size=144,
+            num_workers=self.num_workers,
+            shuffle=True,
+            pin_memory=self.pin_memory,
+        )
+```
+
+Almost there. Now we configure our Torch Lightning experiment and trainer. Experiment code:
+
+```python
+import pytorch_lightning as pl
+
+from torchvision import transforms
+import torchvision.utils as vutils
+from torchvision.datasets import CelebA
+from torch.utils.data import DataLoader
+
+
+class Experiment(pl.LightningModule):
+    def __init__(self, params: dict, model: nn.Module) -> None:
+        super(Experiment, self).__init__()
+        self.params = params
+        self.model = model
+        
+    def forward(self, input: torch.Tensor, **kwargs) -> torch.Tensor:
+        return self.model.forward(input, **kwargs)
+
+    def training_step(self, batch, batch_idx, optimizer_idx=0):
+        real_images = batch
+        self.curr_device = real_images.device
+        
+        results = self.forward(real_images)
+        
+        train_loss = self.model.loss_function(
+            *results,
+            M_N = self.params['kld_weight'], #al_img.shape[0]/ self.num_train_imgs,
+            optimizer_idx=optimizer_idx,
+            batch_idx=batch_idx
+        )
+        self.log_dict({key: val.item() for key, val in train_loss.items()}, sync_dist=True)
+
+        return train_loss['loss']        
+    
+    def validaiton_step(self, batch, batch_idx, optimizer_idx=0):
+        real_images = batch
+        self.curr_device = real_images.device
+        
+        results = self.forward(real_images)
+        validation_loss = self.model.loss_function(
+            *results,
+            M_N = 1.0, #real_images.shape[0] / self.num_val_imgs,
+            optimizer_idx = optimizer_idx,
+            batch_idx = batch_idx
+        )
+
+        self.log_dict({f"val_{key}": val.item() for key, val in val_loss.items()}, sync_dist=True)
+    
+    def on_validation_end(self) -> None:
+        self.sample_images()
+
+    def sample_images(self):
+        test_input, test_label = next(iter(self.trainer.datamodule.test_dataloader()))
+
+        test_input = test_input.to(self.current_device)
+        test_label = test_label.to(self.current_device)
+
+        reconstructions = self.model.generate(test_input, labels=test_label)
+        
+        vutils.save_image(
+            reconstructions.data,
+            os.path.join(self.logger.log_dir, "Reconstructions", f"reconstruction_{self.logger.name}_Epoch_{self.current_epoch}.png"),
+            normalize=True,
+            nrow=12
+        )
+        
+        try:
+            samples = self.model.sample(144, self.curr_device, labels=test_label)
+            vutils.save_image(
+                samples.cpu().data,
+                os.path.join(self.logger.log_dir, "Samples", f"{self.logger.name}_Epoch_{self.current_epoch}.png"),
+                normalize=True,
+                nrow=12
+            )
+        except Warning:
+            pass
+            
+    def configure_optimizers(self):
+        optimizers = []
+        schedulers = []
+        
+        optimizer = torch.optim.Adam(self.model.parameters(), lr=self.params['LR'], weight_decay=self.params['weight_decay'])
+        optimizers.append(optimizer)
+        
+        if self.params['scheduler_gamma'] is not None:
+            scheduler = torch.optim.lr_scheduler.ExponentialLR(optimizers[0], gamma = self.params['scheduler_gamma'])
+            schedulers.append(scheduler)
+
+            return optimizers, schedulers
+        else:
+            return optimizers
+```
+
+Now we can finally configure the trainer and run our training procedure:
+
+```python
+from pytorch_lightning import Trainer
+from pytorch_lightning.loggers import TensorBoardLogger
+from pytorch_lightning.callbacks import LearningRateMonitor, ModelCheckpoint
+from torch.nn.parallel import DistributedDataParallel as DDP
+from pytorch_lightning.strategies import DDPStrategy
+
+
+model = VAE(in_channels=config['model_params']['in_channels'], latent_space_dimension=config['model_params']['latent_dim'])
+experiment = Experiment(config['exp_params'], model)
+tb_logger = TensorBoardLogger(
+    save_dir=config['logging_params']['save_dir'],
+    name=config['model_params']['name']
+)
+
+data_module = CelebADataModule()
+
+trainer = Trainer(
+    logger=tb_logger,
+    callbacks=[
+        LearningRateMonitor(),
+        ModelCheckpoint(
+            save_top_k=2,
+            dirpath=os.path.join(tb_logger.log_dir , "checkpoints"), 
+            monitor="val_loss",
+            save_last=True
+        ),
+    ],
+    accelerator="mps", #'cpu', 'cude'
+    devices=1,
+    # strategy='single_device', #'ddp_notebook',
+    **config['trainer_params']
+)
+
+trainer.fit(experiment, datamodule=data_module)
+```
+
 
 ## Problems and improvements of VAE
 
@@ -333,3 +814,4 @@ VAE (VQ-VAE) and other, which I won't cover here.
 * https://www.robots.ox.ac.uk/~cvrg/hilary2006/ppca.pdf - on pPCA (used to understand posterior collapse)
 * https://www.tensorflow.org/probability/examples/Probabilistic_PCA - Tensorflow pPCA tutorial
 * https://arxiv.org/pdf/1907.06845.pdf - on Bernoulli posterior in VAE
+* https://avandekleut.github.io/vae/ - a great blog post on AE and VAE
