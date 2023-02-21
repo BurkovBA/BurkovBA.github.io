@@ -87,11 +87,11 @@ gave rise to stacked denoising autoencoders and, eventually, Diffusion models, b
 ### Holes in the latent space
 
 Now, what happens, if we drop the decoder part, just sample a random point from the encoder latent space and generate
-an output from it with the decoder? This is supposed to produce us an image. Hence, our model would be generative.
+an output from it with the decoder? This is supposed to give us an image. Hence, our model would be generative.
 
-However, one of the obvious problems that arises is the fact that training data points oftentimes do not cover the whole 
-latent space. In the worst-case scenario theoretically our autoencoder could just map all the data points to a straight
-line, effectively enumerating them.
+However, one of the arising problems is the fact that data points in our training dataset oftentimes do not cover the 
+whole latent space. In the worst-case scenario theoretically our autoencoder could just map all the data points to a 
+straight line, effectively enumerating them.
 
 Thus, if we wanted to generate an image and sampled a point from the latent space that belongs to a hole, we won't get a
 valid output. So, we face a problem: we have to come up with a way to regularize our latent space, so that the whole
@@ -753,6 +753,23 @@ trainer = Trainer(
 trainer.fit(experiment, datamodule=data_module)
 ```
 
+Ok, now if we train the model for even a few epochs, it will learn to generate decently looking human faces:
+
+```python
+import torchvision.transforms as T
+
+
+samples = model.sample(batch_size=4, current_device=torch.device("cuda:0"))
+for sample in samples:
+    transform = T.ToPILImage()
+    image = transform(sample)
+    image.show()
+```
+
+![generated face 1](./generated_face1.png)
+![generated face 2](./generated_face2.png)
+![generated face 3](./generated_face3.png)
+![generated face 4](./generated_face4.png)<center>**Faces, generated with VAE**. Just after 1-5 epochs of training on CelebA dataset we get some decently looking human faces.</center>
 
 ## Problems and improvements of VAE
 
