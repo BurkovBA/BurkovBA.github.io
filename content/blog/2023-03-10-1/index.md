@@ -1,0 +1,46 @@
+---
+title: Democratizing transformers
+date: "2023-01-10T00:00:00.284Z"
+tags: ["math", "programming"]
+cover: "./multi-head-attention.png"
+description: Mommy, can we have a ChatGPT? We have ChatGPT at home. 
+---
+
+A bunch of papers came out recently, trying to democratize computational requirements
+for the most popular transformer networks, such as Bert and GPT.
+
+Results are quite impressive, they manage to lower FLOP requirements for training Bert by x100,
+so that now you can train it for ~$10. As for GPT-3, you can now train a network that outperforms
+it, but has 13B weights instead of 175B.
+
+I believe that by 2025 each OS might run a ChatGPT locally, which is a scary, scary perspective.
+
+## References:
+
+### Classics
+* https://arxiv.org/pdf/1706.03762.pdf - attention is all you need
+* https://s3-us-west-2.amazonaws.com/openai-assets/research-covers/language-unsupervised/language_understanding_paper.pdf - GPT
+* Bert
+* https://d4mucfpksywv.cloudfront.net/better-language-models/language_models_are_unsupervised_multitask_learners.pdf - GPT-2
+* https://arxiv.org/pdf/2005.14165v4.pdf - GPT-3
+* T5
+
+### Faster attention
+* https://arxiv.org/pdf/2006.04768.pdf - Linformer (based on JL lemma)
+* https://arxiv.org/pdf/2102.03902.pdf - Nystromformer (Nystrom attention)
+* https://arxiv.org/pdf/2105.03824.pdf - FNet (Fourier attention)
+* https://openai.com/blog/sparse-transformer/ - Sparse transformer blog post
+* https://arxiv.org/pdf/1904.10509v1.pdf - Sparse transformer paper
+* https://openreview.net/forum?id=BylDrRNKvH - on L1 regularization of attention
+
+### Better ML engineering
+* https://sh-tsang.medium.com/review-pre-ln-transformer-on-layer-normalization-in-the-transformer-architecture-b6c91a89e9ab - pre-norm
+* https://aclanthology.org/2022.bigscience-1.9.pdf - GPT-NeoX-20B
+* https://arxiv.org/pdf/2212.14034.pdf - Cramming (100x faster BERT)
+* https://research.facebook.com/publications/llama-open-and-efficient-foundation-language-models/ - Llama by Facebook
+
+### Better IT engineering
+* Flash-attention
+* https://github.com/microsoft/DeepSpeed - DeepSpeed repo
+* https://github.com/FMInference/FlexGen/blob/main/docs/paper.pdf - FlexGen
+* https://www.tensorflow.org/lite/performance/model_optimization - on quantization etc.
