@@ -1,5 +1,5 @@
 ---
-title: Extreme Value Distribution
+title: Extreme Value Theorem and Distributions
 date: "2023-03-31T00:00:00.284Z"
 tags: ["math"]
 cover: "./GEVD.png"
@@ -57,21 +57,18 @@ distribution.
 
 ## Fisher-Tippett-Gnedenko theorem
 
-Extreme Value Theorem is a series of theorems, proven in the first half of 20-th century. It claims that
+Extreme Value Theorem is a series of theorems, proven in the first half of 20-th century. They claim that
 maximum of several tosses of i.i.d. random variables converges to just one of 3 possible distributions,
 Gumbel, Frechet or Weibull.
 
 Here I will lay out the outline of the proof with my comments. The proof includes introduction of several
 technical tools, but I will comment on their function and rationale behind each of them.
 
-
-### Preliminaries: 
-
 Consider a random variable $M_n$, which describes the distribution of maximum of $\xi_i$, $i \in 1..n$
 
 $p(M_n \le x) = \prod \limits_{i=1}^{n} p(\xi_i \le x) = F^n(\xi_i \le x)$.
 
-However, similarly to the Central Limit Theorem, a convergence theorem might be applicable to the distribution of a 
+Similarly to the Central Limit Theorem, a convergence theorem might be applicable to the distribution of a 
 normalized random variable $M_n$ rather than the non-normalized:
 
 $p(\frac{M_n - b_n}{a_n} \le x) = p(M_n \le a_n x + b_n) = F^n(a_n x + b_n)$
@@ -80,7 +77,44 @@ We aim to show that for some series of constants $a_i$ and $b_i$
 
 $F^n(a_n x + b_n)$ as $n \to \infty$ converges in distribution to some distribution $G(x)$: $F^n(a_n x + b_n) \xrightarrow[n \to \infty]{w} G(x)$.
 
-Following Leadbetter's textbook on EVT, we'll introduce a special term to describe well-behaved cumulative distribution functions:
+Now I will informally describe the proof outline, before introducing the mathematical formalism.
+
+### General approach: max-stable distributions as invariants/fixed points/attractors and EVD types as equivalence classes 
+
+I assume that all three types of Extreme Value Distribution were first discovered experimentally. Later statisticians 
+came up with a proof that EVD can converge to just one of three possible types of distributions and no other types of 
+EVD can exist. Finally, they came up with criteria for a distribution to belong to each type.
+
+Design of this proof is similar to many other proofs. I will outline it informally here:
+
+Assume that as the number of random variables $n \to \infty$ increases, approaching infinity, the distribution of the 
+observed maximum approaches some type of distribution. Then such a distribution type can be considered as an invariant 
+or attractor or fixed point, similar to many other mathematical problems. For instance, eigenvectors are fixed points 
+of matrix multiplication. E.g. matrix eigenvector, multiplied by a matrix, results in itself, multiplied by a scalar. Or
+no matter how many times you take a derivative of $e^{kx}$, you get $e^{kx}$, multiplied by a scalar $k$. 
+
+Similarly, **maximum-stable distributions** are invariant objects. Those are distributions, maximum of i.i.d. variables 
+of which converges to themselves, no matter how many more i.i.d. random variables you toss. E.g. if for one 
+Gumbel-distributed random variable $\xi$ we know that $p_{\xi}(\frac{M_1 - b_1}{a_1} \le x) = e^{-e^{-x}}$, for $n \to \infty$ 
+Gumbel-distributed random variables the maximum of $\xi_1.. \xi_n$ still is Gumbel-distributed (after centering and 
+normalizing them by some numbers $a_n$, $b_n$): $p_{M_{n}}(\frac{M_n - b_n}{a_n} \le x) = e^{-e^{-x}}$.
+
+Ok. Then after we established that there are some distributions, for which maximum of $n \to \infty$ centered and normalized 
+i.i.d. variables produces a random variable with the same distribution, how do we show that all distributions converge
+to one of them?
+
+We'll use another classical mathematical tool: **equivalence classes** and **equivalence relation**. For instance,
+odd numbers and even numbers form two equivalence classes under operation of modulo 2. Odd numbers are equivalent to
+each other in terms of producing remainder 1 (e.g. $3 \sim 5$, where $\sim$ is equivalence relation of modulo 2), and even 
+numbers are equivalent in terms of producing remainder 0.
+
+Similarly, we will show that types of EVD form equivalence classes under the operation of finding maximum of $n \to \infty$
+i.i.d. random variables with any distribution, and as a result all the distributions converge to one of those types. E.g.
+Pareto's distribution is equivalent to Cauchy distribution under equivalence relation of convergence of maximum of 
+$n \to \infty$ Pareto/Cauchy i.i.d's to the same maximum stable type II (Frechet) EVD.
+
+Now that I've laid out the plan of the proof, it is time to get into technicalities. I will formally introduce the concepts
+I mentioned above and prove some lemmas about their relatedness.
 
 #### Definition 1: Max-stable cumulative distribution function
 
@@ -99,7 +133,13 @@ $a > 0$ and $b \in R$ such that for every x ∈ R $G^*(ax + b) = G(x)$.
 
 #### Lemma 1: Khinchin's theorem (law of Convergence of Types)
 
-TODO
+Suppose that we have a sequence of distribution functions $\{F_n\}$ (e.g. the distributions of maximum of random variable $\xi_i$ in $n$ experiments).
+
+Let those distribution functions upon $n \to \infty$ converge to a certain distribution $G(x)$: $F_n(a_n x + b_n) \xrightarrow[n \to \infty]{w} G(x)$. Then we have two series of constants $\{a_n\}, \{b_n\}$.
+
+Suppose there is another distribution function $G^*(x)$ such that the sequence of distributions $F_n(\alpha_n x + \beta_n)$ converges to that function: $F_n(\alpha_n x + \beta_n) \xrightarrow[n \to \infty]{w} G^*(x)$ and there is a different pair of series $\{ \alpha_n \}, \{\beta_n \}$.
+
+Then $G^*(x) = G(a'x + b')$ and $a' = \frac{\alpha_n}{a_n}$, $b' = \frac{\beta_n - b_n}{a_n}$.
 
 #### Proof:
 
@@ -127,16 +167,45 @@ $G^s(a(s)x + b(s)) = G(x)$.
 
 TODO
 
-
-### Theorem 1: Fisher-Tippett-Gnedenko theorem (Extreme Value Theorem)
-
-TODO
-
-#### Definition 3: Quantile function
+#### Theorem 1: Fisher-Tippett-Gnedenko theorem (Extreme Value Theorem)
 
 TODO
 
-#### Definition 4: Slow-varying function
+#### Proof
+
+TODO
+
+## Von Mises theorem on sufficient conditions of type of convergence
+
+TODO
+
+#### Definition 4: Survival function
+
+$S(t) = 1 - F(t)$
+
+TODO
+
+#### Definition 5: Hazard rate
+
+$r(t) = \frac{f(t)}{1 - F(t)} = \frac{f(t)}{S(t)}$
+
+TODO
+
+#### Definition 6: Quantile function
+
+TODO
+
+#### Definition 7: Survival function saturation point
+
+We shall denote the saturation point of survival function $x_F = \sup \{ x; F(x) < 1\}$. 
+
+Basically, if there is a point, where survival function becomes exactly 0, $x_F < \infty$. For instance, if we're 
+studying the survival of human, and everybody dies by the age of 129 years, $x_F = 129$.
+
+However, if there is no such limit (e.g. the population dies out exponentially $S(x) = e^{-x}$ or 
+polynomially $S(x) = \frac{1}{x}$), we say that $x_F = \infty$
+
+#### Theorem 2: von Mises theorem on sufficient conditions for a distribution to belong to a type I, II or III
 
 TODO
 
@@ -145,7 +214,39 @@ TODO
 TODO
 
 
-### Theorem 2: von Mises theorem
+## General case: necessary and sufficient conditions for a distribution to belong to a type I, II or III
+
+Speaking informally: 
+
+* If a distribution's survival function has no saturation point and its survival decays polynomially (has "fat tails"), the distribution belongs to EVD type II (Frechet).
+* If a distribution's survival function has a finite saturation point, and it decays polynomially, approaching that saturation point, the distribution belongs to EVD type III (Weibull). 
+* If a distribution's survival function decays exponentially (has "light, sub-exponential tails"), approaching its saturation point, which might be either finite or infinite, it belongs to EVD type I (Gumbel).
+
+For instance:
+
+* Pareto, Cauchy, Student and Fisher distributions have heavy tails and converges to Type II
+* Uniform and Beta distributions have a finite saturation point and converge to Type III
+* Gaussian, Exponential, Gamma and Logistic distributions have light sub-exponential tails and converge to Type I
+
+We shall formalize this theorem statement a bit later. But first, to perform the proof, we'll need one more technical 
+tool in our toolbox, **regularly varying function** (which is a generalization of a **slow-varying function**).
+
+#### Definition 8: Slow-varying function
+
+TODO
+
+#### Definition 9: Regularly-varying function
+
+TODO
+
+#### Theorem 3: necessary and sufficient conditions for a distribution to belong to a type I, II or III
+
+* A distribution belongs to Extreme Value Distribution type II (Frechet) if and only if $x_F = \infty$ and $\lim_{t \to \infty} \frac{S(tx)}{S(t)} = x^{-\alpha}$, where $\alpha > 0$ and $x > 0$.
+* A distribution belongs to Extreme Value Distribution type III (Weibull) if and only if TODO.
+* A distribution belongs to Extreme Value Distribution type I (Gumbel) if and only if TODO.
+
+
+#### Proof:
 
 TODO
 
