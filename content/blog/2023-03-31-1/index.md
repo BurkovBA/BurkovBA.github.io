@@ -150,7 +150,7 @@ TODO
 Given G a non-degenerate cdf:
 
 1. G is max-stable if and only if there exists a sequence $\{F_n\}$ of cdf ’s and sequences
-$\{a_n\} \subset \mathcal{R}^+$, $\{b_n\}$ such that for all $k \in N$ $F_n(a^{−1}_{nk} x + b_{nk}) \xrightarrow[n \to \infty]{w} G^{1/k}(x)$
+$\{a_n\} \subset \mathbb{R}^+$, $\{b_n\}$ such that for all $k \in N$ $F_n(a^{−1}_{nk} x + b_{nk}) \xrightarrow[n \to \infty]{w} G^{1/k}(x)$
 
 2. $D(G) \neq 0$ if and only if $G$ is max-stable. In that case, $G \in \mathcal{D}(G)$.
 
@@ -169,11 +169,110 @@ TODO
 
 #### Theorem 1: Fisher-Tippett-Gnedenko theorem (Extreme Value Theorem)
 
-TODO
+Let $\xi_i$ be a sequence of i.i.d. random variables.
+
+If there exist constants $a_n > 0$, $b_n \in \mathbb{R}$ and some
+non-degenerate cumulative distribution function $G$ such that $\frac{M_n - b_n}{a_n} \sim G$, then $G$ is one of these:
+
+(Type I) Gumbel: $G(x) = exp(-e^{-x})$, $x \in \mathbb{R}$,
+
+(Type II) Frechet: $G(x) = exp(-x^{-\alpha})$, $x \ge 0, \alpha > 0$,
+
+(Type III) Reversed Weibull: $G(x) = exp(-(-x)^{\alpha})$, $x \le 0, \alpha > 0$.
 
 #### Proof
 
-TODO
+##### Step 1.
+
+Consider double negative logarithm of max-stable distribution $G(a(s)x + b(s))^s = G(x)$.
+
+$-\ln(-\ln(G(a(s)x + b(s))^{s})) = -\ln( -s \cdot \ln(G(a(s)x + b(s)))) = -\ln(-\ln(G(a(s)x + b(s)))) - \ln s = -\ln(-\ln G(x))$
+
+##### Step 2.
+
+Denote $\phi(x) = -\ln(-\ln(G(x)))$. Then from previous $\phi(a(s)x + b(s)) - \ln s = \phi(x)$.
+
+##### Step 3. 
+
+Denote $y = \phi(x)$. Apply $\phi^{-1}$ to both sides. We get: $\phi^{-1}(\phi(a(s)x + b(s))) = y + \ln s$.
+
+$a(s)x + b(s) = \phi^{-1}(y + \ln s)$
+
+$a(s) \phi^{-1}(y) + b(s) = \phi^{-1}(y + \ln s)$
+
+$\phi^{-1}(y) = \frac{\phi^{-1}(y + \ln s) - b(s)}{a(s)}$
+
+##### Step 4. 
+
+Note that $\phi^{-1}(0) = \frac{\phi^{-1}(\ln s) - b(s)}{a(s)}$. Subtract $\phi^{-1}(0)$ from both sides:
+
+$\phi^{-1}(y) - \phi^{-1}(0) = \frac{\phi^{-1}(y + \ln s) - b(s)}{a(s)} - \frac{\phi^{-1}(\ln s) - b(s)}{a(s)} = \frac{\phi^{-1}(y + \ln s) - \phi^{-1}(\ln s)}{a(s)}$
+
+##### Step 5.
+
+Substitute variables: $\psi^{-1}(y) = \phi^{-1}(y) - \phi^{-1}(0)$, $z = \ln s$, $\tilde a(z) = a(e^z)$. Then:
+
+$\psi^{-1}(y) = \phi^{-1}(y) - \phi^{-1}(0) = \frac{\phi^{-1}(y + \ln s) - \phi^{-1}(\ln s)}{a(s)} = \frac{\psi^{-1}(y + z) - \psi^{-1}(z)}{\tilde a(z)}$
+
+$\psi^{-1}(y + z) - \psi^{-1}(z) = \psi^{-1}(y) \tilde a(z)$
+
+##### Step 6.
+
+We can swap $y$ and $z$ in previous equation, settings $y = z$ and $z = y$:
+
+$\psi^{-1}(y + z) - \psi^{-1}(y) = \psi^{-1}(z) \tilde a(y)$
+
+After that subtract $\psi^{-1}(y + z) - \psi^{-1}(z) = \psi^{-1}(y) \tilde a(z)$ from $\psi^{-1}(y + z) - \psi^{-1}(y) = \psi^{-1}(z) \tilde a(y)$:
+
+$\psi^{-1}(z) - \psi^{-1}(y) = \psi^{-1}(z) \tilde a(y) - \psi^{-1}(y) \tilde a(z)$
+
+$\psi^{-1}(z) (1 - \tilde a(y)) = \psi^{-1}(y) (1 - \tilde a(z))$
+
+Here we consider two cases.
+
+##### Step 7a.
+
+If $\tilde{a}(z) = 1$, previous equation leads us to $0 = 0$. But then let's substitute $\tilde{a}(z) = 1$ into the result of step 5:
+
+$\psi^{-1}(y + z) = \psi^{-1}(y) + \psi^{-1}(z)$
+
+This means that $\psi^{-1}(y) = \rho y$ and denoting $\nu = \phi^{-1}(0)$, we get:
+
+$\rho y = \psi^{-1}(y) = \phi^{-1}(y) - \phi^{-1}(0) = \phi^{-1}(y) - \nu$
+
+$\phi^{-1}(y) = \nu + \rho y$
+
+$x = \phi^{-1}(\phi(x)) = \nu + \rho \ln(-\ln(-G(x)))$
+
+$G(x) = exp(-e^{-\frac{x - \nu}{\rho}})$, which is Gumbel (Type I) EVD.
+
+##### Step 7b.
+
+If $\tilde{a}(z) \ne 1$: 
+
+$\psi^{-1}(y) = \frac{ \psi^{-1}(z) }{ (1 - \tilde a(z)) } (1 - \tilde a(y)) = c (1 - \tilde a(y))$
+
+Now recall that $\psi^{-1}(y + z) - \psi^{-1}(z) = \psi^{-1}(y) \tilde a(z)$ and substitute $\psi^{-1}(y) = c (1 - \tilde a(y))$ there:
+
+$c (1 - \tilde{a}(y + z)) - c (1 - \tilde{a}(y)) = c (1 - \tilde{a}(y)) \tilde a(z)$
+
+This leads us to equation $\tilde{a}(z + y) = \tilde{a}(y) \tilde{a}(z)$, which, upon monotonous $\tilde{a}(y)$ has a
+solution $\tilde{a}(y) = e^{\rho y}$. Hence:
+
+$\psi^{-1}(y) = c (1 - e^{\rho y}) = \phi^{-1}(y) - \phi^{-1}(0)$
+
+$\phi^{-1}(y) = \nu + c (1 - e^{\rho y})$, where $\nu = \phi^{-1}(0)$.
+
+Now recall that $\phi(x) = -\ln(-\ln(G(x)))$, and we get: $x = \phi^{-1}(\phi(x)) = \nu + c (1 - e^{-\rho \ln(-\ln(G(x)))})$. Hence: 
+
+$\frac{x - \nu}{c} = 1 - (-\ln G(x))^{-\rho}$ 
+
+$(-\ln G(x))^{-\rho} = 1 - \frac{x - \nu}{c}$
+
+$-\ln G(x) = (1 - \frac{x - \nu}{c})^{-\frac{1}{\rho}}$
+
+$G(x) = e^{-(1 - \frac{x - \nu}{c})^{-\frac{1}{\rho}}}$, which is either a Frechet (Type II), or a reversed Weibull (Type III) EVD. 
+
 
 ## Von Mises theorem on sufficient conditions of type of convergence
 
@@ -197,13 +296,13 @@ TODO
 
 #### Definition 7: Survival function saturation point
 
-We shall denote the saturation point of survival function $x_F = \sup \{ x; F(x) < 1\}$. 
+We shall denote the saturation point of survival function $x_F = \sup \{ x; F(x) < 1\}$. It is also sometimes denoted $\omega(F)$.
 
-Basically, if there is a point, where survival function becomes exactly 0, $x_F < \infty$. For instance, if we're 
-studying the survival of human, and everybody dies by the age of 129 years, $x_F = 129$.
+Basically, $x_F$ is the smallest point $x$, where survival function $S(x)$ becomes exactly 0. For instance, if we're 
+studying the survival of human, and there are known survivors at the age of $128$, but everybody dies by the age of 129 years, $x_F = 129$.
 
-However, if there is no such limit (e.g. the population dies out exponentially $S(x) = e^{-x}$ or 
-polynomially $S(x) = \frac{1}{x}$), we say that $x_F = \infty$
+If there is no such limit (e.g. the population dies out exponentially $S(x) = e^{-x}$ or 
+polynomially $S(x) = \frac{1}{x}$), we say that $x_F = \infty$.
 
 #### Theorem 2: von Mises theorem on sufficient conditions for a distribution to belong to a type I, II or III
 
