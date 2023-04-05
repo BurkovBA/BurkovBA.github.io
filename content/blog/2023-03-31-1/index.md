@@ -1,5 +1,5 @@
 ---
-title: Extreme Value Theorem and Distributions
+title: Extreme Value Theory and Extreme Value Distributions
 date: "2023-03-31T00:00:00.284Z"
 tags: ["math"]
 cover: "./GEVD.png"
@@ -119,12 +119,12 @@ I mentioned above and prove some lemmas about their relatedness.
 #### Definition 1: Max-stable cumulative distribution function
 
 $G$ is max-stable if for all $n \in 1..N$  and for all x there exists $\{a_n\}, \{b_n\} \subset \mathbb{R}^+$ such that for all 
-$x \in \mathbb{R}$ $G^*(x) = G_n(a_n x + b_n)$.
+$x \in \mathbb{R}$ $G(x) = G_n(a_n x + b_n)$.
 
 #### Definition 2: Domain of attraction
 
 If $F$ is a cdf, then $F$ is in the domain of attraction (for maxima) of $G$, and it is written $F \in \mathcal{D}(G)$, 
-when there exist sequences $\{a_n\}, \{b_n\} \subset \mathbb{R}^+$ such that $F_n (a_n x + b_n) \xrightarrow[n \to \infty]{w} G(x)$.
+when there exist sequences $\{a_n\}, \{b_n\} \subset \mathbb{R}^+$ such that $F^n (a_n x + b_n) \xrightarrow[n \to \infty]{w} G(x)$.
 
 #### Definition 3: Type of convergence
 
@@ -137,35 +137,88 @@ Suppose that we have a sequence of distribution functions $\{F_n\}$ (e.g. the di
 
 Let those distribution functions upon $n \to \infty$ converge to a certain distribution $G(x)$: $F_n(a_n x + b_n) \xrightarrow[n \to \infty]{w} G(x)$. Then we have two series of constants $\{a_n\}, \{b_n\}$.
 
-Suppose there is another distribution function $G^*(x)$ such that the sequence of distributions $F_n(\alpha_n x + \beta_n)$ converges to that function: $F_n(\alpha_n x + \beta_n) \xrightarrow[n \to \infty]{w} G^*(x)$ and there is a different pair of series $\{ \alpha_n \}, \{\beta_n \}$.
+Suppose there is another distribution function $H(x)$ such that the sequence of distributions $F_n(\alpha_n x + \beta_n)$ converges to that function: $F_n(\alpha_n x + \beta_n) \xrightarrow[n \to \infty]{w} H(x)$ and there is a different pair of series $\{ \alpha_n \}, \{\beta_n \}$.
 
-Then $G^*(x) = G(a'x + b')$ and $a' = \frac{\alpha_n}{a_n}$, $b' = \frac{\beta_n - b_n}{a_n}$.
+Then $H(x) = G(Ax + B)$ and $A = \frac{\alpha_n}{a_n}$, $B = \frac{\beta_n - b_n}{a_n}$.
 
 #### Proof:
 
-TODO
+Consider two distribution functions $G(x)$ and $H(x)$, such that for every $x$: $y = F(ax+b)$ and $y = F(\alpha x + \beta)$.
 
-#### Lemma 2: Necessary condition of Maximum-stability
+Denote $y = F(ax + b) \to G(x)$. Then $F^{-1}(y) = ax + b$ and $x = \frac{F^{-1}(y) - b}{a} \to G^{-1}(y)$.
+
+Similarly $y = F(\alpha x + \beta) \to H(x)$ and $F^{-1}(y) = \alpha x + \beta$ and $x = \frac{F^{-1}(y) - \beta}{\alpha} \to H^{-1}(y)$.
+
+Now choose two points: $x_1$, corresponding to $y_1$, and $x_2$, corresponding to $y_2$ and subtract $x_1$ and $x_2$ from each other:
+
+$x_1 - x_2 = \frac{F^{-1}(y_1) - F^{-1}(y_2)}{a} \to G^{-1}(y_1) - G^{-1}(y_2)$
+
+Apply the same for $H^{-1}$:
+
+$x_1 - x_2 = \frac{F^{-1}(y_1) - F^{-1}(y_2)}{\alpha} \to H^{-1}(y_1) - H^{-1}(y_2)$
+
+Which results in $\frac{G^{-1}(y_1) - G^{-1}(y_2)}{H^{-1}(y_1) - H^{-1}(y_2)} \to \frac{\alpha}{a} = A$.
+
+Substitute $\alpha = A \cdot a$ into $H^{-1}(y) \to x = \frac{F^{-1}(y) - \beta}{A \cdot a}$ and $A \cdot H^{-1}(y) \to A \cdot x = \frac{F^{-1}(y) - \beta}{a}$.
+
+On the other hand we recall that $G^{-1}(y) \to x = \frac{F^{-1}(y) - b}{a}$. Subtracting these, we get: $A \cdot H^{-1}(y) - G^{-1}(y) \to \frac{F^{-1}(y) - \beta}{a} - \frac{F^{-1}(y) - b}{a} = \frac{b - \beta}{a}$ or $\frac{\beta - b}{a} = B \to G^{-1}(y) - A \cdot H^{-1}(y)$.
+
+Hence, $G^{-1}(y) \to A \cdot H^{-1}(y) + B$.
+
+
+#### Lemma 2: Necessary condition of maximum-stability
 
 Given G a non-degenerate cdf:
 
 1. G is max-stable if and only if there exists a sequence $\{F_n\}$ of cdf ’s and sequences
-$\{a_n\} \subset \mathbb{R}^+$, $\{b_n\}$ such that for all $k \in N$ $F_n(a^{−1}_{nk} x + b_{nk}) \xrightarrow[n \to \infty]{w} G^{1/k}(x)$
+$\{a_n\} \subset \mathbb{R}^+$, $\{b_n\}$ such that for all $k \in N$ $F_n(a_{nk} x + b_{nk}) \xrightarrow[n \to \infty]{w} G^{1/k}(x)$
 
-2. $D(G) \neq 0$ if and only if $G$ is max-stable. In that case, $G \in \mathcal{D}(G)$.
+2. $\mathcal{D}(G) \neq 0$ if and only if $G$ is max-stable. In that case, $G \in \mathcal{D}(G)$.
 
 #### Proof: 
 
-TODO
+##### Proposition 1 direct statement: if $G$ is max-stable, there exists $\{F_n\}$ such that ...
 
-#### Lemma 3:
+If $G$ is max-stable, then by definition for every $n \in \mathbb{N}$ there exist $a_n$, $b_n$, such that $G^{n}(a_n x + b_n) = G(x)$.
+
+Define $F_n = G^n$. Then $F^k_n(a_{nk} x + b_{nk}) = G^{nk}(a_{nk} x + b_{nk}) = G$. We arrive at the direct statement.
+
+##### Proposition 1 reverse statement: if $G$ is max-stable, there exists $\{F_n\}$ such that ... 
+
+Let us proof the reverse statement: suppose that the sequences $\{F^n\}$, $\{a_n\}$, $\{b_n\}$ exist, such that for all $k \in \mathbb{N}$:
+
+$F_n(a_{nk}x + b_{nk}) \xrightarrow[n \to \infty]{w} G^{1/k}(x)$
+
+Then consider $k=1$ and $k=2$:
+
+$F_n(a_{n}x + b_{n}) \xrightarrow[n \to \infty]{w} G(x)$ and $F_n(a_{2n}x + b_{2n}) \xrightarrow[n \to \infty]{w} G^{1/2}(x)$
+
+By Khinchin's lemma there exists $G(\alpha_2 x+ \beta_2) = G^{1/2}(x)$. 
+
+Similarly, for every other $k$: $G(\alpha_k x + \beta_k) = G^{1/k}(x)$ or $G^k(\alpha_k x + \beta_k) = G(x)$, which is the 
+definition of max-stability.
+
+##### Proposition 2 direct statement: 
+
+The proof is self-evident: if G is max-stable, $G^n(a_n x + b_n) = G(x)$, and $G \in \mathcal{D}(G)$ by defintion.
+
+##### Proposition 2 reverse statement: 
+
+Assume $F \in \mathcal{D}(G)$, i.e. $F^n (a_n x + b_n) \xrightarrow[n \to \infty]{w} G(x)$.
+
+For all $k \in \mathbb{N}$ we have $F^{nk} (a_{nk} x + b_{nk}) \xrightarrow[n \to \infty]{w} G(x)$.
+
+Hence, $F^{n} (a_{nk} x + b_{nk}) \xrightarrow[n \to \infty]{w} G^{1/k}(x)$
+
+This makes $G$ and $G^k$ fit for the conditions of previous result, proving that $G$ is max-stable.
+
+#### Corollary:
 
 Let $G$ be a max-stable cdf. Then there exist functions $a(s) > 0$ and $b(s)$ such that for all $x \in \mathbb{R}$, for all $s > 0$, 
 $G^s(a(s)x + b(s)) = G(x)$.
 
-#### Proof:
+Corollary is self-evident from inversion of indices $s = \frac{1}{k}$.
 
-TODO
 
 #### Theorem 1: Fisher-Tippett-Gnedenko theorem (Extreme Value Theorem)
 
@@ -280,23 +333,45 @@ TODO
 
 #### Definition 4: Survival function
 
-$S(t) = 1 - F(t)$
+**Survival function** $S(t)$ is reverse of cumulative distribution function $F(t)$: $S(t) = 1 - F(t)$.
 
-TODO
+Basically, if our random variable's value represents a human longevity, 
+$F(t) = p(\xi \le t) = \int \limits_{-\infty}^{t} f(x) dx$ is the fraction of people, who die by the time $t$, survival
+function $S(t) = p(\xi \ge t) = 1 - p(\xi \le t) = 1 - F(t)$ is the fraction of people, who are still alive by the time $t$.
 
 #### Definition 5: Hazard rate
 
+**Hazard rate** $r(t)$ in the same context of survival analysis your chance of dying at the time $t$. 
+
+Basically, what's your chances to die at 64, if you're an average person? It is the number of
+people, who died aged 64, to number of people, who survived by 64. In mathematical terms it is the ratio of 
+probability density function to survival function:
+
 $r(t) = \frac{f(t)}{1 - F(t)} = \frac{f(t)}{S(t)}$
 
-TODO
+#### Definition 6: Tail quantile function
 
-#### Definition 6: Quantile function
+**Tail quantile function** of $n$ is the smallest time $t$, when the fraction of survivors becomes smaller than $n$:
 
-TODO
+$\gamma(n) = \inf \{ t; F(t) \le 1 - \frac{1}{n} \} = \inf \{ t; S(t) \ge \frac{1}{n} \}$
 
-#### Definition 7: Survival function saturation point
+#### Lemma 4: convergence of tail quantile function to exponent
 
-We shall denote the saturation point of survival function $x_F = \sup \{ x; F(x) < 1\}$. It is also sometimes denoted $\omega(F)$.
+Consider a sequence $\{ x_n \}$ of data points, such that each $x_n \to t_n$ as $n \to \infty$, where $\{t_n\}$ are the 
+values of tail quantile function at $\frac{\tau}{n}$:
+
+$\gamma(\frac{\tau}{n}) = \inf \{t_n; S(t_n) \ge \frac{\tau}{n} \}$
+
+Then $p(M_n \le x_n) \to e^{-\tau}$.
+
+#### Proof:
+
+$(1 - p(M_n \le x_n))^n = (1 - F(t_n))^n = S(t_n)^n = (1 - \frac{\tau}{n})^n  = e^{-\tau}$ (last equality by definition of exponent)
+
+
+#### Definition 7: Survival function end point
+
+We shall denote the **end point** of survival function $x_F = \sup \{ x; F(x) < 1\}$. It is also sometimes denoted $\omega(F)$.
 
 Basically, $x_F$ is the smallest point $x$, where survival function $S(x)$ becomes exactly 0. For instance, if we're 
 studying the survival of human, and there are known survivors at the age of $128$, but everybody dies by the age of 129 years, $x_F = 129$.
@@ -317,37 +392,95 @@ TODO
 
 Speaking informally: 
 
-* If a distribution's survival function has no saturation point and its survival decays polynomially (has "fat tails"), the distribution belongs to EVD type II (Frechet).
-* If a distribution's survival function has a finite saturation point, and it decays polynomially, approaching that saturation point, the distribution belongs to EVD type III (Weibull). 
-* If a distribution's survival function decays exponentially (has "light, sub-exponential tails"), approaching its saturation point, which might be either finite or infinite, it belongs to EVD type I (Gumbel).
+* If a distribution's survival function has no end point and its survival decays polynomially (has "fat tails"), the distribution belongs to EVD type II (Frechet).
+* If a distribution's survival function has a finite end point, and it decays polynomially, approaching that end point, the distribution belongs to EVD type III (Weibull). 
+* If a distribution's survival function decays exponentially (has "light, sub-exponential tails"), approaching its end point, which might be either finite or infinite, it belongs to EVD type I (Gumbel).
 
 For instance:
 
-* Pareto, Cauchy, Student and Fisher distributions have heavy tails and converges to Type II
-* Uniform and Beta distributions have a finite saturation point and converge to Type III
-* Gaussian, Exponential, Gamma and Logistic distributions have light sub-exponential tails and converge to Type I
+* Pareto, Cauchy, Student and Fisher distributions have heavy tails and converge to Type II.
+* Uniform and Beta distributions have a finite end point and converge to Type III.
+* Gaussian, Exponential, Gamma and Logistic distributions have light sub-exponential tails and converge to Type I.
 
-We shall formalize this theorem statement a bit later. But first, to perform the proof, we'll need one more technical 
-tool in our toolbox, **regularly varying function** (which is a generalization of a **slow-varying function**).
+In case of Type I the end point might be finite or infinite. 
+
+An example of distribution with infinite end point $x_F$ we can consider exponential distribution $F(x) = 1 - e^{-x}$ 
+for $x > 0$. We can show that its maximum converges to Type I by choosing $a_n = 1$, $b_n = \log n$, so that we 
+get $F^n(x + \log n) = (1 - e^{-(x + \log n)})^n = (1 - \frac{e^{-x}}{n})^n \to exp(e^{-x})$.
+
+An example of distribution with a finite end point $x_F$ is from Gnedenko (1943) work:
+
+$F(x) = \begin{cases} 0, x < 0 \\ 1 - \exp(\frac{-x}{1-x}), 0 \le x < 1 \\ 1, x \ge 1 \end{cases}$
+
+and $a_n = \frac{1}{(1 + \log n)^2}$ and $b_n = \frac{ \log n }{ 1 + \log n }$
+
+TODO: Gnedenko's example of a distribution that has $x_F < \infty$ and still decays sub-exponentially 
+
+We shall formalize this theorem statement a bit later. But first, to perform the proof, we'll need more technical 
+tool in our toolbox, **regularly varying function** (which is a generalization of a **slow-varying function**) and
+**auxiliary function**.
 
 #### Definition 8: Slow-varying function
 
-TODO
+**Slow-varying function** $l(x)$ is such a function that $\lim \limits_{t \to \infty} \frac{l(xt)}{l(t)} = 1$ for any $x > 0$.
 
 #### Definition 9: Regularly-varying function
 
+**Regularly-varying function** $h(x)$ of index $\gamma$ is such a function that $\lim \limits_{t \to \infty} \frac{h(xt)}{l(h)} = x^{\gamma}$ for any $x > 0$.
+
+Regularly-varying function is basically just a generalization of slow-varying function.
+
+#### Definition 10: Auxiliary function
+
+A non-decreasing function U is $\Gamma$-varying (written U $\in$ $\Gamma$) if U is defined on an interval 
+($x_l, x_F$), $\lim \limits_{x \to x_F} U(x) = \infty$ and there exists a positive function $f$ defined on ($x_l, x_F$) 
+such that for all x $\lim \limits_{t \to x_F} \frac{ U(t + xf(t)) }{ U(t) } = e^x$.
+
+The function $f$ is called an **auxiliary function** and is unique up to asymptotic
+equivalence. There are several ways to check this, but perhaps the most straightforward is to define for $t > 0$, $x > 0$ 
+
+$F_t(x) = 1 - U(t)/U(t + x)$
+
+so that $F_t(x)$ is a family of distributions. If this is satisfied for both $f_1$ and $f_2$ then:
+
+Fr(J;(t)x) --+ 1 - e- X
+for i = 1,2, and hence by the convergence to types Proposition 0.2 we have
+
 TODO
+
 
 #### Theorem 3: necessary and sufficient conditions for a distribution to belong to a type I, II or III
 
-* A distribution belongs to Extreme Value Distribution type II (Frechet) if and only if $x_F = \infty$ and $\lim_{t \to \infty} \frac{S(tx)}{S(t)} = x^{-\alpha}$, where $\alpha > 0$ and $x > 0$.
-* A distribution belongs to Extreme Value Distribution type III (Weibull) if and only if TODO.
-* A distribution belongs to Extreme Value Distribution type I (Gumbel) if and only if TODO.
+* A distribution belongs to Extreme Value Distribution type II (Frechet) if and only if $x_F = \infty$ and $\lim \limits_{t \to \infty} \frac{S(tx)}{S(t)} = x^{-\alpha}$, where $\alpha > 0$ and $x > 0$.
+* A distribution belongs to Extreme Value Distribution type III (Weibull) if and only if $x_F < \infty$ and $\lim \limits_{t \to 0} \frac{S(x_F - tx)}{S(x_F - t)} = x^\alpha$, where $\alpha > 0$ and $x > 0$.
+* A distribution belongs to Extreme Value Distribution type I (Gumbel) if and only if $\lim \limits_{t \to x_F} \frac{S(t + x g(t))}{S(t)} = e^{-x}$, where $x \in \mathbb{R}$ and $g(t)$ is an **auxiliary function**, which is not uniquely-defined, e.g. could be set to inverse hazard rate $g(t) = \frac{1}{r(t)} = \frac{S(t)}{f(t)}$.
 
 
 #### Proof:
 
-TODO
+##### EVD Type II
+
+$F_{M_n}(tx) = p(M_n \le tx) = F_\xi(tx)^n = p(\xi_i \le tx)^n = (1 - p(\xi_i \ge tx))^n = (1 - S(tx))^n \to (1 - x^{-\alpha} S(t))^n = (1 - x^{-\alpha} \cdot \frac{1}{n})^n = e^{-{x^{-\alpha}}}$
+
+##### EVD Type III
+
+$F_{M_n}(x_F - tx) = p(M_n \le x_F - tx) = p(x_F - M_n \ge tx) = p^n(x_F - \xi \ge tx) = (1 - p(x_F - \xi \le tx) )^n = (1 - S(x_F - tx))^n \to (1 - S(x_F - t) \cdot x^\alpha)^n = (1 - \frac{1}{n} \cdot x^\alpha) = e^{-x^\alpha}$
+
+##### EVD Type I
+
+If $x_F = \infty$, the proof is similar to Type II:
+
+$F_{M_n}(tx) = p(M_n \le tx) = F_\xi(tx)^n = p(\xi_i \le tx)^n = (1 - p(\xi_i \ge tx))^n = (1 - S(tx))^n \to (1 - e^{-x} \cdot S(t))^n = (1 - e^{-x} \cdot \frac{1}{n})^n = e^{-{e^{-x}}}$
+
+Otherwise, if $x_F < \infty$, the proof is similar to Type III:
+
+$F_{M_n}(t + x g(t)) = 1 - F^n_{\xi}(t + x g(t)) = (1 - S_{\xi}(t + x g(t))^n \to (1 - e^{-x}S_{\xi}(t))^n = (1 - \frac{e^{-x}}{n})^n = e^{-e^{-x}}$
+
+$1 - F_{M_n}(t) = \frac{1}{n}$
+
+$1 - F_{M_n}(t + x g(t)) \to (1 - F(t)) e^{-x}$
+
+$S_{M_n}$
 
 ## Practical applications
 
@@ -381,9 +514,12 @@ TODO
 * https://eva.fing.edu.uy/pluginfile.php/287975/mod_resource/content/1/Stuart_Coles_An_Introduction_to_Statistical_Modeling_of_Extreme_Values__2001.pdf - a book on EVD by Stuart Coles
 * https://www.lanl.gov/orgs/ees/geodynamics/Wohletz/SFT_Weibull.pdf - a famous paper on derivation of Weibull distribution for distribution of particles
 * https://www2.stat.duke.edu/~scs/Projects/Stable/Laptop/Leadbetter1983.pdf - proof of EVT for interdependent theorems
-* https://stats.stackexchange.com/questions/106068/how-to-find-the-a-n-b-n-for-extreme-value-theory - StackExchange answer on quantile function
+* https://stats.stackexchange.com/questions/106068/how-to-find-the-a-n-b-n-for-extreme-value-theory - StackExchange answer on tail quantile function
 * https://eventuallyalmosteverywhere.wordpress.com/tag/frechet-distribution/ - examples of distributions, producing different kinds of EVD
 * https://scask.ru/k_book_eps.php - Extremes of Random Sequences and Processes (1989) by Leadbetter, Lindgren and Rootzen (in Russian)
 * https://www.studmed.ru/lidbetter-m-lindgren-g-rotsen-x-ekstremumy-sluchaynyh-posledovatelnostey-i-processov_21f63a9fd30.html - download link for Leadbetter, Lindgren and Rootzen (in Russian)
 * https://repositorio.unican.es/xmlui/bitstream/handle/10902/20125/Se%C3%B1as%20Peon%20Pablo.pdf?sequence=1&isAllowed=y - nice masters PhD by Pablo Señas Peón on EVD
 * https://ir.cwi.nl/pub/21636/21636A.pdf - "on R. von Mises condition for the domain of attraction of exp(-e^{-x})" by Balhema and de Haan
+* https://stats.stackexchange.com/questions/341509/extreme-value-theory-show-that-lim-n-rightarrow-inftya-n-exists-and-is - on auxiliary function for Gumbel distribution
+* https://link.springer.com/chapter/10.1007/978-3-030-28669-9_3 - another great review of EVT by Maria Jacob
+* https://minerva.it.manchester.ac.uk/~saralees/book3.pdf - "Extreme Values, Regular Variation and Point Processes" by Sidney Resnick, good text on auxiliary functions
