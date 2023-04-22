@@ -1,12 +1,12 @@
 ---
-title: Extreme Value Theory and Extreme Value Distributions
-date: "2023-03-31T00:00:00.284Z"
+title: Intro to the Extreme Value Theory and Extreme Value Distributions
+date: "2023-04-30T00:00:00.284Z"
 tags: ["math"]
 cover: "./GEVD.png"
 description: Quite often in mathematical statistics I run into Extreme Value Distribution - an analogue of Central Limit Theorem, which describes the distribution of maximum/minimum, observed in a series of i.i.d random variable tosses. In this post I explore the three cases of EVD and the Fisher-Tippett-Gnedenko theorem. 
 ---
 
-## Problem statement and Generalized Extreme Value distribution
+## 1. Problem statement and Generalized Extreme Value distribution
 
 One of the most famous results in probabilities is Central Limit Theorem, which claims that sum of $n \to \infty$ i.i.d. random variables $\xi_i$
 after centering and normalizing converges to Gaussian distribution.
@@ -55,7 +55,7 @@ E.g. consider uniform distribution $\xi \sim U(0, 1)$. It is clear that the maxi
 variables will be approaching 1 as $n \to \infty$. Turns out that the convergence rate is described by Weibull 
 distribution.
 
-## Fisher-Tippett-Gnedenko theorem
+## 2. Fisher-Tippett-Gnedenko theorem
 
 Extreme Value Theorem is a series of theorems, proven in the first half of 20-th century. They claim that
 maximum of several tosses of i.i.d. random variables converges to just one of 3 possible distributions,
@@ -116,22 +116,22 @@ $n \to \infty$ Pareto/Cauchy i.i.d's to the same maximum stable type II (Frechet
 Now that I've laid out the plan of the proof, it is time to get into technicalities. I will formally introduce the concepts
 I mentioned above and prove some lemmas about their relatedness.
 
-#### Definition 1: Max-stable cumulative distribution function
+#### Definition 2.1: Max-stable cumulative distribution function
 
 $G$ is max-stable if for all $n \in 1..N$  and for all x there exists $\{a_n\}, \{b_n\} \subset \mathbb{R}^+$ such that for all 
 $x \in \mathbb{R}$ $G(x) = G_n(a_n x + b_n)$.
 
-#### Definition 2: Domain of attraction
+#### Definition 2.2: Domain of attraction
 
 If $F$ is a cdf, then $F$ is in the domain of attraction (for maxima) of $G$, and it is written $F \in \mathcal{D}(G)$, 
 when there exist sequences $\{a_n\}, \{b_n\} \subset \mathbb{R}^+$ such that $F^n (a_n x + b_n) \xrightarrow[n \to \infty]{w} G(x)$.
 
-#### Definition 3: Type of convergence
+#### Definition 2.3: Type of convergence
 
 If $G^*(x)$ is another non-degenerate cdf, we say that $G$ and $G^*$ have the same type if for all $x$ there exist 
 $a > 0$ and $b \in R$ such that for every x ∈ R $G^*(ax + b) = G(x)$.
 
-#### Lemma 1: Khinchin's theorem (law of Convergence of Types)
+#### Lemma 2.1: Khinchin's theorem (law of Convergence of Types)
 
 Suppose that we have a sequence of distribution functions $\{F_n\}$ (e.g. the distributions of maximum of random variable $\xi_i$ in $n$ experiments).
 
@@ -166,7 +166,7 @@ On the other hand we recall that $G^{-1}(y) \to x = \frac{F^{-1}(y) - b}{a}$. Su
 Hence, $G^{-1}(y) \to A \cdot H^{-1}(y) + B$.
 
 
-#### Lemma 2: Necessary condition of maximum-stability
+#### Lemma 2.2: Necessary condition of maximum-stability
 
 Given G a non-degenerate cdf:
 
@@ -212,7 +212,7 @@ Hence, $F^{n} (a_{nk} x + b_{nk}) \xrightarrow[n \to \infty]{w} G^{1/k}(x)$
 
 This makes $G$ and $G^k$ fit for the conditions of previous result, proving that $G$ is max-stable.
 
-#### Corollary:
+#### Corollary 2.1:
 
 Let $G$ be a max-stable cdf. Then there exist functions $a(s) > 0$ and $b(s)$ such that for all $x \in \mathbb{R}$, for all $s > 0$, 
 $G^s(a(s)x + b(s)) = G(x)$.
@@ -220,7 +220,7 @@ $G^s(a(s)x + b(s)) = G(x)$.
 Corollary is self-evident from inversion of indices $s = \frac{1}{k}$.
 
 
-#### Theorem 1: Fisher-Tippett-Gnedenko theorem (Extreme Value Theorem)
+#### Theorem 2.1: Fisher-Tippett-Gnedenko theorem (Extreme Value Theorem)
 
 Let $\xi_i$ be a sequence of i.i.d. random variables.
 
@@ -324,14 +324,15 @@ $(-\ln G(x))^{-\rho} = 1 - \frac{x - \nu}{c}$
 
 $-\ln G(x) = (1 - \frac{x - \nu}{c})^{-\frac{1}{\rho}}$
 
-$G(x) = e^{-(1 - \frac{x - \nu}{c})^{-\frac{1}{\rho}}}$, which is either a Frechet (Type II), or a reversed Weibull (Type III) EVD. 
+$G(x) = e^{-(1 - \frac{x - \nu}{c})^{-\frac{1}{\rho}}}$, which is either a Frechet (Type II), or a reversed Weibull (Type III) EVD.
 
-
-## Von Mises theorem on sufficient conditions of type of convergence
+## 3. Von Mises sufficient conditions for a distribution to belong to a type I, II or III
 
 TODO
 
-#### Definition 4: Survival function
+### Pre-requisites from survival analysis
+
+#### Definition 3.1: Survival function
 
 **Survival function** $S(t)$ is reverse of cumulative distribution function $F(t)$: $S(t) = 1 - F(t)$.
 
@@ -339,23 +340,29 @@ Basically, if our random variable's value represents a human longevity,
 $F(t) = p(\xi \le t) = \int \limits_{-\infty}^{t} f(x) dx$ is the fraction of people, who die by the time $t$, survival
 function $S(t) = p(\xi \ge t) = 1 - p(\xi \le t) = 1 - F(t)$ is the fraction of people, who are still alive by the time $t$.
 
-#### Definition 5: Hazard rate
+#### Lemma 3.1: integral of survival function equals to average life expectancy
 
-**Hazard rate** $r(t)$ in the same context of survival analysis your chance of dying at the time $t$. 
+TODO
 
-Basically, what's your chances to die at 64, if you're an average person? It is the number of
-people, who died aged 64, to number of people, who survived by 64. In mathematical terms it is the ratio of 
-probability density function to survival function:
+#### Definition 3.2: Survival function end point
 
-$r(t) = \frac{f(t)}{1 - F(t)} = \frac{f(t)}{S(t)}$
+We shall denote the **end point** of survival function $x_F = \sup \{ x; F(x) < 1\}$. It is also sometimes denoted $\omega(F)$.
 
-#### Definition 6: Tail quantile function
+Basically, $x_F$ is the smallest point $x$, where survival function $S(x)$ becomes exactly 0. For instance, if we're 
+studying the survival of human, and there are known survivors at the age of $128$, but everybody dies by the age of 129 years, $x_F = 129$.
+
+If there is no such limit (e.g. the population dies out exponentially $S(x) = e^{-x}$ or 
+polynomially $S(x) = \frac{1}{x}$), we say that $x_F = \infty$.
+
+#### Definition 3.3: Tail quantile function
 
 **Tail quantile function** of $n$ is the smallest time $t$, when the fraction of survivors becomes smaller than $n$:
 
 $\gamma(n) = \inf \{ t; F(t) \le 1 - \frac{1}{n} \} = \inf \{ t; S(t) \ge \frac{1}{n} \}$
 
-#### Lemma 4: convergence of tail quantile function to exponent
+For instance, tail quantile function of 10 is the time, when 1/10 of population is still alive.
+
+#### Lemma 3.2: convergence of tail quantile function to exponent
 
 Consider a sequence $\{ x_n \}$ of data points, such that each $x_n \to t_n$ as $n \to \infty$, where $\{t_n\}$ are the 
 values of tail quantile function at $\frac{\tau}{n}$:
@@ -368,18 +375,39 @@ Then $p(M_n \le x_n) \to e^{-\tau}$.
 
 $(1 - p(M_n \le x_n))^n = (1 - F(t_n))^n = S(t_n)^n = (1 - \frac{\tau}{n})^n  = e^{-\tau}$ (last equality by definition of exponent)
 
+#### Definition 3.4: Hazard rate
 
-#### Definition 7: Survival function end point
+**Hazard rate** $r(t)$ in the same context of survival analysis your chance of dying at the time $t$. 
 
-We shall denote the **end point** of survival function $x_F = \sup \{ x; F(x) < 1\}$. It is also sometimes denoted $\omega(F)$.
+Basically, what's your chances to die at 64, if you're an average person? It is the number of
+people, who died aged 64, to number of people, who survived by 64. In mathematical terms it is the ratio of 
+probability density function to survival function:
 
-Basically, $x_F$ is the smallest point $x$, where survival function $S(x)$ becomes exactly 0. For instance, if we're 
-studying the survival of human, and there are known survivors at the age of $128$, but everybody dies by the age of 129 years, $x_F = 129$.
+$r(t) = \frac{f(t)}{1 - F(t)} = \frac{f(t)}{S(t)}$
 
-If there is no such limit (e.g. the population dies out exponentially $S(x) = e^{-x}$ or 
-polynomially $S(x) = \frac{1}{x}$), we say that $x_F = \infty$.
+#### Definition 3.5: Cumulative hazard rate
 
-#### Theorem 2: von Mises theorem on sufficient conditions for a distribution to belong to a type I, II or III
+**Cumulative hazard rate** $R(t) = \int \limits_{x=-\infty}^{t} r(x) dx$ is integral of hazard rate over some period of time.
+
+Cumulative hazard rate is basically the number of times you avoided death by now. E.g. you're a cowboy in the Wild West,
+robbing trains. At your first robbery your chance of being killed (hazard rate) is $1/2$. Then you get more experienced
+and at the second and third time your hazard rate is $1/3$ and $1/4$. If you survived 3 robberies, your cumulative hazard
+rate equals $1/2 + 1/3 + 1/4$. Basically, you "deserved" more than 1 death by now and are lucky to still be alive.
+
+#### Proposition 3.1. Cumulative hazard rate relation to survival function
+
+$R(t) = \int \limits_{-\infty}^{t} \frac{f(x)}{1 - F(x)} dx = - \int \limits_{-\infty}^{t} \frac{1}{1 - F(x)} d(1 - F(x)) = -\ln(1 - F(t))$
+
+
+#### Theorem 3.1: Von Mises sufficient condition for a distribution to belong to type II (Frechet) EVD
+
+* A distribution belongs to Extreme Value Distribution type I (Gumbel) if and only if $\lim \limits_{t \to x_F} \frac{S(t + x g(t))}{S(t)} = e^{-x}$, where $x \in \mathbb{R}$ and $g(t)$ is an **auxiliary function**, which is not uniquely-defined, e.g. could be set to inverse hazard rate $g(t) = \frac{1}{r(t)} = \frac{S(t)}{f(t)}$.
+
+#### Proof:
+
+TODO
+
+#### Theorem 3.2: Von Mises sufficient condition for a distribution to belong to type III (Reversed Weibull) EVD
 
 TODO
 
@@ -388,7 +416,16 @@ TODO
 TODO
 
 
-## General case: necessary and sufficient conditions for a distribution to belong to a type I, II or III
+#### Theorem 3.3: Von Mises sufficient condition for a distribution to belong to type I (Gumbel) EVD
+
+TODO
+
+#### Proof:
+
+TODO
+
+
+## 4. Necessary and sufficient conditions for a distribution to belong to a type I, II or III
 
 Speaking informally: 
 
@@ -420,17 +457,93 @@ We shall formalize this theorem statement a bit later. But first, to perform the
 tool in our toolbox, **regularly varying function** (which is a generalization of a **slow-varying function**) and
 **auxiliary function**.
 
-#### Definition 8: Slow-varying function
+### Karamata's theory of slow/regular/extended regular variation
+
+TODO
+
+#### Definition 4.1: Slow-varying function
 
 **Slow-varying function** $l(x)$ is such a function that $\lim \limits_{t \to \infty} \frac{l(xt)}{l(t)} = 1$ for any $x > 0$.
 
-#### Definition 9: Regularly-varying function
+#### Definition 4.2: Regularly-varying function
 
 **Regularly-varying function** $h(x)$ of index $\gamma$ is such a function that $\lim \limits_{t \to \infty} \frac{h(xt)}{l(h)} = x^{\gamma}$ for any $x > 0$.
 
 Regularly-varying function is basically just a generalization of slow-varying function.
 
-#### Definition 10: Auxiliary function
+Later on we will show that if the survival function of our distribution in question is regularly-varying, its maximum 
+converges to Type III Weibull EVD, if it has a finite upper end point or to Type II Frechet EVD, if its upper end point
+is infinite.
+
+#### Definition 4.3: Extended regular variation
+
+A measurable function is said to be of **extended regular variation**, if there exists a function $a(x)$, such that
+$\lim \limits_{t \to \infty} \frac{f(tx) - f(t)}{a(x)} = \frac{x^{\alpha} - 1}{\alpha}$.
+
+The function $a(x)$ is called **auxiliary function**. 
+
+#### Lemma 4.1: Karamata's characterization theorem
+
+TODO
+
+#### Proof:
+
+TODO
+
+#### Lemma 4.2: Karamata's theorem
+
+Suppose $f$ is a regularly varying function. There exists $t_0 > 0$ such that $f(t)$ is positive and locally bounded for
+$t \ge t_0$. If $\alpha \ge −1$, then 
+
+$\lim \limits_{t \to \infty} \frac{ t f (t)}{ \int \limits_{t_0}^{t} f (s) ds } = \alpha + 1 $
+
+If $\alpha < −1$, or $\alpha = −1$ and $\int \limits_0^{\infty} f (s) ds < \infty$, then
+
+$\lim \limits_{t \to \infty} \frac{t f(t)}{ \int \limits_{t}^{\infty} f(s)ds } = - \alpha - 1$
+
+Conversely, if Eq.(3.24) holds with −1 < α < ∞,
+
+#### Proof:
+
+TODO
+
+#### Lemma 4.3: Karamata's representation theorem
+
+Function $L$ is slowly varying if and only if it can be represented as $L(x) = c(x) exp({\int \limits_1^x \frac{\epsilon(t)}{t}dt})$. 
+
+Here both $c(x)$ and $\epsilon(x)$ are functions, defined on $\mathbb{R}^+$ and taking non-negative values and:
+
+$\lim \limits_{x \to \infty} c(x) = c \in (0, \infty)$ (approaches a constant $c$)
+
+$\lim \limits_{x \to \infty} \epsilon(x) = 0$
+
+#### Proof:
+
+TODO
+
+
+#### Theorem 4.1: necessary and sufficient conditions for a distribution to belong to a type II or III EVD
+
+* A distribution belongs to Extreme Value Distribution type II (Frechet) if and only if $x_F = \infty$ and $\lim \limits_{t \to \infty} \frac{S(tx)}{S(t)} = x^{-\alpha}$, where $\alpha > 0$ and $x > 0$.
+* A distribution belongs to Extreme Value Distribution type III (Weibull) if and only if $x_F < \infty$ and $\lim \limits_{t \to 0} \frac{S(x_F - tx)}{S(x_F - t)} = x^\alpha$, where $\alpha > 0$ and $x > 0$.
+
+#### Proof:
+
+##### EVD Type II
+
+$F_{M_n}(tx) = p(M_n \le tx) = F_\xi(tx)^n = p(\xi_i \le tx)^n = (1 - p(\xi_i \ge tx))^n = (1 - S(tx))^n \to (1 - x^{-\alpha} S(t))^n = (1 - x^{-\alpha} \cdot \frac{1}{n})^n = e^{-{x^{-\alpha}}}$
+
+##### EVD Type III
+
+$F_{M_n}(x_F - tx) = p(M_n \le x_F - tx) = p(x_F - M_n \ge tx) = p^n(x_F - \xi \ge tx) = (1 - p(x_F - \xi \le tx) )^n = (1 - S(x_F - tx))^n \to (1 - S(x_F - t) \cdot x^\alpha)^n = (1 - \frac{1}{n} \cdot x^\alpha) = e^{-x^\alpha}$
+
+#### Preparations for proving necessary and sufficient conditions of convergence to Type I EVD 
+
+#### Definition 4.4: Von Mises function
+
+TODO
+
+#### Definition 4.5: Auxiliary function
 
 A non-decreasing function U is $\Gamma$-varying (written U $\in$ $\Gamma$) if U is defined on an interval 
 ($x_l, x_F$), $\lim \limits_{x \to x_F} U(x) = \infty$ and there exists a positive function $f$ defined on ($x_l, x_F$) 
@@ -447,40 +560,6 @@ Fr(J;(t)x) --+ 1 - e- X
 for i = 1,2, and hence by the convergence to types Proposition 0.2 we have
 
 TODO
-
-
-#### Theorem 3: necessary and sufficient conditions for a distribution to belong to a type I, II or III
-
-* A distribution belongs to Extreme Value Distribution type II (Frechet) if and only if $x_F = \infty$ and $\lim \limits_{t \to \infty} \frac{S(tx)}{S(t)} = x^{-\alpha}$, where $\alpha > 0$ and $x > 0$.
-* A distribution belongs to Extreme Value Distribution type III (Weibull) if and only if $x_F < \infty$ and $\lim \limits_{t \to 0} \frac{S(x_F - tx)}{S(x_F - t)} = x^\alpha$, where $\alpha > 0$ and $x > 0$.
-* A distribution belongs to Extreme Value Distribution type I (Gumbel) if and only if $\lim \limits_{t \to x_F} \frac{S(t + x g(t))}{S(t)} = e^{-x}$, where $x \in \mathbb{R}$ and $g(t)$ is an **auxiliary function**, which is not uniquely-defined, e.g. could be set to inverse hazard rate $g(t) = \frac{1}{r(t)} = \frac{S(t)}{f(t)}$.
-
-
-#### Proof:
-
-##### EVD Type II
-
-$F_{M_n}(tx) = p(M_n \le tx) = F_\xi(tx)^n = p(\xi_i \le tx)^n = (1 - p(\xi_i \ge tx))^n = (1 - S(tx))^n \to (1 - x^{-\alpha} S(t))^n = (1 - x^{-\alpha} \cdot \frac{1}{n})^n = e^{-{x^{-\alpha}}}$
-
-##### EVD Type III
-
-$F_{M_n}(x_F - tx) = p(M_n \le x_F - tx) = p(x_F - M_n \ge tx) = p^n(x_F - \xi \ge tx) = (1 - p(x_F - \xi \le tx) )^n = (1 - S(x_F - tx))^n \to (1 - S(x_F - t) \cdot x^\alpha)^n = (1 - \frac{1}{n} \cdot x^\alpha) = e^{-x^\alpha}$
-
-##### EVD Type I
-
-If $x_F = \infty$, the proof is similar to Type II:
-
-$F_{M_n}(tx) = p(M_n \le tx) = F_\xi(tx)^n = p(\xi_i \le tx)^n = (1 - p(\xi_i \ge tx))^n = (1 - S(tx))^n \to (1 - e^{-x} \cdot S(t))^n = (1 - e^{-x} \cdot \frac{1}{n})^n = e^{-{e^{-x}}}$
-
-Otherwise, if $x_F < \infty$, the proof is similar to Type III:
-
-$F_{M_n}(t + x g(t)) = 1 - F^n_{\xi}(t + x g(t)) = (1 - S_{\xi}(t + x g(t))^n \to (1 - e^{-x}S_{\xi}(t))^n = (1 - \frac{e^{-x}}{n})^n = e^{-e^{-x}}$
-
-$1 - F_{M_n}(t) = \frac{1}{n}$
-
-$1 - F_{M_n}(t + x g(t)) \to (1 - F(t)) e^{-x}$
-
-$S_{M_n}$
 
 ## Practical applications
 
@@ -509,6 +588,7 @@ TODO: fraction of mass, occupied by particles of a certain size in mining, conne
 TODO
 
 ## References:
+* https://minerva.it.manchester.ac.uk/~saralees/book3.pdf - "Extreme Values, Regular Variation and Point Processes" by Sidney Resnick, good text on auxiliary functions
 * https://ckrao.wordpress.com/2012/06/10/outline-proof-of-the-extreme-value-theorem-in-statistics/ - Fisher-Tippet-Gnedenko for i.i.d. RV proof
 * https://hal-enac.archives-ouvertes.fr/hal-00917995/document - good proof of Fisher-Tippett-Gnedenko theorem
 * https://eva.fing.edu.uy/pluginfile.php/287975/mod_resource/content/1/Stuart_Coles_An_Introduction_to_Statistical_Modeling_of_Extreme_Values__2001.pdf - a book on EVD by Stuart Coles
@@ -522,4 +602,6 @@ TODO
 * https://ir.cwi.nl/pub/21636/21636A.pdf - "on R. von Mises condition for the domain of attraction of exp(-e^{-x})" by Balhema and de Haan
 * https://stats.stackexchange.com/questions/341509/extreme-value-theory-show-that-lim-n-rightarrow-inftya-n-exists-and-is - on auxiliary function for Gumbel distribution
 * https://link.springer.com/chapter/10.1007/978-3-030-28669-9_3 - another great review of EVT by Maria Jacob
-* https://minerva.it.manchester.ac.uk/~saralees/book3.pdf - "Extreme Values, Regular Variation and Point Processes" by Sidney Resnick, good text on auxiliary functions
+* https://en.wikipedia.org/wiki/Slowly_varying_function - on slowly varying functions and Karamata's theorems
+* https://www.jstor.org/stable/1968974?read-now=1&oauth_data=eyJlbWFpbCI6InZhc2phZm9ydXR1YmVAZ21haWwuY29tIiwiaW5zdGl0dXRpb25JZHMiOltdfQ&seq=23#page_scan_tab_contents - the original B.Gnedenko (1943) paper
+* https://www.researchgate.net/publication/336072342_Extreme_Value_Theory/link/5d8cf0c1a6fdcc25549e672a/download - great explanation of what's what in EVT, good goal setting
