@@ -326,9 +326,35 @@ $-\ln G(x) = (1 - \frac{x - \nu}{c})^{-\frac{1}{\rho}}$
 
 $G(x) = e^{-(1 - \frac{x - \nu}{c})^{-\frac{1}{\rho}}}$, which is either a Frechet (Type II), or a reversed Weibull (Type III) EVD.
 
-## 3. Von Mises sufficient conditions for a distribution to belong to a type I, II or III
+### Distributions not in domains of attraction of any maximum-stable distributions
 
 TODO
+
+#### Theorem 2.2. Sufficient condition for a distribution not to belong to a domain of attraction of max-stable distributions
+
+TODO
+
+#### Example 2.1: Poisson distribution
+
+TODO
+
+#### Example 2.2: Geometric distribution
+
+TODO
+
+## 3. Von Mises sufficient conditions for a distribution to belong to a type I, II or III
+
+The Fisher-Tippett-Gnedenko theorem is an important theoretical result, but it does not provide an answer on a basic
+question: what type of EVD does our distribution function $F$ belong to.
+
+Fortunately, there are two sets of criteria that let us determine the domain of attraction of $F$. First, there are
+von Mises conditions, which are sufficient, but not necessary. Still, they are more intuitive and give a good insight
+into what kinds of distributions converge to what types of EVD and why. Second, there are general sufficient and 
+necessary conditions, but their proof is much more technical and requires extra preliminaries.
+
+We will start with von Mises conditions, postulated by Richard von Mises in 1936 (7 years before Fisher-Tippett-Gnedenko
+theorem was proved by Boris Gnedenko in 1943), which are formulated in intuitive terms from survival analysis. We shall 
+introduce these terms first.
 
 ### Pre-requisites from survival analysis
 
@@ -342,7 +368,8 @@ function $S(t) = p(\xi \ge t) = 1 - p(\xi \le t) = 1 - F(t)$ is the fraction of 
 
 #### Lemma 3.1: integral of survival function equals to average life expectancy
 
-TODO
+TODO: basically rotate survival function plot by 90 degrees to see that it is expectation of lifetime 
+(just swap x and y axes and it becomes obvious).
 
 #### Definition 3.2: Survival function end point
 
@@ -396,33 +423,210 @@ rate equals $1/2 + 1/3 + 1/4$. Basically, you "deserved" more than 1 death by no
 
 #### Proposition 3.1. Cumulative hazard rate relation to survival function
 
-$R(t) = \int \limits_{-\infty}^{t} \frac{f(x)}{1 - F(x)} dx = - \int \limits_{-\infty}^{t} \frac{1}{1 - F(x)} d(1 - F(x)) = -\ln(1 - F(t))$
+$R(t) = \int \limits_{-\infty}^{t} \frac{f(x)}{1 - F(x)} dx = - \int \limits_{-\infty}^{t} \frac{1}{1 - F(x)} d(1 - F(x)) = -\ln(1 - F(t)) = -\ln S(t)$.
 
 
 #### Theorem 3.1: Von Mises sufficient condition for a distribution to belong to type II (Frechet) EVD
 
-* A distribution belongs to Extreme Value Distribution type I (Gumbel) if and only if $\lim \limits_{t \to x_F} \frac{S(t + x g(t))}{S(t)} = e^{-x}$, where $x \in \mathbb{R}$ and $g(t)$ is an **auxiliary function**, which is not uniquely-defined, e.g. could be set to inverse hazard rate $g(t) = \frac{1}{r(t)} = \frac{S(t)}{f(t)}$.
+If a distribution function $F_{\xi}$ has an infinite end point $x_F = \infty$ and 
+$\lim \limits_{t \to \infty} r_{\xi}(t) \cdot t = \alpha$, then distribution $F_{\xi}$ belongs to type II (Frechet) EVD.
 
 #### Proof:
+
+Speaking informally, what we aim to show is that if hazard rate function $r_{\xi}(t)$ basically behaves as a hyperbolic function $\frac{\alpha}{t}$
+as $t \to \infty$ (i.e. has a fat tail, decreasing much slower that $e^{-x}$), the corresponding cumulative distribution function $F_{\xi} \in \mathcal{D}(Frechet)$ is in the domain
+of attraction $\mathcal{D}(Frechet)$ of Frechet (type II) EVD. 
+
+I will drop indices $\xi$ under $r_{\xi}(t)$, $F_{\xi}(t)$ and $S_{\xi}(t)$ and will just write $r(t), F(t), S(t)$ in
+context of our random variable $\xi$ in question.
+
+We start the proof by recalling the connection between the cumulative hazard rate function $R(t)$ and survival function $S(x)$:
+
+$-R(t) = -\int \limits_{x_1}^{x_2} r(t) dt = \ln S(x_2) - \ln S(x_1)$
+
+Exponentiation of both sides gets us:
+
+$e^{-{\int \limits_{x_1}^{x_2} r(t) dt}} = \frac{S(x_2)}{S(x_1)}$
+
+Recalling that $r(t) \to \frac{\alpha}{t}$ upon $t \to \infty$ by the conditions of the theorem and $-\int \limits_{x_1}^{x_2} r(t)dt \to - \int \limits_{x_1}^{x_2} \frac{\alpha}{t} dt = - \alpha \cdot (\ln x_2 - \ln x_1)$:
+
+$e^{-\alpha \cdot (\ln x_2 - \ln x_1)} = \frac{S(x_2)}{S(x_1)}$
+
+Now take $x_1 = \gamma(n)$ (i.e. such a point in time, where survival function $S(x_1) = S(\gamma(n)) = 1/n$, we just experessed this 
+through the tail quantile function $\gamma(n)$) and $x_2 = x \cdot x_1 = x \cdot \gamma(n)$ and substitute it into the previous line:
+
+$e^{-\alpha \cdot (\ln (x \cdot \gamma(n)) - \ln \gamma(n))} = \frac{S(x \gamma(n))}{S(\gamma(n))}$
+
+$e^{-\alpha \cdot (\ln x + \ln \gamma(n) - \ln \gamma(n))} = \frac{S(x \gamma(n))}{\frac{1}{n}}$
+
+$e^{(\ln x)^{-\alpha}} = n S(x \gamma(n))$
+
+$\frac{ x^{-\alpha} } { n }  = S(x \gamma(n)) = 1 - F(x \gamma(n))$ and $F(x \gamma(n)) = 1 - \frac{ x^{-\alpha} }{n}$
+
+In other words $p(\xi_i \le x \gamma(n)) = 1 - \frac{ x^{-\alpha} }{n}$ or $p(\max \xi_i \le x \gamma(n)) = (1 - \frac{ x^{-\alpha} }{n})^n = e^{-x^{-\alpha}}$ or $p(\max \frac{\xi_i}{ \gamma(n) } \le x ) = (1 - \frac{ x^{-\alpha} }{n})^n = e^{-x^{-\alpha}}$.
+
+We've just shown that a random variable $a_n \xi + b_n$ converges to Frechet Type II EVD, where $a_n = \gamma(n)$ and $b_n = 0$.
+
+#### Example 3.1: maximum of $n$ Pareto-distributed i.i.d. r.v. converges to Frechet distribution
 
 TODO
 
 #### Theorem 3.2: Von Mises sufficient condition for a distribution to belong to type III (Reversed Weibull) EVD
 
-TODO
+If a distribution function $F_{\xi}$ has a finite end point $x_F \le \infty$ and $\lim \limits_{x \to x_F} (x_F - x) r(x) = \alpha$,
+then distribution $F_{\xi}$ belongs to type III (Reversed Weibull).
 
 #### Proof:
 
+If our original random variable $\xi$ had a finite upper end $x_F$, let us consider a derived random 
+variable $\eta = \frac{1}{x_F - \xi}$.
+
+$\eta$ approaches $+\infty$ as $\xi$ approaches upper end $x_F$ and approached $0+$ as $\xi$ approaches $-\infty$.
+
+Let us look at the connection between c.d.f.s of $\eta$ and $\xi$:
+
+$F_{\eta}(x) = p(\eta \le x) = p(\frac{1}{x_F - \xi} \le x) = p(\frac{1}{x} \le (x_F - \xi)) = p(\xi \le x_F - \frac{1}{x}) = F_{\xi}( x_F - \frac{1}{x} )$.
+
+Basically, with $\eta$ we created a mapping of $\xi$ onto a $\{0, +\infty\}$ domain. Suppose that random variable $\eta$
+fits the conditions of Theorem 3.1:
+
+$\frac{x F'_{\eta}(x)}{ 1 - F_{\eta}(x) } = \frac{x F'_{\xi}(x_F - \frac{1}{x}) \frac{1}{x^2} }{1 - F_{\xi}(x_F - \frac{1}{x})} \xrightarrow{x \to \infty} \alpha$ 
+
+Denote $y = x_F - \frac{1}{x}$, note that $\frac{1}{x} = x_F - y$ and substitute this into the previous result:
+
+$\frac{ (x_F -y) \cdot F'_{\xi}(y) }{1 - F_{\xi}(y)}$
+
+We came to the expression in the conditions of our theorem exactly, hence, $ \frac{ (x_F - y) \cdot F'_{\xi}(y) }{1 - F_{\xi}(y)} \xrightarrow{y \to x_F} \alpha$.
+
+I.e. if and only if the conditions of this theorem are satisfied, $\eta$ is in the domain of attraction of Type II.
+
+#### Definition 3.5: Auxiliary functions
+
 TODO
 
+TODO: interpretations as conditional probabilities
+
+#### Example 3.2: auxiliary function based on conditional expectation
+
+Consider a popular auxiliary function: $f(x) = \frac{\int \limits_{t}^{x_F} S(x) dx }{ S(t) }$. What interpretation can we give to it?
+
+We can treat it as a conditional expectation. Recall that the integral of survival function is average lifespan.
+Hence, $\frac{\int \limits_{t}^{x_F} S(x) dx }{ S(t) }$ is basically conditional expectation of longevity among those,
+who survived by the moment of time $t$: the denominator is the fraction of survivors by $t$, while the 
+numerator is the average life expectancy of these survivors after moment of time $t$.
+
+Hence, we need to show that if hazard rate grows over time as fast as this conditional life expectancy decreases 
+as $t \to x_F$, our distribution is in Gumbel Type I EVD domain of attraction.
+
+#### Example 3.2: auxiliary function based on hazard rate
+
+Another choice for the auxiliary function could be inverse hazard rate: $f(x) = \frac{1}{r(x)}$. We shall use this 
+option in our proof of von Mises condition for Type I Gumbel EVD.
 
 #### Theorem 3.3: Von Mises sufficient condition for a distribution to belong to type I (Gumbel) EVD
 
-TODO
+**NOTE:** I've seen ~5 different formulations and proofs of this von Mises condition. This is the easiest version for 
+understanding in my opinion. I'll briefly consider alternative formulations after this proof. Here I am mostly following 
+the formulation and logic of a proof by [Smith and Weissman](https://rls.sites.oasis.unc.edu/s834-2020/ExtremeValues.pdf), 
+which is simpler than alternatives, which I discuss later. Unfortunately, those aleternative proofs are generalized
+later to necessary and sufficient conditions, which I discuss in part 4.
+
+If a distribution function $F_{\xi}$ has a finite or infinite end point $x_F \le \infty$ and 
+$\frac{S(u + x g(u))}{S(u)} \xrightarrow{u \to x_F} e^{-x}$,
+then distribution $F_{\xi}$ belongs to the domain of attraction of Type I (Gumbel) EVD.
+
+Here $g(u)$ is an auxiliary function, which we set to inverse hazard rate $g(u) = \frac{1}{r(u)}$.
 
 #### Proof:
 
+
+
+##### Step 1
+
+Recall the connection between cumulative hazard function $R(u)$, hazard rate $r(t)$ and survival function $S(u)$: 
+
+$R(u) = \int \limits_{-\infty}^{u} r(x) dx = \overbrace{\cancel{\ln S(-\infty)}}^{=0} - \ln S(u)$
+
+Hence, $\ln S(u + x g(u)) - \ln S(u) = \int \limits_{-\infty}^{u} \frac{1}{g(t)} dt - \int \limits_{-\infty}^{u + x g(u)} \frac{1}{g(t)} dt = - \int \limits_{u}^{u + x g(u)} \frac{1}{g(t)} dt$
+
+$\frac{S(u + x g(u))}{S(x)} = e^{- \int \limits_{x}^{u + x g(u)}r(t)dt}$
+
+##### Step 2
+
+$\int \limits_{u}^{u + s g(u)} \frac{1}{g(t)} dt = \int \limits_{0}^{x} \frac{g(t)}{f(t + s g(t))} ds$
+
 TODO
+
+##### Step 3
+
+$\lim \limits_{t \to x_F} \frac{g(t + s g(t))}{g(t)} = 1$
+
+TODO
+
+##### Step 5
+
+$\int \limits_{0}^{x} \frac{g(t)}{g(t + s g(t))} ds \to \int \limits_{0}^{x} 1 ds = x$
+
+##### Step 6
+
+$- \ln \frac{S(u + x g(u))}{S(x)} = x$, hence, $\frac{S(u + x g(u))}{S(x)} = e^{-x}$.
+
+##### Step 7
+
+Finally, let us use our tail quantile function to set $u = \gamma(n)$.
+
+$\frac{S(\gamma(n) + x g(\gamma(n)))}{S(\gamma(n))} = \frac{S(\gamma(n) + x g(\gamma(n)))}{\frac{1}{n}} = n S(\gamma(n) + x f(\gamma(n))) = e^{-x}$. 
+
+Hence, $S(\gamma(n) + x g(\gamma(n))) = 1 - F(\gamma(n) + x g(\gamma(n))) = \frac{e^{-x}}{n}$, $F(\gamma(n) + x g(\gamma(n))) = 1 - \frac{e^{-x}}{n}$ and $F^n(\gamma(n) + x g(\gamma(n))) = (1 - \frac{e^{-x}}{n})^n = e^{-e^{-x}}$.
+
+Thus, $p(M_n \le \gamma(n) + x g(\gamma(n))) = p(\frac{M_n - \gamma(n)}{g(\gamma(n))} \le x) = F^n(\gamma(n) + x g(\gamma(n))) = e^{-e^{-x}}$, leading us to the desired result.
+
+### Alternative formulations of Theorem 3.3
+
+As I said, there are multiple alternative formulations and proofs of von Mises conditions for.
+
+Feel free to mostly ignore this part. The only formulation that we're going to need is definition of **von Mises function**.
+
+#### Definition 3.6: von Mises function
+
+TODO
+
+
+#### Alternative formulation 1: hazard rate at end point is inverse of auxiliary function 1
+
+First alternative formulation of von Mises condition is as follows.
+
+For a distribution function $F_{\xi}$ regardless, if it has a finite, or an infinite end point, if 
+$\lim \limits_{t \to x_F} r(t) g(t) = 1$, the distribution's maximum is in the domain of Gumbel Type I EVD.
+
+This condition holds if and only if $F(x)$ is a von Mises function.
+
+Here $g(t) = \frac{\int \limits_{t}^{x_F} S(x) dx }{ S(t) }$ is **auxiliary function** (as in the first example, conditional probability).
+
+Then $b_n = \gamma(n)$ (tail quantile function) and $a_n = f(b_n)$ (auxiliary function of tail quantile function).
+
+Please, refer to [Resnick](https://minerva.it.manchester.ac.uk/~saralees/book3.pdf) textbook for this version of proof,
+but let me warn you that it is ugly and techincal.
+
+#### Alternative formulation 2: derivative of hazard rate at upper end point approaches 0
+
+$r'(x) \xrightarrow{x \to x_F} 0$
+
+Again, this formulation makes use of auxiliary function $g(x) = \frac{\int \limits_{t}^{x_F} S(u)du}{S(t)}$, and again 
+the proof is highly technical, hardly intelligible and not very instructive. 
+
+Please, refer to [Resnick](https://minerva.it.manchester.ac.uk/~saralees/book3.pdf) or 
+[Leadbetter](https://scask.ru/k_book_eps.php) textbooks for this version of proof (both are ugly).
+
+#### Alternative formulation 3
+
+$Q(x) =\frac{F''(x)(1 - F(x))}{(F'(x))^2} \xrightarrow{x \to x_F} -1$.
+
+This is equivalent to previous formulation $r'(x) \to 0$ as $x \to x_F$ because
+
+r'(x) = \frac{F'(x)}{1 - F(x)} = F''(x) \frac{1}{1 - F(x)} + F'(x) \frac{F'(x)}{(1 - F(x))^2} = \frac{F''(x) (1 - F(x)) + (F'(x))^2}{(1 - F(x))^2}
+
+Now consider $r'(x) \cdot \frac{(1 - F(x))^2}{(F'(x))^2} = Q(x) + 1$, which is synonymous to previous formulation.
 
 
 ## 4. Necessary and sufficient conditions for a distribution to belong to a type I, II or III
@@ -561,6 +765,14 @@ for i = 1,2, and hence by the convergence to types Proposition 0.2 we have
 
 TODO
 
+#### Theorem 4.2. Necessary and sufficient conditions of convergence to Type I EVD
+
+A distribution belongs to Extreme Value Distribution type I (Gumbel) if and only if $\lim \limits_{t \to x_F} \frac{S(t + x g(t))}{S(t)} = e^{-x}$, where $x \in \mathbb{R}$ and $g(t)$ is an **auxiliary function**, which is not uniquely-defined, e.g. could be set to inverse hazard rate $g(t) = \frac{1}{r(t)} = \frac{S(t)}{f(t)}$.
+
+#### Proof
+
+TODO
+
 ## Practical applications
 
 TODO
@@ -605,3 +817,4 @@ TODO
 * https://en.wikipedia.org/wiki/Slowly_varying_function - on slowly varying functions and Karamata's theorems
 * https://www.jstor.org/stable/1968974?read-now=1&oauth_data=eyJlbWFpbCI6InZhc2phZm9ydXR1YmVAZ21haWwuY29tIiwiaW5zdGl0dXRpb25JZHMiOltdfQ&seq=23#page_scan_tab_contents - the original B.Gnedenko (1943) paper
 * https://www.researchgate.net/publication/336072342_Extreme_Value_Theory/link/5d8cf0c1a6fdcc25549e672a/download - great explanation of what's what in EVT, good goal setting
+* https://rls.sites.oasis.unc.edu/s834-2020/ExtremeValues.pdf - a great introductory text, similar in structure to this post (shame that I found it too late)
