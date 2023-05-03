@@ -344,17 +344,17 @@ TODO
 
 ## 3. Von Mises sufficient conditions for a distribution to belong to a type I, II or III
 
-The Fisher-Tippett-Gnedenko theorem is an important theoretical result, but it does not provide an answer on a basic
-question: what type of EVD does our distribution function $F$ belong to.
+The Fisher-Tippett-Gnedenko theorem is an important theoretical result, but it does not provide an answer to the basic
+question: what type of EVD does our distribution function $F$ belong to?
 
 Fortunately, there are two sets of criteria that let us determine the domain of attraction of $F$. First, there are
 von Mises conditions, which are sufficient, but not necessary. Still, they are more intuitive and give a good insight
 into what kinds of distributions converge to what types of EVD and why. Second, there are general sufficient and 
-necessary conditions, but their proof is much more technical and requires extra preliminaries.
+necessary conditions. Proving them is a much more technical task and requires some extra preliminaries.
 
-We will start with von Mises conditions, postulated by Richard von Mises in 1936 (7 years before Fisher-Tippett-Gnedenko
-theorem was proved by Boris Gnedenko in 1943), which are formulated in intuitive terms from survival analysis. We shall 
-introduce these terms first.
+We will start with von Mises conditions, postulated by Richard von Mises in 1936, 7 years before Fisher-Tippett-Gnedenko
+theorem was proved by Boris Gnedenko in 1943. Von Mises conditions are formulated in terms of survival analysis. We shall 
+introduce some basic notions from survival analysis first.
 
 ### Pre-requisites from survival analysis
 
@@ -362,13 +362,15 @@ introduce these terms first.
 
 **Survival function** $S(t)$ is reverse of cumulative distribution function $F(t)$: $S(t) = 1 - F(t)$.
 
-Basically, if our random variable's value represents a human longevity, 
-$F(t) = p(\xi \le t) = \int \limits_{-\infty}^{t} f(x) dx$ is the fraction of people, who die by the time $t$, survival
-function $S(t) = p(\xi \ge t) = 1 - p(\xi \le t) = 1 - F(t)$ is the fraction of people, who are still alive by the time $t$.
+Basically, if our random variable's value represents a human longevity, cumulative distribution funcion
+$F(t) = p(\xi \le t) = \int \limits_{-\infty}^{t} f(x) dx$ represents the fraction of people, who die by the time $t$.
 
-#### Lemma 3.1: integral of survival function equals to average life expectancy
+Survival function $S(t) = p(\xi \ge t) = 1 - p(\xi \le t) = 1 - F(t)$ on the contrary is the fraction of people, who 
+are still alive by the time $t$.
 
-TODO: basically rotate survival function plot by 90 degrees to see that it is expectation of lifetime 
+#### Proposition 3.1: integral of survival function equals to average life expectancy
+
+Basically rotate survival function plot by 90 degrees to see that it is expectation of lifetime 
 (just swap x and y axes and it becomes obvious).
 
 #### Definition 3.2: Survival function end point
@@ -389,7 +391,7 @@ $\gamma(n) = \inf \{ t; F(t) \le 1 - \frac{1}{n} \} = \inf \{ t; S(t) \ge \frac{
 
 For instance, tail quantile function of 10 is the time, when 1/10 of population is still alive.
 
-#### Lemma 3.2: convergence of tail quantile function to exponent
+#### Lemma 3.1: convergence of tail quantile function to exponent
 
 Consider a sequence $\{ x_n \}$ of data points, such that each $x_n \to t_n$ as $n \to \infty$, where $\{t_n\}$ are the 
 values of tail quantile function at $\frac{\tau}{n}$:
@@ -425,6 +427,8 @@ rate equals $1/2 + 1/3 + 1/4$. Basically, you "deserved" more than 1 death by no
 
 $R(t) = \int \limits_{-\infty}^{t} \frac{f(x)}{1 - F(x)} dx = - \int \limits_{-\infty}^{t} \frac{1}{1 - F(x)} d(1 - F(x)) = -\ln(1 - F(t)) = -\ln S(t)$.
 
+
+### Von Mises conditions proofs
 
 #### Theorem 3.1: Von Mises sufficient condition for a distribution to belong to type II (Frechet) EVD
 
@@ -500,92 +504,130 @@ We came to the expression in the conditions of our theorem exactly, hence, $ \fr
 
 I.e. if and only if the conditions of this theorem are satisfied, $\eta$ is in the domain of attraction of Type II.
 
-#### Definition 3.5: Auxiliary functions
-
-TODO
-
-TODO: interpretations as conditional probabilities
-
-#### Example 3.2: auxiliary function based on conditional expectation
-
-Consider a popular auxiliary function: $f(x) = \frac{\int \limits_{t}^{x_F} S(x) dx }{ S(t) }$. What interpretation can we give to it?
-
-We can treat it as a conditional expectation. Recall that the integral of survival function is average lifespan.
-Hence, $\frac{\int \limits_{t}^{x_F} S(x) dx }{ S(t) }$ is basically conditional expectation of longevity among those,
-who survived by the moment of time $t$: the denominator is the fraction of survivors by $t$, while the 
-numerator is the average life expectancy of these survivors after moment of time $t$.
-
-Hence, we need to show that if hazard rate grows over time as fast as this conditional life expectancy decreases 
-as $t \to x_F$, our distribution is in Gumbel Type I EVD domain of attraction.
-
-#### Example 3.2: auxiliary function based on hazard rate
-
-Another choice for the auxiliary function could be inverse hazard rate: $f(x) = \frac{1}{r(x)}$. We shall use this 
-option in our proof of von Mises condition for Type I Gumbel EVD.
-
 #### Theorem 3.3: Von Mises sufficient condition for a distribution to belong to type I (Gumbel) EVD
 
-**NOTE:** I've seen ~5 different formulations and proofs of this von Mises condition. This is the easiest version for 
-understanding in my opinion. I'll briefly consider alternative formulations after this proof. Here I am mostly following 
-the formulation and logic of a proof by [Smith and Weissman](https://rls.sites.oasis.unc.edu/s834-2020/ExtremeValues.pdf), 
-which is simpler than alternatives, which I discuss later. Unfortunately, those aleternative proofs are generalized
-later to necessary and sufficient conditions, which I discuss in part 4.
+If a distribution function $F_{\xi}$ has a finite or infinite end point $x_F \le \infty$,
+then distribution $F_{\xi}$ belongs to the domain of attraction of Type I (Gumbel) EVD if derivative of the hazard 
+rate approaches zero $r'(u) = 0$ as $u \to x_F$ and hazard rate approaches a positive constant $r(u) \xrightarrow{u \to x_F} const$. 
 
-If a distribution function $F_{\xi}$ has a finite or infinite end point $x_F \le \infty$ and 
-$\frac{S(u + x g(u))}{S(u)} \xrightarrow{u \to x_F} e^{-x}$,
-then distribution $F_{\xi}$ belongs to the domain of attraction of Type I (Gumbel) EVD.
+Speaking informally, distribution of maximum converges to Gumbel, if the chances of death reach a 
+plateau as $u \to x_F$.
 
-Here $g(u)$ is an auxiliary function, which we set to inverse hazard rate $g(u) = \frac{1}{r(u)}$.
+**NOTE:** I've seen ~5 different formulations and proofs of this von Mises condition. This is the least generic, but
+easiest in terms of understanding version in my opinion. I'll consider more general formulations after this proof. Here 
+I am mostly following the formulation and logic of a proof by [Smith and Weissman](https://rls.sites.oasis.unc.edu/s834-2020/ExtremeValues.pdf), 
+it is simpler than alternatives, which I discuss later. Those alternative proofs generalize this proof, giving rise to 
+necessary and sufficient conditions, which I discuss in part 4.
 
 #### Proof:
 
-
-
 ##### Step 1
 
-Recall the connection between cumulative hazard function $R(u)$, hazard rate $r(t)$ and survival function $S(u)$: 
+We shall start the proof from the end to motivate our mathematical manipulations.
 
-$R(u) = \int \limits_{-\infty}^{u} r(x) dx = \overbrace{\cancel{\ln S(-\infty)}}^{=0} - \ln S(u)$
+In Steps 2+ we are going to show that von Mises condition entails that $\frac{S(u + x g(u))}{S(u)} = e^{-x}$ as $u \to x_F$, 
+where $g(u) = \frac{1}{r(u)}$ is the inverse of hazard rate (if introduction of this new entity $g(u)$ feels unjustified to you now, I agree, but trust 
+me on this, it will make sense later). Assume this fact proven for now and let's see how the result 
+of the theorem follows.
 
-Hence, $\ln S(u + x g(u)) - \ln S(u) = \int \limits_{-\infty}^{u} \frac{1}{g(t)} dt - \int \limits_{-\infty}^{u + x g(u)} \frac{1}{g(t)} dt = - \int \limits_{u}^{u + x g(u)} \frac{1}{g(t)} dt$
-
-$\frac{S(u + x g(u))}{S(x)} = e^{- \int \limits_{x}^{u + x g(u)}r(t)dt}$
-
-##### Step 2
-
-$\int \limits_{u}^{u + s g(u)} \frac{1}{g(t)} dt = \int \limits_{0}^{x} \frac{g(t)}{f(t + s g(t))} ds$
-
-TODO
-
-##### Step 3
-
-$\lim \limits_{t \to x_F} \frac{g(t + s g(t))}{g(t)} = 1$
-
-TODO
-
-##### Step 5
-
-$\int \limits_{0}^{x} \frac{g(t)}{g(t + s g(t))} ds \to \int \limits_{0}^{x} 1 ds = x$
-
-##### Step 6
-
-$- \ln \frac{S(u + x g(u))}{S(x)} = x$, hence, $\frac{S(u + x g(u))}{S(x)} = e^{-x}$.
-
-##### Step 7
-
-Finally, let us use our tail quantile function to set $u = \gamma(n)$.
+As before we are going to use the tail quantile function $\gamma(n)$ to show that this ratio of survival
+functions converges to Gumbel distribution. Take $u = \gamma(n) \to x_F$ and substitute it into the ratio:
 
 $\frac{S(\gamma(n) + x g(\gamma(n)))}{S(\gamma(n))} = \frac{S(\gamma(n) + x g(\gamma(n)))}{\frac{1}{n}} = n S(\gamma(n) + x f(\gamma(n))) = e^{-x}$. 
 
-Hence, $S(\gamma(n) + x g(\gamma(n))) = 1 - F(\gamma(n) + x g(\gamma(n))) = \frac{e^{-x}}{n}$, $F(\gamma(n) + x g(\gamma(n))) = 1 - \frac{e^{-x}}{n}$ and $F^n(\gamma(n) + x g(\gamma(n))) = (1 - \frac{e^{-x}}{n})^n = e^{-e^{-x}}$.
+Hence, $S(\gamma(n) + x g(\gamma(n))) = 1 - F(\gamma(n) + x g(\gamma(n))) = \frac{e^{-x}}{n}$, 
 
-Thus, $p(M_n \le \gamma(n) + x g(\gamma(n))) = p(\frac{M_n - \gamma(n)}{g(\gamma(n))} \le x) = F^n(\gamma(n) + x g(\gamma(n))) = e^{-e^{-x}}$, leading us to the desired result.
+$F(\gamma(n) + x g(\gamma(n))) = 1 - \frac{e^{-x}}{n}$ and 
 
-### Alternative formulations of Theorem 3.3
+$F^n(\gamma(n) + x g(\gamma(n))) = (1 - \frac{e^{-x}}{n})^n = e^{-e^{-x}}$.
 
-As I said, there are multiple alternative formulations and proofs of von Mises conditions for.
+Thus, $p(M_n \le \gamma(n) + x g(\gamma(n))) = p(\frac{M_n - \gamma(n)}{g(\gamma(n))} \le x) = F^n(\gamma(n) + x g(\gamma(n))) = e^{-e^{-x}}$, leading us to the desired result, Gumbel distribution.
 
-Feel free to mostly ignore this part. The only formulation that we're going to need is definition of **von Mises function**.
+##### Step 2
+
+Having motivated our interest in the ratio $\frac{S(u + x g(u))}{S(u)}$ in step 1, let us connect it to hazard rate
+and start showing the fact that this ratio converges to $e^{-x}$ as $u \to x_F$.
+
+Recall the connection between cumulative hazard function $R(u)$, hazard rate $r(t)$ and survival function $S(u)$: 
+
+$R(u) = \int \limits_{-\infty}^{u} r(t) dt = \overbrace{\cancel{\ln S(-\infty)}}^{=0} - \ln S(u)$
+
+Hence, $\ln S(u + x g(u)) - \ln S(u) = \int \limits_{-\infty}^{u} \frac{1}{g(t)} dt - \int \limits_{-\infty}^{u + x g(u)} \frac{1}{g(t)} dt = - \int \limits_{u}^{u + x g(u)} \frac{1}{g(t)} dt$ and
+
+$\frac{S(u + x g(u))}{S(u)} = e^{- \int \limits_{u}^{u + x g(u)} \frac{1}{g(t)} dt}$
+
+##### Step 3
+
+We need to show that $e^{- \int \limits_{u}^{u + x g(u)} \frac{1}{g(t)} dt} \xrightarrow{u \to x_F} e^{-x}$ and, hence, $\int \limits_{u}^{u + x g(u)} \frac{1}{g(t)} dt \xrightarrow{u \to x_F} x$.
+
+Perform a variable substitution $s = \frac{t - u}{g(u)}$, $t = u + s g(u)$:
+
+$\int \limits_{t=u}^{t = u + x g(u)} \frac{1}{g(t)} dt = \int \limits_{s=\frac{u-u}{f(u)}=0}^{s=\frac{u + x g(u) - u}{g(u)}=x} \frac{1}{g(u + s g(u))} d(u + s g(u)) = \int \limits_{s=0}^{x} \frac{g(u)}{g(u + s g(u))} ds$
+
+We need to show that integrand $\frac{g(u)}{g(u + s g(u))}$ uniformly converges to $1$ as $u \to x_F$ in order to show that integral 
+approximately equals $x$ because then $\int \limits_{0}^{x} \frac{g(u)}{g(u + s g(u))} ds \to \int \limits_{0}^{x} 1 ds = x$.
+
+Uniform convergence implies that we can choose an arbitrarily small tolerance $\epsilon$, so that there would exist some
+point $u_{\epsilon}$, such that for every value of $s$ inequality $| \frac{g(u)}{g(u + s g(u))} - 1 | \le \epsilon$ holds
+for every point $u$, such that $u_{\epsilon} \le u \le x_F$, and, hence, 
+$|\int \limits_{0}^{x} \frac{g(u)}{g(u + s g(u))} ds - \int \limits_{0}^{x} 1 ds| \le \epsilon x$. 
+
+##### Step 4
+
+Represent the difference $g(u + s g(u)) - g(u)$ as an integral in variable $s$: $g(u + s g(u)) - g(u) = \int \limits_{0}^{s} g'(u + w g(u)) dw$.
+
+By Mean Value Theorem there exists some point $w_{mean} \in [0, s]$, where $g(u + s g(u)) - g(u) = g'(u + w_{mean} g(u)) \cdot (s - 0) = s g'(u + w_{mean} g(u))$.
+
+Hence, 
+
+$\frac{g(u + s g(u)) - g(u)}{g(u)} = \frac{g(u + s g(u))}{g(u)} - 1 = \frac{s g'(u + w_{mean} g(u))}{g(u)}$
+
+$\frac{g(u + s g(u))}{g(u)} = 1 + \frac{s g'(u + w_{mean} g(u))}{g(u)} = \frac{g(u) + s g'(u + w_{mean} g(u))}{g(u)}$
+
+Inversing numerator and denominator, we get $\frac{g(u)}{g(u + s g(u))} = \frac{g(u)}{g(u) + s g'(u + w_{mean} g(u))}$
+
+Integrating both sides: $\int \limits_{0}^{x} \frac{g(u)}{g(u + s g(u))} ds = \int \limits_{0}^{x} \frac{g(u)}{g(u) + s g'(u + w_{mean} g(u))} ds = \int \limits_{0}^{x} \frac{a}{a + s b} ds = \int \limits_{0}^{x} \frac{a}{b} d \ln (a + sb) = \frac{a}{b} \ln (a + xb) - \frac{a}{b} \ln a = \frac{a}{b} \ln (1 + x \frac{b}{a}) = \ln (1 + \frac{x}{\frac{a}{b}})^{ \frac{a}{b} }$, where $a = g(u)$, $b = g'(u + w_{mean} g(u))$.
+
+Looks familiar, right?
+
+Denote $n = \frac{a}{b}$ and we get $\int \limits_{0}^{x} \frac{g(u)}{g(u + s g(u))} ds = \ln (1 + \frac{x}{n})^n \to \ln e^x = x$ if $n \to \infty$. 
+
+This is indeed the case as $n = \frac{a}{b} = \frac{ g(u) }{ g'(u + w_{mean} g(u)) }$ and we know that $g(u) \to const$, while $g'(u + w_{mean} g(u)) \to 0$ as $u \to x_F$ by the von Mises condition.
+
+### Generalizations of Theorem 3.3: auxiliary function and von Mises function
+
+As I said, there are multiple alternative formulations and proofs of von Mises conditions. Some use more generic notions
+of **auxiliary function** and **von Mises function**.
+
+The general necessary and sufficient conditions in the next part of this post build on top of these two notions. Hence, it
+makes sense to discuss the generalizations of von Mises conditions here.
+
+#### Definition 3.5: Auxiliary function
+
+In the previous proof we denoted the inverse hazard rate as $g(x) = \frac{1}{r(x)}$. This quantity $g(x)$,
+which is called **auxiliary funcion**, is defined in the context of the ratio $\frac{S(u + x g(u))}{S(u)}$ and is chosen 
+in such a way that $\frac{S(u + x g(u))}{S(u)} \xrightarrow{u \to x_F} e^{-x}$.
+
+However, turns out that it is not uniquely defined. We can make use of other definitions of $g(x)$ and convergence to 
+Gumbel EVD would still hold.
+
+To motivate other choices of auxiliary function let us discuss the interpretation of this ratio of survival functions. 
+We can treat it as a conditional probability. The denominator represents the fraction of population that survived by the 
+time $u$ close to the maximum lifespan. The numerator is the probability to survive for a (bit) longer period of 
+time $x g(u)$, where auxiliary function $g(u)$ can be seen as some kind of normalization constant.
+
+Then our ratio can be interpreted as conditional probability $p( \frac{\xi - u}{g(u)} > x | \xi > u)$. Basically it is
+the change to live $x g(u)$ years longer among those who already survived $u$ years.
+
+Consider a different popular choice of auxiliary function: $g(x) = \frac{\int \limits_{t}^{x_F} S(x) dx }{ S(t) }$. What
+interpretation can we give to it?
+
+Recall that the integral of survival function is average lifespan. Hence, $\frac{\int \limits_{t}^{x_F} S(x) dx }{ S(t) }$ 
+is basically conditional expectation of longevity among those, who survived by the moment of time $t$: the denominator 
+is the fraction of survivors by $t$, while the numerator is the average life expectancy of these survivors after moment 
+of time $t$.
+
+TODO: outline the generalization of von Mises conditions to a generic auxiliary function
 
 #### Definition 3.6: von Mises function
 
@@ -624,7 +666,7 @@ $Q(x) =\frac{F''(x)(1 - F(x))}{(F'(x))^2} \xrightarrow{x \to x_F} -1$.
 
 This is equivalent to previous formulation $r'(x) \to 0$ as $x \to x_F$ because
 
-r'(x) = \frac{F'(x)}{1 - F(x)} = F''(x) \frac{1}{1 - F(x)} + F'(x) \frac{F'(x)}{(1 - F(x))^2} = \frac{F''(x) (1 - F(x)) + (F'(x))^2}{(1 - F(x))^2}
+$r'(x) = \frac{F'(x)}{1 - F(x)} = F''(x) \frac{1}{1 - F(x)} + F'(x) \frac{F'(x)}{(1 - F(x))^2} = \frac{F''(x) (1 - F(x)) + (F'(x))^2}{(1 - F(x))^2}$
 
 Now consider $r'(x) \cdot \frac{(1 - F(x))^2}{(F'(x))^2} = Q(x) + 1$, which is synonymous to previous formulation.
 
@@ -801,6 +843,11 @@ TODO
 
 ## References:
 * https://minerva.it.manchester.ac.uk/~saralees/book3.pdf - "Extreme Values, Regular Variation and Point Processes" by Sidney Resnick, good text on auxiliary functions
+* https://www.researchgate.net/publication/336072342_Extreme_Value_Theory/link/5d8cf0c1a6fdcc25549e672a/download - great explanation of what's what in EVT, good goal setting
+* https://rls.sites.oasis.unc.edu/s834-2020/ExtremeValues.pdf - a great introductory text by Smith and Weissman, similar in structure to this post
+* https://scask.ru/k_book_eps.php - Extremes of Random Sequences and Processes (1989) by Leadbetter, Lindgren and Rootzen (in Russian)
+* https://www.studmed.ru/lidbetter-m-lindgren-g-rotsen-x-ekstremumy-sluchaynyh-posledovatelnostey-i-processov_21f63a9fd30.html - download link for Leadbetter, Lindgren and Rootzen (in Russian)
+* https://repositorio.unican.es/xmlui/bitstream/handle/10902/20125/Se%C3%B1as%20Peon%20Pablo.pdf?sequence=1&isAllowed=y - nice masters PhD by Pablo Señas Peón on EVD
 * https://ckrao.wordpress.com/2012/06/10/outline-proof-of-the-extreme-value-theorem-in-statistics/ - Fisher-Tippet-Gnedenko for i.i.d. RV proof
 * https://hal-enac.archives-ouvertes.fr/hal-00917995/document - good proof of Fisher-Tippett-Gnedenko theorem
 * https://eva.fing.edu.uy/pluginfile.php/287975/mod_resource/content/1/Stuart_Coles_An_Introduction_to_Statistical_Modeling_of_Extreme_Values__2001.pdf - a book on EVD by Stuart Coles
@@ -808,13 +855,8 @@ TODO
 * https://www2.stat.duke.edu/~scs/Projects/Stable/Laptop/Leadbetter1983.pdf - proof of EVT for interdependent theorems
 * https://stats.stackexchange.com/questions/106068/how-to-find-the-a-n-b-n-for-extreme-value-theory - StackExchange answer on tail quantile function
 * https://eventuallyalmosteverywhere.wordpress.com/tag/frechet-distribution/ - examples of distributions, producing different kinds of EVD
-* https://scask.ru/k_book_eps.php - Extremes of Random Sequences and Processes (1989) by Leadbetter, Lindgren and Rootzen (in Russian)
-* https://www.studmed.ru/lidbetter-m-lindgren-g-rotsen-x-ekstremumy-sluchaynyh-posledovatelnostey-i-processov_21f63a9fd30.html - download link for Leadbetter, Lindgren and Rootzen (in Russian)
-* https://repositorio.unican.es/xmlui/bitstream/handle/10902/20125/Se%C3%B1as%20Peon%20Pablo.pdf?sequence=1&isAllowed=y - nice masters PhD by Pablo Señas Peón on EVD
 * https://ir.cwi.nl/pub/21636/21636A.pdf - "on R. von Mises condition for the domain of attraction of exp(-e^{-x})" by Balhema and de Haan
 * https://stats.stackexchange.com/questions/341509/extreme-value-theory-show-that-lim-n-rightarrow-inftya-n-exists-and-is - on auxiliary function for Gumbel distribution
 * https://link.springer.com/chapter/10.1007/978-3-030-28669-9_3 - another great review of EVT by Maria Jacob
 * https://en.wikipedia.org/wiki/Slowly_varying_function - on slowly varying functions and Karamata's theorems
 * https://www.jstor.org/stable/1968974?read-now=1&oauth_data=eyJlbWFpbCI6InZhc2phZm9ydXR1YmVAZ21haWwuY29tIiwiaW5zdGl0dXRpb25JZHMiOltdfQ&seq=23#page_scan_tab_contents - the original B.Gnedenko (1943) paper
-* https://www.researchgate.net/publication/336072342_Extreme_Value_Theory/link/5d8cf0c1a6fdcc25549e672a/download - great explanation of what's what in EVT, good goal setting
-* https://rls.sites.oasis.unc.edu/s834-2020/ExtremeValues.pdf - a great introductory text, similar in structure to this post (shame that I found it too late)
