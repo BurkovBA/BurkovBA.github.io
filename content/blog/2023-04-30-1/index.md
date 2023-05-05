@@ -574,25 +574,22 @@ $|\int \limits_{0}^{x} \frac{g(u)}{g(u + s g(u))} ds - \int \limits_{0}^{x} 1 ds
 
 ##### Step 4
 
-Represent the difference $g(u + s g(u)) - g(u)$ as an integral in variable $s$: $g(u + s g(u)) - g(u) = \int \limits_{0}^{s} g'(u + w g(u)) dw$.
+We need to work out the approximation of $\frac{g(u)}{g(u + s g(u))}$ ratio.
 
-By Mean Value Theorem there exists some point $w_{mean} \in [0, s]$, where $g(u + s g(u)) - g(u) = g'(u + w_{mean} g(u)) \cdot (s - 0) = s g'(u + w_{mean} g(u))$.
+For that end consider the Taylor series for $g(u + s g(u))$ around the point $u$:
 
-Hence, 
+$g(u + s g(u)) = g(u) + g'(u) s g(u) + O(s^2 g^2(u))$ and $g(u) \to const$, hence, $g(u + s g(u)) = g(u) + g'(u) s g(u) + O(s^2)$
 
-$\frac{g(u + s g(u)) - g(u)}{g(u)} = \frac{g(u + s g(u))}{g(u)} - 1 = \frac{s g'(u + w_{mean} g(u))}{g(u)}$
+Then $\frac{g(u + s g(u))}{g(u)} = 1 + g'(u) s + O(s^2)$. Assuming $x$ and, hence, $x$ small enough, we assume $O(s^2)$
+can be made arbitrarily small.
 
-$\frac{g(u + s g(u))}{g(u)} = 1 + \frac{s g'(u + w_{mean} g(u))}{g(u)} = \frac{g(u) + s g'(u + w_{mean} g(u))}{g(u)}$
+Inverting numerator and denominator, we get $\frac{g(u)}{g(u + s g(u))} = \frac{1}{1 + s g'(u)}$
 
-Inversing numerator and denominator, we get $\frac{g(u)}{g(u + s g(u))} = \frac{g(u)}{g(u) + s g'(u + w_{mean} g(u))}$
+Integrating both sides: $\int \limits_{0}^{x} \frac{g(u)}{g(u + s g(u))} ds = \int \limits_{0}^{x} \frac{1}{1 + s g'(u)} ds = \int \limits_{0}^{x} \frac{1}{g'(u)} d \ln(1 + s g'(u)) = \ln(1 + x g'(u))^{\frac{1}{g'(u)}}$
 
-Integrating both sides: $\int \limits_{0}^{x} \frac{g(u)}{g(u + s g(u))} ds = \int \limits_{0}^{x} \frac{g(u)}{g(u) + s g'(u + w_{mean} g(u))} ds = \int \limits_{0}^{x} \frac{a}{a + s b} ds = \int \limits_{0}^{x} \frac{a}{b} d \ln (a + sb) = \frac{a}{b} \ln (a + xb) - \frac{a}{b} \ln a = \frac{a}{b} \ln (1 + x \frac{b}{a}) = \ln (1 + \frac{x}{\frac{a}{b}})^{ \frac{a}{b} }$, where $a = g(u)$, $b = g'(u + w_{mean} g(u))$.
+Re-write this as $\ln(1 + \frac{x}{ 1/g'(u) })^{1/g'(u)}$. This looks familiar, right?
 
-Looks familiar, right?
-
-Denote $n = \frac{a}{b}$ and we get $\int \limits_{0}^{x} \frac{g(u)}{g(u + s g(u))} ds = \ln (1 + \frac{x}{n})^n \to \ln e^x = x$ if $n \to \infty$. 
-
-This is indeed the case as $n = \frac{a}{b} = \frac{ g(u) }{ g'(u + w_{mean} g(u)) }$ and we know that $g(u) \to const$, while $g'(u + w_{mean} g(u)) \to 0$ as $u \to x_F$ by the von Mises condition.
+Denote $n = \frac{1}{g'(u)} \to \infty$ as $g'(u) \to 0$. We get $\ln (1 + \frac{x}{n})^n = \ln e^x = x$. This concludes the proof.
 
 ### Generalizations of Theorem 3.3: auxiliary function and von Mises function
 
