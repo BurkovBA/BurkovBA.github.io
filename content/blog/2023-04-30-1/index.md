@@ -6,6 +6,29 @@ cover: "./GEVD.png"
 description: Quite often in mathematical statistics I run into Extreme Value Distribution - an analogue of Central Limit Theorem, which describes the distribution of maximum/minimum, observed in a series of i.i.d random variable tosses. In this post I explore the three cases of EVD and the Fisher-Tippett-Gnedenko theorem. 
 ---
 
+## Contents:
+
+1. Problem statement and Generalized Extreme Value distribution
+    * Type I: Gumbel distribution
+    * Type II: Frechet distribution
+    * Type III: Reversed Weibull distribution
+2. Fisher-Tippett-Gnedenko theorem
+    * General approach: max-stable distributions as invariants/fixed points/attractors and EVD types as equivalence classes
+    * Khinchin's theorem (law of Convergence of Types)
+    * Necessary conditions of maximium stability
+    * Fisher-Tippett-Gnedenko theorem (Extreme Value Theorem)
+    * Distributions not in domains of attraction of any maximum-stable distributions
+3. Von Mises sufficient conditions for a distribution to belong to a type I, II or III
+    * Pre-requisites from survival analysis
+    * Von Mises conditions proof
+    * Generalizations of Theorem 3.3: auxiliary function and von Mises function
+4. Necessary and sufficient conditions for a distribution to belong to a type I, II or III
+    * Pre-requisites from Karamata's theory of slow/regular/extended regular variation
+    * Necessary and sufficient conditions of convergence to Types II or III EVD
+    * Necessary and sufficient conditions of convergence to Type I EVD
+5. Summary and practical applications
+
+
 ## 1. Problem statement and Generalized Extreme Value distribution
 
 One of the most famous results in probabilities is Central Limit Theorem, which claims that sum of $n \to \infty$ i.i.d. random variables $\xi_i$
@@ -79,7 +102,7 @@ $F^n(a_n x + b_n)$ as $n \to \infty$ converges in distribution to some distribut
 
 Now I will informally describe the proof outline, before introducing the mathematical formalism.
 
-### General approach: max-stable distributions as invariants/fixed points/attractors and EVD types as equivalence classes 
+### General approach: max-stable distributions as invariants/fixed points/attractors and EVD types as equivalence classes
 
 I assume that all three types of Extreme Value Distribution were first discovered experimentally. Later statisticians 
 came up with a proof that EVD can converge to just one of three possible types of distributions and no other types of 
@@ -131,6 +154,8 @@ when there exist sequences $\{a_n\}, \{b_n\} \subset \mathbb{R}^+$ such that $F^
 If $G^*(x)$ is another non-degenerate cdf, we say that $G$ and $G^*$ have the same type if for all $x$ there exist 
 $a > 0$ and $b \in R$ such that for every x ∈ R $G^*(ax + b) = G(x)$.
 
+### Khinchin's theorem (law of Convergence of Types)
+
 #### Lemma 2.1: Khinchin's theorem (law of Convergence of Types)
 
 Suppose that we have a sequence of distribution functions $\{F_n\}$ (e.g. the distributions of maximum of random variable $\xi_i$ in $n$ experiments).
@@ -164,7 +189,6 @@ Substitute $\alpha = A \cdot a$ into $H^{-1}(y) \to x = \frac{F^{-1}(y) - \beta}
 On the other hand we recall that $G^{-1}(y) \to x = \frac{F^{-1}(y) - b}{a}$. Subtracting these, we get: $A \cdot H^{-1}(y) - G^{-1}(y) \to \frac{F^{-1}(y) - \beta}{a} - \frac{F^{-1}(y) - b}{a} = \frac{b - \beta}{a}$ or $\frac{\beta - b}{a} = B \to G^{-1}(y) - A \cdot H^{-1}(y)$.
 
 Hence, $G^{-1}(y) \to A \cdot H^{-1}(y) + B$.
-
 
 #### Lemma 2.2: Necessary condition of maximum-stability
 
@@ -219,6 +243,7 @@ $G^s(a(s)x + b(s)) = G(x)$.
 
 Corollary is self-evident from inversion of indices $s = \frac{1}{k}$.
 
+### Fisher-Tippett-Gnedenko theorem (Extreme Value Theorem)
 
 #### Theorem 2.1: Fisher-Tippett-Gnedenko theorem (Extreme Value Theorem)
 
@@ -328,7 +353,9 @@ $G(x) = e^{-(1 - \frac{x - \nu}{c})^{-\frac{1}{\rho}}}$, which is either a Frech
 
 ### Distributions not in domains of attraction of any maximum-stable distributions
 
-TODO
+We've shown that if maximum of n i.i.d. random variables of current distribution converge to any maximum-stable 
+distribution, it is one of the 3 described types. However, maximum might not converge to any max-stable distribution
+at all.
 
 #### Theorem 2.2. Sufficient condition for a distribution not to belong to a domain of attraction of max-stable distributions
 
@@ -513,11 +540,20 @@ rate approaches zero $r'(u) = 0$ as $u \to x_F$ and hazard rate approaches a pos
 Speaking informally, distribution of maximum converges to Gumbel, if the chances of death reach a 
 plateau as $u \to x_F$.
 
-**NOTE:** I've seen ~5 different formulations and proofs of this von Mises condition. This is the least generic, but
-easiest in terms of understanding version in my opinion. I'll consider more general formulations after this proof. Here 
-I am mostly following the formulation and logic of a proof by [Smith and Weissman](https://rls.sites.oasis.unc.edu/s834-2020/ExtremeValues.pdf), 
-it is simpler than alternatives, which I discuss later. Those alternative proofs generalize this proof, giving rise to 
-necessary and sufficient conditions, which I discuss in part 4.
+**NOTE:** I've seen ~5 different formulations and proofs of this von Mises condition. This version lacks generality (I'll
+discuss generalizations later in this post), but is the easier to understand in my opinion. In this proof I am loosely following the logic
+of [Smith and Weissman](https://rls.sites.oasis.unc.edu/s834-2020/ExtremeValues.pdf). 
+
+**NOTE:** You may run into a popular synonymous formulation of this theorem e.g. in [Leadbetter](https://scask.ru/k_book_eps.php) or 
+[Resnick](https://minerva.it.manchester.ac.uk/~saralees/book3.pdf) textbooks.
+They claim that distribution of maximum converges to Gumbel distribution if $Q(x) =\frac{F''(x)(1 - F(x))}{(F'(x))^2} \xrightarrow{x \to x_F} -1$.
+
+This is an equivalent condition to $r'(x) \xrightarrow{x \to x_F} 0$ because:
+
+$r'(x) = (\frac{F'(x)}{1 - F(x)})' = F''(x) \frac{1}{1 - F(x)} + F'(x) \frac{F'(x)}{(1 - F(x))^2} = \frac{F''(x) (1 - F(x)) + (F'(x))^2}{(1 - F(x))^2}$
+
+Multiply this by $\frac{(1 - F(x))^2}{(F'(x))^2}$ and we come to $r'(x) \cdot \frac{(1 - F(x))^2}{(F'(x))^2} = Q(x) + 1$, 
+which implies that if $r'(x) \to 0$ iff $Q(x) \to -1$, meaning that two formulations of the theorem are synonymous.
 
 #### Proof:
 
@@ -596,8 +632,8 @@ Denote $n = \frac{1}{g'(u)} \to \infty$ as $g'(u) \to 0$. We get $\ln (1 + \frac
 As I said, there are multiple alternative formulations and proofs of von Mises conditions. Some use more generic notions
 of **auxiliary function** and **von Mises function**.
 
-The general necessary and sufficient conditions in the next part of this post build on top of these two notions. Hence, it
-makes sense to discuss the generalizations of von Mises conditions here.
+The general necessary and sufficient conditions in the next part of this post generalize these two notions. Hence, it
+makes sense to discuss them here.
 
 #### Definition 3.5: Auxiliary function
 
@@ -620,89 +656,39 @@ Consider a different popular choice of auxiliary function: $g(x) = \frac{\int \l
 interpretation can we give to it?
 
 Recall that the integral of survival function is average lifespan. Hence, $\frac{\int \limits_{t}^{x_F} S(x) dx }{ S(t) }$ 
-is basically conditional expectation of longevity among those, who survived by the moment of time $t$: the denominator 
+is conditional expectation of longevity among those, who survived by the moment of time $t$: the denominator 
 is the fraction of survivors by $t$, while the numerator is the average life expectancy of these survivors after moment 
 of time $t$.
 
-TODO: outline the generalization of von Mises conditions to a generic auxiliary function
-
 #### Definition 3.6: von Mises function
 
-TODO
+Our proof is based on the fact that $S(x) = e^{-\int \limits_{-\infty}^{x} r(u) du}$. However, it would hold if we
+could represent the survival function as $S(x) = c e^{-\int \limits_{-\infty}^{x} \frac{1}{r(u)} du}$ with any auxiliary
+function.
 
+Hence, a survival function is called **von Mises function**, if it can be represented as 
+$S(x) = c e^{-\int \limits_{z_0}^{x} \frac{1}{f(u)} du}$, where $f(u) > 0$ is an absolutely continuous auxiliary function
+with density $f'(u)$, such that $\lim \limits_{u \to x_0} f'(u) = 0$ and $z_0 < u < x_0$.
 
-#### Alternative formulation 1: hazard rate at end point is inverse of auxiliary function 1
-
-First alternative formulation of von Mises condition is as follows.
-
-For a distribution function $F_{\xi}$ regardless, if it has a finite, or an infinite end point, if 
-$\lim \limits_{t \to x_F} r(t) g(t) = 1$, the distribution's maximum is in the domain of Gumbel Type I EVD.
-
-This condition holds if and only if $F(x)$ is a von Mises function.
-
-Here $g(t) = \frac{\int \limits_{t}^{x_F} S(x) dx }{ S(t) }$ is **auxiliary function** (as in the first example, conditional probability).
-
-Then $b_n = \gamma(n)$ (tail quantile function) and $a_n = f(b_n)$ (auxiliary function of tail quantile function).
-
-Please, refer to [Resnick](https://minerva.it.manchester.ac.uk/~saralees/book3.pdf) textbook for this version of proof,
-but let me warn you that it is ugly and techincal.
-
-#### Alternative formulation 2: derivative of hazard rate at upper end point approaches 0
-
-$r'(x) \xrightarrow{x \to x_F} 0$
-
-Again, this formulation makes use of auxiliary function $g(x) = \frac{\int \limits_{t}^{x_F} S(u)du}{S(t)}$, and again 
-the proof is highly technical, hardly intelligible and not very instructive. 
-
-Please, refer to [Resnick](https://minerva.it.manchester.ac.uk/~saralees/book3.pdf) or 
-[Leadbetter](https://scask.ru/k_book_eps.php) textbooks for this version of proof (both are ugly).
-
-#### Alternative formulation 3
-
-$Q(x) =\frac{F''(x)(1 - F(x))}{(F'(x))^2} \xrightarrow{x \to x_F} -1$.
-
-This is equivalent to previous formulation $r'(x) \to 0$ as $x \to x_F$ because
-
-$r'(x) = \frac{F'(x)}{1 - F(x)} = F''(x) \frac{1}{1 - F(x)} + F'(x) \frac{F'(x)}{(1 - F(x))^2} = \frac{F''(x) (1 - F(x)) + (F'(x))^2}{(1 - F(x))^2}$
-
-Now consider $r'(x) \cdot \frac{(1 - F(x))^2}{(F'(x))^2} = Q(x) + 1$, which is synonymous to previous formulation.
+The von Mises conditions hold if and only if $F(x)$ is a von Mises function.
 
 
 ## 4. Necessary and sufficient conditions for a distribution to belong to a type I, II or III
 
-Speaking informally: 
+Now that we've introduced von Mises conditions, it is quite easy to slightly alter them in order to show that
+their modified versions are not only sufficient, but also necessary.
 
-* If a distribution's survival function has no end point and its survival decays polynomially (has "fat tails"), the distribution belongs to EVD type II (Frechet).
-* If a distribution's survival function has a finite end point, and it decays polynomially, approaching that end point, the distribution belongs to EVD type III (Weibull). 
-* If a distribution's survival function decays exponentially (has "light, sub-exponential tails"), approaching its end point, which might be either finite or infinite, it belongs to EVD type I (Gumbel).
+In order to do that we have to rely on mathematical apparatus of slowly varying functions and their extensions,
+developed by [a Serbian/Yugoslavian mathematician Jovan Karamata](https://encyclopediaofmath.org/index.php?title=Karamata_theory&oldid=25937) in 1930s. Using Karamata theorems we can relatively 
+easily prove that generalizations of von Mises conditions are not only sufficient, but necessary.
 
-For instance:
+### Pre-requisites from Karamata's theory of slow/regular/extended regular variation
 
-* Pareto, Cauchy, Student and Fisher distributions have heavy tails and converge to Type II.
-* Uniform and Beta distributions have a finite end point and converge to Type III.
-* Gaussian, Exponential, Gamma and Logistic distributions have light sub-exponential tails and converge to Type I.
+Here we'll introduce the concepts of slow-varying function and regularly varying function from Karamata theory, which
+allow us to prove the necessary and sufficient conditions for Types II and III.
 
-In case of Type I the end point might be finite or infinite. 
-
-An example of distribution with infinite end point $x_F$ we can consider exponential distribution $F(x) = 1 - e^{-x}$ 
-for $x > 0$. We can show that its maximum converges to Type I by choosing $a_n = 1$, $b_n = \log n$, so that we 
-get $F^n(x + \log n) = (1 - e^{-(x + \log n)})^n = (1 - \frac{e^{-x}}{n})^n \to exp(e^{-x})$.
-
-An example of distribution with a finite end point $x_F$ is from Gnedenko (1943) work:
-
-$F(x) = \begin{cases} 0, x < 0 \\ 1 - \exp(\frac{-x}{1-x}), 0 \le x < 1 \\ 1, x \ge 1 \end{cases}$
-
-and $a_n = \frac{1}{(1 + \log n)^2}$ and $b_n = \frac{ \log n }{ 1 + \log n }$
-
-TODO: Gnedenko's example of a distribution that has $x_F < \infty$ and still decays sub-exponentially 
-
-We shall formalize this theorem statement a bit later. But first, to perform the proof, we'll need more technical 
-tool in our toolbox, **regularly varying function** (which is a generalization of a **slow-varying function**) and
-**auxiliary function**.
-
-### Karamata's theory of slow/regular/extended regular variation
-
-TODO
+They also serve as a foundation for the concept of extended variation, which enables the proof of the sufficient
+conditions for Type I. 
 
 #### Definition 4.1: Slow-varying function
 
@@ -764,6 +750,7 @@ $\lim \limits_{x \to \infty} \epsilon(x) = 0$
 
 TODO
 
+### Necessary and sufficient conditions of convergence to Types II or III EVD
 
 #### Theorem 4.1: necessary and sufficient conditions for a distribution to belong to a type II or III EVD
 
@@ -780,7 +767,7 @@ $F_{M_n}(tx) = p(M_n \le tx) = F_\xi(tx)^n = p(\xi_i \le tx)^n = (1 - p(\xi_i \g
 
 $F_{M_n}(x_F - tx) = p(M_n \le x_F - tx) = p(x_F - M_n \ge tx) = p^n(x_F - \xi \ge tx) = (1 - p(x_F - \xi \le tx) )^n = (1 - S(x_F - tx))^n \to (1 - S(x_F - t) \cdot x^\alpha)^n = (1 - \frac{1}{n} \cdot x^\alpha) = e^{-x^\alpha}$
 
-#### Preparations for proving necessary and sufficient conditions of convergence to Type I EVD 
+### Necessary and sufficient conditions of convergence to Type I EVD
 
 #### Definition 4.4: Von Mises function
 
@@ -812,27 +799,72 @@ A distribution belongs to Extreme Value Distribution type I (Gumbel) if and only
 
 TODO
 
-## Practical applications
+## 5. Summary and practical applications
+
+Speaking informally: 
+
+* If a distribution's survival function has no end point and it decays polynomially (has "fat tails"), the distribution belongs to EVD type II (Frechet).
+* If a distribution's survival function has a finite end point, and it decays polynomially, approaching that end point, the distribution belongs to EVD type III (Weibull). 
+* If a distribution's survival function decays exponentially (has "light, sub-exponential tails"), approaching its end point, which might be either finite or infinite, it belongs to EVD type I (Gumbel).
+
+For instance:
+
+* Pareto, Cauchy, Student and Fisher distributions have heavy tails and converge to Type II.
+* Uniform and Beta distributions have a finite end point and converge to Type III.
+* Gaussian, Exponential, Gamma and Logistic distributions have light sub-exponential tails and converge to Type I.
+
+### EVD Type I: Gumbel distribution examples
+
+In case of Type I the end point might be finite or infinite. 
+
+#### Example 5.1. Exponential distribution
+
+An example of distribution with infinite end point $x_F$ we can consider exponential distribution $F(x) = 1 - e^{-x}$ 
+for $x > 0$. We can show that its maximum converges to Type I by choosing $a_n = 1$, $b_n = \log n$, so that we 
+get $F^n(x + \log n) = (1 - e^{-(x + \log n)})^n = (1 - \frac{e^{-x}}{n})^n \to exp(e^{-x})$.
+
+An example of distribution with a finite end point $x_F$ is from Gnedenko (1943) work:
+
+$F(x) = \begin{cases} 0, x < 0 \\ 1 - \exp(\frac{-x}{1-x}), 0 \le x < 1 \\ 1, x \ge 1 \end{cases}$
+
+and $a_n = \frac{1}{(1 + \log n)^2}$ and $b_n = \frac{ \log n }{ 1 + \log n }$
+
+#### Example 5.2 Gnedenko's example
+
+TODO: Gnedenko's example of a distribution that has $x_F < \infty$ and still decays sub-exponentially 
+
+We shall formalize this theorem statement a bit later. But first, to perform the proof, we'll need more technical 
+tool in our toolbox, **regularly varying function** (which is a generalization of a **slow-varying function**).
+
+#### Example 5.3. Karlin-Altschul statistics in bioinformatics
 
 TODO
 
-#### EVD Type I: Gumbel distribution
-
-TODO: Karlin-Altschul statistics in bioinformatics
-
-TODO: Gumbel VAE
-
-#### EVD Type II: Frechet distribution
+#### Example 5.4. Gumbel VAE
 
 TODO
 
-#### EVD Type III: Weibull distribution
+### EVD Type II: Frechet distribution
 
-TODO: hazard rate and mortality in survival analysis
+TODO
 
-TODO: diffusion of innovation
+#### Example 5.5. Pareto distribution, Lindy effect
 
-TODO: fraction of mass, occupied by particles of a certain size in mining, connection to Pareto distribution
+TODO
+
+### EVD Type III: Weibull distribution
+
+#### Example 5.6. hazard rate and mortality in survival analysis
+
+TODO
+
+#### Example 5.7: diffusion of innovation
+
+TODO
+
+#### Example 5.8: fraction of mass, occupied by particles of a certain size in mining, connection to Pareto distribution
+
+TODO
 
 ### Generalized Pareto distribution
 
@@ -857,3 +889,4 @@ TODO
 * https://link.springer.com/chapter/10.1007/978-3-030-28669-9_3 - another great review of EVT by Maria Jacob
 * https://en.wikipedia.org/wiki/Slowly_varying_function - on slowly varying functions and Karamata's theorems
 * https://www.jstor.org/stable/1968974?read-now=1&oauth_data=eyJlbWFpbCI6InZhc2phZm9ydXR1YmVAZ21haWwuY29tIiwiaW5zdGl0dXRpb25JZHMiOltdfQ&seq=23#page_scan_tab_contents - the original B.Gnedenko (1943) paper
+* https://encyclopediaofmath.org/index.php?title=Karamata_theory&oldid=25937 - Encyclopedia of math on Jovan Karamata
