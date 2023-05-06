@@ -1,5 +1,5 @@
 ---
-title: Intro to the Extreme Value Theory and Extreme Value Distributions
+title: Intro to the Extreme Value Theory and Extreme Value Distribution
 date: "2023-04-30T00:00:00.284Z"
 tags: ["math"]
 cover: "./GEVD.png"
@@ -14,19 +14,19 @@ description: Quite often in mathematical statistics I run into Extreme Value Dis
     * Type III: Reversed Weibull distribution
 2. Fisher-Tippett-Gnedenko theorem
     * General approach: max-stable distributions as invariants/fixed points/attractors and EVD types as equivalence classes
-    * Khinchin's theorem (law of Convergence of Types)
+    * Khinchin's theorem (Law of Convergence of Types)
     * Necessary conditions of maximium stability
     * Fisher-Tippett-Gnedenko theorem (Extreme Value Theorem)
     * Distributions not in domains of attraction of any maximum-stable distributions
 3. Von Mises sufficient conditions for a distribution to belong to a type I, II or III
     * Pre-requisites from survival analysis
     * Von Mises conditions proof
-    * Generalizations of Theorem 3.3: auxiliary function and von Mises function
+    * Generalizations of von Mises condition for Type I EVD: auxiliary function and von Mises function
 4. Necessary and sufficient conditions for a distribution to belong to a type I, II or III
     * Pre-requisites from Karamata's theory of slow/regular/extended regular variation
     * Necessary and sufficient conditions of convergence to Types II or III EVD
     * Necessary and sufficient conditions of convergence to Type I EVD
-5. Summary and practical applications
+5. Summary and examples of practical application
 
 
 ## 1. Problem statement and Generalized Extreme Value distribution
@@ -154,7 +154,7 @@ when there exist sequences $\{a_n\}, \{b_n\} \subset \mathbb{R}^+$ such that $F^
 If $G^*(x)$ is another non-degenerate cdf, we say that $G$ and $G^*$ have the same type if for all $x$ there exist 
 $a > 0$ and $b \in R$ such that for every x ∈ R $G^*(ax + b) = G(x)$.
 
-### Khinchin's theorem (law of Convergence of Types)
+### Khinchin's theorem (Law of Convergence of Types)
 
 #### Lemma 2.1: Khinchin's theorem (law of Convergence of Types)
 
@@ -445,9 +445,9 @@ $r(t) = \frac{f(t)}{1 - F(t)} = \frac{f(t)}{S(t)}$
 
 **Cumulative hazard rate** $R(t) = \int \limits_{x=-\infty}^{t} r(x) dx$ is integral of hazard rate over some period of time.
 
-Cumulative hazard rate is basically the number of times you avoided death by now. E.g. you're a cowboy in the Wild West,
-robbing trains. At your first robbery your chance of being killed (hazard rate) is $1/2$. Then you get more experienced
-and at the second and third time your hazard rate is $1/3$ and $1/4$. If you survived 3 robberies, your cumulative hazard
+Cumulative hazard rate is basically the number of times you avoided death by now. Suppose you're a train robber in the 
+Wild West. At your first robbery your chance of being killed (hazard rate) is $1/2$. Then you get more experienced
+and at the second and third times your hazard rate is $1/3$ and $1/4$. If you survived 3 robberies, your cumulative hazard
 rate equals $1/2 + 1/3 + 1/4$. Basically, you "deserved" more than 1 death by now and are lucky to still be alive.
 
 #### Proposition 3.1. Cumulative hazard rate relation to survival function
@@ -641,7 +641,7 @@ In the previous proof we denoted the inverse hazard rate as $g(x) = \frac{1}{r(x
 which is called **auxiliary funcion**, is defined in the context of the ratio $\frac{S(u + x g(u))}{S(u)}$ and is chosen 
 in such a way that $\frac{S(u + x g(u))}{S(u)} \xrightarrow{u \to x_F} e^{-x}$.
 
-However, turns out that it is not uniquely defined. We can make use of other definitions of $g(x)$ and convergence to 
+However, turns out that it is not uniquely defined. We can come up with other definitions of $g(x)$ and convergence to 
 Gumbel EVD would still hold.
 
 To motivate other choices of auxiliary function let us discuss the interpretation of this ratio of survival functions. 
@@ -662,16 +662,14 @@ of time $t$.
 
 #### Definition 3.6: von Mises function
 
-Our proof is based on the fact that $S(x) = e^{-\int \limits_{-\infty}^{x} r(u) du}$. However, it would hold if we
-could represent the survival function as $S(x) = c e^{-\int \limits_{-\infty}^{x} \frac{1}{r(u)} du}$ with any auxiliary
-function.
+Our proof is based on the fact that $S(x) = e^{-\int \limits_{-\infty}^{x} r(u) du}$. 
+
+However, it would hold if we could represent the survival function as 
+$S(x) = c e^{-\int \limits_{-\infty}^{x} \frac{1}{f(u)} du}$ with any auxiliary function $f$.
 
 Hence, a survival function is called **von Mises function**, if it can be represented as 
 $S(x) = c e^{-\int \limits_{z_0}^{x} \frac{1}{f(u)} du}$, where $f(u) > 0$ is an absolutely continuous auxiliary function
 with density $f'(u)$, such that $\lim \limits_{u \to x_0} f'(u) = 0$ and $z_0 < u < x_0$.
-
-The von Mises conditions hold if and only if $F(x)$ is a von Mises function.
-
 
 ## 4. Necessary and sufficient conditions for a distribution to belong to a type I, II or III
 
@@ -694,9 +692,14 @@ conditions for Type I.
 
 **Slow-varying function** $l(x)$ is such a function that $\lim \limits_{t \to \infty} \frac{l(xt)}{l(t)} = 1$ for any $x > 0$.
 
+#### Example 4.1: logarithm is a slow-varyring function
+
+$\ln x$ is a slowly varying function because $\lim \limits_{t \to \infty} \frac{\ln (xt)}{\ln (1t)} = \frac{\ln x + \ln t}{\ln t} = \frac{\ln x}{\ln t} + 1 \to 1$
+
 #### Definition 4.2: Regularly-varying function
 
-**Regularly-varying function** $h(x)$ of index $\gamma$ is such a function that $\lim \limits_{t \to \infty} \frac{h(xt)}{l(h)} = x^{\gamma}$ for any $x > 0$.
+**Regularly-varying function** $h(x)$ of index $\gamma$ is such a function that $\lim \limits_{t \to \infty} \frac{h(xt)}{h(t)} = x^{\beta}$ for any $x > 0$,
+where $\beta$ is a real number, sometimes called **exponent of variation** or **index of variation**.
 
 Regularly-varying function is basically just a generalization of slow-varying function.
 
@@ -704,39 +707,26 @@ Later on we will show that if the survival function of our distribution in quest
 converges to Type III Weibull EVD, if it has a finite upper end point or to Type II Frechet EVD, if its upper end point
 is infinite.
 
-#### Definition 4.3: Extended regular variation
+#### Example 4.2: power function is a regularly-varyring function
 
-A measurable function is said to be of **extended regular variation**, if there exists a function $a(x)$, such that
-$\lim \limits_{t \to \infty} \frac{f(tx) - f(t)}{a(x)} = \frac{x^{\alpha} - 1}{\alpha}$.
+$x^{\beta}$ is regularly varying function because $\lim \limits_{t \to \infty} \frac{(xt)^\beta}{t^\beta} = x^\beta$.
 
-The function $a(x)$ is called **auxiliary function**. 
+#### Lemma 4.1: Karamata's theorem
 
-#### Lemma 4.1: Karamata's characterization theorem
+Suppose $h$ is a regularly varying function with an order of variation $\beta > -1$.
 
-TODO
+Then its integral $\int \limits_{0}^{x} h(u) du$ is a regularly varying function with order of variation $\beta + 1$.
 
-#### Proof:
+Also $\lim \limits_{x \to \infty} \frac{x h(x)}{\int \limits_{0}^{x} h(u)du} = \beta + 1$
 
-TODO
-
-#### Lemma 4.2: Karamata's theorem
-
-Suppose $f$ is a regularly varying function. There exists $t_0 > 0$ such that $f(t)$ is positive and locally bounded for
-$t \ge t_0$. If $\alpha \ge −1$, then 
-
-$\lim \limits_{t \to \infty} \frac{ t f (t)}{ \int \limits_{t_0}^{t} f (s) ds } = \alpha + 1 $
-
-If $\alpha < −1$, or $\alpha = −1$ and $\int \limits_0^{\infty} f (s) ds < \infty$, then
-
-$\lim \limits_{t \to \infty} \frac{t f(t)}{ \int \limits_{t}^{\infty} f(s)ds } = - \alpha - 1$
-
-Conversely, if Eq.(3.24) holds with −1 < α < ∞,
+Conversely, if $\lim \limits_{x \to \infty} \frac{x h(x)}{\int \limits_{0}^{x} h(u)du} = \beta$, then $h$ is 
+regularly varying with order of variation $\beta - 1$.
 
 #### Proof:
 
 TODO
 
-#### Lemma 4.3: Karamata's representation theorem
+#### Lemma 4.2: Karamata's representation theorem
 
 Function $L$ is slowly varying if and only if it can be represented as $L(x) = c(x) exp({\int \limits_1^x \frac{\epsilon(t)}{t}dt})$. 
 
@@ -748,7 +738,51 @@ $\lim \limits_{x \to \infty} \epsilon(x) = 0$
 
 #### Proof:
 
+##### Direct result
+
+$\frac{L(tx)}{L(x)} = \frac{c(tx) e^{\int \limits_1^{tx} \frac{\epsilon(u)}{u} du }}{c(t) e^{\int \limits_{1}^{t} \frac{\epsilon(u)}{u} du } } = \frac{c(tx)}{c(t)} e^{\int \limits_t^{tx} \frac{ \epsilon(u) }{u} du}$.
+
+Now take $u$ large enough that $|\epsilon(u)| \le \epsilon$ for arbitrarily small $\epsilon > 0$. Then:
+
+$1 \leftarrow x^{-\epsilon} \le e^{-\epsilon (\ln(tx) -\ln t)} \le e^{\int \limits_t^{tx} \frac{ \epsilon(u) }{u} du} \le e^{\epsilon (\ln(tx) -\ln t)} = x^{\epsilon} \to 1$
+
+And with $\frac{c(tx)}{c(t)} \to 1$ the result is proven.
+
+##### Conversely
+
+$b(x) = \frac{x L(x)}{\int \limits_0^{x} L(s) ds} \to 1$ as $x \to \infty$
+
+$L(x) = \frac{b(x) \int \limits_0^{x} L(s) ds}{x}$
+
+Denote $\epsilon(x) = b(x) - 1 \to 0$ and consider:
+
+$\int \limits_{1}^{x} \frac{ \epsilon(t) }{t} dt = \int \limits_{1}^{x} (\frac{L(t)}{\int \limits_0^{t} L(s) ds} - \frac{1}{t}) dt = \int \limits_{1}^{x} \frac{L(t)}{\int \limits_0^{t} L(s) ds} dt - (\ln x - \ln 1) = \int \limits_{1}^{x} d( \ln \int \limits_0^t L(s) ds ) - \ln x = \ln \frac{ \int \limits_0^x L(s) ds }{ \int \limits_0^1 L(s) ds } - \ln x$
+
+$e^{\int \limits_{1}^{x} \frac{ \epsilon(t) }{t} dt} = \frac{ \int \limits_0^x L(s) ds }{ x \int \limits_0^1 L(s) ds } = \frac{L(x)}{b(x) \int \limits_0^1 L(s) ds}$
+
+$L(x) = \underbrace{b(x) (\int \limits_0^{1} L(s) ds)}_{c(x)} \cdot e^{\int \limits_{1}^{x} \frac{ \epsilon(t) }{t} dt}$
+
+Which leads to $c(x) = b(x) \int \limits_0^1 L(s) ds$ and $L(x) = c(x) \cdot e^{\int \limits_{1}^{x} \frac{ \epsilon(t) }{t} dt}$.
+
+#### Lemma 4.3: Karamata's characterization theorem
+
+Every regularly varying function $h: (0, +\infty) \to (0, +\infty)$ can be expressed through some slow-varying function
+$l$ as: $\frac{h(x)}{l(x)} = x^{\beta}$, where $\beta$ is a real number.
+
+#### Proof:
+
 TODO
+
+
+
+#### Definition 4.3: Extended regular variation
+
+A measurable function is said to be of **extended regular variation**, if there exists a function $a(x)$, such that
+$\lim \limits_{t \to \infty} \frac{f(tx) - f(t)}{a(x)} = \frac{x^{\alpha} - 1}{\alpha}$.
+
+The function $a(x)$ is called **auxiliary function**. 
+
+
 
 ### Necessary and sufficient conditions of convergence to Types II or III EVD
 
@@ -799,7 +833,7 @@ A distribution belongs to Extreme Value Distribution type I (Gumbel) if and only
 
 TODO
 
-## 5. Summary and practical applications
+## 5. Summary and examples of practical application
 
 Speaking informally: 
 
@@ -890,3 +924,4 @@ TODO
 * https://en.wikipedia.org/wiki/Slowly_varying_function - on slowly varying functions and Karamata's theorems
 * https://www.jstor.org/stable/1968974?read-now=1&oauth_data=eyJlbWFpbCI6InZhc2phZm9ydXR1YmVAZ21haWwuY29tIiwiaW5zdGl0dXRpb25JZHMiOltdfQ&seq=23#page_scan_tab_contents - the original B.Gnedenko (1943) paper
 * https://encyclopediaofmath.org/index.php?title=Karamata_theory&oldid=25937 - Encyclopedia of math on Jovan Karamata
+* http://elib.mi.sanu.ac.rs/files/journals/publ/91/n085p079.pdf - interesting paper on history of adoption of Karamata's theory in the West by Feller after Gnedenko, Khinchin and Kolmogorov
