@@ -707,24 +707,152 @@ Later on we will show that if the survival function of our distribution in quest
 converges to Type III Weibull EVD, if it has a finite upper end point or to Type II Frechet EVD, if its upper end point
 is infinite.
 
-#### Example 4.2: power function is a regularly-varyring function
+#### Example 4.2: power function is a regularly-varying function
 
-$x^{\beta}$ is regularly varying function because $\lim \limits_{t \to \infty} \frac{(xt)^\beta}{t^\beta} = x^\beta$.
+$x^{\beta}$ is a regularly varying function because $\lim \limits_{t \to \infty} \frac{(xt)^\beta}{t^\beta} = x^\beta$.
 
 #### Lemma 4.1: Karamata's theorem
 
-Suppose $h$ is a regularly varying function with an order of variation $\beta > -1$.
+**Direct statement.** Suppose $h$ is a regularly varying function with an order of variation $\beta > -1$.
 
-Then its integral $\int \limits_{0}^{x} h(u) du$ is a regularly varying function with order of variation $\beta + 1$.
+Then its integral $\int \limits_{0}^{x} h(u) du$ is a regularly varying function with order of variation $\beta + 1$. 
 
-Also $\lim \limits_{x \to \infty} \frac{x h(x)}{\int \limits_{0}^{x} h(u)du} = \beta + 1$
+**Ratio statement** $\lim \limits_{x \to \infty} \frac{x h(x)}{\int \limits_{0}^{x} h(u)du} = \beta + 1$.
 
-Conversely, if $\lim \limits_{x \to \infty} \frac{x h(x)}{\int \limits_{0}^{x} h(u)du} = \beta$, then $h$ is 
-regularly varying with order of variation $\beta - 1$.
+**Reverse statement.** Conversely, if $\lim \limits_{x \to \infty} \frac{x h(x)}{\int \limits_{0}^{x} h(u)du} = \beta$, then $h$ is regularly varying with order of variation $\beta - 1$.
 
-#### Proof:
+#### Proof of direct statement
+
+We need to show that $H(tx) = \int \limits_{s=0}^{tx \to \infty} h(s) ds$ is a regularly varying function, i.e. 
+$\frac{\int \limits_{s=0}^{tx \to \infty} h(s) ds}{\int \limits_{s=0}^{t \to \infty} h(s) ds} \to \beta + 1$.
+
+##### Step 1. Integral of regularly varying function is unbounded
+
+Upon $\beta > -1$ we know that $\frac{h(2t)}{h(t)} \xrightarrow{t > t_0} 2^{\beta} > 2^{-1} = \frac{1}{2}$.
+
+We can use this fact to show that integral $\int \limits_{s_0}^{\infty} h(t)dt \to \infty$.
+
+Imagine that we split the $t$ line into intervals of ever doubling length: $[1, 2]$, $[2, 4]$, $[4, 8]$ etc. 
+Starting from some point $s_0$ we assume that the property $\frac{h(2s_0)}{h(s_0)} > \frac{1}{2}$ starts to hold.
+
+Let us pick some $N$, such that $2^N > s_0$. 
+
+Express $\int \limits_{t=2^{N+1}}^{2^{N+2}} h(t) dt$ through $\int \limits_{t=2^N}^{2^{N+1}} h(t) dt$:
+
+$\int \limits_{t=2^{N+1}}^{2^{N+2}} h(t) dt = \int \limits_{2t=2^{N}}^{2^{N+1}} h(2t) d2t = 2 \int \limits_{2t=2^{N}}^{2^{N+1}} h(2t) dt > 2 \int \limits_{t=2^{N}}^{2^{N+1}} h(t) \cdot \frac{1}{2} \cdot dt = \int \limits_{t=2^{N}}^{2^{N+1}} h(t) dt$.
+
+Repeating this procedure infinitely for $[2^{N+2}, 2^{N+3}], [2^{N+3}, 2^{N+4}], ...$ intervals, we get $\int \limits_{t=2^{N+1}}^{2^{N+2}} h(t) dt = \infty \cdot \int \limits_{t=2^{N}}^{2^{N+1}} h(t) dt$.
+
+Hence, $\int \limits_{s_0}^{\infty} h(t)dt \to \infty$.
+
+##### Step 2. Squeeze conditions
+
+Assuming uniform convergence of $h(tx)$ to $h(t) x^\beta$ as $t \to \infty$: for arbitrarily small $\epsilon$ there
+is $t$, such that:
+
+$|\frac{h(tx)}{x^\beta h(t)} - 1| \le \epsilon$
+
+$|h(tx) - x^\beta h(t)| \le \epsilon x^\beta h(t)$
+
+$-\epsilon x^\beta h(t) \le h(tx) - x^\beta h(t) \le \epsilon x^\beta h(t)$
+
+$x^\beta h(t) - \epsilon x^\beta h(t) \le h(tx) \le x^\beta h(t) + \epsilon x^\beta h(t)$
+
+$(1 - x)^\beta h(t) \le h(tx) \le (1 + \epsilon) x^\beta h(t)$
+
+##### Step 3. Application of squeeze conditions
+
+$\limsup \limits_{t \to \infty} \frac{ \int \limits_0^{tx} U(s)ds }{ \int \limits_0^{t} U(s)ds }$
+$ = \limsup \limits_{t \to \infty} \frac{ x \int \limits_0^{t} U(sx)ds }{ \int \limits_0^{t} U(s)ds }$
+$ = \limsup \limits_{t \to \infty} \frac{ x \int \limits_N^{t} U(sx)ds }{ \int \limits_N^{t} U(s)ds }$
+$ \le \limsup \limits_{t \to \infty} x^{\beta + 1} (1 + \epsilon) \frac{ \int \limits_0^{t} U(s)ds }{ \int \limits_0^{t} U(s)ds }$
+$ = x^{\beta + 1} (1 + \epsilon)$.
+
+##### Step 4. Special case: beta == -1
 
 TODO
+
+#### Proof of ratio statement
+
+We need to show that $\lim \limits_{x \to \infty} \frac{x h(x)}{\int \limits_{0}^{x} h(u)du} = \beta + 1$.
+
+##### Step 1. Express h(x) through b(x)
+
+Express $h(x)$ through $b(x)$ (see the derivation in reverse statement and Karamata's representation below):
+
+$h(x) = c \cdot \frac{ b(x) }{ x } \cdot e^{\int \limits_{1}^{x} \frac{ b(u) }{u} du}$.
+
+##### Step 2. Consider inverse of b(x), do a variable change
+
+We must show $b(x) \to \beta + 1$. Consider the lower limit of inverse of $b(x)$:
+
+$\liminf \limits_{x \to \infty} 1 / b(x) = \liminf \limits_{x \to \infty} \frac{ \int \limits_{0}^{x} h(t) dt }{x h(x)}$
+
+Perform a variable substitution $s = \frac{t}{x}$:
+
+$\liminf \limits_{x \to \infty} \frac{ \int \limits_{0}^{x} h(t) dt }{x h(x)} = \liminf \limits_{x \to \infty} \frac{ \int \limits_{0}^{1} h(sx) ds }{ h(x) }$
+
+##### Step 3. Application of Fatou lemma
+
+Apply Fatou's lemma:
+
+$\liminf \limits_{x \to \infty} \frac{ \int \limits_{0}^{1} h(sx) dt }{ h(x) } \ge \int \limits_{0}^{1} \liminf \limits_{x \to \infty} \frac{ h(sx) }{ h(x) } ds = \int \limits_{0}^{1} s^{\beta} ds = \frac{1}{ \beta + 1 }$
+
+This leads to a conclusion $\limsup \limits_{x \to \infty} \le \beta + 1$.
+
+##### Step 4. Final analysis
+
+$h(x)$ has the following properties:
+
+(i) $h(x)$ is bounded on a semi-infinite neighborhood of $\infty$;
+
+(ii) $h$ is slowly varying since $xU(x)$ is regularly varying with index of variation ${\beta + 1}$ and $\int \limits_0^x U(s)ds$ is regularly varying with index $\beta + 1$;
+
+(iii) $b(xt) - b(x) \to 0$ boundedly as $x \to \infty$. 
+
+The last statement follows since by slow variation:
+
+$\lim \limits_{x \to \infty} (b(xt) - b(x)) / b(x) = 0$
+
+and the denominator is ultimately bounded. 
+
+From (iii) and dominated convergence
+
+$\lim \limits_{x \to \infty} \int \limits_{1}^{s} \frac{ b(xt) - b(x) }{t} dt = 0$
+
+and the left side may be rewritten to obtain
+
+$\lim \limits_{x \to \infty} \int \limits_{1}^{s} \frac{ b(xt) }{t}dt - b(x) \ln s = 0$
+
+From $h(x) = c \cdot \frac{ b(x) }{ x } \cdot e^{\int \limits_{1}^{x} \frac{ b(u) }{u} du}$:
+
+$c exp(\int \limits_1^x \frac{b(t)}{t} dt) = \int \limits_0^x U(s) ds$, which is a regularly varying function with index of variation $\beta + 1$
+
+And from regular variation property:
+
+$(\beta + 1) \ln s = \lim_{x \to \infty} \ln \frac{ \int \limits_0^{xs} h(t) dt }{ \int \limits_0^{x} h(t) dt } = \lim_{x \to \infty} \int \limits_x^{xs} \frac{b(t)}{t} dt = \lim_{1 \to s} \int \limits_x^{xs} \frac{b(xt)}{t} dt$
+
+and combining this with (0.41) leads to the desired conclusion that $b(x) \to \beta + 1$.
+
+#### Proof of reverse statement
+
+We need to show that if $ b(x) = \frac{x h(x)}{\int \limits_{0}^{x} h(t) dt}$, and we know that $\lim \limits_{x \to \infty} b(x) = \beta$, then $\frac{h(xt)}{h(t)} = \beta - 1$.
+
+Consider the ratio $\frac{b(x)}{x} = \frac{h(x)}{\int \limits_{0}^{x} h(t) dt}$ and integrate it, using the fact that integral of the right part is a logarithm:
+
+$\int \limits_{1}^{x} \frac{b(u)}{u} du = \int \limits_{1}^{x} \frac{h(u)}{\int \limits_{t=0}^{u} h(t)dt} du = \int \limits_1^{x} d \ln(\int \limits_0^{u}h(t) dt) = \ln (\int \limits_{0}^{x} h(u) du) - \ln(\int \limits_{0}^{1} h(u) du)$.
+
+$e^{\int \limits_{1}^{x} \frac{b(u)}{u} du} = \int \limits_{0}^{x} h(u) du / \int \limits_{0}^{1} h(u) du = \frac{ x h(x) } { b(x) } / \int \limits_0^1 h(u) du$
+
+$h(x) = \int \limits_0^1 h(u) du \cdot \frac{ b(x) }{x} \cdot e^{\int \limits_{1}^{x} \frac{ b(u) }{u} du} = \int \limits_0^1 h(u) du \cdot b(x) \cdot e^{\ln (\frac{1}{x}) } \cdot e^{\int \limits_{1}^{x} \frac{ b(u) }{u} du} = \int \limits_0^1 h(u) du \cdot b(x) \cdot e^{-\ln (x) + \ln(1)} \cdot e^{\int \limits_{1}^{x} \frac{ b(u) }{u} du} =$
+
+$ = \int \limits_0^1 h(u) du \cdot b(x) \cdot e^{-\int \limits_1^x \frac{1}{u} du} \cdot e^{\int \limits_{1}^{x} \frac{ b(u) }{u} du} = \int \limits_0^1 h(u) du \cdot b(x) \cdot e^{\int \limits_{1}^{x} \frac{ b(u) - 1 }{u} du}$.
+
+We see that $h(x)$ is represented as a regularly varying function with a variation index of $\beta - 1$, because:
+
+$h(x) = \underbrace{\int \limits_0^1 h(u) du \cdot b(x) }_{ \xrightarrow{x \to \infty } const } \cdot e^{\int \limits_{1}^{x} \frac{ \overbrace{b(u) - 1}^{ \xrightarrow{x \to \infty } \beta - 1} }{u} du} = c(x) e^{\int \limits_{1}^{x} \frac{B(u)}{u} du}$, where $B(u) \xrightarrow{u \to \infty} \beta - 1$. 
+
+This is Karamata's representation/characterization of a regularly varying function with index of variation $\beta - 1$ by the following Karamata's representation and characterization theorems.
 
 #### Lemma 4.2: Karamata's representation theorem
 
@@ -769,20 +897,28 @@ Which leads to $c(x) = b(x) \int \limits_0^1 L(s) ds$ and $L(x) = c(x) \cdot e^{
 Every regularly varying function $h: (0, +\infty) \to (0, +\infty)$ can be expressed through some slow-varying function
 $l$ as: $\frac{h(x)}{l(x)} = x^{\beta}$, where $\beta$ is a real number.
 
+Alternative formulation: function $h$ is regularly varying with index of variation $\beta$ if and only if it can be 
+represented as $h(x) = c(x) exp({\int \limits_1^x \frac{b(t)}{t}dt})$, where $b(t) \xrightarrow{t \to \infty} \beta$
+and $c(x) \xrightarrow{x \to \infty} c$.
+
 #### Proof:
 
-TODO
+##### Direct result
 
+Upon $x \to \infty$ we have $h(x) = c(x) exp( \int \limits_1^{x} \frac{b(t)}{t}dt ) \xrightarrow{x \to \infty} c \cdot exp(\ln x \cdot \beta - \int \frac{b(t)}{t} dt |_1) = \frac{ c \cdot x^\beta }{ e^{\int \frac{b(t)}{t} dt|_1} }$
 
+$\frac{h(tx)}{h(t)} = \frac{ c(tx) exp({\int \limits_1^{tx} \frac{b(t)}{t}dt}) }{ c(x) exp({\int \limits_1^x \frac{b(t)}{t}dt}) } \xrightarrow{x \to \infty} \frac{ {tx}^\beta }{ t^\beta } = x^\beta$, which makes $h$ a regularly varying function by definition.
 
-#### Definition 4.3: Extended regular variation
+As for representation of $h(x)$ through a slowly varying $l(x)$, we can take $l(x) = c(x) exp(\int \limits_0^x \frac{b(t) - \beta}{t} dt)$,
+which is obviously approaching $c$ as $x \to \infty$, so that $h(x) = x^\beta l(x)$.
 
-A measurable function is said to be of **extended regular variation**, if there exists a function $a(x)$, such that
-$\lim \limits_{t \to \infty} \frac{f(tx) - f(t)}{a(x)} = \frac{x^{\alpha} - 1}{\alpha}$.
+##### Conversely
 
-The function $a(x)$ is called **auxiliary function**. 
+Suppose that $l(x)$ is a slowly varying function. By Karamata's representation $l(x) = b(x) \int \limits_0^1 l(s) ds \cdot e^{ \int \limits_1^x \frac{\epsilon(t)}{t} dt }$ or just $l(x) = c(x) \cdot e^{ \int \limits_1^x \frac{\epsilon(t)}{t} dt }$.
 
+By theorem's assumption $h(x) = x^\beta l(x) = e^{\beta(\ln x)} c(x) \cdot e^{ \int \limits_1^x \frac{\epsilon(t)}{t} dt } = e^{ \int \limits_1^x \frac{\beta}{t} dt } c(x) \cdot e^{ \int \limits_1^x \frac{\epsilon(t)}{t} dt } = c(x) \cdot e^{ \int \limits_1^x \frac{\epsilon(t) + \beta}{t} dt }$. 
 
+We can assume that $\beta(t) = \epsilon(t) + \beta$ is a function that converges to $\beta$ as $x \to \infty$.
 
 ### Necessary and sufficient conditions of convergence to Types II or III EVD
 
@@ -803,35 +939,154 @@ $F_{M_n}(x_F - tx) = p(M_n \le x_F - tx) = p(x_F - M_n \ge tx) = p^n(x_F - \xi \
 
 ### Necessary and sufficient conditions of convergence to Type I EVD
 
-#### Definition 4.4: Von Mises function
+Finally, we've come to the most complex result in this series. However, we'll need an extra set of definitions and
+lemmas. Regular variation theory is enough for Type II and Type III EVD. However, for Type I we'll need to extend
+this concept even further.
 
-TODO
+We'll introduce extended variation terms of extended variation, Г-variation and П-variation. Then we'll show the
+two-way connection between survival function, its tail quantile function and Type I SVD.
 
-#### Definition 4.5: Auxiliary function
+#### Definition 4.3: Extended regular variation
 
-A non-decreasing function U is $\Gamma$-varying (written U $\in$ $\Gamma$) if U is defined on an interval 
-($x_l, x_F$), $\lim \limits_{x \to x_F} U(x) = \infty$ and there exists a positive function $f$ defined on ($x_l, x_F$) 
-such that for all x $\lim \limits_{t \to x_F} \frac{ U(t + xf(t)) }{ U(t) } = e^x$.
+A measurable function is said to be of **extended regular variation**, if there exists an auxiliary function $a(x)$, 
+such that $\lim \limits_{t \to \infty} \frac{f(tx) - f(t)}{a(x)} = \frac{x^{\alpha} - 1}{\alpha}$.
 
-The function $f$ is called an **auxiliary function** and is unique up to asymptotic
-equivalence. There are several ways to check this, but perhaps the most straightforward is to define for $t > 0$, $x > 0$ 
+#### Definition 4.4: Г-variation
 
-$F_t(x) = 1 - U(t)/U(t + x)$
+A non-decreasing function $S$ is said to be of Г-variation if $\frac{S(t + xf(t))}{S(t)} \xrightarrow{t \to x_F} e^{x}$, 
+where $f$ is a positive auxiliary function.
 
-so that $F_t(x)$ is a family of distributions. If this is satisfied for both $f_1$ and $f_2$ then:
+Interestingly, all the auxiliary functions are asymptotically equivalent because of Khinchin's lemma. 
 
-Fr(J;(t)x) --+ 1 - e- X
-for i = 1,2, and hence by the convergence to types Proposition 0.2 we have
+Consider the inverse $\frac{S(t)}{S(t + xf(t))}$ (because we need a distribution function to be in [0, 1] range),
+convert this ratio into a cumulative distribution function $F_\xi(x) = 1 - \frac{S(t)}{S(t + xf(t))} \sim 1 - e^{-x}$
+that converges to an exponential distribution.
 
-TODO
+Now if we had two different auxiliary functions $f_1(t)$ and $f_2(t)$, we can use them as sequences of coefficients
+in a pair of distributions: $F_\xi(f_1(t)x)$ and $F_\xi(f_2(t)x)$, which both converge to the same $1 - e^{-x}$,
+hence $f_1(t) \sim f_2(t)$ as $t \to \infty$.
+
+The property of Г-variation of the survival function will be instrumental in proving the necessary condition of
+convergence of maximum of sets of i.i.d random variables of some distributions to Type I Gumbel EVD.
+
+#### Definition 4.5: П-variation
+
+A non-decreasing, non-negative function $V(x)$ defined on $(z, \infty)$ is П-varying if there exist functions
+$a(t) > 0$, $b(t)$, such that for $x > 0$:
+
+$\lim \limits_{t \to \infty} \frac{V(tx) - b(t)}{a(t)} = \ln x$
+
+Note that one can take $b(t) = V(t)$ because:
+
+$\frac{V(tx) - V(x)}{a(t)} = \frac{V(tx) - b(t)}{a(t)} - \frac{V(t) - b(t)}{a(t)} \to \ln x - \ln 1 = \ln x$
+
+and similarly one may take $a(t) = V(te) - V(t)$ because $\frac{V(te) - V(t)}{V(te) - V(t)} = \ln e = 1$.
+
+The key to proving that conditions of convergence are both necessary and sufficient is the dualism between survival
+function and its inverse.
+
+Turns out that if the survival function is Г-varying, its reverse function $S^{\leftarrow}$ is $П-varying$, which lets
+us establish that conditions are not only sufficient, but necessary as well.
+
+#### Lemma 4.4: If a function is Г-varying, its reciprocal is П-varying and vice versa
+
+**Direct statement**
+
+If $U$ is Г-varying with auxiliary function $f$, then $U^{\leftarrow}$ is П-varying, where auxiliary 
+function $a(t) = f \circ U^{\leftarrow}(t)$.
+
+**Reverse statement**
+
+If $V$ is a П-varying function with auxiliary function $a$, then its reciprocal is a Г-varying with auxiliary
+function $f(t) = a \circ V^{\leftarrow}(t)$.
+
+#### Proof:
+
+##### Direct statement
+
+Start from the definition of Г-varying function $\lim \limits_{t \to \infty} \frac{U(t + x f(t))}{U(t)} = e^x$.
+
+Denote $y = e^x$. 
+
+$U(t + \ln y \cdot f(t)) \xrightarrow{t \to x_F} y U(t)$
+
+Apply reciprocation to both sides:
+
+$t + \ln y \cdot f(t) \xrightarrow{t \to x_F} U^{\leftarrow}(y U(t))$
+
+Assign $t$ a value of $U^{\leftarrow}(t)$, so that now $t \to \infty$:
+
+$U^{\leftarrow}(t) + \ln y \cdot f(U^{\leftarrow}(t)) \xrightarrow{t \to \infty} U^{\leftarrow}(yt)$
+
+$\frac{ U^{\leftarrow}(ty) - U^{\leftarrow}(t) }{ f( U^{\leftarrow}(t) ) } \to \ln y$, which is the definition of 
+П-varying function with auxiliary function $a = f \circ U^{\leftarrow}$.
+
+##### Reverse statement
+
+TODO: analogous
+
+#### Lemma 4.5: Connection between Type I EVD, Г-variation and П-variation
+
+The following statements are equivalent:
+
+1) $F(x)$ is of Type I EVD
+2) $1/S(x)$ is of Г-variation
+3) $\gamma(S(x))$ is of П-variation ($\gamma(S)$ is a tail quantile function as defined above)
+
+#### Proof of (1) -> (3)
+
+If $\xi \sim F(x)$ and $M_n = \max \xi_n \sim e^{-e^{-x}}$, it means that:
+
+$F_{M_n}(a_n x + b_n) = F_{\xi}(a_n x + b_n)^n = e^{-e^{-x}} \leftarrow (1 - e^{-x}/n)^n$
+
+$F_{\xi}(a_n x + b_n) \to (1 - e^{-x}/n)$
+
+$n (1 - F_{\xi}(a_n x + b_n)) \to e^{-x}$
+
+$S_{\xi}(a_n x + b_n) \to 1 / (n e^x)$
+
+Similarly to the previous lemma denote $y = e^{x}$:
+
+$\frac{1}{ S_{\xi}(a_n \ln y + b_n) } = n y$
+
+Denote $U$ the inverse of survival function: $\frac{1}{ S_{\xi}(a_n \ln y + b_n) } = U(a_n \ln y + b_n) = ny$
+
+Apply the reciprocal $U$ to both sides:
+
+$a_n \ln y + b_n = U^{\leftarrow}(ny)$ or
+
+$\frac{U^{\leftarrow}(ny) - b_n}{a_n} = \ln y$
+
+Or, applying $U^{\leftarrow}(y) = b_n$ and we get the definition of П-variation:
+
+$\frac{U^{\leftarrow}(ny) - U^{\leftarrow}(y)}{a_n} = \ln y$
+
+#### Proof of (3) -> (2)
+
+This is the reverse statement of the previous lemma, nothing needs to be done here.
+
+#### Proof of (2) -> (1)
+
+Given $U(x) = \frac{1}{S(x)}$ and $\frac{U(t + x f(t))}{U(t)} \to e^{x}$, we need to show that $F(x) \to e^{-e^{-x}}$.
+
+Set $t = U^{\leftarrow}(n)$: $\frac{U(U^{\leftarrow}(n) + x f(U^{\leftarrow}(n)))}{U(U^{\leftarrow}(n))} \to e^{x}$, which leads to:
+
+$U(U^{\leftarrow}(n) + x f(U^{\leftarrow}(n))) \to n e^{x}$
+
+Now assume $b_n = U^{\leftarrow}(n)$, $a_n = f(U^{\leftarrow}(n))$, and we come to $U(a_n x + b_n) \to n e^{x}$:
+
+$\frac{1}{S(a_n x + b_n)} \to n e^{x}$, hence, $n S(a_n x + b_n) = e^{-x}$ or $F(a_n x + b_n) \to 1 - \frac{e^{-x}}{n}$.
+
+And finally $F_{M_n}(x) = F^{n}(a_n x + b_n) = (1 - \frac{e^{-x}}{n})^n = e^{-e^{-x}}$.
+
 
 #### Theorem 4.2. Necessary and sufficient conditions of convergence to Type I EVD
 
-A distribution belongs to Extreme Value Distribution type I (Gumbel) if and only if $\lim \limits_{t \to x_F} \frac{S(t + x g(t))}{S(t)} = e^{-x}$, where $x \in \mathbb{R}$ and $g(t)$ is an **auxiliary function**, which is not uniquely-defined, e.g. could be set to inverse hazard rate $g(t) = \frac{1}{r(t)} = \frac{S(t)}{f(t)}$.
+A distribution belongs to Extreme Value Distribution type I (Gumbel) if and only if $\lim \limits_{t \to x_F} \frac{S(t + x g(t))}{S(t)} = e^{-x}$, where $x \in \mathbb{R}$ and $g(t)$ is an auxiliary function (which is not uniquely-defined, but they all are asymptotically equivalent by Khinchin's lemma) e.g. could be set to inverse hazard rate $g(t) = \frac{1}{r(t)} = \frac{S(t)}{f(t)}$.
 
 #### Proof
 
-TODO
+TODO: result immediately follows from Lemma 4.5.
 
 ## 5. Summary and examples of practical application
 
