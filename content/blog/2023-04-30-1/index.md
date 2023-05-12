@@ -1112,18 +1112,15 @@ An example of distribution with infinite end point $x_F$ we can consider exponen
 for $x > 0$. We can show that its maximum converges to Type I by choosing $a_n = 1$, $b_n = \log n$, so that we 
 get $F^n(x + \log n) = (1 - e^{-(x + \log n)})^n = (1 - \frac{e^{-x}}{n})^n \to exp(e^{-x})$.
 
+#### Example 5.2 Gnedenko's example
+
 An example of distribution with a finite end point $x_F$ is from Gnedenko (1943) work:
 
 $F(x) = \begin{cases} 0, x < 0 \\ 1 - \exp(\frac{-x}{1-x}), 0 \le x < 1 \\ 1, x \ge 1 \end{cases}$
 
 and $a_n = \frac{1}{(1 + \log n)^2}$ and $b_n = \frac{ \log n }{ 1 + \log n }$
 
-#### Example 5.2 Gnedenko's example
-
-TODO: Gnedenko's example of a distribution that has $x_F < \infty$ and still decays sub-exponentially 
-
-We shall formalize this theorem statement a bit later. But first, to perform the proof, we'll need more technical 
-tool in our toolbox, **regularly varying function** (which is a generalization of a **slow-varying function**).
+TODO
 
 #### Example 5.3. Karlin-Altschul statistics in bioinformatics
 
