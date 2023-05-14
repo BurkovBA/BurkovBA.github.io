@@ -1026,7 +1026,7 @@ The following statements are equivalent:
 
 1) $F(x)$ is of Type I EVD
 2) $1/S(x)$ is of Г-variation
-3) $\gamma(S(x))$ is of П-variation ($\gamma(S)$ is a tail quantile function as defined above)
+3) $(1/S(x))^{\leftarrow}$ is of П-variation ($\gamma(S)$ is a tail quantile function as defined above)
 
 #### Proof of (1) -> (3)
 
