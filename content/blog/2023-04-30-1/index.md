@@ -1206,11 +1206,22 @@ TODO: eventually, $\frac{ \max \xi - b_n }{a_n} \to \frac{\max \eta - \frac{ \ln
 
 #### Example 5.3. Karlin-Altschul statistics in bioinformatics
 
-TODO
+Suppose that you're using your IDE, e.g. PyCharm to perform a fuzzy search of a random string "HomerSimpson" against a 
+codebase. What's the baseline probability of finding a text, where 10 letters out of 12 exactly match your query?
 
-#### Example 5.4. Gumbel VAE
+Turns out, this probability follows a variant of Gumbel distribution, called [Karlin-Altschul statistics](https://www.jstor.org/stable/2362502). 
+This fact was proven theoretically by Karlin and Dembo for [Hamming distances](https://en.wikipedia.org/wiki/Hamming_distance) between query and database, and Altschul
+has empirically shown that it holds even for [Levenshtein distances](https://en.wikipedia.org/wiki/Levenshtein_distance)
+with insertions/deletions allowed.
 
-TODO
+Karlin-Altschul statistics is in the core of BLAST software, used for searching known homologs of biological sequences
+in databases of already known sequences.
+
+#### Example 5.4. Gumbel Softmax VAE
+
+Gumbel distribution is sometimes used in neural networks in Gumbel softmax nodes in order to slightly relax categorical 
+features, making it differentiable. E.g. see [Gumbel Softmax VAE blog post](https://blog.evjang.com/2016/11/tutorial-categorical-variational.html) or
+[a newish paper](https://arxiv.org/pdf/2205.04104.pdf).
 
 ### EVD Type II: Frechet distribution
 
@@ -1259,3 +1270,4 @@ TODO
 * https://www.jstor.org/stable/1968974?read-now=1&oauth_data=eyJlbWFpbCI6InZhc2phZm9ydXR1YmVAZ21haWwuY29tIiwiaW5zdGl0dXRpb25JZHMiOltdfQ&seq=23#page_scan_tab_contents - the original B.Gnedenko (1943) paper
 * https://encyclopediaofmath.org/index.php?title=Karamata_theory&oldid=25937 - Encyclopedia of math on Jovan Karamata
 * http://elib.mi.sanu.ac.rs/files/journals/publ/91/n085p079.pdf - interesting paper on history of adoption of Karamata's theory in the West by Feller after Gnedenko, Khinchin and Kolmogorov
+* https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-9-332 - a nice review of Karlin-Altschul statistics for BLAST
