@@ -1182,7 +1182,27 @@ $F(x) = \begin{cases} 0, x < 0 \\ 1 - \exp(\frac{-x}{1-x}), 0 \le x < 1 \\ 1, x 
 
 and $a_n = \frac{1}{(1 + \log n)^2}$ and $b_n = \frac{ \log n }{ 1 + \log n }$
 
-TODO
+We go from $y \in [0, \infty]$ to $x \in [0, 1]$, so that $y = \frac{x}{1-x}$ and, conversely, $y - yx = x$ and $x(y) = \frac{y}{1 + y}$.
+
+Consider an exponential random variable $\eta$: $p(\eta \le y) = 1 - e^{-y} = 1 - e^{-\frac{x}{1-x}}$. 
+
+Consider $p(\eta \le y) = p(\eta \le \frac{x}{1-x}) = p(\eta - \eta x \le x) = p(\frac{\eta}{1 + \eta} \le x) = 1 - e^{-\frac{x}{1-x}}$
+
+Hence, we can denote our random variable of interest $\xi = \frac{\eta}{1 + \eta}$ and we are looking for the maximum
+$\max \xi_n$ of those variables.
+
+TODO: we need to subtract $\ln n$ in order to generate $1 - e^{-y}/n$, so that $(1 - e^{-y}/n)^n = e^{-e^{-y}}$. As $y = x / (1 - x)$, 
+we'd need to replace $\ln n$ with $y(\ln n) = \frac{\ln n}{1 - \ln n}$.
+
+TODO: Use Taylor series approximation of $x(\max \eta) - x(\ln n)$ at $x(\ln n)$ to show that
+
+$x(\max \eta) - x(\ln n) \approx \frac{\partial x}{\partial y} \cdot (\max \eta - \ln n)$
+
+and $\frac{\partial x(y)}{\partial y} = \frac{-y}{(1+y)^2} + \frac{1}{1+y} = \frac{1}{(1+y)^2}$, so that
+
+$x(\max \eta) - x(\ln n) \approx \frac{(\max \eta - \ln n)}{ (1+y)^2 }$
+
+TODO: eventually, $\frac{ \max \xi - b_n }{a_n} \to \frac{\max \eta - \frac{ \ln n }{ 1 + \ln n} }{ \frac{1}{(1 + \ln n)^2 } } \sim e^{-e^{-x}}$
 
 #### Example 5.3. Karlin-Altschul statistics in bioinformatics
 
