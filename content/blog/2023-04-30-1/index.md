@@ -27,7 +27,10 @@ description: Quite often in mathematical statistics I run into Extreme Value Dis
     * Necessary and sufficient conditions of convergence to Types II or III EVD
     * Necessary and sufficient conditions of convergence to Type I EVD
 5. Summary and examples of practical application
-
+    * Examples of Type I Gumbel distribution
+    * Examples of Type II Frechet distribution
+    * Examples of Type III Reversed Weibull distribution
+    * Generalized Pareto Distribution
 
 ## 1. Problem statement and Generalized Extreme Value distribution
 
@@ -357,17 +360,9 @@ We've shown that if maximum of n i.i.d. random variables of current distribution
 distribution, it is one of the 3 described types. However, maximum might not converge to any max-stable distribution
 at all.
 
-#### Theorem 2.2. Sufficient condition for a distribution not to belong to a domain of attraction of max-stable distributions
-
-TODO
-
-#### Example 2.1: Poisson distribution
-
-TODO
-
-#### Example 2.2: Geometric distribution
-
-TODO
+For instance, Poisson distribution and Geometric distribution do not converge to any type of Extreme Value Distriubtion.
+To show this we will need much more tools in our toolbox, the corresponding theorem will be proven in the end of
+section 4.
 
 ## 3. Von Mises sufficient conditions for a distribution to belong to a type I, II or III
 
@@ -1086,7 +1081,74 @@ A distribution belongs to Extreme Value Distribution type I (Gumbel) if and only
 
 #### Proof
 
-TODO: result immediately follows from Lemma 4.5.
+Result immediately follows from Lemma 4.5.
+
+Remember that we've shown that survival function being a von Mises function is sufficient for its maximum converge to
+Gumbel Type I EVD.
+
+Now we can slightly generalize that condition and show that it is necessary and sufficient.
+
+#### Theorem 4.3. Generalization of Von Mises function
+
+A distribution's maximum converges to Gumbel Type I EVD, if and only if its survival function can be represented as:
+
+$S(x) = c(x) S^{*}(x) = c(x) exp(-\int \limits_{-\infty}^{x} \frac{1}{f(u)} du)$, where $S^{*}$ is a von Mises function and $\lim_{t \to x_F} c(x) = c > 0$.
+
+#### Proof
+
+##### Direct statement
+
+As $S^{*}$ is a von Mises function, $n S^{*}(a_n x + b)n \to e^{-x}$. Hence,
+
+$n S^{*}(a_n x + b_n) \to c e^{-x}$ and
+
+$F^n(a_n x + b_n) \to exp(-c e^{-x})$
+
+##### Converse statement
+
+TODO
+
+#### Theorem 4.4. Sufficient condition for a distribution not to belong to a domain of attraction of max-stable distributions
+
+A distribution belongs to some type of Extreme Value Distribution if and only if $\frac{S(x)}{S(x-)} \xrightarrow{x \to \infty} 1$.
+
+Here $S(x-)$ denotes the left limit of survival function as it approaches $x$.
+
+TODO: strictly speaking, this only explains that distribution does not converge to EVD Type I.
+
+#### Proof
+
+From the previous theorem and representation of survival function as a generalization of survival function, we 
+immediately get $\frac{ S(x) }{ S(x-) } = \frac{ c(x) }{ c(x-) }$ and since both converge to $c$, this concludes 
+the proof.
+
+#### Example 4.1: Geometric distribution
+
+For geometric distribution (describing probability of getting $k$ failures before the first success, upon which the
+process stops), probability mass function equals $P(\xi = k) = (1-p)^k p$.
+
+Hence, the cumulative distribution function is $F_{\xi}(x) = 1 - p(\xi \ge x) = 1 - p \sum \limits_{i = [x] + 1}^{\infty} (1 - p)^i = $
+
+$= 1 - p (1 - p)^{([x] + 1)} \cdot (1 + (1-p)^1 + (1-p)^2 + ...) = 1 - p (1 - p)^{([x] + 1)} \cdot \frac{1}{1 - (1 - p)} = 1 - (1-p)^{[x]+1}$.
+
+Here $[x]$ denotes the integer part of the number. E.g. if $x = 1.5$, the probability of having less than 1.5 failures 
+before the first success is probability of having 1 failure before the first success.
+
+Hence, for positive integer $x$, $F_{\xi}(x-) = 1 - (1-p)^{x}$ and $\frac{S(x)}{S(x-)} = \frac{ (1 - p)^{x+1} }{ (1 - p)^x } = (1 - p) \ne 1$.
+
+#### Example 4.2: Poisson distribution
+
+Similarly to geometric distribution, in case of Poisson distribution we have survival function $S(x) = 1 - F(x) = \sum \limits_{k > x} e^{-\lambda} \frac{\lambda^k}{k!}$.
+
+Hence, for integer $x$, $\frac{S(x)}{S(x-)} = \frac{\sum \limits_{k > x+1} \lambda^k / k!}{\sum \limits_{k > x} \lambda^k / k!}$.
+
+Consider the value $\frac{S(x)}{S(x-)} - 1 = \frac{S(x) - S(x-)}{S(x-)}$, which is supposed to approach 0 if $\frac{S(x)}{S(x-)} \to 1$.
+
+$\frac{S(x)}{S(x-)} - 1 = \frac{\lambda^x / x}{ \sum \limits_{k > x} \lambda^k / k! } = \frac{1}{ \sum \limits_{s = 1}^{\infty} \frac{\lambda^s }{ (x + 1) (x + 2) ... (x + s) } } \ge \frac{1}{ \sum \limits_{s = 1}^{\infty} (\frac{\lambda}{x})^s } = \frac{1 - \lambda/x}{\lambda/x}$.
+
+As $x \to \infty$ this value approaches infinity, hence, proving that Poisson disitrubtion does not converge to any EVD.
+
+TODO: check x-1 vs x vs x+1 errors
 
 ## 5. Summary and examples of practical application
 
