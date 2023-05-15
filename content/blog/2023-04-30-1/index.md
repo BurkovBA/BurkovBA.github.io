@@ -1236,11 +1236,18 @@ features, making it differentiable. E.g. see [Gumbel Softmax VAE blog post](http
 
 ### EVD Type II: Frechet distribution
 
-TODO
-
 #### Example 5.5. Pareto distribution, Lindy effect
 
-TODO
+What's the chance that the richest of your friends would be a billionaire?
+
+Suppose that you're an average citizen and that the distribution of wealth in your country is Pareto:
+
+$F(x) = 1 - \frac{1}{x/\lambda}^k$, where parameter $\lambda$ is conventionally called scale and $k > 0$ - shape. Alternatively,
+it can be represented as $F(x) = 1 - {x/\lambda}^{-k}$.
+
+This distribution behaves more or less like a "faster hyperbola", e.g. $S(x) = \frac{1}{x^2}$ would be a Pareto.
+
+Maximum of this distribution could be shown to converge to $(1 - F(x)/n)^n = e^{-{\frac{x}{\lambda}}^{-k}}$.
 
 ### EVD Type III: Reversed Weibull distribution
 
