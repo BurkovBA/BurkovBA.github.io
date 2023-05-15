@@ -59,6 +59,8 @@ of longest series of successes in coin tosses in $n$ experiments of tossing a co
 
 #### Type II: Frechet distribution
 
+TODO
+
 If $\gamma > 0$, let us denote $k = \frac{1}{\gamma}$ (k > 0). Then distribution takes the shape:
 
 $G_{\gamma}(x) = exp(-(\frac{x}{\lambda})^{-k})$
@@ -67,6 +69,8 @@ This is Frechet distribution. It arises when the tails of the original cumulativ
 $F_{\xi}(x)$ are heavy, e.g. when it is Pareto distribution.
 
 #### Type III: Reversed Weibull distribution
+
+TODO
 
 If $\gamma < 0$, let us denote $k = -\frac{1}{\gamma}$ (k > 0, different kinds of behaviour are observed at $0 < k < 1$, $k = 1$ and $k > 1$), $\lambda = \frac{1}{ \frac{1}{x}+\gamma}$. Then distribution takes the shape:
 
@@ -1198,20 +1202,18 @@ Hence, we can denote our random variable of interest $\xi = \frac{\eta}{1 + \eta
 $\max \xi_n$ of those variables.
 
 We need to subtract $\ln n$ in order to generate $1 - e^{-y}/n$, so that $(1 - e^{-y}/n)^n = e^{-e^{-y}}$. Hence, we
-will need to consider $p(\eta + \ln n \le y + \ln n) = 1 - e^{-y - \ln n} = 1 - e^{-y}/n$.
+will need to consider $p(\eta \le (y + \ln n)) = 1 - e^{-y - \ln n} = 1 - e^{-y}/n$, and, thus, we know that a
+maximum of shifted random variable $\eta - \eta_0$ converges to Gumbel Type I EVD, where $\eta_0 = \ln n$.
 
-As $y = x / (1 - x)$, 
-we'd need to replace $\ln n$ with $y(\ln n) = \frac{\ln n}{1 - \ln n}$.
+Now, we need to express $a_n \xi - b_n$ through $\eta - \eta_0$, knowing that $\xi = \frac{\eta}{1 + \eta}$. 
 
-TODO: Use Taylor series approximation of $x(\max \eta) - x(\ln n)$ at $x(\ln n)$ to show that
+Denote $g(y) = \frac{y}{1 + y}$. We know that $\xi = g(\eta)$.
 
-$x(\max \eta) - x(\ln n) \approx \frac{\partial x}{\partial y} \cdot (\max \eta - \ln n)$
+Consider $\xi - \xi_0 = g(\eta) - g(\eta_0)$. Using Taylor series at $\eta_0$, we have $g(\eta) - g(\eta_0) = g'(\eta_0) (\eta - \eta_0) + O(\eta - \eta_0)^2$.
 
-and $\frac{\partial x(y)}{\partial y} = \frac{-y}{(1+y)^2} + \frac{1}{1+y} = \frac{1}{(1+y)^2}$, so that
+Then $\xi - \xi_0 = \frac{1}{ (1 + \ln n)^2 } (\eta - \eta_0)$. So $(\xi - \xi_0) (1 + \ln n)^2 \to \eta - \eta_0$, where $\xi_0 = g(\eta_0) = \frac{\ln n}{1 + \ln n}$.
 
-$x(\max \eta) - x(\ln n) \approx \frac{(\max \eta - \ln n)}{ (1+y)^2 }$
-
-TODO: eventually, $\frac{ \max \xi - b_n }{a_n} \to \frac{\max \eta - \frac{ \ln n }{ 1 + \ln n} }{ \frac{1}{(1 + \ln n)^2 } } \sim e^{-e^{-x}}$
+Hence, $\max (\xi - \frac{\ln n}{1 + \ln n}) (1 + \ln n)^2 \sim e^{-e^{-x}}$.
 
 #### Example 5.3. Karlin-Altschul statistics in bioinformatics
 
