@@ -645,7 +645,7 @@ time $u$ close to the maximum lifespan. The numerator is the probability to surv
 time $x g(u)$, where auxiliary function $g(u)$ can be seen as some kind of normalization constant.
 
 Then our ratio can be interpreted as conditional probability $p( \frac{\xi - u}{g(u)} > x | \xi > u)$. Basically it is
-the change to live $x g(u)$ years longer among those who already survived $u$ years.
+the chance to live $x g(u)$ years longer among those who already survived $u$ years.
 
 Consider a different popular choice of auxiliary function: $g(x) = \frac{\int \limits_{t}^{x_F} S(x) dx }{ S(t) }$. What
 interpretation can we give to it?
@@ -660,11 +660,13 @@ of time $t$.
 Our proof is based on the fact that $S(x) = e^{-\int \limits_{-\infty}^{x} r(u) du}$. 
 
 However, it would hold if we could represent the survival function as 
-$S(x) = c e^{-\int \limits_{-\infty}^{x} \frac{1}{f(u)} du}$ with any auxiliary function $f$.
+$S(x) = c e^{-\int \limits_{-\infty}^{x} \frac{1}{f(u)} du}$ with any auxiliary function $f$, not 
+necessarily $f(u) = \frac{1}{r(u)}$.
 
-Hence, a survival function is called **von Mises function**, if it can be represented as 
+Hence, a survival function is called a **von Mises function**, if it can be represented as 
 $S(x) = c e^{-\int \limits_{z_0}^{x} \frac{1}{f(u)} du}$, where $f(u) > 0$ is an absolutely continuous auxiliary function
-with density $f'(u)$, such that $\lim \limits_{u \to x_0} f'(u) = 0$ and $z_0 < u < x_0$.
+with density $f'(u)$, such that $\lim \limits_{u \to x_0} f'(u) = 0$ and $z_0 < u < x_0$ (basically, $z_0$ is a lower
+end point which does not have to be $-\infty$ or 0).
 
 ## 4. Necessary and sufficient conditions for a distribution to belong to a type I, II or III
 
@@ -928,9 +930,13 @@ We can assume that $\beta(t) = \epsilon(t) + \beta$ is a function that converges
 
 $F_{M_n}(tx) = p(M_n \le tx) = F_\xi(tx)^n = p(\xi_i \le tx)^n = (1 - p(\xi_i \ge tx))^n = (1 - S(tx))^n \to (1 - x^{-\alpha} S(t))^n = (1 - x^{-\alpha} \cdot \frac{1}{n})^n = e^{-{x^{-\alpha}}}$
 
+TODO
+
 ##### EVD Type III
 
 $F_{M_n}(x_F - tx) = p(M_n \le x_F - tx) = p(x_F - M_n \ge tx) = p^n(x_F - \xi \ge tx) = (1 - p(x_F - \xi \le tx) )^n = (1 - S(x_F - tx))^n \to (1 - S(x_F - t) \cdot x^\alpha)^n = (1 - \frac{1}{n} \cdot x^\alpha) = e^{-x^\alpha}$
+
+TODO
 
 ### Necessary and sufficient conditions of convergence to Type I EVD
 
@@ -1191,7 +1197,10 @@ Consider $p(\eta \le y) = p(\eta \le \frac{x}{1-x}) = p(\eta - \eta x \le x) = p
 Hence, we can denote our random variable of interest $\xi = \frac{\eta}{1 + \eta}$ and we are looking for the maximum
 $\max \xi_n$ of those variables.
 
-TODO: we need to subtract $\ln n$ in order to generate $1 - e^{-y}/n$, so that $(1 - e^{-y}/n)^n = e^{-e^{-y}}$. As $y = x / (1 - x)$, 
+We need to subtract $\ln n$ in order to generate $1 - e^{-y}/n$, so that $(1 - e^{-y}/n)^n = e^{-e^{-y}}$. Hence, we
+will need to consider $p(\eta + \ln n \le y + \ln n) = 1 - e^{-y - \ln n} = 1 - e^{-y}/n$.
+
+As $y = x / (1 - x)$, 
 we'd need to replace $\ln n$ with $y(\ln n) = \frac{\ln n}{1 - \ln n}$.
 
 TODO: Use Taylor series approximation of $x(\max \eta) - x(\ln n)$ at $x(\ln n)$ to show that
@@ -1231,11 +1240,23 @@ TODO
 
 TODO
 
-### EVD Type III: Weibull distribution
+### EVD Type III: Reversed Weibull distribution
 
 #### Example 5.6. hazard rate and mortality in survival analysis
 
-TODO
+Hazard rate in humans is usually modelled with Weibull distribution: you have a relatively high child birth rate,
+then mortality rate drops by the early adulthood and then starts to grow.
+
+TODO: image and details
+
+This leads us to the idea that human beings have a hard upper limit on lifespan, something like 129 years, as max-stable
+distribution for reversed Weibull is reversed Weibull. Hence, your probability of living to 130 without gerontologic
+therapies (which alter the maximum lifespan), but with geriatric (which treat your senile diseases) is exactly 0.
+
+Gerontologists sometimes also say that "immortal" species is a one that has approximately the same hazard rate over time.
+This immediately triggers von Mises condition for Type I EVD, meaning that in such species distribution of maximum lifespan
+should belong to the Gumbel domain of attraction and that we should see some relatively immortal individuals. So, tails
+of immortal naked molerats seem to be exaggerated.
 
 #### Example 5.7: diffusion of innovation
 
