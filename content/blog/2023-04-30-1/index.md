@@ -2,7 +2,7 @@
 title: Intro to the Extreme Value Theory and Extreme Value Distribution
 date: "2023-04-30T00:00:00.284Z"
 tags: ["math"]
-cover: "./GEVD.png"
+cover: "./Gnedenko_1943_paper.jpeg"
 description: Quite often in mathematical statistics I run into Extreme Value Distribution - an analogue of Central Limit Theorem, which describes the distribution of maximum/minimum, observed in a series of i.i.d random variable tosses. In this post I explore the three cases of EVD and the Fisher-Tippett-Gnedenko theorem. 
 ---
 
@@ -85,6 +85,8 @@ E.g. consider uniform distribution $\xi \sim U(0, 1)$. It is clear that the maxi
 variables will be approaching 1 as $n \to \infty$. Turns out that the convergence rate is described by Weibull 
 distribution.
 
+---
+
 ## 2. Fisher-Tippett-Gnedenko theorem
 
 Extreme Value Theorem is a series of theorems, proven in the first half of 20-th century. They claim that
@@ -162,6 +164,8 @@ If $G^*(x)$ is another non-degenerate cdf, we say that $G$ and $G^*$ have the sa
 $a > 0$ and $b \in R$ such that for every x ∈ R $G^*(ax + b) = G(x)$.
 
 ### Khinchin's theorem (Law of Convergence of Types)
+
+![Khinchin](Aleksandr_Khinchin.jpeg)<center>**Aleksandr Yakovlevich Khinchin**</center>
 
 #### Lemma 2.1: Khinchin's theorem (law of Convergence of Types)
 
@@ -251,6 +255,10 @@ $G^s(a(s)x + b(s)) = G(x)$.
 Corollary is self-evident from inversion of indices $s = \frac{1}{k}$.
 
 ### Fisher-Tippett-Gnedenko theorem (Extreme Value Theorem)
+
+Sir Ronald Aylmer Fisher                |  Leonard Henry Caleb Tippett         |    Boris Vladimirovich Gnedenko
+:--------------------------------------:|:------------------------------------:|:---------------------------------------:
+![Fisher](Fisher.png)                   |  ![Tippett](Tippett.png)             |    ![Gnedenko](Gnedenko.png)
 
 #### Theorem 2.1: Fisher-Tippett-Gnedenko theorem (Extreme Value Theorem)
 
@@ -368,7 +376,11 @@ For instance, Poisson distribution and Geometric distribution do not converge to
 To show this we will need much more tools in our toolbox, the corresponding theorem will be proven in the end of
 section 4.
 
+---
+
 ## 3. Von Mises sufficient conditions for a distribution to belong to a type I, II or III
+
+![Richard von Mises](Richard_von_Mises.jpeg)<center>**Richard von Mises**</center>
 
 The Fisher-Tippett-Gnedenko theorem is an important theoretical result, but it does not provide an answer to the basic
 question: what type of EVD does our distribution function $F$ belong to?
@@ -667,6 +679,8 @@ Hence, a survival function is called a **von Mises function**, if it can be repr
 $S(x) = c e^{-\int \limits_{z_0}^{x} \frac{1}{f(u)} du}$, where $f(u) > 0$ is an absolutely continuous auxiliary function
 with density $f'(u)$, such that $\lim \limits_{u \to x_0} f'(u) = 0$ and $z_0 < u < x_0$ (basically, $z_0$ is a lower
 end point which does not have to be $-\infty$ or 0).
+
+---
 
 ## 4. Necessary and sufficient conditions for a distribution to belong to a type I, II or III
 
@@ -1100,9 +1114,7 @@ A distribution's maximum converges to Gumbel Type I EVD, if and only if its surv
 
 $S(x) = c(x) S^{*}(x) = c(x) exp(-\int \limits_{-\infty}^{x} \frac{1}{f(u)} du)$, where $S^{*}$ is a von Mises function and $\lim_{t \to x_F} c(x) = c > 0$.
 
-#### Proof
-
-##### Direct statement
+#### Proof of direct statement
 
 As $S^{*}$ is a von Mises function, $n S^{*}(a_n x + b)n \to e^{-x}$. Hence,
 
@@ -1110,9 +1122,41 @@ $n S^{*}(a_n x + b_n) \to c e^{-x}$ and
 
 $F^n(a_n x + b_n) \to exp(-c e^{-x})$
 
-##### Converse statement
+#### Proof of converse statement
 
-TODO
+##### Step 1
+
+TODO: crazy overcomplicated lemma, pre-requisite to the next lemma
+
+##### Step 2
+
+TODO: lemma about $\exists \frac{ V_1(t) - V(t) }{a(t)} \to 1$
+
+##### Step 3
+
+$\frac{V(tx) - V_1(t)}{a(t)} = \frac{V(tx) - V(t)}{a(t)} - \frac{V_1(t) - V(t)}{a(t)} \to \ln x - 1$
+
+##### Step 4
+
+Denote $y = \ln x - 1$. Re-arrange previous expression:
+
+$V(t e^{y+1}) - V_1(t) \to y a(t)$
+
+$V(t e^{y+1}) \to y a(t) + V_1(t)$
+
+Apply $V^{\leftarrow}$ to the previous expression:
+
+$t e^{y+1} \to V^{\leftarrow}(V_1(t) + y a(t))$
+
+Setting $y = 0$:
+
+$\lim \limits_{t \to \infty} V^{\leftarrow}(V_1(t)) = e$
+
+TODO: FINISH
+
+##### Step 5
+
+TODO: Final part of proof
 
 #### Theorem 4.4. Sufficient condition for a distribution not to belong to a domain of attraction of max-stable distributions
 
@@ -1155,6 +1199,8 @@ $\frac{S(x)}{S(x-)} - 1 = \frac{\lambda^x / x}{ \sum \limits_{k > x} \lambda^k /
 As $x \to \infty$ this value approaches infinity, hence, proving that Poisson disitrubtion does not converge to any EVD.
 
 TODO: check x-1 vs x vs x+1 errors
+
+---
 
 ## 5. Summary and examples of practical application
 
@@ -1274,6 +1320,8 @@ TODO
 ### Generalized Pareto distribution
 
 TODO
+
+---
 
 ## References:
 * https://minerva.it.manchester.ac.uk/~saralees/book3.pdf - "Extreme Values, Regular Variation and Point Processes" by Sidney Resnick, good text on auxiliary functions
