@@ -432,7 +432,7 @@ $(1 - p(M_n \le x_n))^n = (1 - F(t_n))^n = S(t_n)^n = (1 - \frac{\tau}{n})^n  = 
 
 #### Definition 3.4: Hazard rate
 
-**Hazard rate** $r(t)$ in the same context of survival analysis your chance of dying at the time $t$. 
+**Hazard rate** $r(t)$ in the same context of survival analysis is your chance of dying at the time $t$. 
 
 Basically, what's your chances to die at 64, if you're an average person? It is the number of
 people, who died aged 64, to number of people, who survived by 64. In mathematical terms it is the ratio of 
@@ -496,10 +496,6 @@ $\frac{ x^{-\alpha} } { n }  = S(x \gamma(n)) = 1 - F(x \gamma(n))$ and $F(x \ga
 In other words $p(\xi_i \le x \gamma(n)) = 1 - \frac{ x^{-\alpha} }{n}$ or $p(\max \xi_i \le x \gamma(n)) = (1 - \frac{ x^{-\alpha} }{n})^n = e^{-x^{-\alpha}}$ or $p(\max \frac{\xi_i}{ \gamma(n) } \le x ) = (1 - \frac{ x^{-\alpha} }{n})^n = e^{-x^{-\alpha}}$.
 
 We've just shown that a random variable $a_n \xi + b_n$ converges to Frechet Type II EVD, where $a_n = \gamma(n)$ and $b_n = 0$.
-
-#### Example 3.1: maximum of $n$ Pareto-distributed i.i.d. r.v. converges to Frechet distribution
-
-TODO
 
 #### Theorem 3.2: Von Mises sufficient condition for a distribution to belong to type III (Reversed Weibull) EVD
 
