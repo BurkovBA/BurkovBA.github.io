@@ -691,6 +691,8 @@ In order to do that we have to rely on mathematical apparatus of slowly varying 
 developed by [a Serbian/Yugoslavian mathematician Jovan Karamata](https://encyclopediaofmath.org/index.php?title=Karamata_theory&oldid=25937) in 1930s. Using Karamata theorems we can relatively 
 easily prove that generalizations of von Mises conditions are not only sufficient, but necessary.
 
+![Karamata](Karamata.png)<center>**Jovan Karamata**</center>
+
 ### Pre-requisites from Karamata's theory of slow/regular/extended regular variation
 
 Here we'll introduce the concepts of slow-varying function and regularly varying function from Karamata theory, which
@@ -809,41 +811,41 @@ Apply Fatou's lemma:
 
 $\liminf \limits_{x \to \infty} \frac{ \int \limits_{0}^{1} h(sx) dt }{ h(x) } \ge \int \limits_{0}^{1} \liminf \limits_{x \to \infty} \frac{ h(sx) }{ h(x) } ds = \int \limits_{0}^{1} s^{\beta} ds = \frac{1}{ \beta + 1 }$
 
-This leads to a conclusion $\limsup \limits_{x \to \infty} \le \beta + 1$.
+This leads to a conclusion $\limsup \limits_{x \to \infty} h(x) \le \beta + 1$.
 
 ##### Step 4. Final analysis
 
 $h(x)$ has the following properties:
 
-(i) $h(x)$ is bounded on a semi-infinite neighborhood of $\infty$;
+(i) As we've just shown $h(x)$ is bounded by $\beta + 1$ as $x \to \infty$;
 
 (ii) $h$ is slowly varying since $xU(x)$ is regularly varying with index of variation ${\beta + 1}$ and $\int \limits_0^x U(s)ds$ is regularly varying with index $\beta + 1$;
 
-(iii) $b(xt) - b(x) \to 0$ boundedly as $x \to \infty$. 
+(iii) $h(xt) - H(x) \to 0$ boundedly as $x \to \infty$. 
 
 The last statement follows since by slow variation:
 
-$\lim \limits_{x \to \infty} (b(xt) - b(x)) / b(x) = 0$
+$\lim \limits_{x \to \infty} (h(xt) - h(x)) / h(x) = 0$
 
 and the denominator is ultimately bounded. 
 
 From (iii) and dominated convergence
 
-$\lim \limits_{x \to \infty} \int \limits_{1}^{s} \frac{ b(xt) - b(x) }{t} dt = 0$
+$\lim \limits_{x \to \infty} \int \limits_{1}^{s} \frac{ h(xt) - h(x) }{t} dt = 0$
 
 and the left side may be rewritten to obtain
 
-$\lim \limits_{x \to \infty} \int \limits_{1}^{s} \frac{ b(xt) }{t}dt - b(x) \ln s = 0$
+$\lim \limits_{x \to \infty} \int \limits_{1}^{s} \frac{ h(xt) }{t}dt - h(x) \ln s = 0$
 
-From $h(x) = c \cdot \frac{ b(x) }{ x } \cdot e^{\int \limits_{1}^{x} \frac{ b(u) }{u} du}$:
+From $h(x) = c \cdot \frac{ h(x) }{ x } \cdot e^{\int \limits_{1}^{x} \frac{ h(u) }{u} du}$:
 
-$c exp(\int \limits_1^x \frac{b(t)}{t} dt) = \int \limits_0^x U(s) ds$, which is a regularly varying function with index of variation $\beta + 1$
+$c \cdot exp(\int \limits_1^x \frac{h(t)}{t} dt) = \int \limits_0^x U(s) ds$, which is a regularly varying function with index of variation $\beta + 1$
 
 And from regular variation property:
 
-$(\beta + 1) \ln s = \lim_{x \to \infty} \ln \frac{ \int \limits_0^{xs} h(t) dt }{ \int \limits_0^{x} h(t) dt } = \lim_{x \to \infty} \int \limits_x^{xs} \frac{b(t)}{t} dt = \lim_{1 \to s} \int \limits_x^{xs} \frac{b(xt)}{t} dt$
+$(\beta + 1) \ln s = \lim_{x \to \infty} \ln \frac{ \int \limits_0^{xs} h(t) dt }{ \int \limits_0^{x} h(t) dt } = \lim_{x \to \infty} \int \limits_x^{xs} \frac{h(t)}{t} dt = \lim_{1 \to s} \int \limits_x^{xs} \frac{h(xt)}{t} dt$
 
-and combining this with (0.41) leads to the desired conclusion that $b(x) \to \beta + 1$.
+and combining this with (0.41) leads to the desired conclusion that $h(x) \to \beta + 1$.
 
 #### Proof of reverse statement
 
@@ -933,26 +935,100 @@ We can assume that $\beta(t) = \epsilon(t) + \beta$ is a function that converges
 
 ### Necessary and sufficient conditions of convergence to Types II or III EVD
 
-#### Theorem 4.1: necessary and sufficient conditions for a distribution to belong to a type II or III EVD
+#### Theorem 4.1: necessary and sufficient conditions for a distribution to belong to a type II (Frechet) EVD
 
-* A distribution belongs to Extreme Value Distribution type II (Frechet) if and only if $x_F = \infty$ and $\lim \limits_{t \to \infty} \frac{S(tx)}{S(t)} = x^{-\alpha}$, where $\alpha > 0$ and $x > 0$.
-* A distribution belongs to Extreme Value Distribution type III (Weibull) if and only if $x_F < \infty$ and $\lim \limits_{t \to 0} \frac{S(x_F - tx)}{S(x_F - t)} = x^\alpha$, where $\alpha > 0$ and $x > 0$.
+A distribution belongs to Extreme Value Distribution type II (Frechet) domain of attraction if and only if 
+$x_F = \infty$ and $\lim \limits_{t \to \infty} \frac{S(tx)}{S(t)} = x^{-\alpha}$, where $\alpha > 0$ and $x > 0$.
 
-#### Proof:
+#### Proof of direct statement:
 
-##### EVD Type II
+TODO: improve this
 
 $F_{M_n}(tx) = p(M_n \le tx) = F_\xi(tx)^n = p(\xi_i \le tx)^n = (1 - p(\xi_i \ge tx))^n = (1 - S(tx))^n \to (1 - x^{-\alpha} S(t))^n = (1 - x^{-\alpha} \cdot \frac{1}{n})^n = e^{-{x^{-\alpha}}}$
 
-TODO
+#### Proof of converse statement:
 
-##### EVD Type III
-
-$F_{M_n}(x_F - tx) = p(M_n \le x_F - tx) = p(x_F - M_n \ge tx) = p^n(x_F - \xi \ge tx) = (1 - p(x_F - \xi \le tx) )^n = (1 - S(x_F - tx))^n \to (1 - S(x_F - t) \cdot x^\alpha)^n = (1 - \frac{1}{n} \cdot x^\alpha) = e^{-x^\alpha}$
+##### Step 1: 
 
 TODO
 
-### Necessary and sufficient conditions of convergence to Type I EVD
+##### Step 2:
+
+TODO
+
+##### Step 3:
+
+TODO
+
+#### Theorem 4.2. Necessary and sufficient conditions of convergence to Type III (Reversed Weibull) EVD
+
+A distribution of maximum of a random variable $\xi$ converges to Type III (Reversed Weibull) EVD if and only 
+if $x_F < \infty$ and $\lim \limits_{t \to 0} \frac{S_\xi(x_F - tx)}{S_\xi(x_F - t)} = x^{-\beta}$, where $\beta > 0$, 
+$x > 0$, $S_\xi$ is survival function.
+
+**Equivalent claim up to a change of notation**: A distribution of maximum of randome variable $\xi$ converges to 
+Type III (Reversed Weibull) EVD if and only if $\frac{S(x_F - \frac{1}{tx})}{S(x_F - \frac{1}{t})} \xrightarrow{t \to \infty} x^{-\beta}$ (i.e. a regularly
+varying function with index of variation $- \beta$).
+
+
+
+#### Proof of direct statement:
+
+In the proof of direct statement I'll be using the first form of notation.
+
+Given $\frac{ S(x_F - t x) }{ S(x_F - t) } \to x^{-\beta}$, where $\beta > 0$ and $x_F < \infty$, we need to show that $F^n(a_n x + b_n) \to e^{-(-x)^{\beta}}$.
+
+The proof of direct statement is similar in spirit to the proof of von Mises sufficient conditions.
+
+$F_{M_n}(x_F - tx) = p(M_n \le x_F - tx) = p(x_F - M_n \ge tx) = p^n(x_F - \xi \ge tx) = (1 - p(x_F - \xi \le tx) )^n = (1 - S(x_F - tx))^n \to (1 - S(x_F - t) \cdot x^{-\beta})^n$
+
+Now choose $t = \gamma(n)$ (a value of tail quantile function, such that $S(x_F - t) = \frac{1}{n}$), and we get:
+
+$(1 - S(x_F - t) \cdot x^{-\beta})^n = (1 - \frac{1}{n} \cdot x^{-\beta}) = e^{-x^{-\beta}}$.
+
+#### Proof of converse statement:
+
+Given $F^n(a_n x + b_n) = e^{-x^{-\beta}}$, we need to show that $\frac{S(x_F - tx)}{S(x_F - t)} \xrightarrow{t \to 0} x^{-\beta}$.
+
+##### Step 1: go from F() to V()
+
+$\frac{1}{n S(a_n x + b_n)} \to (-x)^{-\beta}$
+
+Denote $V = \frac{1}{S}^{\leftarrow}$, i.e. reciprocal of inverse of the survival function.
+
+Apply $V$ to the previous expression, yielding: $(V(ny) - b_n) / a_n \to -(y^{-1/\beta})$ and replace discrete $n$ with
+continuous variable $t$, replacing $b_n$ with $b(t)$ and $a_n$ with $a(t)$:
+
+$\frac{V(ty) - V(t)}{a(t)} \to 1 - y^{-1/\beta}$
+
+##### Step 2: show that $a(t)$ is a regularly varying function
+
+Consider $\lim \limits_{t \to \infty} \frac{a(tx)}{a(t)} = x^{-1/\beta}$
+
+TODO
+
+##### Step 3: show that $x_F < \infty$
+
+When does inverse of survival function attain its limit? 
+
+TODO
+
+##### Step 4: introduce a regularly varying $H(t)$
+
+TODO
+
+Introduce $H(t) = \frac{1}{V(\infty) - V(t)}$. $H(t)$ is a regularly varying with index $\frac{1}{\beta}$.
+
+$V(\infty) - V(t) = \frac{1}{H(t)}$
+
+$\frac{1}{S(y)} \sim H^{\leftarrow}( \frac{1}{ V(\infty) - y })$
+
+Setting $s = \frac{1}{ V(\infty) - y }$ we come to:
+
+$H^{\leftarrow}(s) \sim \frac{1}{ S( V(\infty) - \frac{1}{s} ) }$
+
+
+### Necessary and sufficient conditions of convergence to Type I (Gumbel) EVD
 
 Finally, we've come to the most complex result in this series. However, we'll need an extra set of definitions and
 lemmas. Regular variation theory is enough for Type II and Type III EVD. However, for Type I we'll need to extend
@@ -1000,7 +1076,7 @@ and similarly one may take $a(t) = V(te) - V(t)$ because $\frac{V(te) - V(t)}{V(
 The key to proving that conditions of convergence are both necessary and sufficient is the dualism between survival
 function and its inverse.
 
-Turns out that if the survival function is Г-varying, its reverse function $S^{\leftarrow}$ is $П-varying$, which lets
+Turns out that if the survival function is Г-varying, its reverse function $S^{\leftarrow}$ is П-varying, which lets
 us establish that conditions are not only sufficient, but necessary as well.
 
 #### Lemma 4.4: If a function is Г-varying, its reciprocal is П-varying and vice versa
@@ -1095,9 +1171,12 @@ $\frac{1}{S(a_n x + b_n)} \to n e^{x}$, hence, $n S(a_n x + b_n) = e^{-x}$ or $F
 And finally $F_{M_n}(x) = F^{n}(a_n x + b_n) = (1 - \frac{e^{-x}}{n})^n = e^{-e^{-x}}$.
 
 
-#### Theorem 4.2. Necessary and sufficient conditions of convergence to Type I EVD
+#### Theorem 4.3. Necessary and sufficient conditions of convergence to Type I EVD
 
-A distribution belongs to Extreme Value Distribution type I (Gumbel) if and only if $\lim \limits_{t \to x_F} \frac{S(t + x g(t))}{S(t)} = e^{-x}$, where $x \in \mathbb{R}$ and $g(t)$ is an auxiliary function (which is not uniquely-defined, but they all are asymptotically equivalent by Khinchin's lemma) e.g. could be set to inverse hazard rate $g(t) = \frac{1}{r(t)} = \frac{S(t)}{f(t)}$.
+A distribution belongs to Extreme Value Distribution type I (Gumbel) domain of attraction if and only 
+if $\lim \limits_{t \to x_F} \frac{S(t + x g(t))}{S(t)} = e^{-x}$, where $x \in \mathbb{R}$ and $g(t)$ is an auxiliary 
+function (which is not uniquely-defined, but they all are asymptotically equivalent by Khinchin's lemma) e.g. could be
+set to inverse hazard rate $g(t) = \frac{1}{r(t)} = \frac{S(t)}{f(t)}$.
 
 #### Proof
 
@@ -1108,7 +1187,7 @@ Gumbel Type I EVD.
 
 Now we can slightly generalize that condition and show that it is necessary and sufficient.
 
-#### Theorem 4.3. Generalization of Von Mises function
+#### Theorem 4.4. Generalization of Von Mises function
 
 A distribution's maximum converges to Gumbel Type I EVD, if and only if its survival function can be represented as:
 
@@ -1122,43 +1201,24 @@ $n S^{*}(a_n x + b_n) \to c e^{-x}$ and
 
 $F^n(a_n x + b_n) \to exp(-c e^{-x})$
 
-#### Proof of converse statement
+#### Outline of proof of converse statement
 
-##### Step 1
+This proof is very technical (5 pages of boring and uninstructive math, you'll never need again), and I won't give it in 
+full, as these details are basically useless. However, I shall provide the outline of proof structure, as in [Resnick](https://minerva.it.manchester.ac.uk/~saralees/book3.pdf)
+book.
 
-TODO: crazy overcomplicated lemma, pre-requisite to the next lemma
+By Lemma 4.5 if our cumulative distribution function $F \in \mathcal{D}(Gumbel)$, we know that $(\frac{1}{S(x)})^{\leftarrow} = V$, where $V$ is П-varying.
 
-##### Step 2
+Consider $V^{\leftarrow}$. It is possible to show that there exist such functions $V^{\leftarrow}_1$ and $V^{\leftarrow}_2$ that $\lim \limits_{s \to \infty} \frac{ V^{\leftarrow}(s) }{ V_1^{\leftarrow}(s) } = e$ and $\lim \limits_{s \to \infty} \frac{ V_1^{\leftarrow}(s) }{ V_2^{\leftarrow}(s) } = e$.
 
-TODO: lemma about $\exists \frac{ V_1(t) - V(t) }{a(t)} \to 1$
+Hence, $S(x) \sim \frac{1}{e} S_1(x)$ and $S_1(x) \sim \frac{1}{e} S_2(x)$, hence, $S(x) \sim \frac{1}{e^2} S_2(x)$.
 
-##### Step 3
+Surprisingly, it turns out that $V_2^{\leftarrow}$ always corresponds to a von Mises survival function $S^*(x)$: $S^{*}(x) = \frac{1}{ V_2^{\leftarrow} }$.
 
-$\frac{V(tx) - V_1(t)}{a(t)} = \frac{V(tx) - V(t)}{a(t)} - \frac{V_1(t) - V(t)}{a(t)} \to \ln x - 1$
+This leads us to $S(x) \sim \frac{1}{e^2} S^{*}(x)$.
 
-##### Step 4
 
-Denote $y = \ln x - 1$. Re-arrange previous expression:
-
-$V(t e^{y+1}) - V_1(t) \to y a(t)$
-
-$V(t e^{y+1}) \to y a(t) + V_1(t)$
-
-Apply $V^{\leftarrow}$ to the previous expression:
-
-$t e^{y+1} \to V^{\leftarrow}(V_1(t) + y a(t))$
-
-Setting $y = 0$:
-
-$\lim \limits_{t \to \infty} V^{\leftarrow}(V_1(t)) = e$
-
-TODO: FINISH
-
-##### Step 5
-
-TODO: Final part of proof
-
-#### Theorem 4.4. Sufficient condition for a distribution not to belong to a domain of attraction of max-stable distributions
+#### Theorem 4.5. Sufficient condition for a distribution not to belong to a domain of attraction of max-stable distributions
 
 A distribution belongs to some type of Extreme Value Distribution if and only if $\frac{S(x)}{S(x-)} \xrightarrow{x \to \infty} 1$.
 
