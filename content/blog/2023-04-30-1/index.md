@@ -11,7 +11,7 @@ description: Quite often in mathematical statistics I run into Extreme Value Dis
 1. Problem statement and Generalized Extreme Value distribution
     * Type I: Gumbel distribution
     * Type II: Frechet distribution
-    * Type III: Reversed Weibull distribution
+    * Type III: Inverse Weibull distribution
 2. Fisher-Tippett-Gnedenko theorem
     * General approach: max-stable distributions as invariants/fixed points/attractors and EVD types as equivalence classes
     * Khinchin's theorem (Law of Convergence of Types)
@@ -29,7 +29,7 @@ description: Quite often in mathematical statistics I run into Extreme Value Dis
 5. Summary and examples of practical application
     * Examples of Type I Gumbel distribution
     * Examples of Type II Frechet distribution
-    * Examples of Type III Reversed Weibull distribution
+    * Examples of Type III Inverse Weibull distribution
     * Generalized Pareto Distribution
 
 ## 1. Problem statement and Generalized Extreme Value distribution
@@ -57,33 +57,177 @@ $G_{\gamma}(x) = exp(-(1 + \gamma x)^{-\frac{1}{\gamma}}) = exp(-(1 + \frac{1}{k
 This is Gumbel distribution, it oftentimes occurs in various areas, e.g. bioinformatics, describing the distribution
 of longest series of successes in coin tosses in $n$ experiments of tossing a coin 100 times.
 
-#### Type II: Frechet distribution
+It is often parametrized by scale and center parameters. I will keep it centered here, but will add shape parameter $\lambda$:
 
-TODO
+$F(x) = e^{-e^{-\frac{x}{\lambda}}}$, or, in a more intuitive notation $F(x) = \frac{1}{\sqrt[e^{x/\lambda}]{e}}$.
+
+It is straightforward to derive probability density function $f(x)$ from here:
+
+$f(x) = \frac{\partial F}{\partial x} = -e^{-\frac{x}{\lambda}} \cdot (-\frac{1}{\lambda}) \cdot e^{-e^{-\frac{x}{\lambda}}} = \frac{1}{\lambda} e^{- \frac{x}{\lambda} + e^{-\frac{x}{\lambda}}}$.
+
+```python
+import math
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+
+scale = 1
+
+# Generate x values from 0.1 to 20 with a step size of 0.1
+x = np.arange(-20, 20, 0.1)
+
+# Calculate y values
+gumbel_cdf = math.e**(-math.e**(-(x/scale)))
+gumbel_pdf = (1 / scale) * np.exp(-( x/scale + math.e**(-(x / scale))))
+
+# Create the figure and axis objects
+fig, ax = plt.subplots(figsize=(12,8), dpi=100)
+
+# Plot cdf
+ax.plot(x, gumbel_cdf, label='cdf')
+
+# Plot pdf
+ax.plot(x, gumbel_pdf, label='pdf')
+
+# Set up the legend
+ax.legend()
+
+# Set up the labels and title
+ax.set_xlabel('x')
+ax.set_ylabel('y')
+ax.set_title('Plot of Gumbel pdf and cdf')
+
+# Display the plot
+plt.show()
+```
+
+![Gumbel distribution plot](Gumbel_plot.png)<center>**Gumbel distribution plot**, scale = 1.</center>
+
+#### Type II: Frechet distribution
 
 If $\gamma > 0$, let us denote $k = \frac{1}{\gamma}$ (k > 0). Then distribution takes the shape:
 
-$G_{\gamma}(x) = exp(-(\frac{x}{\lambda})^{-k})$
+TODO: transition from GEVD to Frechet
+
+$G_{\gamma}(x) = exp(-(\frac{x}{\lambda})^{-k})$, where $k$ is called shape parameter and $\lambda$ - scale parameter.
+
+To make it more intuitive, I'll re-write cdf in the following way: $F(x) = \frac{1}{e^{(\frac{\lambda}{x})^k}}$.
 
 This is Frechet distribution. It arises when the tails of the original cumulative distribution function 
 $F_{\xi}(x)$ are heavy, e.g. when it is Pareto distribution.
 
-#### Type III: Reversed Weibull distribution
+Let us derive the probability density function for it:
 
-TODO
+$f(x) = \frac{\partial F}{\partial x} = - (\frac{x}{\lambda})^{-k - 1} \cdot (-k) \cdot \frac{1}{\lambda} \cdot e^{-(\frac{x}{\lambda})^{-k}} = \frac{k}{\lambda} \cdot (\frac{x}{\lambda})^{-k-1} \cdot e^{-(\frac{x}{\lambda})^{-k} }$.
+
+Here is the plot:
+
+```python
+import math
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+
+shape = 2  # alpha
+scale = 2  # beta
+
+# Generate x values from 0.1 to 20 with a step size of 0.1
+x = np.arange(0, 20, 0.1)
+
+# Calculate y values
+frechet_cdf = math.e**(-(scale / x) ** shape)
+frechet_pdf = (shape / scale) * ((scale / x) ** (shape + 1)) * np.exp(-((scale / x) ** shape))
+
+# Create the figure and axis objects
+fig, ax = plt.subplots(figsize=(12,8), dpi=100)
+
+# Plot cdf
+ax.plot(x, frechet_cdf, label='cdf')
+
+# Plot pdf
+ax.plot(x, frechet_pdf, label='pdf')
+
+# Set up the legend
+ax.legend()
+
+# Set up the labels and title
+ax.set_xlabel('x')
+ax.set_ylabel('y')
+ax.set_title('Plot of Frechet distribution pdf and cdf')
+
+# Display the plot
+plt.show()
+```
+
+![Frechet distribution plot](Frechet_plot.png)<center>**Frechet distribution plot**, scale = 1, shape = 1.</center>
+
+#### Type III: Inverse Weibull distribution
+
+TODO: transition from GEVD to Inverse Weibull
 
 If $\gamma < 0$, let us denote $k = -\frac{1}{\gamma}$ (k > 0, different kinds of behaviour are observed at $0 < k < 1$, $k = 1$ and $k > 1$), $\lambda = \frac{1}{ \frac{1}{x}+\gamma}$. Then distribution takes the shape:
 
-$G_{\gamma}(x) = exp(-(\frac{x}{\lambda})^{k})$.
+$G_{\gamma}(x) = \begin{cases} exp(-(\frac{x}{\lambda})^{k}), x \le 0 \\ 1, x > 0 \end{cases}$.
 
-This is Weibull distribution. It often occurs in [survival analysis](http://localhost:8000/2021-06-11-1/) as a hazard 
-rate function. It also arises in mining - there it describes the mass distribution of particles of size $x$ and is closely connected
-to Pareto distribution. We shall discuss this connection later.
+This is Inverse Weibull distribution. Its direct counterpart (Weibull distribution) often occurs in 
+[survival analysis](http://localhost:8000/2021-06-11-1/) as a hazard rate function. It also arises in mining - there it 
+describes the mass distribution of particles of size $x$ and is closely connected to Pareto distribution. We shall 
+discuss this connection later.
 
-Generalized extreme value distribution converges to Weibull, when distribution of our random variable $\xi$ is bounded.
+Generalized extreme value distribution converges to Inverse Weibull, when distribution of our random variable $\xi$ is bounded.
 E.g. consider uniform distribution $\xi \sim U(0, 1)$. It is clear that the maximum of $n$ uniformly distributed
-variables will be approaching 1 as $n \to \infty$. Turns out that the convergence rate is described by Weibull 
+variables will be approaching 1 as $n \to \infty$. Turns out that the convergence rate is described by Inverse Weibull 
 distribution.
+
+To make it more intuitive, we can re-write the cdf as $F(x) = \begin{cases} \frac{1}{e^{ (\frac{-x}{\lambda})^k }}, x \le 0 \\ 1, x > 0 \end{cases}$.
+
+Derive from cumulative distribution function $F(x) = exp(-(\frac{-x}{\lambda})^{k})$ the probability density function:
+
+$f(x) = \frac{\partial F}{\partial x} = -(\frac{-x}{\lambda})^{k-1} \cdot \frac{-k}{\lambda} \cdot exp(-(\frac{-x}{\lambda})^{k}) = \frac{k}{\lambda} \cdot (\frac{-x}{\lambda})^{k-1} \cdot exp(-(\frac{-x}{\lambda})^{k})$.
+
+Let us draw the plot:
+
+```python
+import math
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+
+shape = 2  # alpha
+scale = 2  # beta
+
+# Generate x values from 0.1 to 20 with a step size of 0.1
+x = np.arange(-20, 0, 0.1)
+
+# Calculate y values
+inverse_weibull_cdf = math.e**(-(-x/scale) ** shape)
+inverse_weibull_pdf = (shape / scale) * ((-x / scale) ** (shape - 1)) * np.exp(-((-x / scale) ** shape))
+
+# Create the figure and axis objects
+fig, ax = plt.subplots(figsize=(12,8), dpi=100)
+
+# Plot cdf
+ax.plot(x, inverse_weibull_cdf, label='cdf')
+
+# Plot pdf
+ax.plot(x, inverse_weibull_pdf, label='pdf')
+
+# Set up the legend
+ax.legend()
+
+# Set up the labels and title
+ax.set_xlabel('x')
+ax.set_ylabel('y')
+ax.set_title('Plot of Inverse Weibull pdf and cdf')
+
+# Display the plot
+plt.show()
+```
+![Inverse Weibull plot](Inverse_Weibull_plot.png)<center>**Plot of Inverse Weibull distribution**, shape = 2, scale = 2.</center>
+
 
 ---
 
@@ -271,7 +415,7 @@ non-degenerate cumulative distribution function $G$ such that $\frac{M_n - b_n}{
 
 (Type II) Frechet: $G(x) = exp(-x^{-\alpha})$, $x \ge 0, \alpha > 0$,
 
-(Type III) Reversed Weibull: $G(x) = exp(-(-x)^{\alpha})$, $x \le 0, \alpha > 0$.
+(Type III) Inverse Weibull: $G(x) = exp(-(-x)^{\alpha})$, $x \le 0, \alpha > 0$.
 
 #### Proof
 
@@ -364,7 +508,7 @@ $(-\ln G(x))^{-\rho} = 1 - \frac{x - \nu}{c}$
 
 $-\ln G(x) = (1 - \frac{x - \nu}{c})^{-\frac{1}{\rho}}$
 
-$G(x) = e^{-(1 - \frac{x - \nu}{c})^{-\frac{1}{\rho}}}$, which is either a Frechet (Type II), or a reversed Weibull (Type III) EVD.
+$G(x) = e^{-(1 - \frac{x - \nu}{c})^{-\frac{1}{\rho}}}$, which is either a Frechet (Type II), or a Inverse Weibull (Type III) EVD.
 
 ### Distributions not in domains of attraction of any maximum-stable distributions
 
@@ -509,10 +653,10 @@ In other words $p(\xi_i \le x \gamma(n)) = 1 - \frac{ x^{-\alpha} }{n}$ or $p(\m
 
 We've just shown that a random variable $a_n \xi + b_n$ converges to Frechet Type II EVD, where $a_n = \gamma(n)$ and $b_n = 0$.
 
-#### Theorem 3.2: Von Mises sufficient condition for a distribution to belong to type III (Reversed Weibull) EVD
+#### Theorem 3.2: Von Mises sufficient condition for a distribution to belong to type III (Inverse Weibull) EVD
 
 If a distribution function $F_{\xi}$ has a finite end point $x_F \le \infty$ and $\lim \limits_{x \to x_F} (x_F - x) r(x) = \alpha$,
-then distribution $F_{\xi}$ belongs to type III (Reversed Weibull).
+then distribution $F_{\xi}$ belongs to type III (Inverse Weibull).
 
 #### Proof:
 
@@ -960,14 +1104,14 @@ TODO
 
 TODO
 
-#### Theorem 4.2. Necessary and sufficient conditions of convergence to Type III (Reversed Weibull) EVD
+#### Theorem 4.2. Necessary and sufficient conditions of convergence to Type III (Inverse Weibull) EVD
 
-A distribution of maximum of a random variable $\xi$ converges to Type III (Reversed Weibull) EVD if and only 
+A distribution of maximum of a random variable $\xi$ converges to Type III (Inverse Weibull) EVD if and only 
 if $x_F < \infty$ and $\lim \limits_{t \to 0} \frac{S_\xi(x_F - tx)}{S_\xi(x_F - t)} = x^{-\beta}$, where $\beta > 0$, 
 $x > 0$, $S_\xi$ is survival function.
 
-**Equivalent claim up to a change of notation**: A distribution of maximum of randome variable $\xi$ converges to 
-Type III (Reversed Weibull) EVD if and only if $\frac{S(x_F - \frac{1}{tx})}{S(x_F - \frac{1}{t})} \xrightarrow{t \to \infty} x^{-\beta}$ (i.e. a regularly
+**Equivalent formulation (up to a change of notation)**: A distribution of maximum of randome variable $\xi$ converges to 
+Type III (Inverse Weibull) EVD if and only if $\frac{S(x_F - \frac{1}{tx})}{S(x_F - \frac{1}{t})} \xrightarrow{t \to \infty} x^{-\beta}$ (i.e. a regularly
 varying function with index of variation $- \beta$).
 
 
@@ -1351,7 +1495,7 @@ This distribution behaves more or less like a "faster hyperbola", e.g. $S(x) = \
 
 Maximum of this distribution could be shown to converge to $(1 - F(x)/n)^n = e^{-{\frac{x}{\lambda}}^{-k}}$.
 
-### EVD Type III: Reversed Weibull distribution
+### EVD Type III: Inverse Weibull distribution
 
 #### Example 5.6. hazard rate and mortality in survival analysis
 
@@ -1361,7 +1505,7 @@ then mortality rate drops by the early adulthood and then starts to grow.
 TODO: image and details
 
 This leads us to the idea that human beings have a hard upper limit on lifespan, something like 129 years, as max-stable
-distribution for reversed Weibull is reversed Weibull. Hence, your probability of living to 130 without gerontologic
+distribution for Inverse Weibull is Inverse Weibull. Hence, your probability of living to 130 without gerontologic
 therapies (which alter the maximum lifespan), but with geriatric (which treat your senile diseases) is exactly 0.
 
 Gerontologists sometimes also say that "immortal" species is a one that has approximately the same hazard rate over time.
@@ -1377,9 +1521,58 @@ TODO
 
 TODO
 
+
+### Weibull vs Inverse Weibull vs Frechet distributions
+
+TODO
+
+Weibull distribution plot
+
+```python
+import math
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+
+shape = 5  # alpha
+scale = 5  # beta
+
+# Generate x values from 0.1 to 20 with a step size of 0.1
+x = np.arange(0.1, 20, 0.1)
+
+# Calculate y values
+weibull_cdf = 1 - math.e**(-(x/scale) ** shape)
+weibull_pdf = (shape / scale) * ((x / scale) ** (shape - 1)) * np.exp(-((x / scale) ** shape))
+
+# Create the figure and axis objects
+fig, ax = plt.subplots(figsize=(12,8), dpi=100)
+
+# Plot cdf
+ax.plot(x, weibull_cdf, label='cdf')
+
+# Plot pdf
+ax.plot(x, weibull_pdf, label='pdf')
+                                               
+# Set up the legend
+ax.legend()
+
+# Set up the labels and title
+ax.set_xlabel('x')
+ax.set_ylabel('y')
+ax.set_title('Plot of Weibull pdf and cdf')
+
+# Display the plot
+plt.show()
+```
+
+![Weibull distriubtion plot](Weibull_plot.png)<center>**Weibull distribution plot** with shape=5, scale=5.</center>
+
 ### Generalized Pareto distribution
 
 TODO
+
+
 
 ---
 
