@@ -30,7 +30,15 @@ description: Quite often in mathematical statistics I run into Extreme Value Dis
     * Examples of Type I Gumbel distribution
     * Examples of Type II Frechet distribution
     * Examples of Type III Inverse Weibull distribution
+6. Concluding remarks
+    * Weibull vs Inverse Weibull vs Frechet distribution
     * Generalized Pareto Distribution
+    * Extreme Value of Minimum
+    * N-th order statistics
+    * Continuous-time stochastic processes
+    * Non-i.i.d. random variables
+   
+   
 
 ## 1. Problem statement and Generalized Extreme Value distribution
 
@@ -1521,12 +1529,27 @@ TODO
 
 TODO
 
+## Concluding remarks
+
+In this post we've explored the EVD for the case of maximum of i.i.d. random variables. There are many related problems 
+and extensions, however.
+
+I won't cover them in detail here, as this post is way too long already. Please, refer to books such as Resnick, 
+Leadbetter or Smith & Weissman for this material. However, I want to mention some of the most famous related problems.
 
 ### Weibull vs Inverse Weibull vs Frechet distributions
 
-TODO
+In survival analysis one often runs into Weibull distribution, not Inverse Weibull (Type III EVD) distribution.
 
-Weibull distribution plot
+Recall that Inverse Weibull's probability density is non-zero for negative values of $x$, and cumulative distribution
+function achieves maximum as $x \to 0$. For all positive $x$ cdf is already 1.
+
+The regular Weibull mirrors probability density of Inverse Weibull around y-axis and mirrors cumulative distribution
+function between $x = 0$ and $x = 1$. I.e. for regular Weibull distribution cdf is:
+
+$F(x) = 1 - e^{-(\frac{x}{\lambda})^{k}} = 1 - \frac{1}{(e^{x / \lambda})^k}$.
+
+Hence, probability density equals: $f(x) = -(\frac{x}{\lambda})^{k-1} \cdot (k \cdot \frac{1}{\lambda}) \cdot (- \frac{1}{(e^{x / \lambda})^k}) = \frac{k}{\lambda} \cdot (\frac{x}{\lambda})^{k-1} \cdot \frac{1}{(e^{x / \lambda})^k}$.
 
 ```python
 import math
@@ -1568,11 +1591,32 @@ plt.show()
 
 ![Weibull distriubtion plot](Weibull_plot.png)<center>**Weibull distribution plot** with shape=5, scale=5.</center>
 
+Wikipedia somewhat incorrectly claims that Frechet distribution is the same as Inverse Weibull distribution. As we've
+seen earlier, Frechet distribution has $-k$ (negative number) in the power, while Inverse Weibull has positive $k$. Also,
+Frechet distribution has non-zero pdf at positive values of $x$, while Frechet has non-zero pdf at negative values of $x$.
+
 ### Generalized Pareto distribution
 
 TODO
 
+### Extreme value of minimum
 
+Distribution of minimum behaves in a similar way to the distribution of maximum with some inversions of EVDs.
+
+### N-th order statistics
+
+One might ask a question, how the N-th largest maximum of arbitrary random variable is distributed. Quite intuitively,
+its distribution looks like a hybrid between Poisson distribution and EVD. 
+
+### Continuous-time stochastic processes
+
+Instead of discrete number of random variables $n$ you might want to work with stochastic processes with continuous time $t$.
+Similar results can be derived for them.
+
+### Non-i.i.d. random variables
+
+As with the extensions of Central Limit Theorem, random variables might not be exactly independent identically distributed.
+Still extreme theorem might hold for these generalized cases.
 
 ---
 
