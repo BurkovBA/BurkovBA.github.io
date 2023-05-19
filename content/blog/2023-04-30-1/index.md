@@ -114,11 +114,10 @@ plt.show()
 
 #### Type II: Frechet distribution
 
-If $\gamma > 0$, let us denote $k = \frac{1}{\gamma}$ (k > 0). Then distribution takes the shape:
+If $\gamma > 0$, let us denote $k = \frac{1}{\gamma}$ (k > 0), $y = \lambda \cdot (1 + \gamma x)$, where $k$ is called 
+shape parameter and $\lambda$ - scale parameter. Then distribution takes the shape:
 
-TODO: transition from GEVD to Frechet
-
-$G_{\gamma}(x) = exp(-(\frac{x}{\lambda})^{-k})$, where $k$ is called shape parameter and $\lambda$ - scale parameter.
+$G_{\gamma}(x) = exp(-(1 + \gamma x)^{-\frac{1}{\gamma}}) = exp(-(\frac{y}{\lambda})^{-k})$.
 
 To make it more intuitive, I'll re-write cdf in the following way: $F(x) = \frac{1}{e^{(\frac{\lambda}{x})^k}}$.
 
@@ -173,9 +172,11 @@ plt.show()
 
 #### Type III: Inverse Weibull distribution
 
-TODO: transition from GEVD to Inverse Weibull
+If $\gamma < 0$, let us denote $k = -\frac{1}{\gamma}$ (k > 0, different kinds of behaviour are observed at $0 < k < 1$, $k = 1$ and $k > 1$), $y = \lambda (1 + \gamma x)$.
 
-If $\gamma < 0$, let us denote $k = -\frac{1}{\gamma}$ (k > 0, different kinds of behaviour are observed at $0 < k < 1$, $k = 1$ and $k > 1$), $\lambda = \frac{1}{ \frac{1}{x}+\gamma}$. Then distribution takes the shape:
+Then distribution takes the shape:
+
+$G_{\gamma}(x) = exp(-(1 + \gamma x)^{-\frac{1}{\gamma}}) = exp(-(\frac{y}{\lambda})^k)$.
 
 $G_{\gamma}(x) = \begin{cases} exp(-(\frac{x}{\lambda})^{k}), x \le 0 \\ 1, x > 0 \end{cases}$.
 
@@ -1469,7 +1470,11 @@ Then $\xi - \xi_0 = \frac{1}{ (1 + \ln n)^2 } (\eta - \eta_0)$. So $(\xi - \xi_0
 
 Hence, $\max (\xi - \frac{\ln n}{1 + \ln n}) (1 + \ln n)^2 \sim e^{-e^{-x}}$.
 
-#### Example 5.3. Karlin-Altschul statistics in bioinformatics
+#### Example 5.3. Gompertz, shifted Gompertz distribution and longevity
+
+TODO
+
+#### Example 5.4. Karlin-Altschul statistics in bioinformatics
 
 Suppose that you're using your IDE, e.g. PyCharm to perform a fuzzy search of a random string "HomerSimpson" against a 
 codebase. What's the baseline probability of finding a text, where 10 letters out of 12 exactly match your query?
@@ -1482,7 +1487,7 @@ with insertions/deletions allowed.
 Karlin-Altschul statistics is in the core of BLAST software, used for searching known homologs of biological sequences
 in databases of already known sequences.
 
-#### Example 5.4. Gumbel Softmax VAE
+#### Example 5.5. Gumbel Softmax VAE
 
 Gumbel distribution is sometimes used in neural networks in Gumbel softmax nodes in order to slightly relax categorical 
 features, making it differentiable. E.g. see [Gumbel Softmax VAE blog post](https://blog.evjang.com/2016/11/tutorial-categorical-variational.html) or
@@ -1490,7 +1495,7 @@ features, making it differentiable. E.g. see [Gumbel Softmax VAE blog post](http
 
 ### EVD Type II: Frechet distribution
 
-#### Example 5.5. Pareto distribution, Lindy effect
+#### Example 5.6. Pareto distribution, Lindy effect
 
 What's the chance that the richest of your friends would be a billionaire?
 
@@ -1505,27 +1510,15 @@ Maximum of this distribution could be shown to converge to $(1 - F(x)/n)^n = e^{
 
 ### EVD Type III: Inverse Weibull distribution
 
-#### Example 5.6. hazard rate and mortality in survival analysis
-
-Hazard rate in humans is usually modelled with Weibull distribution: you have a relatively high child birth rate,
-then mortality rate drops by the early adulthood and then starts to grow.
-
-TODO: image and details
-
-This leads us to the idea that human beings have a hard upper limit on lifespan, something like 129 years, as max-stable
-distribution for Inverse Weibull is Inverse Weibull. Hence, your probability of living to 130 without gerontologic
-therapies (which alter the maximum lifespan), but with geriatric (which treat your senile diseases) is exactly 0.
-
-Gerontologists sometimes also say that "immortal" species is a one that has approximately the same hazard rate over time.
-This immediately triggers von Mises condition for Type I EVD, meaning that in such species distribution of maximum lifespan
-should belong to the Gumbel domain of attraction and that we should see some relatively immortal individuals. So, tails
-of immortal naked molerats seem to be exaggerated.
-
-#### Example 5.7: diffusion of innovation
+#### Example 5.7. Strength of materials
 
 TODO
 
-#### Example 5.8: fraction of mass, occupied by particles of a certain size in mining, connection to Pareto distribution
+#### Example 5.8. Fraction of mass, occupied by particles of a certain size in mining, connection to Pareto distribution
+
+TODO
+
+#### Example 5.9. Trading orders
 
 TODO
 
@@ -1642,3 +1635,6 @@ Still extreme theorem might hold for these generalized cases.
 * https://encyclopediaofmath.org/index.php?title=Karamata_theory&oldid=25937 - Encyclopedia of math on Jovan Karamata
 * http://elib.mi.sanu.ac.rs/files/journals/publ/91/n085p079.pdf - interesting paper on history of adoption of Karamata's theory in the West by Feller after Gnedenko, Khinchin and Kolmogorov
 * https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-9-332 - a nice review of Karlin-Altschul statistics for BLAST
+* https://www.researchgate.net/publication/228874059_Theoretical_analysis_of_inverse_weibull_distribution - theoretical analysis of Inverse Weibull distribution
+* https://rss.onlinelibrary.wiley.com/doi/pdf/10.1111/j.1740-9713.2018.01123.x - review of applications of Weibull distribution
+* https://en.wikipedia.org/wiki/Shifted_Gompertz_distribution - Wikipedia on shifted Gompertz distribution
