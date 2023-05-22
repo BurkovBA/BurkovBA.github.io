@@ -31,13 +31,6 @@ description: Quite often in mathematical statistics I run into Extreme Value Dis
     * Examples of Type II Frechet distribution
     * Examples of Type III Inverse Weibull distribution
 6. Concluding remarks
-    * Weibull vs Inverse Weibull vs Frechet distribution
-    * Generalized Pareto Distribution
-    * Extreme Value of Minimum
-    * N-th order statistics
-    * Continuous-time stochastic processes
-    * Non-i.i.d. random variables
-   
    
 
 ## 1. Problem statement and Generalized Extreme Value distribution
@@ -427,6 +420,16 @@ non-degenerate cumulative distribution function $G$ such that $\frac{M_n - b_n}{
 (Type III) Inverse Weibull: $G(x) = exp(-(-x)^{\alpha})$, $x \le 0, \alpha > 0$.
 
 #### Proof
+
+Here we give the proof of Fisher-Tippett-Gnedenko theorem without introducing any additional pre-requisites and 
+intermediate constructs. Because of that it might look like black magic now. It is not clear, how anyone could've come
+up with this proof.
+
+However, later on in parts 3 and 4 we will give the definitions of tail quantile function and tools from Karamata's
+theory of slow/regular variation.
+
+If you revisit this proof afterwards, you will notice that we're making use of those tools in this proof, without naming
+them explicitly.
 
 ##### Step 1.
 
@@ -1086,6 +1089,31 @@ By theorem's assumption $h(x) = x^\beta l(x) = e^{\beta(\ln x)} c(x) \cdot e^{ \
 
 We can assume that $\beta(t) = \epsilon(t) + \beta$ is a function that converges to $\beta$ as $x \to \infty$.
 
+#### Lemma 4.4: Reciprocal of regularly varying function
+
+If $h(x)$ is non-decreasing regularly varying function with index of variation $\rho$, $0 \le \rho \le \infty$ and 
+$h(\infty) = \infty$, then $h^{\leftarrow}$ is a regularly varying function with index of variation $\frac{1}{\rho}$.
+
+#### Proof:
+
+$\frac{h(tx)}{h(t)} \xrightarrow{t \to \infty} x^{\rho}$
+
+Take $t = h^{\leftarrow}(s)$ (hence, for $t \to \infty$ we need to make sure that $h^{\leftarrow}(s) \to \infty$). Then:
+
+$\frac{h(h^{\leftarrow}(s)x)}{h(h^{\leftarrow}(s))} \xrightarrow{t \to \infty} x^{\rho}$
+
+$h(h^{\leftarrow}(s)x) \to s \cdot x^\rho$
+
+Apply $h^{\leftarrow}$ to both sides:
+
+$h^{\leftarrow}(s) \cdot x \to h^{\leftarrow}(s \cdot x^\rho)$
+
+$\frac{h^{\leftarrow}(s\cdot x^\rho)}{h^{\leftarrow}(s)} \to x$
+
+Denote $y = x^\rho$:
+
+$\frac{h^{\leftarrow}(sy)}{h^{\leftarrow}(s)} \to y^{1/\rho}$, which is the definition of regularly varying function with index of variation $1/\rho$ upon $s \to \infty$.
+
 ### Necessary and sufficient conditions of convergence to Types II or III EVD
 
 #### Theorem 4.1: necessary and sufficient conditions for a distribution to belong to a type II (Frechet) EVD
@@ -1101,17 +1129,26 @@ $F_{M_n}(tx) = p(M_n \le tx) = F_\xi(tx)^n = p(\xi_i \le tx)^n = (1 - p(\xi_i \g
 
 #### Proof of converse statement:
 
-##### Step 1: 
+##### Step 1: re-formulate the problem in terms of tail quantile function $\gamma$
+
+TODO: as in the Theorem 4.2
+
+##### Step 2: $a(t)$ is regularly varying
+
+TODO: as in the Theorem 4.2
+
+##### Step 3: $\gamma(t) \sim a(t)$
 
 TODO
 
-##### Step 2:
+##### Step 4: $S(x)$ is regularly varying
 
-TODO
+TODO: $\gamma = \frac{1}{S}^{\leftarrow}$. As $\gamma$ is regularly varying with index of variation $\beta$, hence, 
+$\frac{1}{S}$ is regularly varying with index of variation $\frac{1}{\beta}$.
 
-##### Step 3:
+TODO: If $\frac{1}{S}$ is regularly varying with index of variation $\frac{1}{\beta}$, then $S$ is regularly varying
+with index of variation $\beta$.
 
-TODO
 
 #### Theorem 4.2. Necessary and sufficient conditions of convergence to Type III (Inverse Weibull) EVD
 
@@ -1122,8 +1159,6 @@ $x > 0$, $S_\xi$ is survival function.
 **Equivalent formulation (up to a change of notation)**: A distribution of maximum of randome variable $\xi$ converges to 
 Type III (Inverse Weibull) EVD if and only if $\frac{S(x_F - \frac{1}{tx})}{S(x_F - \frac{1}{t})} \xrightarrow{t \to \infty} x^{-\beta}$ (i.e. a regularly
 varying function with index of variation $- \beta$).
-
-
 
 #### Proof of direct statement:
 
@@ -1143,43 +1178,52 @@ $(1 - S(x_F - t) \cdot x^{-\beta})^n = (1 - \frac{1}{n} \cdot x^{-\beta}) = e^{-
 
 Given $F^n(a_n x + b_n) = e^{-x^{-\beta}}$, we need to show that $\frac{S(x_F - tx)}{S(x_F - t)} \xrightarrow{t \to 0} x^{-\beta}$.
 
-##### Step 1: go from F() to V()
+##### Step 1: re-formulate the problem in terms of tail quantile function $\gamma$ instead of cdf $F$ language
+
+$F^n(a_n x + b_n) \to e^{-x^{-\beta}}$
+
+$(1 - \frac{nS(a_n x + b_n)}{n})^n \approx e^{-nS} \to e^{-(-x)^\beta}$
+
+$nS(a_n x + b_n) \to (-x)^\beta$
 
 $\frac{1}{n S(a_n x + b_n)} \to (-x)^{-\beta}$
 
-Denote $V = \frac{1}{S}^{\leftarrow}$, i.e. reciprocal of inverse of the survival function.
+Recall that the tail quantile function is the reciprocal of inverse of the survival function: $\gamma = \frac{1}{S}^{\leftarrow}$.
 
-Apply $V$ to the previous expression, yielding: $(V(ny) - b_n) / a_n \to -(y^{-1/\beta})$ and replace discrete $n$ with
-continuous variable $t$, replacing $b_n$ with $b(t)$ and $a_n$ with $a(t)$:
+Set $y = (-x)^{-\beta}$, apply $\gamma$ to the previous expression, yielding: 
 
-$\frac{V(ty) - V(t)}{a(t)} \to 1 - y^{-1/\beta}$
+$a_n (-y^{-1/\beta}) + b_n \to \gamma(n y)$
+
+$(\gamma(ny) - b_n) / a_n \to -(y^{-1/\beta})$ and replace discrete $n$ with
+continuous variable $t$, replacing $b_n$ with $b(t)$, $a_n$ with $a(t)$ and using the fact that upon $y=1$, we have $\gamma(t \cdot 1) \to b(t) - a(t)$:
+
+$\frac{\gamma(ty) - \gamma(t)}{a(t)} = \frac{\gamma(ty) - b(t)}{a(t)} - \frac{\gamma(t) - b(t)}{a(t)} \to 1 - y^{-1/\beta}$
 
 ##### Step 2: show that $a(t)$ is a regularly varying function
 
-Consider $\lim \limits_{t \to \infty} \frac{a(tx)}{a(t)} = x^{-1/\beta}$
+Let's show that $a(t)$ is a regularly varying function by considering the ratio $\lim \limits_{t \to \infty} \frac{a(tx)}{a(t)}$.
 
-TODO
+To construct it from the result of previous step, consider $y = tx$ and $\frac{\gamma(y \frac{1}{x}) - \gamma(y)}{a(y)}$ and then
+consider the ratio:
 
-##### Step 3: show that $x_F < \infty$
+$\lim \limits_{t \to \infty} \frac{a(tx)}{a(t)} = \frac{\gamma(tx) - \gamma(t)}{a(t)} / \frac{\gamma(tx \cdot \frac{1}{x}) - \gamma(tx)}{a(tx)} =
+(1 - x^{-1/\beta}) / -(1 - x^{1/\beta}) = x^{-1/\beta}$.
+
+Thus, $a(t)$ is a regularly varying function with index of variation $-\frac{1}{\beta}$ by definition.
+
+##### Step 3: show that $x_F < \infty$ i.e. $\gamma(\infty) < \infty$
 
 When does inverse of survival function attain its limit? 
 
 TODO
 
-##### Step 4: introduce a regularly varying $H(t)$
+##### Step 4: $\gamma(\infty) - \gamma(t) \sim a(t)$ is a regularly varying function
 
 TODO
 
-Introduce $H(t) = \frac{1}{V(\infty) - V(t)}$. $H(t)$ is a regularly varying with index $\frac{1}{\beta}$.
+##### Step 5: $S(x_F - t)$ is a regularly varying function
 
-$V(\infty) - V(t) = \frac{1}{H(t)}$
-
-$\frac{1}{S(y)} \sim H^{\leftarrow}( \frac{1}{ V(\infty) - y })$
-
-Setting $s = \frac{1}{ V(\infty) - y }$ we come to:
-
-$H^{\leftarrow}(s) \sim \frac{1}{ S( V(\infty) - \frac{1}{s} ) }$
-
+TODO: basically apply lemma 4.4 on inversion of a regularly varying function
 
 ### Necessary and sufficient conditions of convergence to Type I (Gumbel) EVD
 
@@ -1232,7 +1276,7 @@ function and its inverse.
 Turns out that if the survival function is Г-varying, its reverse function $S^{\leftarrow}$ is П-varying, which lets
 us establish that conditions are not only sufficient, but necessary as well.
 
-#### Lemma 4.4: If a function is Г-varying, its reciprocal is П-varying and vice versa
+#### Lemma 4.5: If a function is Г-varying, its reciprocal is П-varying and vice versa
 
 **Direct statement**
 
@@ -1269,7 +1313,7 @@ $\frac{ U^{\leftarrow}(ty) - U^{\leftarrow}(t) }{ f( U^{\leftarrow}(t) ) } \to \
 
 TODO: analogous
 
-#### Lemma 4.5: Connection between Type I EVD, Г-variation and П-variation
+#### Lemma 4.6: Connection between Type I EVD, Г-variation and П-variation
 
 The following statements are equivalent:
 
@@ -1522,7 +1566,7 @@ TODO
 
 TODO
 
-## Concluding remarks
+## 6. Concluding remarks
 
 In this post we've explored the EVD for the case of maximum of i.i.d. random variables. There are many related problems 
 and extensions, however.
