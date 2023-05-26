@@ -1142,6 +1142,10 @@ $F_{M_n}(tx) = p(M_n \le tx) = F_\xi(tx)^n = p(\xi_i \le tx)^n = (1 - p(\xi_i \g
 
 #### Proof of converse statement:
 
+This proof of converse statement is incredibly clumsy and technical. I really wish I knew a better proof than this one,
+taken from [Resnick textbook](https://minerva.it.manchester.ac.uk/~saralees/book3.pdf), with extra commentaries and 
+clarifications added by me.
+
 ##### Step 1: re-formulate the problem in terms of tail quantile function $\gamma$
 
 $F^n(a_n x + b_n) \xrightarrow{n \to \infty} e^{-x^{-\alpha}}$.
@@ -1180,12 +1184,13 @@ $ = (x^{1/\alpha} - 1) / (-(x^{-1/\alpha} - 1)) = x^{1/\alpha}$.
 
 ##### Step 3: convergence of difference of integrals
 
-Now we're going to introduce another tool that we'll use in this next step of this proof.
+Now we're going to introduce another intermediate construct that we'll use in this next step of this proof.
 
 We aim to prove the following fact about a difference of integrals: $\lim \limits_{t \to \infty} \frac{\int \limits_{2}^{ty} \gamma(s) ds }{ty a(t)} - \frac{\int \limits_2^t \gamma(s)ds}{t a(t)} = \frac{\alpha}{\alpha + 1} (y^{1/\alpha} - 1)$.
 
 First, notice that $\gamma(tx) - \gamma(t)$ as a function of $t$ is regularly varying with index of variation $1/\alpha$. 
-Indeed, $a(t)$ is regularly varying with index $1/\alpha$ and if we consider ratio 
+
+Indeed, $a(t)$ is regularly varying with index $1/\alpha$ and we consider the ratio 
 $\frac{\gamma(txy) - \gamma(ty)}{\alpha(ty)} / \frac{\gamma(tx) - \gamma(t)}{\alpha(t)}$, where both numerator and
 denominator tend to $x^{1/\alpha} - 1$ as $t \to \infty$ (because $ty \to \infty$ as well for any fixed y). As $\alpha(ty) / \alpha(t) \xrightarrow{t \to \infty} y^{1/\alpha}$,
 $\frac{\gamma(txy) - \gamma(ty)}{\gamma(tx) - \gamma(t)} \to \frac{\alpha(ty)}{\alpha(t)} \to y^{1/\alpha}$.
@@ -1204,6 +1209,9 @@ Thus, our ratio of interest now is $\lim \limits_{t \to \infty} \frac{ \frac{1}{
 Recalling that $\frac{(\gamma(ty) - \gamma(t))}{a(t)} \to (y^{1/\alpha} - 1)$, we get $\lim \limits_{t \to \infty} \frac{\int \limits_{2}^{ty} \gamma(s) ds }{ty a(t)} - \frac{\int \limits_2^t \gamma(s)ds}{t a(t)} = \frac{\alpha}{\alpha + 1} (y^{1/\alpha} - 1)$.
 
 ##### Step 4: introduce intermediate function $\alpha(t)$, show that it is regularly varying
+
+Now thanks to the construct we introduced in the previous step of the proof, we are ready to introduce an intermediate
+function $\alpha(t)$, show that it is regularly varying and express tail quantile function $\gamma$ through it.
 
 Consider $\int \limits_{\delta}^{1} \frac{ \gamma(ty) - \gamma(t) }{ a(t) } \xrightarrow{t \to \infty} \int \limits_{\delta}^{1} (y^{1/\alpha} - 1) = \int \limits_{\delta}^{1} y^{1/\alpha} dy - (1 - \delta)$.
 
@@ -1235,13 +1243,13 @@ $\alpha(t) = \gamma(t) - \frac{ \int \limits_{2}^{t} \gamma(s)ds }{ t }$
 
 Divide each side of this expression by $t$ and take integral from $2$ to $y$:
 
-$\int \limits_2^y \alpha(s)ds = \int \limits_2^y \frac{\gamma(t)}{t} dt  - \int \limits_2^y 1/y^2 \int \limits_2^t V(s) ds dt$
+$\int \limits_2^y \alpha(s)ds = \int \limits_2^y \frac{\gamma(t)}{t} dt  - \int \limits_2^y 1/y^2 \int \limits_2^t \gamma(s) ds dt$
 
-Investigate the second term $\int \limits_2^y 1/y^2 \int \limits_2^t V(s) ds dt$. Invert the order of integration:
+Investigate the second term $\int \limits_2^y 1/y^2 \int \limits_2^t \gamma(s) ds dt$. Invert the order of integration:
 
 $\int \limits_2^y (\int \limits_s^y \frac{1}{t^2}dt) \gamma(s) ds  = \int \limits_2^y (\frac{1}{s} - \frac{1}{y}) \gamma(s) ds = \int \limits_2^y \frac{1}{s} \gamma(s) ds - \frac{1}{y} \int \limits_2^y \gamma(s) ds = \int \limits_2^y \frac{\gamma(s)}{s} ds + \alpha(s) - \gamma(y)$
 
-Substitute this back into the definition of $\alpha(t)$, we get:
+Substitute this back into the definition of $\alpha(t)$, and we get:
 
 $\gamma(y) = \alpha(y) + \int_2^y \frac{\alpha(t)}{t}dt$
 
@@ -1253,8 +1261,8 @@ Thus, $\lim \limits_{t \to \infty} \gamma(t) = \lim \limits_{t \to \infty} \alph
 
 ##### Step 6: $S(x)$ is regularly varying
 
-$\gamma = \frac{1}{S}^{\leftarrow}$. As $\gamma$ is regularly varying with index of variation $1/\alpha$, hence, 
-$\frac{1}{S}$ is regularly varying with index of variation $\alpha$.
+$\gamma = \frac{1}{S}^{\leftarrow}$. As $\gamma$ is regularly varying with index of variation $1/\alpha$, 
+its reciprocal $\frac{1}{S}$ is regularly varying with index of variation $\alpha$ by lemma 4.4.
 
 If $\frac{1}{S}$ is regularly varying with index of variation $\alpha$, then its inverse $S$ is regularly varying
 with index of variation $-\alpha$.
