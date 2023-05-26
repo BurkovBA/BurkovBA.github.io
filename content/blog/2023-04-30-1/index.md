@@ -428,8 +428,7 @@ up with this proof.
 However, later on in parts 3 and 4 we will give the definitions of tail quantile function and tools from Karamata's
 theory of slow/regular variation.
 
-If you revisit this proof afterwards, you will notice that we're making use of those tools in this proof, without naming
-them explicitly.
+If you revisit this proof afterwards, you will notice that we're making use of those tools, without naming them explicitly.
 
 ##### Step 1.
 
@@ -861,9 +860,9 @@ conditions for Type I.
 
 **Slow-varying function** $l(x)$ is such a function that $\lim \limits_{t \to \infty} \frac{l(xt)}{l(t)} = 1$ for any $x > 0$.
 
-#### Example 4.1: logarithm is a slow-varyring function
+#### Example 4.1: logarithm is a slow-varying function
 
-$\ln x$ is a slowly varying function because $\lim \limits_{t \to \infty} \frac{\ln (xt)}{\ln (1t)} = \frac{\ln x + \ln t}{\ln t} = \frac{\ln x}{\ln t} + 1 \to 1$
+$\ln x$ is a slowly varying function because $\lim \limits_{t \to \infty} \frac{\ln (xt)}{\ln (t)} = \frac{\ln x + \ln t}{\ln t} = \frac{\ln x}{\ln t} + 1 \to 1$
 
 #### Definition 4.2: Regularly-varying function
 
@@ -1114,6 +1113,20 @@ Denote $y = x^\rho$:
 
 $\frac{h^{\leftarrow}(sy)}{h^{\leftarrow}(s)} \to y^{1/\rho}$, which is the definition of regularly varying function with index of variation $1/\rho$ upon $s \to \infty$.
 
+#### Lemma 4.5: Regularly varying function with a positive index of variation is unbounded
+
+If $h$ is a regularly varying function with index of variation $\beta > 0$, $\lim \limits_{x \to \infty} h(x) = \infty$.
+
+#### Proof:
+
+Apply Karamata's characterization of $h(x)$:
+
+$h(x) = c(x) e^{\int \limits_1^x \frac{\beta(t)}{t} dt}$, where $c(x) \to c$ and $\beta(t) \to \beta$.
+
+Consider the ratio $\frac{h(x)}{\ln x} = \frac{\ln c(x) + \int \limits_1^x \frac{\beta(t)}{t} dt}{\int \limits_1^x \frac{1}{t} dt} \xrightarrow{x \to \infty} \beta$.
+
+Hence, $h(x) \xrightarrow{x \to \infty} \infty$.
+
 ### Necessary and sufficient conditions of convergence to Types II or III EVD
 
 #### Theorem 4.1: necessary and sufficient conditions for a distribution to belong to a type II (Frechet) EVD
@@ -1131,24 +1144,122 @@ $F_{M_n}(tx) = p(M_n \le tx) = F_\xi(tx)^n = p(\xi_i \le tx)^n = (1 - p(\xi_i \g
 
 ##### Step 1: re-formulate the problem in terms of tail quantile function $\gamma$
 
-TODO: as in the Theorem 4.2
+$F^n(a_n x + b_n) \xrightarrow{n \to \infty} e^{-x^{-\alpha}}$.
 
-##### Step 2: $a(t)$ is regularly varying
+$(1 - \frac{n S(a_n x + b_n)}{b})^n \approx e^{-nS} \to e^{-x^{-\alpha}}$
 
-TODO: as in the Theorem 4.2
+$nS(a_n x + b_n) \to x^{-\alpha}$
 
-##### Step 3: $\gamma(t) \sim a(t)$
+$\frac{1}{S(a_n x + b_n)} \to n x^\alpha$
 
-TODO
+$a_n x + b_n \to \gamma(n x^\alpha)$
 
-##### Step 4: $S(x)$ is regularly varying
+Transition from discrete $n$ to continuous $t$.
 
-TODO: $\gamma = \frac{1}{S}^{\leftarrow}$. As $\gamma$ is regularly varying with index of variation $\beta$, hence, 
-$\frac{1}{S}$ is regularly varying with index of variation $\frac{1}{\beta}$.
+$a(t)x + b(t) \to \gamma(tx^\alpha)$
 
-TODO: If $\frac{1}{S}$ is regularly varying with index of variation $\frac{1}{\beta}$, then $S$ is regularly varying
-with index of variation $\beta$.
+Replace $x$ with $y = x^\alpha$: 
 
+$\frac{ \gamma(ty) - b(t) }{a(t)} \to y^{1/\alpha}$
+
+Substitute $y=1$ into this, yielding $\frac{\gamma(t) - b(t)}{a(t)} \to 1$.
+
+Subtract this from the previous expression, resulting in:
+
+$\frac{ \gamma(ty) - b(t) }{a(t)} - \frac{\gamma(t) - b(t)}{a(t)} = \frac{\gamma(ty) - \gamma(t)}{a(t)} \to y^{1/\alpha} - 1$
+
+##### Step 2: $a(t)$ is a regularly varying function
+
+Substitute $t = tx$ and $x = \frac{1}{x}$ into $\frac{ \gamma(ty) - \gamma(t) }{a(t)}$, yielding: $\frac{ \gamma(tx \cdot 1/x) - \gamma(tx) }{a(tx)} \xrightarrow{tx \to \infty} x^{-1/\alpha} - 1$.
+
+Now we can use this construct to show that $a(t)$ is regularly varying:
+
+Consider the ratio $\lim \limits_{t \to \infty} \frac{a(tx)}{a(t)} = \lim \limits_{t \to \infty} (\frac{ \gamma(tx) - \gamma(t) }{ a(t) }) / (-( \frac{ \gamma(tx \cdot 1/x) - \gamma(tx) }{ a(tx) })) =$
+
+$ = (x^{1/\alpha} - 1) / (-(x^{-1/\alpha} - 1)) = x^{1/\alpha}$.
+
+##### Step 3: convergence of difference of integrals
+
+Now we're going to introduce another tool that we'll use in this next step of this proof.
+
+We aim to prove the following fact about a difference of integrals: $\lim \limits_{t \to \infty} \frac{\int \limits_{2}^{ty} \gamma(s) ds }{ty a(t)} - \frac{\int \limits_2^t \gamma(s)ds}{t a(t)} = \frac{\alpha}{\alpha + 1} (y^{1/\alpha} - 1)$.
+
+First, notice that $\gamma(tx) - \gamma(t)$ as a function of $t$ is regularly varying with index of variation $1/\alpha$. 
+Indeed, $a(t)$ is regularly varying with index $1/\alpha$ and if we consider ratio 
+$\frac{\gamma(txy) - \gamma(ty)}{\alpha(ty)} / \frac{\gamma(tx) - \gamma(t)}{\alpha(t)}$, where both numerator and
+denominator tend to $x^{1/\alpha} - 1$ as $t \to \infty$ (because $ty \to \infty$ as well for any fixed y). As $\alpha(ty) / \alpha(t) \xrightarrow{t \to \infty} y^{1/\alpha}$,
+$\frac{\gamma(txy) - \gamma(ty)}{\gamma(tx) - \gamma(t)} \to \frac{\alpha(ty)}{\alpha(t)} \to y^{1/\alpha}$.
+
+Apply ratio part of Karamata's to the following: $\lim \limits_{t \to \infty} \frac{t (\gamma(tx) - \gamma(t))}{\int \limits_{2}^{t} (\gamma(sx) - \gamma(s)) ds} = 1/\alpha + 1 = \frac{\alpha + 1}{\alpha}$. 
+
+Invert this ratio to get: $\lim \limits_{t \to \infty} \frac {\int \limits_{2}^{t} (\gamma(sx) - \gamma(s)) ds} {t (\gamma(tx) - \gamma(t))} = \frac{\alpha}{\alpha + 1}$.
+
+In the numerator let's take a closer look at the first term $\int \limits_{s=2}^{t} \gamma(sx) ds = \frac{1}{x} \int \limits_{sx=2x}^{tx} \gamma(sx) d(sx)$. Denoting $u = sx$, we get $\frac{1}{x} \int \limits_{u=2x}^{tx} \gamma(u) du$.
+
+We can prolong this integral's left limit from $2x$ to $2$ because we know that $\frac{ \int \limits_2^{2x} \gamma(u) du }{ t (\gamma(tx) - \gamma(t)) } \xrightarrow{t \to \infty} 0$ because we know that denominator of this ratio $t (\gamma(ty) - \gamma(t)) \xrightarrow{t \to \infty} \infty$ because $(\gamma(ty) - \gamma(t))$ is a 
+regularly varying function with a positive index of variation, hence, $(\gamma(ty) - \gamma(t)) \xrightarrow{t \to \infty} \infty$ by lemma 4.5.
+
+Thus, our ratio of interest now is $\lim \limits_{t \to \infty} \frac{ \frac{1}{y} \int \limits_{2}^{ty} \gamma(s) ds - \int \limits_{2}^{t} \gamma(s) ds }{ t (\gamma(ty) - \gamma(t)) } = \lim \limits_{t \to \infty} \frac{ \frac{1}{y} \int \limits_{2}^{ty} \gamma(s) ds - \int \limits_{2}^{t} \gamma(s) ds }{ t a(t) \frac{(\gamma(ty) - \gamma(t))}{a(t)} }$. 
+
+Recalling that $\frac{(\gamma(ty) - \gamma(t))}{a(t)} \to (y^{1/\alpha} - 1)$, we get $\lim \limits_{t \to \infty} \frac{\int \limits_{2}^{ty} \gamma(s) ds }{ty a(t)} - \frac{\int \limits_2^t \gamma(s)ds}{t a(t)} = \frac{\alpha}{\alpha + 1} (y^{1/\alpha} - 1)$.
+
+##### Step 4: introduce intermediate function $\alpha(t)$, show that it is regularly varying
+
+Consider $\int \limits_{\delta}^{1} \frac{ \gamma(ty) - \gamma(t) }{ a(t) } \xrightarrow{t \to \infty} \int \limits_{\delta}^{1} (y^{1/\alpha} - 1) = \int \limits_{\delta}^{1} y^{1/\alpha} dy - (1 - \delta)$.
+
+$\frac{ (1 - \delta) \gamma(t) - \frac{ \int \limits_{\delta t}^t \gamma(s)ds }{t} } { a(t) } \to \frac{1}{1 + \alpha} + O(\delta)$, where $O(\delta) = -\delta + \frac{ \alpha }{ \alpha + 1 } \delta^{\frac{\alpha + 1}{ \alpha }}$
+
+$\frac{ 1 } { a(t) } \cdot (\gamma(t) - \frac{\int \limits_2^t \gamma(s)ds}{t} - \delta (\gamma(t) - \frac{1}{\delta t} \int \limits_2^{\delta t} \gamma(s) ds) )$
+
+Add and subtract $\frac{1}{a(t)} \delta \frac{\int \limits_2^t \gamma(s) ds}{t}$:
+
+$\frac{ 1 } { a(t) } \cdot ( \gamma(t) - \frac{ \int \limits_2^t \gamma(s) ds }{ t } - \delta (\gamma(t) - \frac{ \int \limits_2^t \gamma(s) ds }{t} + \frac{ \int \limits_2^t \gamma(s) ds }{t} - \frac{ \int \limits_2^{\delta t} \gamma(s) ds }{\delta t} ) ) = $
+
+$ = \frac{ 1 } { a(t) } \cdot ( (1-\delta) (\gamma(t) - \frac{ \int \limits_2^t \gamma(s) ds }{t}) - \delta (\frac{1}{t} \int \limits_2^t \gamma(s)ds - \frac{1}{\delta t} \int \limits_2^{\delta t} \gamma(s) ds ) ) \to \frac{1}{\alpha + 1} + O(\delta)$.
+
+Consider the second term: $\frac{1}{a(t)} (\frac{1}{t} \int \limits_2^t \gamma(s)ds - \frac{1}{\delta t} \int \limits_2^{\delta t} \gamma(s) ds )$. 
+
+In the previous step of the proof we've shown that it converges to $\frac{\alpha}{1 + \alpha} (\delta^{1 / \alpha} - 1)$.
+
+Hence, $\frac{1}{a(t)} (1-\delta) (\gamma(t) - \frac{ \int \limits_2^t \gamma(s)ds }{t} ) - \frac{\alpha}{1 + \alpha} (\delta^{1 / \alpha} - 1) \to \frac{1}{1 + \alpha} + O(\delta)$
+
+And $\frac{1}{a(t)} (\gamma(t) - \frac{ \int \limits_2^t \gamma(s)ds }{t} ) \xrightarrow{t \to \infty} \frac{ (1 / (1 + \alpha)) + O(\delta) + \delta \frac{\alpha}{ (1 + \alpha) } (1 - \delta^{1/\alpha}) }{ (1-\delta) } = \frac{ (1 / (1 + \alpha)) - \delta + \alpha \delta^{\frac{\alpha + 1}{\alpha} } \frac{1}{\alpha + 1} + \delta \alpha (1 / (\alpha + 1)) (1 - \delta^{1/\alpha}) }{1 - \delta} = \frac{1}{1 + \alpha}$
+
+Finally, introduce an intermediate function $\alpha(t) = \gamma(t) - \frac{ \int \limits_2^t \gamma(s)ds }{t}$, and from
+the previous expression we now know that $\alpha(t) \sim \frac{a(t)}{1 + \alpha}$, thus, being a regularly varying function
+with index of variation $\frac{1}{\alpha}$.
+
+##### Step 5: use $\alpha(t)$ to show that $\gamma(t) \sim a(t)$
+
+$\alpha(t) = \gamma(t) - \frac{ \int \limits_{2}^{t} \gamma(s)ds }{ t }$
+
+Divide each side of this expression by $t$ and take integral from $2$ to $y$:
+
+$\int \limits_2^y \alpha(s)ds = \int \limits_2^y \frac{\gamma(t)}{t} dt  - \int \limits_2^y 1/y^2 \int \limits_2^t V(s) ds dt$
+
+Investigate the second term $\int \limits_2^y 1/y^2 \int \limits_2^t V(s) ds dt$. Invert the order of integration:
+
+$\int \limits_2^y (\int \limits_s^y \frac{1}{t^2}dt) \gamma(s) ds  = \int \limits_2^y (\frac{1}{s} - \frac{1}{y}) \gamma(s) ds = \int \limits_2^y \frac{1}{s} \gamma(s) ds - \frac{1}{y} \int \limits_2^y \gamma(s) ds = \int \limits_2^y \frac{\gamma(s)}{s} ds + \alpha(s) - \gamma(y)$
+
+Substitute this back into the definition of $\alpha(t)$, we get:
+
+$\gamma(y) = \alpha(y) + \int_2^y \frac{\alpha(t)}{t}dt$
+
+Hence, $\frac{\gamma(y)}{\alpha(y)} = 1 + \frac{\int_2^y \frac{\alpha(t)}{t}dt }{\alpha(y)}$, and in the right-hand side we get the inverse of ratio statement of Karamata's theorem. Applying it, we get:
+
+$1 + \int \limits_0^1 t^{1/\alpha -1} dt = 1 + \frac{1}{1/\alpha} = 1 + \alpha$.
+
+Thus, $\lim \limits_{t \to \infty} \gamma(t) = \lim \limits_{t \to \infty} \alpha(t) (1 + \alpha) = \lim \limits_{t \to \infty} \frac{1 + \alpha}{1 + \alpha} a(t) = \lim \limits_{t \to \infty} a(t)$
+
+##### Step 6: $S(x)$ is regularly varying
+
+$\gamma = \frac{1}{S}^{\leftarrow}$. As $\gamma$ is regularly varying with index of variation $1/\alpha$, hence, 
+$\frac{1}{S}$ is regularly varying with index of variation $\alpha$.
+
+If $\frac{1}{S}$ is regularly varying with index of variation $\alpha$, then its inverse $S$ is regularly varying
+with index of variation $-\alpha$.
+
+So, $\frac{S(tx)}{S(t)} \xrightarrow{t \to \infty} x^{-\alpha}$, which is the result we aimed to prove.
 
 #### Theorem 4.2. Necessary and sufficient conditions of convergence to Type III (Inverse Weibull) EVD
 
@@ -1178,7 +1289,7 @@ $(1 - S(x_F - t) \cdot x^{-\beta})^n = (1 - \frac{1}{n} \cdot x^{-\beta}) = e^{-
 
 Given $F^n(a_n x + b_n) = e^{-x^{-\beta}}$, we need to show that $\frac{S(x_F - tx)}{S(x_F - t)} \xrightarrow{t \to 0} x^{-\beta}$.
 
-##### Step 1: re-formulate the problem in terms of tail quantile function $\gamma$ instead of cdf $F$ language
+##### Step 1: re-formulate the problem in terms of tail quantile function $\gamma$
 
 $F^n(a_n x + b_n) \to e^{-x^{-\beta}}$
 
@@ -1276,7 +1387,7 @@ function and its inverse.
 Turns out that if the survival function is Г-varying, its reverse function $S^{\leftarrow}$ is П-varying, which lets
 us establish that conditions are not only sufficient, but necessary as well.
 
-#### Lemma 4.5: If a function is Г-varying, its reciprocal is П-varying and vice versa
+#### Lemma 4.6: If a function is Г-varying, its reciprocal is П-varying and vice versa
 
 **Direct statement**
 
@@ -1313,7 +1424,7 @@ $\frac{ U^{\leftarrow}(ty) - U^{\leftarrow}(t) }{ f( U^{\leftarrow}(t) ) } \to \
 
 TODO: analogous
 
-#### Lemma 4.6: Connection between Type I EVD, Г-variation and П-variation
+#### Lemma 4.7: Connection between Type I EVD, Г-variation and П-variation
 
 The following statements are equivalent:
 
@@ -1377,7 +1488,7 @@ set to inverse hazard rate $g(t) = \frac{1}{r(t)} = \frac{S(t)}{f(t)}$.
 
 #### Proof
 
-Result immediately follows from Lemma 4.5.
+Result immediately follows from Lemma 4.7.
 
 Remember that we've shown that survival function being a von Mises function is sufficient for its maximum converge to
 Gumbel Type I EVD.
@@ -1404,7 +1515,7 @@ This proof is very technical (5 pages of boring and uninstructive math, you'll n
 full, as these details are basically useless. However, I shall provide the outline of proof structure, as in [Resnick](https://minerva.it.manchester.ac.uk/~saralees/book3.pdf)
 book.
 
-By Lemma 4.5 if our cumulative distribution function $F \in \mathcal{D}(Gumbel)$, we know that $(\frac{1}{S(x)})^{\leftarrow} = V$, where $V$ is П-varying.
+By Lemma 4.7 if our cumulative distribution function $F \in \mathcal{D}(Gumbel)$, we know that $(\frac{1}{S(x)})^{\leftarrow} = V$, where $V$ is П-varying.
 
 Consider $V^{\leftarrow}$. It is possible to show that there exist such functions $V^{\leftarrow}_1$ and $V^{\leftarrow}_2$ that $\lim \limits_{s \to \infty} \frac{ V^{\leftarrow}(s) }{ V_1^{\leftarrow}(s) } = e$ and $\lim \limits_{s \to \infty} \frac{ V_1^{\leftarrow}(s) }{ V_2^{\leftarrow}(s) } = e$.
 
