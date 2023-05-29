@@ -1127,6 +1127,17 @@ Consider the ratio $\frac{h(x)}{\ln x} = \frac{\ln c(x) + \int \limits_1^x \frac
 
 Hence, $h(x) \xrightarrow{x \to \infty} \infty$.
 
+#### Lemma 4.6: Uniform convergence of regularly varying function
+
+Given a regularly varying function $h$ with index of variation $\beta$, there exists $t_0$ such that for arbitrarily 
+small $\epsilon > 0$, $x \ge 1$ and $t \ge t_0$:
+
+$(1 - \epsilon) x^{\rho - \epsilon} < \frac{h(tx)}{h(t)} < (1 + \epsilon) x^{\rho + \epsilon}$.
+
+#### Proof:
+
+TODO
+
 ### Necessary and sufficient conditions of convergence to Types II or III EVD
 
 #### Theorem 4.1: necessary and sufficient conditions for a distribution to belong to a type II (Frechet) EVD
@@ -1297,19 +1308,25 @@ $(1 - S(x_F - t) \cdot x^{-\beta})^n = (1 - \frac{1}{n} \cdot x^{-\beta}) = e^{-
 
 Given $F^n(a_n x + b_n) = e^{-x^{-\beta}}$, we need to show that $\frac{S(x_F - tx)}{S(x_F - t)} \xrightarrow{t \to 0} x^{-\beta}$.
 
+Again, this proof is extremely ugly and technical. Again, I copy-pasted it from the 
+[Resnick textbook](https://minerva.it.manchester.ac.uk/~saralees/book3.pdf), altering/simplifying/unifying the notation,
+and added my comments and clarifications everywhere.
+
 ##### Step 1: re-formulate the problem in terms of tail quantile function $\gamma$
 
 $F^n(a_n x + b_n) \to e^{-x^{-\beta}}$
 
-$(1 - \frac{nS(a_n x + b_n)}{n})^n \approx e^{-nS} \to e^{-(-x)^\beta}$
+$(1 - S(a_n x + b_n))^n = (1 - \frac{nS(a_n x + b_n)}{n})^n \approx e^{-nS(a_n x + b_n)} \to e^{-(-x)^\beta}$
 
 $nS(a_n x + b_n) \to (-x)^\beta$
 
 $\frac{1}{n S(a_n x + b_n)} \to (-x)^{-\beta}$
 
+$\frac{1}{S(a_n x + b_n)} \to n (-x)^{-\beta}$
+
 Recall that the tail quantile function is the reciprocal of inverse of the survival function: $\gamma = \frac{1}{S}^{\leftarrow}$.
 
-Set $y = (-x)^{-\beta}$, apply $\gamma$ to the previous expression, yielding: 
+Set $y = (-x)^{-\beta}$, so that $x = - y^{-1/\beta}$, and apply $\gamma$ to the previous expression, yielding: 
 
 $a_n (-y^{-1/\beta}) + b_n \to \gamma(n y)$
 
@@ -1332,15 +1349,69 @@ Thus, $a(t)$ is a regularly varying function with index of variation $-\frac{1}{
 
 ##### Step 3: show that $x_F < \infty$ i.e. $\gamma(\infty) < \infty$
 
-When does inverse of survival function attain its limit? 
+When does inverse of survival function has a finite upper end point? It happens if $\gamma(\infty) < \infty$. This is
+synonymous to saying that $\gamma(\infty) - \gamma(t_0) \le \infty$ (as $\gamma(t_0)$ is finite when $t_0$ is finite,
+and we can subtract a finite quantity from each side of inequality). We can also divide this inequality by a finite 
+positive $a(t_0)$, and we get $\frac{\gamma(\infty) - \gamma(t_0)}{a(t_0)} \le \infty$.
 
-TODO
+We can transform the previous expression to $\frac{\gamma(k t_0) - \gamma(t_0)}{a(t_0)} \le \infty$ as $k \to \infty$,
+and we need to show that this quantity is always bounded, even when $k \to \infty$.
+
+We obtained a form, similar to $\frac{\gamma(yt) - \gamma(t)}{a(t)} \xrightarrow{t \to \infty} 1 - y^{-1/\beta}$ from 
+Step 1 of this proof. But this time we need to swap the roles of variables: we make $t = t_0$ arbitrarily large, but not 
+infinite, and make $y = k \to \infty$.
+
+Let us assign $t = 2^n$ and $y = 2$:
+
+$\frac{\gamma(2 \cdot 2^n) - \gamma(2^n)}{a(2^n)} \xrightarrow{2^n \to \infty} 1 - 2^{-1/\alpha}$, which means that
+
+$\frac{\gamma(2 \cdot 2^n) - \gamma(2^n)}{a(2^n)} - (1 - 2^{-1/\alpha}) \le \epsilon$ for arbitrarily small $\epsilon$ upon large enough $2^n$.
+
+If we set $\epsilon = (1 - 2^{-1/\epsilon})$, we get an estimate: $\frac{\gamma(2 \cdot 2^n) - \gamma(2^n)}{a(2^n)} - (1 - 2^{-1/\alpha}) \le 2 (1 - 2^{-1/\alpha})$
+
+Apply lemma 4.6 to regularly varying function $a(t)$ to get an upper bound, $\frac{a(2^{n+1})}{a(2^n)} \le 2^{-1/\alpha + \delta}$.
+
+Now we can come up with an upper bound for $\frac{\gamma(2^n \cdot 2^k) - \gamma(2^n)}{a(2^n)}$:
+
+$\frac{\gamma(2^n \cdot 2^k) - \gamma(2^n)}{a(2^n)} = \sum \limits_{j=1}^k \frac{ \gamma(2^{n_0 + j}) - \gamma(2^{n_0 + j - 1}) }{a(2^{n + j -1})} \prod \limits_{i=n}^{n-j-2} \frac{a(2^{n+j-1})}{a(2^n)} \le 2 (1 - 2^{-1/\alpha}) \sum \limits_{j=1}^k (2^{-(1/\alpha - \delta)})^{j-1}$,
+
+which proves that $\lim_{k \to \infty} \frac{\gamma(2^n \cdot 2^k) - \gamma(2^n)}{a(2^n)} < \infty$.
 
 ##### Step 4: $\gamma(\infty) - \gamma(t) \sim a(t)$ is a regularly varying function
 
-TODO
+TODO: bound $\frac{ \gamma(ty) - \gamma(t) }{ a(t) } \le c (1 - 2^{-(1/\alpha - \epsilon)} y^{-(1/\alpha - \epsilon)})$
 
-##### Step 5: $S(x_F - t)$ is a regularly varying function
+$ \sum \limits_{j=1}^{n} (1 + \epsilon) \frac{t e^{j-1}}{a(t)} = \sum \limits_{j=1}^{n} (1 + \epsilon) \prod \limits_{i=1}^{j-1} \frac{a(t e_i)}{a(te^{i-1})} \le (1 + \epsilon) \sum \limits_{j=1}^{n} \prod \limits_{i=1}^{j-1} (1 + \epsilon) \le (1 + \epsilon) \prod \limits_{j=1}^n (1 + \epsilon)^{j-1} \le C (1 + \epsilon)^n$ for $C > 0$.
+
+TODO: introduce $\bar{\gamma}(t) = \gamma(\infty) - \gamma(t)$.
+
+TODO: Divide by $y^2$ and integrate: $\int \limits_1^\infty \frac{1}{y^2} \frac{\bar{\gamma}(ty) - \bar{\gamma}(t)}{a(t)} dy \to \int \limits_1^\infty (y^{-1/\alpha-2} - \frac{1}{y^2})dy = -\frac{1}{1 + \alpha}$
+
+TODO: $\bar{\gamma}(t) - t \int \limits_1^\infty \frac{ \bar{\gamma}(s)ds }{s^2}ds$
+
+##### Step 5: introduce intermediate function $\alpha(t)$, show that it is regularly varying
+
+TODO: introduce an intermediate function $\alpha(t) = \bar{\gamma(t)} - t \int \limits_t^\infty \frac{\bar{\gamma(s)ds}}{s^2}$
+
+It is regularly varying with index of variation $-1/\alpha$ as $\alpha(t) \sim \frac{a(t)}{1 + \alpha}$ as $t \to \infty$.
+
+Dividing $\alpha(t)$ by $t$ and integrating, we get:
+
+$\int \limits_{t=y}^\infty \frac{\alpha(t)}{t}dt = \int \limits_y^\infty \frac{\bar{\gamma}(t)}{t} dt - \int \limits_{t=y}^\infty \int \limits_{s=y}^\infty \frac{\bar{\gamma}(s)}{s^2}ds dt$
+
+Change the order of integration in the second term by Fubini's theorem, so that:
+
+TODO: $\int \limits_{t=y}^\infty \int \limits_{s=y}^\infty \frac{\bar{\gamma}(s)}{s^2}ds dt = - \int \limits_{s=y}^\infty \frac{ \bar{\gamma(s)ds} }{s} - y \int \limits_{s=y}^\infty \frac{\bar{\gamma}(s)ds}{s^2}ds$
+
+TODO: First term cancels with tbe first term of the second term;
+
+Applying the definition of $\alpha(t)$, we get: $\bar{\gamma}(y) - \alpha(y) = y \int \limits_{s=y}^\infty \frac{\bar{\gamma}(s)ds}{s^2}ds = \int \limits_{s=y}^\infty \frac{\alpha(s)}{s}ds$
+
+TODO: $\frac{\bar{\gamma}(y)}{\alpha(s)} = 1 + \int \limits_1^\infty \frac{\alpha(ys)}{\alpha(y)s} ds \to 1 + \alpha$.
+
+Hence, $\bar{\gamma}(y) \sim (1 + \alpha)\alpha(y) \sim \frac{ (1 + \alpha) }{ 1 + \alpha } a(y) = a(y)$ as $y \to \infty$
+
+##### Step 6: $S(x_F - t)$ is a regularly varying function
 
 TODO: basically apply lemma 4.4 on inversion of a regularly varying function
 
@@ -1395,7 +1466,7 @@ function and its inverse.
 Turns out that if the survival function is Г-varying, its reverse function $S^{\leftarrow}$ is П-varying, which lets
 us establish that conditions are not only sufficient, but necessary as well.
 
-#### Lemma 4.6: If a function is Г-varying, its reciprocal is П-varying and vice versa
+#### Lemma 4.7: If a function is Г-varying, its reciprocal is П-varying and vice versa
 
 **Direct statement**
 
@@ -1432,7 +1503,7 @@ $\frac{ U^{\leftarrow}(ty) - U^{\leftarrow}(t) }{ f( U^{\leftarrow}(t) ) } \to \
 
 TODO: analogous
 
-#### Lemma 4.7: Connection between Type I EVD, Г-variation and П-variation
+#### Lemma 4.8: Connection between Type I EVD, Г-variation and П-variation
 
 The following statements are equivalent:
 
@@ -1496,7 +1567,7 @@ set to inverse hazard rate $g(t) = \frac{1}{r(t)} = \frac{S(t)}{f(t)}$.
 
 #### Proof
 
-Result immediately follows from Lemma 4.7.
+Result immediately follows from Lemma 4.8.
 
 Remember that we've shown that survival function being a von Mises function is sufficient for its maximum converge to
 Gumbel Type I EVD.
@@ -1523,7 +1594,7 @@ This proof is very technical (5 pages of boring and uninstructive math, you'll n
 full, as these details are basically useless. However, I shall provide the outline of proof structure, as in [Resnick](https://minerva.it.manchester.ac.uk/~saralees/book3.pdf)
 book.
 
-By Lemma 4.7 if our cumulative distribution function $F \in \mathcal{D}(Gumbel)$, we know that $(\frac{1}{S(x)})^{\leftarrow} = V$, where $V$ is П-varying.
+By Lemma 4.8 if our cumulative distribution function $F \in \mathcal{D}(Gumbel)$, we know that $(\frac{1}{S(x)})^{\leftarrow} = V$, where $V$ is П-varying.
 
 Consider $V^{\leftarrow}$. It is possible to show that there exist such functions $V^{\leftarrow}_1$ and $V^{\leftarrow}_2$ that $\lim \limits_{s \to \infty} \frac{ V^{\leftarrow}(s) }{ V_1^{\leftarrow}(s) } = e$ and $\lim \limits_{s \to \infty} \frac{ V_1^{\leftarrow}(s) }{ V_2^{\leftarrow}(s) } = e$.
 
