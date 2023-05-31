@@ -1132,11 +1132,17 @@ Hence, $h(x) \xrightarrow{x \to \infty} \infty$.
 Given a regularly varying function $h$ with index of variation $\beta$, there exists $t_0$ such that for arbitrarily 
 small $\epsilon > 0$, $x \ge 1$ and $t \ge t_0$:
 
-$(1 - \epsilon) x^{\rho - \epsilon} < \frac{h(tx)}{h(t)} < (1 + \epsilon) x^{\rho + \epsilon}$.
+$(1 - \epsilon) x^{\beta - \epsilon} < \frac{h(tx)}{h(t)} < (1 + \epsilon) x^{\beta + \epsilon} $.
 
 #### Proof:
 
 TODO
+
+From Karamata's representation: $\frac{h(tx)}{h(t)} = \frac{c(tx)}{c(t)} exp(\int \limits_1^x \frac{\beta(ts)}{s} ds) \xrightarrow{t \to \infty} e^{\beta \ln x} = x^{\beta}$.
+
+Pick $t$ large enough, so that $\beta - \epsilon < \beta(ts) < \beta + \epsilon$ and $\frac{c(tx)}{c(t)} < \epsilon$.
+
+Then $| \frac{h(tx)}{h(t)} - x^\beta | < x^{\epsilon}$
 
 ### Necessary and sufficient conditions of convergence to Types II or III EVD
 
@@ -1147,7 +1153,7 @@ $x_F = \infty$ and $\lim \limits_{t \to \infty} \frac{S(tx)}{S(t)} = x^{-\alpha}
 
 #### Proof of direct statement:
 
-TODO: improve this
+Choose $t \to \infty$ such that $S(t) = \frac{1}{n}$. The proof immediately follows from the definition of regularly varying function:
 
 $F_{M_n}(tx) = p(M_n \le tx) = F_\xi(tx)^n = p(\xi_i \le tx)^n = (1 - p(\xi_i \ge tx))^n = (1 - S(tx))^n \to (1 - x^{-\alpha} S(t))^n = (1 - x^{-\alpha} \cdot \frac{1}{n})^n = e^{-{x^{-\alpha}}}$
 
@@ -1422,15 +1428,15 @@ $\int \limits_{t=y}^\infty \int \limits_{s=t}^\infty \frac{\bar{\gamma}(s)}{s^2}
 
 ![Fubini change of order of integration](Fubini.png)<center>**Change of order of integration and integral limits by Fubini's theorem.**</center>
 
-Hence, $\int \limits_{s=y}^\infty \int \limits_{t=y}^s \frac{\bar{\gamma}(s)}{s^2} dt ds = \int \limits_{s=y}^\infty (t \frac{\bar{\gamma}(s)}{s^2}|_{t=y}^{t=s}) ds = \int \limits_{s=y}^\infty \frac{s \bar{\gamma}(s)}{s^2}ds - y \int \limits_{s=y}^\infty \frac{\bar{\gamma}(s)}{s^2}ds = \int \limits_{t=y}^\infty \int \limits_{s=t}^\infty \frac{\bar{\gamma}(s)}{s^2}ds dt = \int \limits_{s=y}^\infty \frac{ \bar{\gamma}(s) }{s}ds - y \int \limits_{s=y}^\infty \frac{\bar{\gamma}(s)}{s^2}ds$
+Hence, $\int \limits_{s=y}^\infty \int \limits_{t=y}^s \frac{\bar{\gamma}(s)}{s^2} dt ds = \int \limits_{s=y}^\infty (t \frac{\bar{\gamma}(s)}{s^2}|_{t=y}^{t=s}) ds = \int \limits_{s=y}^\infty \frac{s \bar{\gamma}(s)}{s^2}ds - y \int \limits_{s=y}^\infty \frac{\bar{\gamma}(s)}{s^2}ds = \int \limits_{s=y}^\infty \frac{ \bar{\gamma}(s) }{s}ds - y \int \limits_{s=y}^\infty \frac{\bar{\gamma}(s)}{s^2}ds$.
 
-This produces: $\int \limits_{t=y}^\infty \frac{\alpha(t)}{t} dt = \cancel{\int \limits_y^\infty \frac{\bar{\gamma}(t)}{t} dt} - \cancel{\int \limits_{s=y}^\infty \frac{ \bar{\gamma}(s) }{s}ds} + y \int \limits_{s=y}^\infty \frac{\bar{\gamma}(s)}{s^2}ds$
+Substituting this representation of the second term back, we get: $\int \limits_{t=y}^\infty \frac{\alpha(t)}{t} dt = \cancel{\int \limits_y^\infty \frac{\bar{\gamma}(t)}{t} dt} - \cancel{\int \limits_{s=y}^\infty \frac{ \bar{\gamma}(s) }{s}ds} + y \int \limits_{s=y}^\infty \frac{\bar{\gamma}(s)}{s^2}ds$.
 
-Applying the definition of $\alpha(t)$, we get: $\bar{\gamma}(y) - \alpha(y) = y \int \limits_{s=y}^\infty \frac{\bar{\gamma}(s)}{s^2}ds = \int \limits_{s=y}^\infty \frac{\alpha(s)}{s}ds$
+Applying the definition of $\alpha(t)$, we get: $\bar{\gamma}(y) - \alpha(y) = y \int \limits_{s=y}^\infty \frac{\bar{\gamma}(s)}{s^2}ds = \int \limits_{s=y}^\infty \frac{\alpha(s)}{s}ds$.
 
 $\frac{\bar{\gamma}(y)}{\alpha(y)} = 1 + \int \limits_1^\infty \frac{\alpha(ys)}{\alpha(y)s} ds \xrightarrow{y \to \infty} 1 + \int \limits_1^{\infty} \frac{s^{-1/\beta}}{s} ds = 1 + \frac{1}{-1/\beta} \int \limits_1^{\infty} d s^{-1/\beta} = 1 + \frac{1}{-1/\beta} (\frac{1}{\infty^{1/\beta}} - \frac{1}{1^{1/\beta}}) = 1 + \beta$.
 
-Hence, $\bar{\gamma}(y) \sim (1 + \beta)\alpha(y) \sim \frac{ (1 + \beta) }{ 1 + \beta } a(y) = a(y)$ as $y \to \infty$
+Hence, $\bar{\gamma}(y) \sim (1 + \beta)\alpha(y) \sim \frac{ (1 + \beta) }{ 1 + \beta } a(y) = a(y)$ as $y \to \infty$.
 
 As we've shown above $a(y)$ is a regularly varying function, thus, $\bar{\gamma}(y) = \gamma(\infty) - \gamma(y)$ is, too.
 
@@ -1879,9 +1885,9 @@ Still extreme theorem might hold for these generalized cases.
 
 This text is mostly based on the contents of textbooks by these three titans:
 
-Sidney I. Resnick                           |  Laurence de Haan                    |    Malcolm Ross Leadbetter
+Sidney I. Resnick                           |  Laurens de Haan                    |    Malcolm Ross Leadbetter
 :------------------------------------------:|:------------------------------------:|:----------------------------------:
-![Resnick](Resnick.png)                     |  ![Laurence de Haan](de_Haan.png)    |    ![Leadbetter](Leadbetter.jpeg)
+![Resnick](Resnick.png)                     |  ![Laurens de Haan](de_Haan.png)    |    ![Leadbetter](Leadbetter.jpeg)
 
 * https://minerva.it.manchester.ac.uk/~saralees/book3.pdf - "Extreme Values, Regular Variation and Point Processes" by Sidney Resnick, good text on auxiliary functions
 * https://www.researchgate.net/publication/336072342_Extreme_Value_Theory/link/5d8cf0c1a6fdcc25549e672a/download - great explanation of what's what in EVT, good goal setting
