@@ -1363,57 +1363,83 @@ infinite, and make $y = k \to \infty$.
 
 Let us assign $t = 2^n$ and $y = 2$:
 
-$\frac{\gamma(2 \cdot 2^n) - \gamma(2^n)}{a(2^n)} \xrightarrow{2^n \to \infty} 1 - 2^{-1/\alpha}$, which means that
+$\frac{\gamma(2 \cdot 2^n) - \gamma(2^n)}{a(2^n)} \xrightarrow{2^n \to \infty} 1 - 2^{-1/\beta}$, which means that
 
-$\frac{\gamma(2 \cdot 2^n) - \gamma(2^n)}{a(2^n)} - (1 - 2^{-1/\alpha}) \le \epsilon$ for arbitrarily small $\epsilon$ upon large enough $2^n$.
+$\frac{\gamma(2 \cdot 2^n) - \gamma(2^n)}{a(2^n)} - (1 - 2^{-1/\beta}) \le \epsilon$ for arbitrarily small $\epsilon$ upon large enough $2^n$.
 
-If we set $\epsilon = (1 - 2^{-1/\epsilon})$, we get an estimate: $\frac{\gamma(2 \cdot 2^n) - \gamma(2^n)}{a(2^n)} - (1 - 2^{-1/\alpha}) \le 2 (1 - 2^{-1/\alpha})$
+If we set $\epsilon = (1 - 2^{-1/\epsilon})$, we get an estimate: $\frac{\gamma(2 \cdot 2^n) - \gamma(2^n)}{a(2^n)} - (1 - 2^{-1/\beta}) \le 2 (1 - 2^{-1/\beta})$
 
-Apply lemma 4.6 to regularly varying function $a(t)$ to get an upper bound, $\frac{a(2^{n+1})}{a(2^n)} \le 2^{-1/\alpha + \delta}$.
+Apply lemma 4.6 to regularly varying function $a(t)$ to get an upper bound, $\frac{a(2^{n+1})}{a(2^n)} \le 2^{-1/\beta + \delta}$.
 
 Now we can come up with an upper bound for $\frac{\gamma(2^n \cdot 2^k) - \gamma(2^n)}{a(2^n)}$:
 
-$\frac{\gamma(2^n \cdot 2^k) - \gamma(2^n)}{a(2^n)} = \sum \limits_{j=1}^k \frac{ \gamma(2^{n_0 + j}) - \gamma(2^{n_0 + j - 1}) }{a(2^{n + j -1})} \prod \limits_{i=n}^{n-j-2} \frac{a(2^{n+j-1})}{a(2^n)} \le 2 (1 - 2^{-1/\alpha}) \sum \limits_{j=1}^k (2^{-(1/\alpha - \delta)})^{j-1}$,
+$\frac{\gamma(2^n \cdot 2^k) - \gamma(2^n)}{a(2^n)} = \sum \limits_{j=1}^k \frac{ \gamma(2^{n_0 + j}) - \gamma(2^{n_0 + j - 1}) }{a(2^{n + j -1})} \prod \limits_{i=n}^{n-j-2} \frac{a(2^{i+1})}{a(2^i)} \le 2 (1 - 2^{-1/\beta}) \sum \limits_{j=1}^k (2^{-(1/\beta - \delta)})^{j-1}$,
 
-which proves that $\lim_{k \to \infty} \frac{\gamma(2^n \cdot 2^k) - \gamma(2^n)}{a(2^n)} < \infty$.
+which proves that $\lim \limits_{k \to \infty} \frac{\gamma(2^n \cdot 2^k) - \gamma(2^n)}{a(2^n)} < \infty$.
 
 ##### Step 4: $\gamma(\infty) - \gamma(t) \sim a(t)$ is a regularly varying function
 
-TODO: bound $\frac{ \gamma(ty) - \gamma(t) }{ a(t) } \le c (1 - 2^{-(1/\alpha - \epsilon)} y^{-(1/\alpha - \epsilon)})$
+Now that we know that $\gamma(\infty) < \infty$, we can introduce $\bar{\gamma}(t) = \gamma(\infty) - \gamma(t)$. Its
+analysis will be a stepping stone. 
 
-$ \sum \limits_{j=1}^{n} (1 + \epsilon) \frac{t e^{j-1}}{a(t)} = \sum \limits_{j=1}^{n} (1 + \epsilon) \prod \limits_{i=1}^{j-1} \frac{a(t e_i)}{a(te^{i-1})} \le (1 + \epsilon) \sum \limits_{j=1}^{n} \prod \limits_{i=1}^{j-1} (1 + \epsilon) \le (1 + \epsilon) \prod \limits_{j=1}^n (1 + \epsilon)^{j-1} \le C (1 + \epsilon)^n$ for $C > 0$.
+Use the fact that $\frac{\bar{\gamma}(ty) - \bar{\gamma}(t)}{a(t)} = -\frac{\gamma(\infty) - \gamma(ty) - (\gamma(\infty) - \gamma(t)) }{a(t)} \to 1 - y^{-1/\beta}$.
 
-TODO: introduce $\bar{\gamma}(t) = \gamma(\infty) - \gamma(t)$.
+Divide this expression by $y^2$ and integrate: $\int \limits_1^\infty \frac{1}{y^2} \frac{\bar{\gamma}(ty) - \bar{\gamma}(t)}{a(t)} dy \to \int \limits_1^\infty (y^{-1/\beta-2} - \frac{1}{y^2})dy$
 
-TODO: Divide by $y^2$ and integrate: $\int \limits_1^\infty \frac{1}{y^2} \frac{\bar{\gamma}(ty) - \bar{\gamma}(t)}{a(t)} dy \to \int \limits_1^\infty (y^{-1/\alpha-2} - \frac{1}{y^2})dy = -\frac{1}{1 + \alpha}$
+Consider the first term: $\int \limits_1^\infty y^{-1/\beta-2} dy = \int \limits_1^\infty d (y^{-1/\beta - 1}) \cdot (\frac{1}{-1/\beta - 1}) = (\frac{1}{\infty}^{1/\beta + 1} - \frac{1}{1}^{1/\beta + 1}) \cdot (\frac{-1}{1/\beta + 1}) = \frac{-1}{1/\beta + 1} \cdot (-1) = \frac{\beta}{1 + \beta}$
 
-TODO: $\bar{\gamma}(t) - t \int \limits_1^\infty \frac{ \bar{\gamma}(s)ds }{s^2}ds$
+Consider the second term: $\int \limits_1^\infty y^{-2} dy = - \int \limits_1^\infty d \frac{1}{y} = -(\frac{1}{\infty} - \frac{1}{1}) = 1$
 
-##### Step 5: introduce intermediate function $\alpha(t)$, show that it is regularly varying
+Hence, $\int \limits_1^\infty \frac{1}{y^2} \frac{\bar{\gamma}(ty) - \bar{\gamma}(t)}{a(t)} dy \to \frac{\beta}{1 + \beta} - 1 = -\frac{1}{1 + \beta}$
 
-TODO: introduce an intermediate function $\alpha(t) = \bar{\gamma(t)} - t \int \limits_t^\infty \frac{\bar{\gamma(s)ds}}{s^2}$
+On the other hand, we can apply the following direct transformations:
 
-It is regularly varying with index of variation $-1/\alpha$ as $\alpha(t) \sim \frac{a(t)}{1 + \alpha}$ as $t \to \infty$.
+$\int \limits_1^\infty \frac{1}{y^2} \frac{\bar{\gamma}(ty) - \bar{\gamma}(t)}{a(t)} dy = \frac{1}{a(t)} (\int \limits_1^\infty \frac{\bar{\gamma}(ty)}{y^2}dy - \bar{\gamma}(t) \int \limits_1^\infty \frac{1}{y^2} dy) = \frac{1}{a(t)} (\int \limits_{t}^{\infty} \frac{\bar{\gamma}(s)}{s^2} ds + \bar{\gamma}(t)(\frac{1}{\infty} - \frac{1}{1})) = \frac{-1}{a(t)} (\bar{\gamma}(t) - \int \limits_{t}^{\infty} \frac{\bar{\gamma}(s)}{s^2} ds )$
+
+Note that we changed the integration limits above from $[1, \infty]$ to $[t, \infty]$ by changing the variable from $y$ to $s = ty$. Finally, combine these two expressions:
+
+$\frac{-1}{a(t)} (\bar{\gamma}(t) - \int \limits_{t}^{\infty} \frac{\bar{\gamma}(s)}{s^2} ds ) \to \frac{-1}{1 + \beta}$ or 
+
+$\bar{\gamma}(t) - t \int \limits_t^\infty \frac{\bar{\gamma}(s)ds}{s^2} \to \frac{a(t)}{1 + \beta}$.
+
+##### Step 5: introduce intermediate function $\alpha(t)$ and analyze it
+
+Let us internalize the result of previous step. Denote the function we just achieved as an intermediate function 
+$\alpha(t) = \bar{\gamma}(t) - t \int \limits_t^\infty \frac{\bar{\gamma}(s)ds}{s^2}$.
+
+We've just shown that $\alpha(t) \sim \frac{a(t)}{1 + \beta}$ as $t \to \infty$, meaning that it is regularly varying 
+with index of variation $-1/\beta$ as we've shown in step 2.
 
 Dividing $\alpha(t)$ by $t$ and integrating, we get:
 
-$\int \limits_{t=y}^\infty \frac{\alpha(t)}{t}dt = \int \limits_y^\infty \frac{\bar{\gamma}(t)}{t} dt - \int \limits_{t=y}^\infty \int \limits_{s=y}^\infty \frac{\bar{\gamma}(s)}{s^2}ds dt$
+$\int \limits_{t=y}^\infty \frac{\alpha(t)}{t}dt = \int \limits_y^\infty \frac{\bar{\gamma}(t)}{t} dt - \int \limits_{t=y}^\infty \int \limits_{s=t}^\infty \frac{\bar{\gamma}(s)}{s^2}ds dt$
 
-Change the order of integration in the second term by Fubini's theorem, so that:
+Consider the second term: $\int \limits_{t=y}^\infty \int \limits_{s=t}^\infty \frac{\bar{\gamma}(s)}{s^2}ds dt$.
 
-TODO: $\int \limits_{t=y}^\infty \int \limits_{s=y}^\infty \frac{\bar{\gamma}(s)}{s^2}ds dt = - \int \limits_{s=y}^\infty \frac{ \bar{\gamma(s)ds} }{s} - y \int \limits_{s=y}^\infty \frac{\bar{\gamma}(s)ds}{s^2}ds$
+Notice that we can change the order of integration and limits of integrals by Fubini's theorem:
 
-TODO: First term cancels with tbe first term of the second term;
+$\int \limits_{t=y}^\infty \int \limits_{s=t}^\infty \frac{\bar{\gamma}(s)}{s^2}ds dt = \int \limits_{s=y}^\infty \int \limits_{t=y}^s \frac{\bar{\gamma}(s)}{s^2} dt ds$
 
-Applying the definition of $\alpha(t)$, we get: $\bar{\gamma}(y) - \alpha(y) = y \int \limits_{s=y}^\infty \frac{\bar{\gamma}(s)ds}{s^2}ds = \int \limits_{s=y}^\infty \frac{\alpha(s)}{s}ds$
+![Fubini change of order of integration](Fubini.png)<center>**Change of order of integration and integral limits by Fubini's theorem.**</center>
 
-TODO: $\frac{\bar{\gamma}(y)}{\alpha(s)} = 1 + \int \limits_1^\infty \frac{\alpha(ys)}{\alpha(y)s} ds \to 1 + \alpha$.
+Hence, $\int \limits_{s=y}^\infty \int \limits_{t=y}^s \frac{\bar{\gamma}(s)}{s^2} dt ds = \int \limits_{s=y}^\infty (t \frac{\bar{\gamma}(s)}{s^2}|_{t=y}^{t=s}) ds = \int \limits_{s=y}^\infty \frac{s \bar{\gamma}(s)}{s^2}ds - y \int \limits_{s=y}^\infty \frac{\bar{\gamma}(s)}{s^2}ds = \int \limits_{t=y}^\infty \int \limits_{s=t}^\infty \frac{\bar{\gamma}(s)}{s^2}ds dt = \int \limits_{s=y}^\infty \frac{ \bar{\gamma}(s) }{s}ds - y \int \limits_{s=y}^\infty \frac{\bar{\gamma}(s)}{s^2}ds$
 
-Hence, $\bar{\gamma}(y) \sim (1 + \alpha)\alpha(y) \sim \frac{ (1 + \alpha) }{ 1 + \alpha } a(y) = a(y)$ as $y \to \infty$
+This produces: $\int \limits_{t=y}^\infty \frac{\alpha(t)}{t} dt = \cancel{\int \limits_y^\infty \frac{\bar{\gamma}(t)}{t} dt} - \cancel{\int \limits_{s=y}^\infty \frac{ \bar{\gamma}(s) }{s}ds} + y \int \limits_{s=y}^\infty \frac{\bar{\gamma}(s)}{s^2}ds$
+
+Applying the definition of $\alpha(t)$, we get: $\bar{\gamma}(y) - \alpha(y) = y \int \limits_{s=y}^\infty \frac{\bar{\gamma}(s)}{s^2}ds = \int \limits_{s=y}^\infty \frac{\alpha(s)}{s}ds$
+
+$\frac{\bar{\gamma}(y)}{\alpha(y)} = 1 + \int \limits_1^\infty \frac{\alpha(ys)}{\alpha(y)s} ds \xrightarrow{y \to \infty} 1 + \int \limits_1^{\infty} \frac{s^{-1/\beta}}{s} ds = 1 + \frac{1}{-1/\beta} \int \limits_1^{\infty} d s^{-1/\beta} = 1 + \frac{1}{-1/\beta} (\frac{1}{\infty^{1/\beta}} - \frac{1}{1^{1/\beta}}) = 1 + \beta$.
+
+Hence, $\bar{\gamma}(y) \sim (1 + \beta)\alpha(y) \sim \frac{ (1 + \beta) }{ 1 + \beta } a(y) = a(y)$ as $y \to \infty$
+
+As we've shown above $a(y)$ is a regularly varying function, thus, $\bar{\gamma}(y) = \gamma(\infty) - \gamma(y)$ is, too.
 
 ##### Step 6: $S(x_F - t)$ is a regularly varying function
 
-TODO: basically apply lemma 4.4 on inversion of a regularly varying function
+Function $\bar{\gamma}(y)$ is reciprocal of $\frac{1}{S(x_F - x)}$, as $\frac{1}{S(x_F - \bar{\gamma}(y))} = \frac{1}{S(\gamma(y))} = y$.
+
+Applying lemma 4.4 on reciprocal of a regularly varying function, we see that $\frac{1}{S(x_F - x)}$ is regularly varying
+as well. Then its inverse $S(x_F - x)$ is regularly varying, too.
 
 ### Necessary and sufficient conditions of convergence to Type I (Gumbel) EVD
 
@@ -1708,6 +1734,8 @@ Hence, $\max (\xi - \frac{\ln n}{1 + \ln n}) (1 + \ln n)^2 \sim e^{-e^{-x}}$.
 
 TODO
 
+TODO: see https://pure.uvt.nl/ws/portalfiles/portal/19635604/2017_051.pdf
+
 #### Example 5.4. Karlin-Altschul statistics in bioinformatics
 
 Suppose that you're using your IDE, e.g. PyCharm to perform a fuzzy search of a random string "HomerSimpson" against a 
@@ -1848,11 +1876,20 @@ Still extreme theorem might hold for these generalized cases.
 ---
 
 ## References:
+
+This text is mostly based on the contents of textbooks by these three titans:
+
+Sidney I. Resnick                           |  Laurence de Haan                    |    Malcolm Ross Leadbetter
+:------------------------------------------:|:------------------------------------:|:----------------------------------:
+![Resnick](Resnick.png)                     |  ![Laurence de Haan](de_Haan.png)    |    ![Leadbetter](Leadbetter.jpeg)
+
 * https://minerva.it.manchester.ac.uk/~saralees/book3.pdf - "Extreme Values, Regular Variation and Point Processes" by Sidney Resnick, good text on auxiliary functions
 * https://www.researchgate.net/publication/336072342_Extreme_Value_Theory/link/5d8cf0c1a6fdcc25549e672a/download - great explanation of what's what in EVT, good goal setting
 * https://rls.sites.oasis.unc.edu/s834-2020/ExtremeValues.pdf - a great introductory text by Smith and Weissman, similar in structure to this post
 * https://scask.ru/k_book_eps.php - Extremes of Random Sequences and Processes (1989) by Leadbetter, Lindgren and Rootzen (in Russian)
 * https://www.studmed.ru/lidbetter-m-lindgren-g-rotsen-x-ekstremumy-sluchaynyh-posledovatelnostey-i-processov_21f63a9fd30.html - download link for Leadbetter, Lindgren and Rootzen (in Russian)
+* https://books.google.ru/books?id=t6tfXnykazEC&pg=PR11&hl=ru&source=gbs_selected_pages&cad=2#v=onepage&q&f=false - de Haan, Ferreira book with nice examples
+* https://www.researchgate.net/publication/265142104_Extreme_Value_Theory_An_Introduction/link/5f270d35a6fdcccc43a60799/download - de Haan, Ferreira book download link
 * https://repositorio.unican.es/xmlui/bitstream/handle/10902/20125/Se%C3%B1as%20Peon%20Pablo.pdf?sequence=1&isAllowed=y - nice masters PhD by Pablo Señas Peón on EVD
 * https://ckrao.wordpress.com/2012/06/10/outline-proof-of-the-extreme-value-theorem-in-statistics/ - Fisher-Tippet-Gnedenko for i.i.d. RV proof
 * https://hal-enac.archives-ouvertes.fr/hal-00917995/document - good proof of Fisher-Tippett-Gnedenko theorem
@@ -1872,3 +1909,4 @@ Still extreme theorem might hold for these generalized cases.
 * https://www.researchgate.net/publication/228874059_Theoretical_analysis_of_inverse_weibull_distribution - theoretical analysis of Inverse Weibull distribution
 * https://rss.onlinelibrary.wiley.com/doi/pdf/10.1111/j.1740-9713.2018.01123.x - review of applications of Weibull distribution
 * https://en.wikipedia.org/wiki/Shifted_Gompertz_distribution - Wikipedia on shifted Gompertz distribution
+* https://pure.uvt.nl/ws/portalfiles/portal/19635604/2017_051.pdf - de Haan and Einmahls on limits to human lifespan
