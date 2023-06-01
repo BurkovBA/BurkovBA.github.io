@@ -61,9 +61,9 @@ Now, recall that [gamma function](https://en.wikipedia.org/wiki/Incomplete_gamma
 
 Let's change the notation $\ln(1-p) = -\frac{1}{\theta}$, so that $(1 - p)^n = e^{-\frac{n}{\theta}}$, and we almost get $p(N=1000 | k=3) \approx \frac{N^k \cdot e^{\frac{-N}{\theta}}}{\Gamma(k+1)}$, which is very close to the definition of [Gamma distribution](https://en.wikipedia.org/wiki/Gamma_distribution).
 
-I wasn't accurate here with the transition from a sum to an integral, with sum/integral limits and with $\theta^{-k}$ multiplier; however, it gives you a feel of what's going on.
+I wasn't accurate here with the transition from a sum to an integral, with sum/integral limits and with $\theta^{-k}$ multiplier; however, it gives you an idea of what's going on.
 
-So, to make this argument more rigorous, instead of discrete values of $N$, corresponding to total number of hard drives or paratroopers, I'll transition to continuous real-valued $N$ (you may interpret it as continuous time).
+So, to make this argument more rigorous, instead of discrete values of $N$, corresponding to the total number of hard drives or paratroopers, I'll transition to a continuous real-valued $N$ (you may interpret it as continuous time).
 
 As we know the cumulative probability function of our Gamma process from its Poisson counterpart $F_\xi(N) = p(\xi \leq N) = 1 - \sum \limits_{x=0}^{k-1} \frac{(\lambda N)^x e^{-\lambda N}}{x!}$, we can infer probability density function from it. I'll be following the general logic of [this Aerin Kim's post](https://towardsdatascience.com/gamma-distribution-intuition-derivation-and-examples-55f407423840).
 
