@@ -1127,7 +1127,7 @@ Consider the ratio $\frac{h(x)}{\ln x} = \frac{\ln c(x) + \int \limits_1^x \frac
 
 Hence, $h(x) \xrightarrow{x \to \infty} \infty$.
 
-#### Lemma 4.6: Uniform convergence of regularly varying function
+#### Lemma 4.6: Uniform convergence of regularly varying function ratio
 
 Given a regularly varying function $h$ with index of variation $\beta$, there exists $t_0$ such that for arbitrarily 
 small $\epsilon > 0$, $x \ge 1$ and $t \ge t_0$:
@@ -1136,13 +1136,21 @@ $(1 - \epsilon) x^{\beta - \epsilon} < \frac{h(tx)}{h(t)} < (1 + \epsilon) x^{\b
 
 #### Proof:
 
-TODO
+From Karamata's representation: $\frac{h(tx)}{h(t)} = \frac{c(tx)}{c(t)} exp(\int \limits_1^{tx} \frac{\beta(s)}{s} ds - \int \limits_1^{t} \frac{\beta(s)}{s} ds) \xrightarrow{t \to \infty} e^{\beta (\ln xt - \ln 1) - \beta (\ln t - \ln 1)} = e^{\ln x} = x^{\beta}$.
 
-From Karamata's representation: $\frac{h(tx)}{h(t)} = \frac{c(tx)}{c(t)} exp(\int \limits_1^x \frac{\beta(ts)}{s} ds) \xrightarrow{t \to \infty} e^{\beta \ln x} = x^{\beta}$.
+Change the integration variable and upper limit of integration in the first integral:
 
-Pick $t$ large enough, so that $\beta - \epsilon < \beta(ts) < \beta + \epsilon$ and $\frac{c(tx)}{c(t)} < \epsilon$.
+$exp(\int \limits_1^{tx} \frac{\beta(s)}{s} ds - \int \limits_1^{t} \frac{\beta(s)}{s} ds) = exp(\int \limits_1^{t} \frac{\beta(sx)}{s\cancel{x}} d(s\cancel{x}) - \int \limits_1^{t} \frac{\beta(s)}{s} ds)$
 
-Then $| \frac{h(tx)}{h(t)} - x^\beta | < x^{\epsilon}$
+Pick $t$ large enough, so that:
+
+$(1 - \epsilon) < \frac{c(tx)}{c(t)} < (1 + \epsilon)$
+
+$\epsilon < \beta(sx) - \beta(s) < \epsilon$
+
+Thus, $\frac{h(tx)}{h(t)} < (1+\epsilon) e^{(\beta + \epsilon) \ln xt - \beta \ln t} = (1+\epsilon) e^{\beta \ln x + \epsilon \ln x + \cancel{\epsilon \ln t}} = (1 + \epsilon) x^{\beta + \epsilon}$ (we assume that $\epsilon$ is small enough that $\epsilon \ln t \approx 0$).
+
+Similarly we derive the lower bound.
 
 ### Necessary and sufficient conditions of convergence to Types II or III EVD
 
