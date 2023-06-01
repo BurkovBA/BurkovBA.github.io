@@ -724,8 +724,8 @@ which implies that if $r'(x) \to 0$ iff $Q(x) \to -1$, meaning that two formulat
 We shall start the proof from the end to motivate our mathematical manipulations.
 
 In Steps 2+ we are going to show that von Mises condition entails that $\frac{S(u + x g(u))}{S(u)} = e^{-x}$ as $u \to x_F$, 
-where $g(u) = \frac{1}{r(u)}$ is the inverse of hazard rate (if introduction of this new entity $g(u)$ feels unjustified to you now, I agree, but trust 
-me on this, it will make sense later). Assume this fact proven for now and let's see how the result 
+where $g(u) = \frac{1}{r(u)}$ is the inverse of hazard rate (if introduction of this new entity $g(u)$ feels redundant to you now, I agree, but trust 
+me on this for now, it will be justified later). Assume this fact proven for now and let's see how the result 
 of the theorem follows.
 
 As before we are going to use the tail quantile function $\gamma(n)$ to show that this ratio of survival
@@ -1748,7 +1748,7 @@ Hence, $\max (\xi - \frac{\ln n}{1 + \ln n}) (1 + \ln n)^2 \sim e^{-e^{-x}}$.
 
 #### Example 5.3. Gompertz, shifted Gompertz distribution and longevity
 
-TODO
+TODO: Hazard rate/[force of mortality](https://en.wikipedia.org/wiki/Force_of_mortality) for Gompertz survival model is $h(t) = A + B c^t$.
 
 TODO: see https://pure.uvt.nl/ws/portalfiles/portal/19635604/2017_051.pdf
 
@@ -1790,7 +1790,8 @@ Maximum of this distribution could be shown to converge to $(1 - F(x)/n)^n = e^{
 
 #### Example 5.7. Strength of materials
 
-TODO
+TODO: polynomial hazard rate e.g. $h(t) = \alpha \cdot t^{\alpha -1}$ leads to polynomial cumulative hazard rate 
+$H(t) = \int \limits_0^t h(s) ds = \int \limits_0^t d s^\alpha$, so that survival function is Weibull: $S(t) = e^{-t^\alpha}$.
 
 #### Example 5.8. Fraction of mass, occupied by particles of a certain size in mining, connection to Pareto distribution
 
