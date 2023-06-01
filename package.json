@@ -32,7 +32,7 @@
     "gatsby-remark-responsive-iframe": "^5.13.0",
     "gatsby-remark-smartypants": "^5.13.0",
     "gatsby-remark-video": "^1.2.5",
-    "gatsby-remark-videos": "^0.5.1",
+    "gatsby-remark-videos": "0.5.1",
     "gatsby-source-filesystem": "^4.13.0",
     "gatsby-transformer-ffmpeg": "^0.5.1",
     "gatsby-transformer-remark": "^5.13.0",

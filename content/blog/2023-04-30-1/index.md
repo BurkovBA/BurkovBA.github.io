@@ -970,6 +970,8 @@ This leads to a conclusion $\limsup \limits_{x \to \infty} h(x) \le \beta + 1$.
 
 ##### Step 4. Final analysis
 
+TODO: decipher this
+
 $h(x)$ has the following properties:
 
 (i) As we've just shown $h(x)$ is bounded by $\beta + 1$ as $x \to \infty$;
@@ -1675,17 +1677,17 @@ Hence, for positive integer $x$, $F_{\xi}(x-) = 1 - (1-p)^{x}$ and $\frac{S(x)}{
 
 #### Example 4.2: Poisson distribution
 
-Similarly to geometric distribution, in case of Poisson distribution we have survival function $S(x) = 1 - F(x) = \sum \limits_{k > x} e^{-\lambda} \frac{\lambda^k}{k!}$.
+Similarly to geometric distribution, in case of Poisson distribution we have cumulative density function $F(x) = \sum \limits_{k=0}^{[x]} e^{-\lambda} \frac{\lambda^k}{k!}$, where $[x]$ is the floor of $x$.
 
-Hence, for integer $x$, $\frac{S(x)}{S(x-)} = \frac{\sum \limits_{k > x+1} \lambda^k / k!}{\sum \limits_{k > x} \lambda^k / k!}$.
+Survival function $S(x) = 1 - F(x) = \sum \limits_{k > [x]} e^{-\lambda} \frac{\lambda^k}{k!}$.
+
+Hence, for integer $x$, $\frac{S(x)}{S(x-)} = \frac{\sum \limits_{k > x} \lambda^k / k!}{\sum \limits_{k > x - 1} \lambda^k / k!}$.
 
 Consider the value $\frac{S(x)}{S(x-)} - 1 = \frac{S(x) - S(x-)}{S(x-)}$, which is supposed to approach 0 if $\frac{S(x)}{S(x-)} \to 1$.
 
 $\frac{S(x)}{S(x-)} - 1 = \frac{\lambda^x / x}{ \sum \limits_{k > x} \lambda^k / k! } = \frac{1}{ \sum \limits_{s = 1}^{\infty} \frac{\lambda^s }{ (x + 1) (x + 2) ... (x + s) } } \ge \frac{1}{ \sum \limits_{s = 1}^{\infty} (\frac{\lambda}{x})^s } = \frac{1 - \lambda/x}{\lambda/x}$.
 
 As $x \to \infty$ this value approaches infinity, hence, proving that Poisson disitrubtion does not converge to any EVD.
-
-TODO: check x-1 vs x vs x+1 errors
 
 ---
 
