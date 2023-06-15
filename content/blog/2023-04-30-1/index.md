@@ -23,14 +23,19 @@ description: Quite often in mathematical statistics I run into Extreme Value Dis
     * Von Mises conditions proof
     * Generalizations of von Mises condition for Type I EVD: auxiliary function and von Mises function
 4. Necessary and sufficient conditions for a distribution to belong to a type I, II or III
-    * Pre-requisites from Karamata's theory of slow/regular/extended regular variation
+    * Pre-requisites from Karamata's theory of slow/regular/Г-/П- variation
     * Necessary and sufficient conditions of convergence to Types II or III EVD
     * Necessary and sufficient conditions of convergence to Type I EVD
-5. Summary and examples of practical application
+5. Residual life time
+    * Generalized Pareto distribution
+    * Residual life time problem
+    * Pickands-Balkema-de Haan theorem (a.k.a. Second Extreme Value Theorem)
+    * Pickands' estimator and Hill's estimator
+6. Summary and examples of practical application
     * Examples of Type I Gumbel distribution
     * Examples of Type II Frechet distribution
     * Examples of Type III Inverse Weibull distribution
-6. Concluding remarks
+7. Concluding remarks
    
 
 ## 1. Problem statement and Generalized Extreme Value distribution
@@ -731,7 +736,7 @@ of the theorem follows.
 As before we are going to use the tail quantile function $\gamma(n)$ to show that this ratio of survival
 functions converges to Gumbel distribution. Take $u = \gamma(n) \to x_F$ and substitute it into the ratio:
 
-$\frac{S(\gamma(n) + x g(\gamma(n)))}{S(\gamma(n))} = \frac{S(\gamma(n) + x g(\gamma(n)))}{\frac{1}{n}} = n S(\gamma(n) + x f(\gamma(n))) = e^{-x}$. 
+$\frac{S(\gamma(n) + x g(\gamma(n)))}{S(\gamma(n))} = \frac{S(\gamma(n) + x g(\gamma(n)))}{\frac{1}{n}} = n S(\gamma(n) + x g(\gamma(n))) = e^{-x}$. 
 
 Hence, $S(\gamma(n) + x g(\gamma(n))) = 1 - F(\gamma(n) + x g(\gamma(n))) = \frac{e^{-x}}{n}$, 
 
@@ -848,7 +853,7 @@ easily prove that generalizations of von Mises conditions are not only sufficien
 
 ![Karamata](Karamata.png)<center>**Jovan Karamata**</center>
 
-### Pre-requisites from Karamata's theory of slow/regular/extended regular variation
+### Pre-requisites from Karamata's theory of slow/regular/Г-/П- variation
 
 Here we'll introduce the concepts of slow-varying function and regularly varying function from Karamata theory, which
 allow us to prove the necessary and sufficient conditions for Types II and III.
@@ -1463,15 +1468,10 @@ Finally, we've come to the most complex result in this series. However, we'll ne
 lemmas. Regular variation theory is enough for Type II and Type III EVD. However, for Type I we'll need to extend
 this concept even further.
 
-We'll introduce extended variation terms of extended variation, Г-variation and П-variation. Then we'll show the
+We'll introduce extended concepts of variation, Г-variation and П-variation. Then we'll show the
 two-way connection between survival function, its tail quantile function and Type I SVD.
 
-#### Definition 4.3: Extended regular variation
-
-A measurable function is said to be of **extended regular variation**, if there exists an auxiliary function $a(x)$, 
-such that $\lim \limits_{t \to \infty} \frac{f(tx) - f(t)}{a(x)} = \frac{x^{\alpha} - 1}{\alpha}$.
-
-#### Definition 4.4: Г-variation
+#### Definition 4.3: Г-variation
 
 A non-decreasing function $S$ is said to be of Г-variation if $\frac{S(t + xf(t))}{S(t)} \xrightarrow{t \to x_F} e^{x}$, 
 where $f$ is a positive auxiliary function.
@@ -1489,7 +1489,7 @@ hence $f_1(t) \sim f_2(t)$ as $t \to \infty$.
 The property of Г-variation of the survival function will be instrumental in proving the necessary condition of
 convergence of maximum of sets of i.i.d random variables of some distributions to Type I Gumbel EVD.
 
-#### Definition 4.5: П-variation
+#### Definition 4.4: П-variation
 
 A non-decreasing, non-negative function $V(x)$ defined on $(z, \infty)$ is П-varying if there exist functions
 $a(t) > 0$, $b(t)$, such that for $x > 0$:
@@ -1689,6 +1689,171 @@ $\frac{S(x)}{S(x-)} - 1 = \frac{\lambda^x / x}{ \sum \limits_{k > x} \lambda^k /
 
 As $x \to \infty$ this value approaches infinity, hence, proving that Poisson disitrubtion does not converge to any EVD.
 
+## 5. Residual life time
+
+James Pickands III                  |  Laurens de Haan                    
+:----------------------------------:|:------------------------------------:
+![Pickands](Pickands.png)           |  ![Laurens de Haan](de_Haan.png)    
+
+### Generalized Pareto distribution
+
+Finally, I want to discuss a very practical application of Extreme Value Theory. Let's look at the Generalized Extreme Value 
+distribution again:
+
+$G_{\gamma}(x) = exp(-(1 + \gamma x)^{-\frac{1}{\gamma}})$.
+
+Negative of expression that we find in the power of exponent can be interpreted as a survival function of a 
+distribution by itself, called Generalized Pareto Distribution:
+
+$S(x) = (1 + \gamma x)^{-\frac{1}{\gamma}}$, $F(x) = 1 - (1 + \gamma x)^{-\frac{1}{\gamma}}$
+
+What meaning can we attribute to it? 
+
+Well, first interpretation is straightforward: recall the correspondence between cumulative hazard rate $R(t)$ and survival function $S(t)$:
+
+$S(t) = e^{-R(t)}$
+
+Hence, if cumulative distribution function of maximum of your random variables is in Generalized Extreme Value 
+distribution, the corresponding cumulative hazard rate is in Generalized Pareto distribution.
+
+ * if $\gamma$ is positive, cumulative hazard rate is in the domain of attraction of Type II Frechet EVD, and you can live forever (maybe the chances are slim, but in theory it is possible);
+ * if $\gamma = 0$, cumulative hazard rate is in the domain of attraction of Type I Gumbel EVD, and it can go either way (as both bounded and unbounded distributions converge to Type I Gumbel EVD);
+ * if $\gamma$ is negative, cumulative hazard rate is in the domain of attraction of Type III Inverse Weibull EVD, and the right end point is finite.
+
+### Residual life time problem
+
+However, there is another, maybe even more interesting use case for Generalized Pareto distribution. Recall that while 
+proving conditions for Type I distribution (both von Mises and necessary and sufficient) we came up 
+with a conditional probability construction:
+
+$p( \frac{\xi - u}{g(u)} > x | \xi > u)$
+
+Here $g(u)$ was an auxiliary function (all the auxiliary functions are asymptotically equivalent as $u \to \infty$ by 
+Khinchin's theorem) and $\xi$ was our random variable, and we were striving to show that if $u$ is close to the right 
+end point $x_F$, the following holds:
+
+$\frac{S(u + x g(u))}{S(u)} \xrightarrow{u \to x_F} e^{-x}$
+
+In other words, if you've reached the age $u$, close enough to the right end point of our survival function $S_\xi$, your chances to
+survive $x$ extra years, normalized by auxiliary function $g(u)$, are Generalized Pareto-distributed.
+
+Turns out, a similar statement holds for other types of EVD: if your survival function lies in the domain of attraction
+of some type of EVD, then corresponding residual life time converges to Generalized Pareto Distribution. Moreover, it 
+turns out that this statement works in both directions: if residual life time distribution is Generalized Pareto, the 
+survival function is in domain of attraction of generalized EVD. This fact can be proved as a theorem, known as 
+Pickands-Balkema-de Haan theorem (sometimes called Second Extreme Value Theorem).
+
+### Pickands-Balkema-de Haan theorem (a.k.a. Second Extreme Value Theorem)
+
+#### Theorem 5.1. Pickands-Balkema-de Haan theorem (Second Extreme Value Theorem)
+
+Normalized residual life time distribution $F(t + x g(t)) \xrightarrow{t \to \infty} G(x)$, where $G(x)$ is either
+$1 - e^{-\alpha}$, corresponding to Type I Gumbel EVD, or $1 - (1 + x)^{-\alpha}$, corresponding to Type III Weibull EVD.
+
+**Note:** Moreover, we can generalize even more and relax conditions to $F(b(t) + x g(t)) \xrightarrow{t \to \infty} G(x)$, 
+then limit distributions set is slightly extended. I am not going to go into details, see [Balkema, de Haan 1974 paper](https://projecteuclid.org/journals/annals-of-probability/volume-2/issue-5/Residual-Life-Time-at-Great-Age/10.1214/aop/1176996548.full).
+
+#### Proof of direct statement:
+
+##### Type I (Gumbel)
+
+By necessary and sufficient condition of survival function attraction to Gubmel Type I EVD we know that:
+
+$\frac{S(u + x g(u))}{S(u)} \xrightarrow{u \to x_F} e^{-x}$
+
+Note that $e^{-x}$ is a special case of generalized Pareto distribution upon $\gamma \to 0$: $(1 + \gamma x)^{-\frac{1}{\gamma}} \xrightarrow{\gamma \to 0} e^{-x}$. 
+
+##### Type III (Inverse Weibull)
+
+For Inverse Weibull Type III EVD case we had a necessary and sufficient condition:
+
+$\frac{S(x_F - tx)}{S(x_F - t)} \xrightarrow{t \to \infty} x^{-\beta}$
+
+Substitute variables $u = x_F - t$:
+
+$\frac{S(x_F - tx)}{S(x_F - t)} = \frac{x_F - t + t - tx}{S(x_F - t)} = \frac{S(u + t (1-x) )}{S(u)}$.
+
+Substitute $y = 1 - x$ and set $g(u) = t = x_F - u$, $\beta = \frac{1}{\gamma}$, so that $\frac{S(u + y g(u))}{S(u)} \xrightarrow{u \to \infty} (1+y)^{-1/\gamma}$.
+
+Again, we get a Generalized Pareto Distribution (actually "specialized generalized", a.k.a. Lomax distribution or Pareto Type II, as it is $(1 + x)^{-\frac{1}{\gamma}}$, not $(1 + \gamma x)^{-\frac{1}{\gamma}}$).
+
+##### Type II (Frechet)
+
+Finally, for Frechet Type II EVD we just do a simple variable substitution $y = x - 1$ and end up with Lomax (specialized Pareto type II) distribution:
+
+$\frac{S(tx)}{S(x)} \to x^{-\alpha}$
+
+$\frac{S(t + (x - 1)t)}{S(x)} = \frac{S(t + y t)}{S(x)} \xrightarrow{t \to \infty} (1 + y)^{-\alpha} = (1 + y)^{-\frac{1}{\gamma}}$
+
+Assuming $u = t$, $g(u) = t$, we get the desired result.
+
+#### Outline of the proof of converse statement:
+
+There are 2 proofs of converse statement in the original [1974 Balkema, de Haan paper](https://projecteuclid.org/journals/annals-of-probability/volume-2/issue-5/Residual-Life-Time-at-Great-Age/10.1214/aop/1176996548.full) and [1975 Pickands](https://www.jstor.org/stable/2958083?seq=13) paper. 
+
+Both proofs are completely unintelligible to me.
+
+Instead of an exact proof, I'd just stick with the fact that if we know that:
+
+$\frac{S(u + x g(u))}{S(u)} \xrightarrow{u \to \infty} (1 + \gamma x)^{-1 / \gamma}$
+
+We know that all the g(u) are asymptotically equivalent from Khinchin's lemma. Then we can use the fact that we already
+know an appropriate $g(u)$ for each $\gamma$:
+
+$g^*(u) = \begin{cases} x_F - u, \gamma > 0  \\ u, \gamma < 0 \\ \frac{F'(u)}{1 - F(u)}, \gamma = 0 \end{cases}$
+
+And our $g(u) \sim g^*(y)$ by Khinchin's lemma upon $u \to \infty$. This allows us to reverse the discussion in the 
+direct statement and end up with necessary and sufficient conditions of convergence to EVD.
+
+### Pickands' estimator and Hill's estimator
+
+If we find a way to estimate the parameter $\gamma$ from the experimental data, we can argue that underlying survival
+function has a finite or and infinte upper endpoint. This is extremely valuable, e.g. we can prove that human lifespan
+is fundamentally limited, and that hazard rate has a singularity, approaching some end point at around 117-123 years.
+
+How do we estimate $\gamma$, given experimental data?
+
+Pickands in his 1975 paper suggested an estimator based on order statistic. TODO: a few more words about it.
+
+A similar estimator was suggested by Hill (e.g. see: [Embrechts book](https://books.google.ru/books?id=o-clBQAAQBAJ&dq=modeeling+extreme+events+for+insurance&pg=PA190&redir_esc=y#v=onepage&q=modeeling%20extreme%20events%20for%20insurance&f=false)).
+
+In general case its derivation is tedious. However, we know that in case of fat-tail distributions, when $\gamma \ne 0$,
+we are dealing with Lomax distribution, not generalized Pareto. This significantly simplifies the derivation of a maximum
+likelihood estimator.
+
+#### Theorem 5.2: Hill's estimator for fat tails and Lomax distribution 
+
+For fat-tail survival functions (Inverse Weibull and Frechet) tail index can be estimated as $\gamma = \frac{1}{n - k + 1} \sum \limits_{i=k}^n \ln (x_i)$.
+
+#### Proof:
+
+Suppose that we have $n$ observations $\xi_1$, $\xi_2$, ..., $\xi_n$. We need to estimate $\gamma$, using maximum 
+likelihood approach.
+
+##### Step 1: transition from cdf to pdf
+
+First of all, we need to derive probability density function $f(x)$ from cumulative density function $F(x)$:
+
+$F(x) = 1 - (1 + x)^{-1/\gamma}$
+
+$f(x) = \frac{\partial F(x)}{\partial x} = \frac{1}{\gamma} (1 + x)^{-1/\gamma - 1}$
+
+##### Step 2: transition from product to log-likelihood
+
+Consider $k \to \infty$ largest observations out of $n$.
+
+Transitioning from the product to a sum of logarithms $\gamma$, we get: 
+
+$\hat{\gamma} = \arg \max \limits_{\gamma} \sum \limits_{i=k}^n (\ln (1 + x_i)^{-1/\gamma - 1} - \ln \gamma) = \arg \max \limits_{\gamma} (- (\frac{1}{\gamma} + 1) \sum \limits_{i=k}^n \ln (1 + x_i) - (n - k + 1) \ln \gamma)$.
+
+##### Step 3: take the derivative of log-likelihood in $\gamma$, equate it to zero
+
+Taking the derivative of this log-likelihood in $\xi$ and equating it to zero, we get:
+
+$\frac{\partial (- (\frac{1}{\gamma} + 1) \sum \limits_{i=k}^n \ln (1 + x_i)) - (n - k + 1) \ln \gamma }{\partial \gamma} = \frac{1}{\gamma^2} \sum \limits_{i=k}^n \ln (1 + x_i) -\frac{n - k + 1}{\gamma} = 0$.
+
+$\gamma = \frac{1}{n - k + 1} \sum \limits_{i=k}^n \ln (x_i)$.
+
 ---
 
 ## 5. Summary and examples of practical application
@@ -1709,13 +1874,13 @@ For instance:
 
 In case of Type I the end point might be finite or infinite. 
 
-#### Example 5.1. Exponential distribution
+#### Example 6.1. Exponential distribution
 
 An example of distribution with infinite end point $x_F$ we can consider exponential distribution $F(x) = 1 - e^{-x}$ 
 for $x > 0$. We can show that its maximum converges to Type I by choosing $a_n = 1$, $b_n = \log n$, so that we 
 get $F^n(x + \log n) = (1 - e^{-(x + \log n)})^n = (1 - \frac{e^{-x}}{n})^n \to exp(e^{-x})$.
 
-#### Example 5.2 Gnedenko's example
+#### Example 6.2 Gnedenko's example
 
 An example of distribution with a finite end point $x_F$ is from Gnedenko (1943) work:
 
@@ -1746,13 +1911,13 @@ Then $\xi - \xi_0 = \frac{1}{ (1 + \ln n)^2 } (\eta - \eta_0)$. So $(\xi - \xi_0
 
 Hence, $\max (\xi - \frac{\ln n}{1 + \ln n}) (1 + \ln n)^2 \sim e^{-e^{-x}}$.
 
-#### Example 5.3. Gompertz, shifted Gompertz distribution and longevity
+#### Example 6.3. Gompertz, shifted Gompertz distribution and longevity
 
 TODO: Hazard rate/[force of mortality](https://en.wikipedia.org/wiki/Force_of_mortality) for Gompertz survival model is $h(t) = A + B c^t$.
 
 TODO: see https://pure.uvt.nl/ws/portalfiles/portal/19635604/2017_051.pdf
 
-#### Example 5.4. Karlin-Altschul statistics in bioinformatics
+#### Example 6.4. Karlin-Altschul statistics in bioinformatics
 
 Suppose that you're using your IDE, e.g. PyCharm to perform a fuzzy search of a random string "HomerSimpson" against a 
 codebase. What's the baseline probability of finding a text, where 10 letters out of 12 exactly match your query?
@@ -1765,7 +1930,7 @@ with insertions/deletions allowed.
 Karlin-Altschul statistics is in the core of BLAST software, used for searching known homologs of biological sequences
 in databases of already known sequences.
 
-#### Example 5.5. Gumbel Softmax VAE
+#### Example 6.5. Gumbel Softmax VAE
 
 Gumbel distribution is sometimes used in neural networks in Gumbel softmax nodes in order to slightly relax categorical 
 features, making it differentiable. E.g. see [Gumbel Softmax VAE blog post](https://blog.evjang.com/2016/11/tutorial-categorical-variational.html) or
@@ -1773,7 +1938,7 @@ features, making it differentiable. E.g. see [Gumbel Softmax VAE blog post](http
 
 ### EVD Type II: Frechet distribution
 
-#### Example 5.6. Pareto distribution, Lindy effect
+#### Example 6.6. Pareto distribution, Lindy effect
 
 What's the chance that the richest of your friends would be a billionaire?
 
@@ -1788,20 +1953,20 @@ Maximum of this distribution could be shown to converge to $(1 - F(x)/n)^n = e^{
 
 ### EVD Type III: Inverse Weibull distribution
 
-#### Example 5.7. Strength of materials
+#### Example 6.7. Strength of materials
 
 TODO: polynomial hazard rate e.g. $h(t) = \alpha \cdot t^{\alpha -1}$ leads to polynomial cumulative hazard rate 
 $H(t) = \int \limits_0^t h(s) ds = \int \limits_0^t d s^\alpha$, so that survival function is Weibull: $S(t) = e^{-t^\alpha}$.
 
-#### Example 5.8. Fraction of mass, occupied by particles of a certain size in mining, connection to Pareto distribution
+#### Example 6.8. Fraction of mass, occupied by particles of a certain size in mining, connection to Pareto distribution
 
 TODO
 
-#### Example 5.9. Trading orders
+#### Example 6.9. Trading orders
 
 TODO
 
-## 6. Concluding remarks
+## 7. Concluding remarks
 
 In this post we've explored the EVD for the case of maximum of i.i.d. random variables. There are many related problems 
 and extensions, however.
@@ -1867,10 +2032,6 @@ Wikipedia somewhat incorrectly claims that Frechet distribution is the same as I
 seen earlier, Frechet distribution has $-k$ (negative number) in the power, while Inverse Weibull has positive $k$. Also,
 Frechet distribution has non-zero pdf at positive values of $x$, while Frechet has non-zero pdf at negative values of $x$.
 
-### Generalized Pareto distribution
-
-TODO
-
 ### Extreme value of minimum
 
 Distribution of minimum behaves in a similar way to the distribution of maximum with some inversions of EVDs.
@@ -1927,3 +2088,12 @@ Sidney I. Resnick                           |  Laurens de Haan                  
 * https://rss.onlinelibrary.wiley.com/doi/pdf/10.1111/j.1740-9713.2018.01123.x - review of applications of Weibull distribution
 * https://en.wikipedia.org/wiki/Shifted_Gompertz_distribution - Wikipedia on shifted Gompertz distribution
 * https://pure.uvt.nl/ws/portalfiles/portal/19635604/2017_051.pdf - de Haan and Einmahls on limits to human lifespan
+* https://evmtech.com/wp-content/uploads/2013/02/Exact-EVT.pdf - on Generalized Pareto distribution, Piclands-Balkema-de Haan theorem and Hill's estimator
+* https://en.wikipedia.org/wiki/Generalized_Pareto_distribution - Wikipedia on Generalized Pareto distribution, Hill's estimator
+* https://en.wikipedia.org/wiki/Pickands%E2%80%93Balkema%E2%80%93De_Haan_theorem - Wikipedia on Pickands, Balkema, de Haan theorem
+* https://en.wikipedia.org/wiki/Force_of_mortality - nice examples of hazard rates and corresponding survival functions
+* https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9231421/ - estimating Value-at-Risk with Generalized Pareto Distribution, ARMA-GARCH etc.
+* https://projecteuclid.org/journals/annals-of-probability/volume-2/issue-5/Residual-Life-Time-at-Great-Age/10.1214/aop/1176996548.full - residual life time at great age paper by Balkema and de Haan with proof of the theorem
+* https://projecteuclid.org/journals/annals-of-statistics/volume-3/issue-1/Statistical-Inference-Using-Extreme-Order-Statistics/10.1214/aos/1176343003.full - Pickands paper on Extreme Order Statistics
+* https://www.mdpi.com/2073-8994/14/6/1207/htm - on the issue of sub-exponential tails of Gompertz disitribution
+* https://en.wikipedia.org/wiki/Heavy-tailed_distribution - Wikipedia on heavy-tailed, long-tailed and subexponential distributions
