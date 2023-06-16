@@ -30,7 +30,8 @@ description: Quite often in mathematical statistics I run into Extreme Value Dis
     * Generalized Pareto distribution
     * Residual life time problem
     * Pickands-Balkema-de Haan theorem (a.k.a. Second Extreme Value Theorem)
-    * Pickands' estimator and Hill's estimator
+    * Pickands' estimator
+    * Hill's estimator
 6. Summary and examples of practical application
     * Examples of Type I Gumbel distribution
     * Examples of Type II Frechet distribution
@@ -1805,7 +1806,7 @@ $g^*(u) = \begin{cases} x_F - u, \gamma > 0  \\ u, \gamma < 0 \\ \frac{F'(u)}{1 
 And our $g(u) \sim g^*(y)$ by Khinchin's lemma upon $u \to \infty$. This allows us to reverse the discussion in the 
 direct statement and end up with necessary and sufficient conditions of convergence to EVD.
 
-### Pickands' estimator and Hill's estimator
+### Pickands' estimator
 
 If we find a way to estimate the parameter $\gamma$ from the experimental data, we can argue that underlying survival
 function has a finite or and infinte upper endpoint. This is extremely valuable, e.g. we can prove that human lifespan
@@ -1813,15 +1814,62 @@ is fundamentally limited, and that hazard rate has a singularity, approaching so
 
 How do we estimate $\gamma$, given experimental data?
 
-Pickands in his 1975 paper suggested an estimator based on order statistic. TODO: a few more words about it.
+Pickands in his 1975 paper suggested an estimator based on order statistic. If we order all the observations $x_i$ and 
+consider only the tail, starting from the highest $k$ (at this tail scaled residual lifetimes converge to Generalized 
+Pareto)
 
-A similar estimator was suggested by Hill (e.g. see: [Embrechts book](https://books.google.ru/books?id=o-clBQAAQBAJ&dq=modeeling+extreme+events+for+insurance&pg=PA190&redir_esc=y#v=onepage&q=modeeling%20extreme%20events%20for%20insurance&f=false)).
+#### Theorem 5.4. Pickands' estimator
 
-In general case its derivation is tedious. However, we know that in case of fat-tail distributions, when $\gamma \ne 0$,
+The $\gamma$ parameter of Generalized Pareto Distribution can be estimated as:
+
+$\hat{\gamma} = - 1 / \log_2 (\frac{ S^{\leftarrow}(1/4) - S^{\leftarrow}(1/2) }{ S^{\leftarrow}(1/2) })$
+
+#### Proof:
+
+##### Step 0 (optional): Representation of Generalized Pareto's survival function as integral
+
+Generalized Pareto Distribution's survival function can be represented as $S(x) = e^{ - \int \limits_{0}^{ x } \frac{1}{1 + \gamma t} dt } = e^{ -\frac{1}{\gamma} \int \limits_{0}^{x}d \ln(1 + \gamma t) } = e^{-\frac{1}{\gamma} (\ln (1 + \gamma x) ) - \cancel{\ln 1} } = (1 + \gamma x)^{-1 /\gamma}$.
+
+##### Step 1: Inverse of Generalized Pareto's survival function
+
+Let us derive the inverse of the survival function of Generalized Pareto. We know that:
+
+$S(S^{\leftarrow}(x)) = (1 + \gamma S^{\leftarrow}(x))^{-1/\gamma}$
+
+$x = (1 + \gamma S^{\leftarrow}(x))^{-1/\gamma}$
+
+$x^{1/\gamma} = 1 + \gamma S^{\leftarrow}(x)$
+
+$S^{\leftarrow}(x) = \frac{x^{1/\gamma} - 1}{\gamma}$
+
+##### Step 3: Inferring the Pickands' estimator
+
+Consider two quantiles: median and quartile: $S^{\leftarrow}(1/2) = \frac{ {1/2}^{1/\gamma} - 1 }{ \gamma }$ and $S^{\leftarrow}(1/4) = \frac{ {1/4}^{1/\gamma} - 1 }{ \gamma }$.
+
+$S^{\leftarrow}(1/4) - S^{\leftarrow}(1/2) = \frac{ {1/4}^{1/\gamma} - 1 - ({1/2}^{1/\gamma} - 1) }{ \gamma } = \frac{ {1/4}^{1/\gamma} - {1/2}^{1/\gamma} } {\gamma} = {1/2}^{1/\gamma} \cdot \frac{ {1/2}^{1/\gamma} - 1 }{ \gamma }$
+
+Divide this by $S^{\leftarrow}(1/2)$, and we get:
+
+$\frac{ S^{\leftarrow}(1/4) - S^{\leftarrow}(1/2) }{ S^{\leftarrow}(1/2) } = {1/2}^{1/\gamma}$
+
+$\log_2 (\frac{ S^{\leftarrow}(1/4) - S^{\leftarrow}(1/2) }{ S^{\leftarrow}(1/2) }) = -1/\gamma$
+
+$\gamma = - 1 / \log_2 (\frac{ S^{\leftarrow}(1/4) - S^{\leftarrow}(1/2) }{ S^{\leftarrow}(1/2) })$
+
+Now we choose $k$ large enough, close enough to $n$, so that we assume that the distribution of order statistics is close
+to Generalized Pareto, and we replace $S^{\leftarrow}(1/4)$ and $S^{\leftarrow}(1/2)$ with $x_{k + 3/4 (n-k)}$ and $x_{k + 1/2 (n-k)}$. 
+
+### Hill's estimator
+
+A similar estimator was suggested by Hill. It is based on order statistic as well and in general case its derivation is tedious (e.g. see: [Embrechts book](https://books.google.ru/books?id=o-clBQAAQBAJ&dq=modeeling+extreme+events+for+insurance&pg=PA190&redir_esc=y#v=onepage&q=modeeling%20extreme%20events%20for%20insurance&f=false)).
+
+In general case Hill's estimator is: $\hat{\gamma} = \frac{1}{n - k} \sum \limits_{i=k}^{n} \ln \frac{x_i}{x_n}$
+
+Although its derivation in general case is tedious, when $\gamma \ne 0$,
 we are dealing with Lomax distribution, not generalized Pareto. This significantly simplifies the derivation of a maximum
 likelihood estimator.
 
-#### Theorem 5.2: Hill's estimator for fat tails and Lomax distribution 
+#### Theorem 5.3: Hill's estimator for fat tails and Lomax distribution 
 
 For fat-tail survival functions (Inverse Weibull and Frechet) tail index can be estimated as $\gamma = \frac{1}{n - k + 1} \sum \limits_{i=k}^n \ln (x_i)$.
 
@@ -1840,9 +1888,14 @@ $f(x) = \frac{\partial F(x)}{\partial x} = \frac{1}{\gamma} (1 + x)^{-1/\gamma -
 
 ##### Step 2: transition from product to log-likelihood
 
-Consider $k \to \infty$ largest observations out of $n$.
+Suppose that we have an order statistic of $n$ observations $x_i$, such that $x_n$ is the largest and $x_1$ is the smallest.
+Let us look at the tail, starting from observation $k$, so that the largest $n - k + 1$ observations out of $n$ 
+constitute our sample residual life time.
 
-Transitioning from the product to a sum of logarithms $\gamma$, we get: 
+We aim to obtain the maximum likelihood estimate of $\gamma$, which makes these observations most probable. The whole
+tail order statistic's likelihood is described by a product of probabilities.
+
+Log-likelihood, obtained by transitioning from the product to a sum of logarithms of observations, given $\gamma$, is more convenient to work with: 
 
 $\hat{\gamma} = \arg \max \limits_{\gamma} \sum \limits_{i=k}^n (\ln (1 + x_i)^{-1/\gamma - 1} - \ln \gamma) = \arg \max \limits_{\gamma} (- (\frac{1}{\gamma} + 1) \sum \limits_{i=k}^n \ln (1 + x_i) - (n - k + 1) \ln \gamma)$.
 
@@ -1850,13 +1903,13 @@ $\hat{\gamma} = \arg \max \limits_{\gamma} \sum \limits_{i=k}^n (\ln (1 + x_i)^{
 
 Taking the derivative of this log-likelihood in $\xi$ and equating it to zero, we get:
 
-$\frac{\partial (- (\frac{1}{\gamma} + 1) \sum \limits_{i=k}^n \ln (1 + x_i)) - (n - k + 1) \ln \gamma }{\partial \gamma} = \frac{1}{\gamma^2} \sum \limits_{i=k}^n \ln (1 + x_i) -\frac{n - k + 1}{\gamma} = 0$.
+$\frac{\partial (- (\frac{1}{\gamma} + 1) \sum \limits_{i=k}^n \ln (1 + x_i) - (n - k + 1) \ln \gamma) }{\partial \gamma} = \frac{1}{\gamma^2} \sum \limits_{i=k}^n \ln (1 + x_i) -\frac{n - k + 1}{\gamma} = 0$.
 
-$\gamma = \frac{1}{n - k + 1} \sum \limits_{i=k}^n \ln (x_i)$.
+$\hat{\gamma} = \frac{1}{n - k + 1} \sum \limits_{i=k}^n \ln (x_i)$.
 
 ---
 
-## 5. Summary and examples of practical application
+## 6. Summary and examples of practical application
 
 Speaking informally: 
 
