@@ -1814,15 +1814,15 @@ is fundamentally limited, and that hazard rate has a singularity, approaching so
 
 How do we estimate $\gamma$, given experimental data?
 
-Pickands in his 1975 paper suggested an estimator based on order statistic. If we order all the observations $x_i$ and 
-consider only the tail, starting from the highest $k$ (at this tail scaled residual lifetimes converge to Generalized 
-Pareto)
+Pickands in his 1975 paper suggested an estimator based on order statistic. If we order all the observations $x_i$ in
+the ascending order and consider only the tail, starting from the highest $k$ (at this tail scaled residual lifetimes
+converge to Generalized Pareto), we can infer $\hat{\gamma}$ from this order statistics as follows.
 
 #### Theorem 5.4. Pickands' estimator
 
 The $\gamma$ parameter of Generalized Pareto Distribution can be estimated as:
 
-$\hat{\gamma} = - 1 / \log_2 (\frac{ S^{\leftarrow}(1/4) - S^{\leftarrow}(1/2) }{ S^{\leftarrow}(1/2) })$
+$\hat{\gamma} = \log_2 (\frac{ x_{k + 3/4 (n-k)} - x_{k + 1/2 (n-k)} }{ x_{k + 1/2 (n-k)} - x_n })$.
 
 #### Proof:
 
@@ -1838,26 +1838,26 @@ $S(S^{\leftarrow}(x)) = (1 + \gamma S^{\leftarrow}(x))^{-1/\gamma}$
 
 $x = (1 + \gamma S^{\leftarrow}(x))^{-1/\gamma}$
 
-$x^{1/\gamma} = 1 + \gamma S^{\leftarrow}(x)$
+$x^{-\gamma} = 1 + \gamma S^{\leftarrow}(x)$
 
-$S^{\leftarrow}(x) = \frac{x^{1/\gamma} - 1}{\gamma}$
+$S^{\leftarrow}(x) = \frac{x^{-\gamma} - 1}{\gamma}$
 
 ##### Step 3: Inferring the Pickands' estimator
 
-Consider two quantiles: median and quartile: $S^{\leftarrow}(1/2) = \frac{ {1/2}^{1/\gamma} - 1 }{ \gamma }$ and $S^{\leftarrow}(1/4) = \frac{ {1/4}^{1/\gamma} - 1 }{ \gamma }$.
+Consider two quantiles: median and quartile: $S^{\leftarrow}(1/2) = \frac{ {1/2}^{-\gamma} - 1 }{ \gamma }$ and $S^{\leftarrow}(1/4) = \frac{ {1/4}^{-\gamma} - 1 }{ \gamma }$.
 
-$S^{\leftarrow}(1/4) - S^{\leftarrow}(1/2) = \frac{ {1/4}^{1/\gamma} - 1 - ({1/2}^{1/\gamma} - 1) }{ \gamma } = \frac{ {1/4}^{1/\gamma} - {1/2}^{1/\gamma} } {\gamma} = {1/2}^{1/\gamma} \cdot \frac{ {1/2}^{1/\gamma} - 1 }{ \gamma }$
+$S^{\leftarrow}(1/4) - S^{\leftarrow}(1/2) = \frac{ {1/4}^{-\gamma} - 1 - ({1/2}^{-\gamma} - 1) }{ \gamma } = \frac{ {1/4}^{-\gamma} - {1/2}^{-\gamma} } {\gamma} = {1/2}^{-\gamma} \cdot \frac{ {1/2}^{-\gamma} - 1 }{ \gamma }$
 
 Divide this by $S^{\leftarrow}(1/2)$, and we get:
 
-$\frac{ S^{\leftarrow}(1/4) - S^{\leftarrow}(1/2) }{ S^{\leftarrow}(1/2) } = {1/2}^{1/\gamma}$
+$\frac{ S^{\leftarrow}(1/4) - S^{\leftarrow}(1/2) }{ S^{\leftarrow}(1/2) } = {2}^{\gamma}$
 
-$\log_2 (\frac{ S^{\leftarrow}(1/4) - S^{\leftarrow}(1/2) }{ S^{\leftarrow}(1/2) }) = -1/\gamma$
-
-$\gamma = - 1 / \log_2 (\frac{ S^{\leftarrow}(1/4) - S^{\leftarrow}(1/2) }{ S^{\leftarrow}(1/2) })$
+$\gamma = \log_2 (\frac{ S^{\leftarrow}(1/4) - S^{\leftarrow}(1/2) }{ S^{\leftarrow}(1/2) })$
 
 Now we choose $k$ large enough, close enough to $n$, so that we assume that the distribution of order statistics is close
-to Generalized Pareto, and we replace $S^{\leftarrow}(1/4)$ and $S^{\leftarrow}(1/2)$ with $x_{k + 3/4 (n-k)}$ and $x_{k + 1/2 (n-k)}$. 
+to Generalized Pareto, and we replace $S^{\leftarrow}(1/4)$ and $S^{\leftarrow}(1/2)$ with $x_{k + 3/4 (n-k)} - x_{k + 1/2 (n-k)}$ and $x_{k + 1/2 (n-k)} - x_n$, resulting in: 
+
+$\hat{\gamma} = \log_2 (\frac{ x_{k + 3/4 (n-k)} - x_{k + 1/2 (n-k)} }{ x_{k + 1/2 (n-k)} - x_n })$.
 
 ### Hill's estimator
 
