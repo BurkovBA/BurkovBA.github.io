@@ -1818,11 +1818,9 @@ Pickands in his 1975 paper suggested an estimator based on order statistic. If w
 the ascending order and consider only the tail, starting from the highest $k$ (at this tail scaled residual lifetimes
 converge to Generalized Pareto), we can infer $\hat{\gamma}$ from this order statistics as follows.
 
-#### Theorem 5.4. Pickands' estimator
+#### Theorem 5.2. Pickands' estimator
 
-The $\gamma$ parameter of Generalized Pareto Distribution can be estimated as:
-
-$\hat{\gamma} = \log_2 (\frac{ x_{k + 3/4 (n-k)} - x_{k + 1/2 (n-k)} }{ x_{k + 1/2 (n-k)} - x_n })$.
+The $\gamma$ parameter of Generalized Pareto Distribution can be estimated as: $\hat{\gamma} = \log_2 (\frac{ x_{k + 3/4 (n-k)} - x_{k + 1/2 (n-k)} }{ x_{k + 1/2 (n-k)} - x_n })$.
 
 #### Proof:
 
