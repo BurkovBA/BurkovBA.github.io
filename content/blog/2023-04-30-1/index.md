@@ -952,6 +952,8 @@ We need to show that $\lim \limits_{x \to \infty} \frac{x h(x)}{\int \limits_{0}
 
 ##### Step 1. Express h(x) through b(x)
 
+Denote $b(x) = \frac{x h(x)}{\int \limits_{0}^{x} h(t) dt}$.
+
 Express $h(x)$ through $b(x)$ (see the derivation in reverse statement and Karamata's representation below):
 
 $h(x) = c \cdot \frac{ b(x) }{ x } \cdot e^{\int \limits_{1}^{x} \frac{ b(u) }{u} du}$.
@@ -972,43 +974,49 @@ Apply Fatou's lemma:
 
 $\liminf \limits_{x \to \infty} \frac{ \int \limits_{0}^{1} h(sx) dt }{ h(x) } \ge \int \limits_{0}^{1} \liminf \limits_{x \to \infty} \frac{ h(sx) }{ h(x) } ds = \int \limits_{0}^{1} s^{\beta} ds = \frac{1}{ \beta + 1 }$
 
-This leads to a conclusion $\limsup \limits_{x \to \infty} h(x) \le \beta + 1$.
+This leads to a conclusion $\limsup \limits_{x \to \infty} b(x) \le \beta + 1$.
 
 ##### Step 4. Final analysis
 
-TODO: decipher this
+$b(x)$ has the following properties:
 
-$h(x)$ has the following properties:
+(i) As we've just shown $b(x)$ is bounded by $\beta + 1$ as $x \to \infty$;
 
-(i) As we've just shown $h(x)$ is bounded by $\beta + 1$ as $x \to \infty$;
+(ii) $b$ is slowly varying since $xU(x)$ is regularly varying with index of variation ${\beta + 1}$ and $\int \limits_0^x U(s)ds$ is regularly varying with index $\beta + 1$;
 
-(ii) $h$ is slowly varying since $xU(x)$ is regularly varying with index of variation ${\beta + 1}$ and $\int \limits_0^x U(s)ds$ is regularly varying with index $\beta + 1$;
-
-(iii) $h(xt) - H(x) \to 0$ boundedly as $x \to \infty$. 
+(iii) $b(xt) - b(x) \to 0$ boundedly as $x \to \infty$. 
 
 The last statement follows since by slow variation:
 
-$\lim \limits_{x \to \infty} (h(xt) - h(x)) / h(x) = 0$
+$\lim \limits_{x \to \infty} (b(xt) - b(x)) / b(x) = 0$
 
-and the denominator is ultimately bounded. 
+and the denominator is ultimately bounded by (i). 
 
 From (iii) and dominated convergence
 
-$\lim \limits_{x \to \infty} \int \limits_{1}^{s} \frac{ h(xt) - h(x) }{t} dt = 0$
+$\lim \limits_{x \to \infty} \int \limits_{1}^{s} \frac{ b(xt) - b(x) }{t} dt = 0$
 
 and the left side may be rewritten to obtain
 
-$\lim \limits_{x \to \infty} \int \limits_{1}^{s} \frac{ h(xt) }{t}dt - h(x) \ln s = 0$
+$\lim \limits_{x \to \infty} (\int \limits_{1}^{s} \frac{ b(xt) }{t}dt - b(x) \ln s) = 0$
 
-From $h(x) = c \cdot \frac{ h(x) }{ x } \cdot e^{\int \limits_{1}^{x} \frac{ h(u) }{u} du}$:
+From $h(x) = c \cdot \frac{b(x) }{ x } \cdot e^{\int \limits_{1}^{x} \frac{ b(u) }{u} du}$ and $b(x) = \frac{x h(x)}{ \int \limits_{0}^{x}h(s)ds }$:
 
-$c \cdot exp(\int \limits_1^x \frac{h(t)}{t} dt) = \int \limits_0^x U(s) ds$, which is a regularly varying function with index of variation $\beta + 1$
+$c \cdot exp(\int \limits_1^x \frac{b(t)}{t} dt) = \int \limits_0^x h(s) ds$, which is a regularly varying function with index of variation $\beta + 1$
 
-And from regular variation property:
+Apply regular variation property to regularly varying function $H(x) = \int \limits_0^x h(s) ds$ with index of variation $\beta + 1$:
 
-$(\beta + 1) \ln s = \lim_{x \to \infty} \ln \frac{ \int \limits_0^{xs} h(t) dt }{ \int \limits_0^{x} h(t) dt } = \lim_{x \to \infty} \int \limits_x^{xs} \frac{h(t)}{t} dt = \lim_{1 \to s} \int \limits_x^{xs} \frac{h(xt)}{t} dt$
+$s^{\beta + 1} = \frac{H(sx)}{H(x)}$
 
-and combining this with (0.41) leads to the desired conclusion that $h(x) \to \beta + 1$.
+Apply natural logarithm to both sides:
+
+$(\beta + 1) \ln s = \lim \limits_{x \to \infty} \ln \frac{ \int \limits_0^{xs} h(t) dt }{ \int \limits_0^{x} h(t) dt }$
+
+Now recall that, as we've show above $H(x) = \int \limits_0^x h(s) ds = c \cdot exp(\int \limits_1^x \frac{b(t)}{t} dt)$ and substitute this for $H(x)$:
+
+$(\beta + 1) \ln s = \lim \limits_{x \to \infty} \ln ( \frac{ c e^{ \int \limits_{0}^{xs} } \frac{b(t)}{t} dt }{ c e^{ \int \limits_{0}^{x} \frac{b(t)}{t} dt } } ) = \lim \limits_{x \to \infty} \ln e^{\int \limits_{0}^{xs} \frac{b(t)}{t} dt - \int \limits_{0}^{x} \frac{b(t)}{t} dt } =  \lim \limits_{x \to \infty} \int \limits_x^{xs} \frac{b(t)}{t} dt = \lim \limits_{x \to \infty} \int \limits_1^s \frac{b(xt)}{t} dt$
+
+and combining this with $\lim \limits_{x \to \infty} (\int \limits_{1}^{s} \frac{ b(xt) }{t}dt - b(x) \ln s) = 0$ leads to the desired conclusion that $b(x) \to \beta + 1$.
 
 #### Proof of reverse statement
 
@@ -2148,3 +2156,5 @@ Sidney I. Resnick                           |  Laurens de Haan                  
 * https://projecteuclid.org/journals/annals-of-statistics/volume-3/issue-1/Statistical-Inference-Using-Extreme-Order-Statistics/10.1214/aos/1176343003.full - Pickands paper on Extreme Order Statistics
 * https://www.mdpi.com/2073-8994/14/6/1207/htm - on the issue of sub-exponential tails of Gompertz disitribution
 * https://en.wikipedia.org/wiki/Heavy-tailed_distribution - Wikipedia on heavy-tailed, long-tailed and subexponential distributions
+* https://arxiv.org/pdf/math/0403299.pdf - a paper on Pickands estimator
+* https://projecteuclid.org/journals/annals-of-applied-probability/volume-14/issue-3/On-maximum-likelihood-estimation-of-the-extreme-value-index/10.1214/105051604000000279.full - Drees, Ferreira, de Haan paper on estimator for upper end of distribution
