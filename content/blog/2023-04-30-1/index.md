@@ -2033,8 +2033,15 @@ Maximum of this distribution could be shown to converge to $(1 - F(x)/n)^n = e^{
 
 #### Example 6.7. Strength of materials
 
-TODO: polynomial hazard rate e.g. $h(t) = \alpha \cdot t^{\alpha -1}$ leads to polynomial cumulative hazard rate 
-$H(t) = \int \limits_0^t h(s) ds = \int \limits_0^t d s^\alpha$, so that survival function is Weibull: $S(t) = e^{-t^\alpha}$.
+Seemingly identical pieces of materials break at different strengths due to randomness in the material. Weibull distribution
+describes the probability of a material to break at a strength $t$, representing it as a chain of $n$ identical
+pieces.
+
+Suppose that probability of each element of chain to break at a strength $t$ (hazard rate) is polynomial: $h(t) = \alpha \cdot t^{\alpha -1}$.
+
+This leads up to polynomial cumulative hazard rate $H(t) = \int \limits_0^t h(s) ds = \int \limits_0^t d s^\alpha$.
+
+Then the survival function of the whole chain is Weibull: $S(t) = e^{-t^\alpha}$.
 
 #### Example 6.8. Fraction of mass, occupied by particles of a certain size in mining, connection to Pareto distribution
 
