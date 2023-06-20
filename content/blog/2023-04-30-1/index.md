@@ -936,15 +936,21 @@ $(1 - x)^\beta h(t) \le h(tx) \le (1 + \epsilon) x^\beta h(t)$
 
 ##### Step 3. Application of squeeze conditions
 
-$\limsup \limits_{t \to \infty} \frac{ \int \limits_0^{tx} U(s)ds }{ \int \limits_0^{t} U(s)ds }$
-$ = \limsup \limits_{t \to \infty} \frac{ x \int \limits_0^{t} U(sx)ds }{ \int \limits_0^{t} U(s)ds }$
-$ = \limsup \limits_{t \to \infty} \frac{ x \int \limits_N^{t} U(sx)ds }{ \int \limits_N^{t} U(s)ds }$
-$ \le \limsup \limits_{t \to \infty} x^{\beta + 1} (1 + \epsilon) \frac{ \int \limits_0^{t} U(s)ds }{ \int \limits_0^{t} U(s)ds }$
+$\limsup \limits_{t \to \infty} \frac{ \int \limits_0^{tx} h(s)ds }{ \int \limits_0^{t} h(s)ds }$
+$ = \limsup \limits_{t \to \infty} \frac{ x \int \limits_0^{t} h(sx)ds }{ \int \limits_0^{t} h(s)ds }$
+$ = \limsup \limits_{t \to \infty} \frac{ x \int \limits_N^{t} h(sx)ds }{ \int \limits_N^{t} h(s)ds }$
+$ \le \limsup \limits_{t \to \infty} x^{\beta + 1} (1 + \epsilon) \frac{ \int \limits_N^{t} h(s)ds }{ \int \limits_N^{t} h(s)ds }$
 $ = x^{\beta + 1} (1 + \epsilon)$.
 
-##### Step 4. Special case: beta == -1
+##### Step 4. Special case: $\beta = -1$
 
-TODO
+Here we must consider two cases.
+
+If $H(\infty) = \int \limits_0^\infty h(x) dx < \infty$, in which case $H(x)$ is a
+slow-varying function, as $\frac{H(tx)}{H(t)} \xrightarrow{t \to \infty} 1$ (or, one might say $H(x)$ is a regularly
+varying function with index of variation $0$).
+
+Otherwise (if $H(\infty) = \int \limits_0^\infty h(x) dx = \infty$), the same reasoning as above applies.
 
 #### Proof of ratio statement
 
@@ -1629,13 +1635,13 @@ Now we can slightly generalize that condition and show that it is necessary and 
 
 A distribution's maximum converges to Gumbel Type I EVD, if and only if its survival function can be represented as:
 
-$S(x) = c(x) S^{*}(x) = c(x) exp(-\int \limits_{-\infty}^{x} \frac{1}{f(u)} du)$, where $S^{*}$ is a von Mises function and $\lim_{t \to x_F} c(x) = c > 0$.
+$S(x) = c(x) S^{*}(x) = c(x) exp(-\int \limits_{-\infty}^{x} \frac{1}{f(u)} du)$, where $S^{*}$ is a von Mises function and $\lim \limits_{x \to x_F} c(x) = c > 0$.
 
 #### Proof of direct statement
 
-As $S^{*}$ is a von Mises function, $n S^{*}(a_n x + b)n \to e^{-x}$. Hence,
+As $S^{*}$ is a von Mises function, $n S^{*}(a_n x + b_n) \to e^{-x}$. Hence,
 
-$n S^{*}(a_n x + b_n) \to c e^{-x}$ and
+$n c(x) S^{*}(a_n x + b_n) \to c e^{-x}$ and
 
 $F^n(a_n x + b_n) \to exp(-c e^{-x})$
 
@@ -1662,13 +1668,26 @@ A distribution belongs to some type of Extreme Value Distribution if and only if
 
 Here $S(x-)$ denotes the left limit of survival function as it approaches $x$.
 
-TODO: strictly speaking, this only explains that distribution does not converge to EVD Type I.
+#### Proof for the case of EVD type I
 
-#### Proof
-
-From the previous theorem and representation of survival function as a generalization of survival function, we 
+From the previous theorem and representation of survival function as a generalization of von Mises function, we 
 immediately get $\frac{ S(x) }{ S(x-) } = \frac{ c(x) }{ c(x-) }$ and since both converge to $c$, this concludes 
 the proof.
+
+#### Proof in general case
+
+I've seen some ugly and technical proofs of this statement, e.g. in the textbook by [Leadbetter et al.](https://scask.ru/k_book_eps.php).
+I believe, Leadbetter's proof contains an arithmetic mistake or a typo (or I made an arithmetic mistake, while working 
+through it, which seems more probable, but I can't find it).
+
+Instead of proving it directly, I suggest inferring this result from the Pickands-Balkema-de Haan theorem, proven in the 
+next part of this text. From that theorem we know, that the ratio $\frac{S(t + \Delta x g(t))}{S(t)} \xrightarrow{t \to \infty} (1 + \gamma \Delta x)^{1/\gamma}$
+if and only if the survival function is in the domain of attraction of Generalized Extreme Value Distribution (here
+$g(x)$ is auxiliary function).
+
+If we set $\Delta x \to 0$, $t = x-$ (i.e. almost an integer number) and $t + \Delta x = x$ (i.e. full integer number), 
+we immediately get $\frac{S(x)}{S(x-)} \to 1$.  
+
 
 #### Example 4.1: Geometric distribution
 
