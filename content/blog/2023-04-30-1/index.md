@@ -1719,9 +1719,9 @@ As $x \to \infty$ this value approaches infinity, hence, proving that Poisson di
 
 ## 5. Residual life time
 
-James Pickands III                  |  Laurens de Haan                    
-:----------------------------------:|:------------------------------------:
-![Pickands](Pickands.png)           |  ![Laurens de Haan](de_Haan.png)    
+James Pickands III         |  A.A. (Guus) Balkema  |  Laurens de Haan                    
+:-------------------------:|:---------------------:|:-------------------------------:
+![Pickands](Pickands.png)  |                       |  ![Laurens de Haan](de_Haan.png)    
 
 ### Generalized Pareto distribution
 
@@ -1830,7 +1830,7 @@ know an appropriate $g(u)$ for each $\gamma$:
 
 $g^*(u) = \begin{cases} x_F - u, \gamma > 0  \\ u, \gamma < 0 \\ \frac{F'(u)}{1 - F(u)}, \gamma = 0 \end{cases}$
 
-And our $g(u) \sim g^*(y)$ by Khinchin's lemma upon $u \to \infty$. This allows us to reverse the discussion in the 
+And our $g(u) \sim g^*(u)$ by Khinchin's lemma upon $u \to \infty$. This allows us to reverse the discussion in the 
 direct statement and end up with necessary and sufficient conditions of convergence to EVD.
 
 ### Pickands' estimator
@@ -2043,11 +2043,44 @@ This leads up to polynomial cumulative hazard rate $H(t) = \int \limits_0^t h(s)
 
 Then the survival function of the whole chain is Weibull: $S(t) = e^{-t^\alpha}$.
 
-#### Example 6.8. Fraction of mass, occupied by particles of a certain size in mining, connection to Pareto distribution
+Here $\alpha$ is known as [Weibull modulus](https://en.wikipedia.org/wiki/Weibull_modulus).
 
-TODO
+A more direct approach to derive this result is a weakest link approach. Say, you have a rod of steel of length $l$.
+You split it into a chain of $n$ links of identical length $\Delta l = \frac{l}{n}$. Assume that the probability that a 
+link breaks, when a force $t$ is applied to it, is $p(t) = \frac{ \Delta l } {l} t^\alpha = t^\alpha / n$. Then probability 
+that the rod does not break, when force $t$ is applied to it is $(1 - p(t))^n = (1 - \frac{t^\alpha}{n}) \xrightarrow{n \to \infty} e^{-t^\alpha}$.
 
-#### Example 6.9. Trading orders
+#### Example 6.8. Human longevity
+
+While survival function of human is well-described by Gompertz distribution, related to Type I Gumbel distribution in
+the middle-to-old age, when it comes to the late age and the long-livers, the tail of survival function becomes fat and
+behaves like the tail of Weibull distribution.
+
+Suppose that we want to infer the parameters of our Weibull distribution from our data directly, e.g. using non-parametric
+methods. E.g. we want to find out the upper end of human life span. The data on super-long-livers (e.g. older than 110 
+y.o.) is very scarce (~5 people out of 300,000 older than 90 y.o.). Hence, if we use those super-long-livers directly,
+the error in out data would be huge, as we have just ~5 data points.
+
+However, as I've mentioned in part 5, if we apply Pickands-Balkema-de Haan theorem, we can extrapolate the data about 
+results that we observe for 90 y.o. people (of whom we have hundreds of thousands of observations) to derive the parameters
+of Generalized Pareto Distribution, which hold for 110 y.o. [De Haan et al.](https://pure.uvt.nl/ws/portalfiles/portal/19635604/2017_051.pdf) did this for a dataset of Dutch long-livers,
+resulting in a human life span limit of 117-123 years, no trend in terminal life span (we can't live longer than that thanks
+to the progress of medicine) and, obviously, negative tail index $\gamma$, corresponding to Inverse Weibull domain of
+attraction of survival function.
+
+#### Example 6.9. Value at Risk (VaR) in finance
+
+Say, you manage a portfolio of assets in finance. At each moment of time you can consider the change of price of your
+assets as a random variable. How much value can your assets lose in case the 5%-worst outcome materializes? 2%? 10%?
+
+This value is called Value at Risk (VaR). How to calculate it?
+
+Again, we can use a fully non-parametric method and use the sample quantile of level 95% as an approximation of 
+distribution's 95% quantile. But the amount of data that we'd have might be very small.
+
+TODO: inverse p-value and Generalized Pareto formulas
+
+#### Example 6.10. Fraction of mass, occupied by particles of a certain size in mining, connection to Pareto distribution 
 
 TODO
 
@@ -2177,10 +2210,11 @@ Sidney I. Resnick                           |  Laurens de Haan                  
 * https://en.wikipedia.org/wiki/Generalized_Pareto_distribution - Wikipedia on Generalized Pareto distribution, Hill's estimator
 * https://en.wikipedia.org/wiki/Pickands%E2%80%93Balkema%E2%80%93De_Haan_theorem - Wikipedia on Pickands, Balkema, de Haan theorem
 * https://en.wikipedia.org/wiki/Force_of_mortality - nice examples of hazard rates and corresponding survival functions
-* https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9231421/ - estimating Value-at-Risk with Generalized Pareto Distribution, ARMA-GARCH etc.
 * https://projecteuclid.org/journals/annals-of-probability/volume-2/issue-5/Residual-Life-Time-at-Great-Age/10.1214/aop/1176996548.full - residual life time at great age paper by Balkema and de Haan with proof of the theorem
 * https://projecteuclid.org/journals/annals-of-statistics/volume-3/issue-1/Statistical-Inference-Using-Extreme-Order-Statistics/10.1214/aos/1176343003.full - Pickands paper on Extreme Order Statistics
 * https://www.mdpi.com/2073-8994/14/6/1207/htm - on the issue of sub-exponential tails of Gompertz disitribution
 * https://en.wikipedia.org/wiki/Heavy-tailed_distribution - Wikipedia on heavy-tailed, long-tailed and subexponential distributions
 * https://arxiv.org/pdf/math/0403299.pdf - a paper on Pickands estimator
 * https://projecteuclid.org/journals/annals-of-applied-probability/volume-14/issue-3/On-maximum-likelihood-estimation-of-the-extreme-value-index/10.1214/105051604000000279.full - Drees, Ferreira, de Haan paper on estimator for upper end of distribution
+* https://www.investopedia.com/terms/v/var.asp - Value at Risk, explained by Investopedia
+* https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9231421/ - estimating Value-at-Risk with Generalized Pareto Distribution, ARMA-GARCH etc.
