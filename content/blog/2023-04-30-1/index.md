@@ -2050,7 +2050,37 @@ You split it into a chain of $n$ links of identical length $\Delta l = \frac{l}{
 link breaks, when a force $t$ is applied to it, is $p(t) = \frac{ \Delta l } {l} t^\alpha = t^\alpha / n$. Then probability 
 that the rod does not break, when force $t$ is applied to it is $(1 - p(t))^n = (1 - \frac{t^\alpha}{n}) \xrightarrow{n \to \infty} e^{-t^\alpha}$.
 
-#### Example 6.8. Human longevity
+#### Example 6.8. Fraction of mass, occupied by particles of a certain size in mining
+
+Another interesting case, where Weibull distribution arises is distribution of particle sizes in mining. Rozen and Rammler
+in 1933 empirically found out this distribution in the data, describing crushing of coal.
+
+Denote $n(m)$ the number of particles of mass between $m$ and $m + \Delta m$.
+
+Denote $m'$ a bigger mass, so that at each moment of time we observe events of fragmentation of particles of mass $m'$
+resulting in creation of particles of size $m$: $f(m' \to m)$.
+
+Integrating over all masses $m'$, we get the number of particles $n(m)$ of mass $m$ in the next moment of time:
+
+$n(m) = C \int \limits_{m}^{\infty} n(m') f(m' \to m) dm'$
+
+Assume that the probability to get a particle of mass $m$ from $m'$ is Pareto:
+
+$f(m' \to m) = (\frac{m}{m_0})^{-\gamma}$
+
+And set the constant $C = \frac{1}{m_0}$. Substituting this into the formula for $n(m)$, we get:
+
+$n(m) = \frac{m}{m_0}^{-\gamma} \int \limits_{m}^{\infty} n(m') d(\frac{m'}{m_0})$
+
+And if you differentiate this equation, you see that solution for $n(m)$ is an exponent:
+
+$n(m) = \frac{M}{m_0} (\frac{m}{m_0})^{-\gamma} e^{-\frac{ (m/m_0)^{\gamma + 1} }{\gamma + 1}}$, where $M = \int \limits_0^\infty n(m) dm$ is the total mass.
+
+This produces a survival function $\frac{S(m)}{ M } = \frac{\int \limits_m^\infty n(m) dm}{\int \limits_0^\infty n(m) dm} = exp(-\frac{1}{-\gamma + 1} \frac{m}{m_0}^{-\gamma+1})$
+
+See this [paper by Brown and Wohletz](https://www.lanl.gov/orgs/ees/geodynamics/Wohletz/SFT_Weibull.pdf) for more details.
+
+#### Example 6.9. Human longevity
 
 While survival function of human is well-described by Gompertz distribution, related to Type I Gumbel distribution in
 the middle-to-old age, when it comes to the late age and the long-livers, the tail of survival function becomes fat and
@@ -2068,7 +2098,7 @@ resulting in a human life span limit of 117-123 years, no trend in terminal life
 to the progress of medicine) and, obviously, negative tail index $\gamma$, corresponding to Inverse Weibull domain of
 attraction of survival function.
 
-#### Example 6.9. Value at Risk (VaR) in finance
+#### Example 6.10. Value at Risk (VaR) in finance
 
 Say, you manage a portfolio of assets in finance. At each moment of time you can consider the change of price of your
 assets as a random variable. How much value can your assets lose in case the 5%-worst outcome materializes? 2%? 10%?
@@ -2097,10 +2127,6 @@ $x = \frac{\sigma}{\gamma} (\frac{\alpha}{p}^\gamma - 1)$
 $VaR = u + x = u + \frac{ \sigma }{ \gamma } (\frac{\alpha}{p}^\gamma - 1)$
 
 See [this paper](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9231421/) with application of this approach to time series prediction with ARMA-GARCH.
-
-#### Example 6.10. Fraction of mass, occupied by particles of a certain size in mining, connection to Pareto distribution 
-
-TODO
 
 ## 7. Concluding remarks
 
