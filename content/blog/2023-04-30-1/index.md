@@ -2078,7 +2078,25 @@ This value is called Value at Risk (VaR). How to calculate it?
 Again, we can use a fully non-parametric method and use the sample quantile of level 95% as an approximation of 
 distribution's 95% quantile. But the amount of data that we'd have might be very small.
 
-TODO: inverse p-value and Generalized Pareto formulas
+Alternatively, we can use Pickands-Balkema-de Haan theorem to estimate Value at Risk. Say, we have lots of empirical data
+and can reliably estimate the quantile of level $\alpha$ (e.g. $\alpha = 90%$) $u$. At the same time quantile of level 
+$p$ (e.g. $p = 99%$) is a rare event, and estimation of its quantile $x + u$ is harder.
+
+Then: 
+
+$\frac{ p(\xi \ge x + u) }{ p (\xi \ge u) } = (1 + \gamma \frac{x}{\sigma})^{-1/\gamma}$
+
+$p / \alpha = (1 + \gamma \frac{x}{\sigma})^{-1/\gamma}$
+
+$\frac{p}{\alpha}^\gamma = \frac{1}{(1 + \gamma \frac{x}{\sigma} )}$
+
+$1 + \gamma x / \sigma = \frac{\alpha}{p}^\gamma$
+
+$x = \frac{\sigma}{\gamma} (\frac{\alpha}{p}^\gamma - 1)$
+
+$VaR = u + x = u + \frac{ \sigma }{ \gamma } (\frac{\alpha}{p}^\gamma - 1)$
+
+See [this paper](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9231421/) with application of this approach to time series prediction with ARMA-GARCH.
 
 #### Example 6.10. Fraction of mass, occupied by particles of a certain size in mining, connection to Pareto distribution 
 
