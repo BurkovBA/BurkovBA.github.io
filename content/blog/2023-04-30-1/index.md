@@ -1989,11 +1989,25 @@ Then $\xi - \xi_0 = \frac{1}{ (1 + \ln n)^2 } (\eta - \eta_0)$. So $(\xi - \xi_0
 
 Hence, $\max (\xi - \frac{\ln n}{1 + \ln n}) (1 + \ln n)^2 \sim e^{-e^{-x}}$.
 
-#### Example 6.3. Gompertz, shifted Gompertz distribution and longevity
+#### Example 6.3. Gompertz, shifted Gompertz distribution and mortality
 
-TODO: Hazard rate/[force of mortality](https://en.wikipedia.org/wiki/Force_of_mortality) for Gompertz survival model is $h(t) = A + B c^t$.
+When descrtibing human survival function, they often use Gompertz model, which is a special case of Gumbel distribution. 
 
-TODO: see https://pure.uvt.nl/ws/portalfiles/portal/19635604/2017_051.pdf
+This model works well until ~80-90 years, later it is incorrect, as the actual human survival function has fat tails,
+while in this model the tails are exponential and decay too fast. 
+
+However, it is still very useful for predicting
+excess mortality during epidemics for countries like Russia, where generation born in 1941-1945 is almost non-existent
+due to World War II, so its mortality needs to be imputed, if we were to predict the country's losses from Covid.
+
+In Gompertz survival model the hazard rate, a.k.a. [force of mortality](https://en.wikipedia.org/wiki/Force_of_mortality)
+is assumed $r(t) = A + B c^t = A + B e^{t \cdot \ln c}$.
+
+This leads to cumulative hazard rate: $R(t) = At + \frac{B}{\ln c} e^{t \cdot \ln c}$.
+
+Which results in a survival function $S(t) = exp(-R(t)) = exp(-\lambda t - \frac{\alpha}{\beta} (e^{\beta t} - 1) )$.
+
+This is a special kind of shifted, scaled Gumbel distribution, mirrored around y axis.
 
 #### Example 6.4. Karlin-Altschul statistics in bioinformatics
 
