@@ -1944,8 +1944,8 @@ Speaking informally:
 
 For instance:
 
-* Pareto, Cauchy, Student and Fisher distributions have heavy tails and converge to Type II.
-* Uniform and Beta distributions have a finite end point and converge to Type III.
+* Pareto, Cauchy, Student and Fisher distributions have fat tails and no finite endpoint and converge to Type II.
+* Uniform and Beta distributions have fat tails and a finite end point and converge to Type III.
 * Gaussian, Exponential, Gamma and Logistic distributions have light sub-exponential tails and converge to Type I.
 
 ### EVD Type I: Gumbel distribution examples
