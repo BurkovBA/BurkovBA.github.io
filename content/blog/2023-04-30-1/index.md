@@ -1817,7 +1817,7 @@ Assuming $u = t$, $g(u) = t$, we get the desired result.
 
 #### Outline of the proof of converse statement:
 
-There are 2 proofs of converse statement in the original [1974 Balkema, de Haan paper](https://projecteuclid.org/journals/annals-of-probability/volume-2/issue-5/Residual-Life-Time-at-Great-Age/10.1214/aop/1176996548.full) and [1975 Pickands](https://www.jstor.org/stable/2958083?seq=13) paper. 
+There are 2 proofs of converse statement: in the original [1974 Balkema, de Haan paper](https://projecteuclid.org/journals/annals-of-probability/volume-2/issue-5/Residual-Life-Time-at-Great-Age/10.1214/aop/1176996548.full) and [1975 Pickands paper](https://www.jstor.org/stable/2958083?seq=13). 
 
 Both proofs are completely unintelligible to me.
 
@@ -1855,7 +1855,7 @@ The $\gamma$ parameter of Generalized Pareto Distribution can be estimated as: $
 
 Generalized Pareto Distribution's survival function can be represented as $S(x) = e^{ - \int \limits_{0}^{ x } \frac{1}{1 + \gamma t} dt } = e^{ -\frac{1}{\gamma} \int \limits_{0}^{x}d \ln(1 + \gamma t) } = e^{-\frac{1}{\gamma} (\ln (1 + \gamma x) ) - \cancel{\ln 1} } = (1 + \gamma x)^{-1 /\gamma}$.
 
-##### Step 1: Inverse of Generalized Pareto's survival function
+##### Step 1: Reciprocal of Generalized Pareto's survival function
 
 Let us derive the inverse of the survival function of Generalized Pareto. We know that:
 
