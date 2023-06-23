@@ -3,7 +3,7 @@ title: Intro to the Extreme Value Theory and Extreme Value Distribution
 date: "2023-04-30T00:00:00.284Z"
 tags: ["math"]
 cover: "./Gnedenko_1943_paper.jpeg"
-description: Quite often in mathematical statistics I run into Extreme Value Distribution - an analogue of Central Limit Theorem, which describes the distribution of maximum/minimum, observed in a series of i.i.d random variable tosses. In this post I provide an introduction to extreme value theory, such as Generalized Extreme Value and Pareto distributions, Fisher-Tippett-Gnedenko theorem, von Mises conditions, Pickands-Balkema-de Haan theorem and their applications. 
+description: Quite often in mathematical statistics I run into Extreme Value Distribution - an analogue of Central Limit Theorem, which describes the distribution of maximum/minimum, observed in a series of i.i.d random variable tosses. This is an introductory text with the basic concepts and proofs of results from extreme value theory, such as Generalized Extreme Value and Pareto distributions, Fisher-Tippett-Gnedenko theorem, von Mises conditions, Pickands-Balkema-de Haan theorem and their applications. 
 ---
 
 ## Contents:
