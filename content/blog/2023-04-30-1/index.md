@@ -2003,9 +2003,9 @@ due to World War II, so its mortality needs to be imputed, if we were to predict
 In Gompertz survival model the hazard rate, a.k.a. [force of mortality](https://en.wikipedia.org/wiki/Force_of_mortality)
 is assumed $r(t) = A + B c^t = A + B e^{t \cdot \ln c}$.
 
-This leads to cumulative hazard rate: $R(t) = At + \frac{B}{\ln c} e^{t \cdot \ln c}$.
+This leads to cumulative hazard rate: $R(t) = At + \frac{B}{\ln c} (e^{t \cdot \ln c} - 1)$.
 
-Which results in a survival function $S(t) = exp(-R(t)) = exp(-\lambda t - \frac{\alpha}{\beta} (e^{\beta t} - 1) )$.
+Which results in a survival function $S(t) = exp(-R(t)) = exp(-A t - \frac{B}{\ln c} (e^{t \cdot \ln c} - 1) )$.
 
 This is a special kind of shifted, scaled Gumbel distribution, mirrored around y axis.
 
@@ -2217,7 +2217,7 @@ Distribution of minimum behaves in a similar way to the distribution of maximum 
 One might ask a question, how the N-th largest maximum of arbitrary random variable is distributed. Quite intuitively,
 its distribution looks like a hybrid between Poisson distribution and EVD. 
 
-### Continuous-time stochastic processes
+### Multi-variate case and continuous-time stochastic processes
 
 Instead of discrete number of random variables $n$ you might want to work with stochastic processes with continuous time $t$.
 Similar results can be derived for them.
