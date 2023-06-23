@@ -10,6 +10,8 @@ server {
 }
 
 # SSL configuration
+# see: https://www.nginx.com/blog/using-free-ssltls-certificates-from-lets-encrypt-with-nginx/
+# see: https://gist.github.com/nrollr/9a39bb636a820fb97eec2ed85e473d38
 server {
         listen 443 ssl http2;
         listen [::]:443 ssl http?;
