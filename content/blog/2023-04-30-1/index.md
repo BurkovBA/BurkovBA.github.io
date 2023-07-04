@@ -870,9 +870,9 @@ conditions for Type I.
 
 $\ln x$ is a slowly varying function because $\lim \limits_{t \to \infty} \frac{\ln (xt)}{\ln (t)} = \frac{\ln x + \ln t}{\ln t} = \frac{\ln x}{\ln t} + 1 \to 1$
 
-#### Definition 4.2: Regularly-varying function
+#### Definition 4.2: Regularly varying function
 
-**Regularly-varying function** $h(x)$ of index $\gamma$ is such a function that $\lim \limits_{t \to \infty} \frac{h(xt)}{h(t)} = x^{\beta}$ for any $x > 0$,
+**Regularly varying function** $h(x)$ of index $\beta is such a function that $\lim \limits_{t \to \infty} \frac{h(xt)}{h(t)} = x^{\beta}$ for any $x > 0$,
 where $\beta$ is a real number, sometimes called **exponent of variation** or **index of variation**.
 
 Regularly-varying function is basically just a generalization of slow-varying function.
@@ -1828,7 +1828,7 @@ $\frac{S(u + x g(u))}{S(u)} \xrightarrow{u \to \infty} (1 + \gamma x)^{-1 / \gam
 We know that all the g(u) are asymptotically equivalent from Khinchin's lemma. Then we can use the fact that we already
 know an appropriate $g(u)$ for each $\gamma$:
 
-$g^*(u) = \begin{cases} x_F - u, \gamma > 0  \\ u, \gamma < 0 \\ \frac{F'(u)}{1 - F(u)}, \gamma = 0 \end{cases}$
+$g^*(u) = \begin{cases} x_F - u, \gamma < 0  \\ u, \gamma > 0 \\ \frac{F'(u)}{1 - F(u)}, \gamma = 0 \end{cases}$
 
 And our $g(u) \sim g^*(u)$ by Khinchin's lemma upon $u \to \infty$. This allows us to reverse the discussion in the 
 direct statement and end up with necessary and sufficient conditions of convergence to EVD.
@@ -1888,7 +1888,8 @@ $\hat{\gamma} = \log_2 (\frac{ x_{k + 3/4 (n-k)} - x_{k + 1/2 (n-k)} }{ x_{k + 1
 
 A similar estimator was suggested by Hill. It is based on order statistic as well and in general case its derivation is tedious (e.g. see: [Embrechts book](https://books.google.ru/books?id=o-clBQAAQBAJ&dq=modeeling+extreme+events+for+insurance&pg=PA190&redir_esc=y#v=onepage&q=modeeling%20extreme%20events%20for%20insurance&f=false)).
 
-In general case Hill's estimator is: $\hat{\gamma} = \frac{1}{n - k} \sum \limits_{i=k}^{n} \ln \frac{x_i}{x_n}$
+In general case Hill's estimator is: $\hat{\gamma} = \frac{1}{n - k} \sum \limits_{i=k}^{n} \ln \frac{x_i}{x_n}$. It
+works only for $gamma > 0$, Frechet case! In case of Gumbel and Inverse Weibull it returns non-sensical results.
 
 Although its derivation in general case is tedious, when $\gamma \ne 0$,
 we are dealing with Lomax distribution, not generalized Pareto. This significantly simplifies the derivation of a maximum
@@ -2273,6 +2274,8 @@ Sidney I. Resnick                           |  Laurens de Haan                  
 * https://www.mdpi.com/2073-8994/14/6/1207/htm - on the issue of sub-exponential tails of Gompertz disitribution
 * https://en.wikipedia.org/wiki/Heavy-tailed_distribution - Wikipedia on heavy-tailed, long-tailed and subexponential distributions
 * https://arxiv.org/pdf/math/0403299.pdf - a paper on Pickands estimator
+* https://projecteuclid.org/journals/annals-of-statistics/volume-3/issue-5/A-Simple-General-Approach-to-Inference-About-the-Tail-of/10.1214/aos/1176343247.full - original paper on Hill's estimator
+* http://sfb649.wiwi.hu-berlin.de/fedc_homepage/xplore/tutorials/sfehtmlnode91.html - chapter of a tutorial on Hill's estimator
 * https://projecteuclid.org/journals/annals-of-applied-probability/volume-14/issue-3/On-maximum-likelihood-estimation-of-the-extreme-value-index/10.1214/105051604000000279.full - Drees, Ferreira, de Haan paper on estimator for upper end of distribution
 * https://www.investopedia.com/terms/v/var.asp - Value at Risk, explained by Investopedia
 * https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9231421/ - estimating Value-at-Risk with Generalized Pareto Distribution, ARMA-GARCH etc.
