@@ -1836,7 +1836,7 @@ direct statement and end up with necessary and sufficient conditions of converge
 ### Pickands' estimator
 
 If we find a way to estimate the parameter $\gamma$ from the experimental data, we can argue that underlying survival
-function has a finite or and infinte upper endpoint. This is extremely valuable, e.g. we can prove that human lifespan
+function has a finite or an infinite upper endpoint. This is extremely valuable, e.g. we can prove that human lifespan
 is fundamentally limited, and that hazard rate has a singularity, approaching some end point at around 117-123 years.
 
 How do we estimate $\gamma$, given experimental data?
