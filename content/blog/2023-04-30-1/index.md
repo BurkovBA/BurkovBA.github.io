@@ -1775,8 +1775,9 @@ Pickands-Balkema-de Haan theorem (sometimes called Second Extreme Value Theorem)
 
 #### Theorem 5.1. Pickands-Balkema-de Haan theorem (Second Extreme Value Theorem)
 
-Normalized residual life time distribution $F(t + x g(t)) \xrightarrow{t \to \infty} G(x)$, where $G(x)$ is either
-$1 - e^{-\alpha}$, corresponding to Type I Gumbel EVD, or $1 - (1 + x)^{-\alpha}$, corresponding to Type III Weibull EVD.
+Normalized residual life time distribution $F(t + x g(t)) \xrightarrow{t \to \infty} G(x)$, where 
+$G(x) = \begin{cases} 1 - (1 + \gamma x)^{-1/\gamma} \\ 1 - e^{-x} \end{cases}$, where $t \to \infty$ is some time point 
+sufficiently large, after which this theorem holds, and $g(t)$ is an auxiliary function for normalization.
 
 **Note:** Moreover, we can generalize even more and relax conditions to $F(b(t) + x g(t)) \xrightarrow{t \to \infty} G(x)$, 
 then limit distributions set is slightly extended. I am not going to go into details, see [Balkema, de Haan 1974 paper](https://projecteuclid.org/journals/annals-of-probability/volume-2/issue-5/Residual-Life-Time-at-Great-Age/10.1214/aop/1176996548.full).
@@ -1785,7 +1786,7 @@ then limit distributions set is slightly extended. I am not going to go into det
 
 ##### Type I (Gumbel)
 
-By necessary and sufficient condition of survival function attraction to Gubmel Type I EVD we know that:
+By necessary and sufficient condition of survival function attraction to Gumbel Type I EVD we know that:
 
 $\frac{S(u + x g(u))}{S(u)} \xrightarrow{u \to x_F} e^{-x}$
 
