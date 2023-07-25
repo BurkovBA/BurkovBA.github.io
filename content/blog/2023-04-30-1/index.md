@@ -833,12 +833,12 @@ of time $t$.
 Our proof is based on the fact that $S(x) = e^{-\int \limits_{-\infty}^{x} r(u) du}$. 
 
 However, it would hold if we could represent the survival function as 
-$S(x) = c e^{-\int \limits_{-\infty}^{x} \frac{1}{f(u)} du}$ with any auxiliary function $f$, not 
-necessarily $f(u) = \frac{1}{r(u)}$.
+$S(x) = c e^{-\int \limits_{-\infty}^{x} \frac{1}{g(u)} du}$ with any auxiliary function $g$, not 
+necessarily $g(u) = \frac{1}{r(u)}$.
 
 Hence, a survival function is called a **von Mises function**, if it can be represented as 
-$S(x) = c e^{-\int \limits_{z_0}^{x} \frac{1}{f(u)} du}$, where $f(u) > 0$ is an absolutely continuous auxiliary function
-with density $f'(u)$, such that $\lim \limits_{u \to x_0} f'(u) = 0$ and $z_0 < u < x_0$ (basically, $z_0$ is a lower
+$S(x) = c e^{-\int \limits_{z_0}^{x} \frac{1}{g(u)} du}$, where $g(u) > 0$ is an absolutely continuous auxiliary function
+with density $g'(u)$, such that $\lim \limits_{u \to x_0} g'(u) = 0$ and $z_0 < u < x_0$ (basically, $z_0$ is a lower
 end point which does not have to be $-\infty$ or 0).
 
 ---
