@@ -120,7 +120,7 @@ Let's show this fact: indeed $O_2$ and $O_3$ are gaussian r.v. (by de Moivre-Lap
 with expectations of $\mathbb{E}[O_2] = np_2$ and $\mathbb{E}[O_3] = np_3$ and variances $Var[O_2] = np_2(1-p_2)$ and $Var[O_3] = np_3(1-p_3)$ respectively. 
 
 Sum of 2 gaussian random variables is gaussian with expectation equal to sum of expectations and variance equal to sum of
-variances, plus covariance: $\sigma_{X+Y} = \sqrt{\sigma_{X}^2 + \sigma_{Y}^2 + 2 \rho \sigma_{X} \sigma_{Y}}$. This fact [can be proved using either convolutions or Fourier transform](https://en.wikipedia.org/wiki/Sum_of_normally_distributed_random_variables) (traditionally known as characteristic functions in the field theory of probabilities).
+variances, plus covariance: $\sigma_{X+Y} = \sqrt{\sigma_{X}^2 + \sigma_{Y}^2 + 2 \rho \sigma_{X} \sigma_{Y}}$. This fact [can be proved using either convolutions or Fourier transform](https://en.wikipedia.org/wiki/Sum_of_normally_distributed_random_variables) (traditionally known as characteristic functions in the theory of probabilities field).
 
 $\mathbb{E}[\xi] = \frac{np_2p_3 - np_3p_2}{\sqrt{n p_2 p_3 (p_2 + p_3)}} = 0$
 
@@ -135,7 +135,7 @@ Now, how do we calculate the covariance $Cov[O_2, O_3]$?
 
 We take a look at a single roll of our dice and consider the indicator Bernoulli random variables $o_2 = \begin{cases}0, dice roll \ne 2 \\ 1, dice roll = 2\end{cases}$ and $o_3 = \begin{cases}0, dice roll \ne 3 \\ 1, dice roll = 3\end{cases}$:
 
-$Cov[o_2, o_3] = \mathbb{E}(o_2 - \mathbb{E}o_2)(o_3 - \mathbb{E}o_3) = \mathbb{E}o_2o_3 - 2 \mathbb{E}o_2 \mathbb{E}o_3 + \mathbb{E}o_2 \mathbb{E}o_3 = \underbrace{\mathbb{E}o_2o_3}_{=0, \text{because }o_2\text{ and }o_3\text{ can never be 1 at the same time}} - \underbrace{\mathbb{E}o_2 \mathbb{E}o_3}_{np_2 \cdot np_3} = -p_2 p_3$.
+$Cov[o_2, o_3] = \mathbb{E}(o_2 - \mathbb{E}o_2)(o_3 - \mathbb{E}o_3) = \mathbb{E}o_2o_3 - 2 \mathbb{E}o_2 \mathbb{E}o_3 + \mathbb{E}o_2 \mathbb{E}o_3 = \underbrace{\mathbb{E}o_2o_3}_{=0, \text{because }o_2\text{ and }o_3\text{ can never be 1 at the same time}} - \underbrace{\mathbb{E}o_2 \mathbb{E}o_3}_{p_2 \cdot p_3} = -p_2 p_3$.
 
 $Cov[O_2, O_3] = n Cov[o_2, o_3] = -n p_2 p_3$
 
