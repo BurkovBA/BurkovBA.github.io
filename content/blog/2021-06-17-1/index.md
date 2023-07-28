@@ -47,7 +47,7 @@ With these numbers let's return to the 5 points I've observed. Out of those five
 deviations, two points are at 2 standard deviations and one point is at 1 standard deviation. So the probability density
 function of such an observation is $f^2_\xi(3) \cdot f^2_\xi(2) \cdot f_\xi(1) = 0.004432^2 \cdot 0.053989^2 \cdot 0.241970 = 1.38 \cdot 10^{-8}$.
 
-At the same time the expected pdf of five average point to be observed is $0.282095^5 = 0.0017678$.
+At the same time the expected pdf of five average point to be observed is $0.282095^5 = 0.0017863$.
 
 Seems like our observation was a really improbable one, it is less probable than average by over 100 000 times.
 
