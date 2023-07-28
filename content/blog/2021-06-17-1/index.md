@@ -27,27 +27,29 @@ you would expect a much more close distribution of your samples, something like 
 You could ask yourself a question: what is the average value of probability density function that I would observe, 
 when sampling a point from standard normal? 
 
-Well, you can actually calculate it, following the expectation formula: $\frac{1}{\sqrt{2\pi}} \int \limits_{-\infty}^{+\infty} \underbrace{ e^{-\frac{x^2}{2}} }_\text{This is the variable you're averaging} \cdot \underbrace{ e^{-\frac{x^2}{2}}}_\text{This is pdf over which you're averaging} \cdot dx = \frac{1}{\sqrt{2\pi}} \int \limits_{-\infty}^{+\infty} e^{-x^2} dx$.
+Well, you can actually calculate it, following the expectation formula: $\int \limits_{-\infty}^{+\infty} \underbrace{ \frac{1}{\sqrt{2 \pi}} e^{-\frac{x^2}{2}} }_\text{This is the variable you're averaging} \cdot \underbrace{ \frac{1}{\sqrt{2\pi}} e^{-\frac{x^2}{2}}}_\text{This is pdf over which you're averaging} \cdot dx = \frac{1}{ 2\pi } \int \limits_{-\infty}^{+\infty} e^{-x^2} dx$.
 
-Now, substitute $t = \sqrt{2}x$: $\frac{1}{\sqrt{2\pi}} \int \limits_{-\infty}^{+\infty} e^{-x^2} dx = \frac{1}{\sqrt{2\pi}} \int \limits_{-\infty}^{+\infty} e^{-\frac{t^2}{2}} d(\frac{t}{\sqrt2}) = \frac{1}{\sqrt{2} \cdot \sqrt{2\pi} } \int \limits_{-\infty}^{+\infty} e^{-\frac{t^2}{2}} dt = \frac{\cancel{\sqrt{2\pi}}}{\sqrt{2}\cdot\cancel{\sqrt{2\pi}}} = \frac{1}{\sqrt{2}}$.
+Now, substitute $t = \sqrt{2}x$: $\frac{1}{ 2\pi } \int \limits_{-\infty}^{+\infty} e^{-x^2} dx = \frac{1}{ 2\pi } \int \limits_{-\infty}^{+\infty} e^{-\frac{t^2}{2}} d(\frac{t}{\sqrt2}) = \frac{1}{\sqrt{2} \cdot 2\pi } \int \limits_{-\infty}^{+\infty} e^{-\frac{t^2}{2}} dt = \frac{\cancel{\sqrt{2\pi}}}{\sqrt{2}\cdot \sqrt{2\pi} \cancel{\sqrt{2\pi}}} = \frac{1}{\sqrt{2} \sqrt{2\pi}}$.
 
-So, probability density function of an average point, you sample, is expected to be $\frac{1}{\sqrt{2}} = 0.707106$. 
+So, probability density function of an average point, you sample, is expected to be $\frac{1}{\sqrt{2} \sqrt{2 \pi}} = 0.707106 \cdot 0.398942 = 0.282095$. 
 
 Let us calculate pdf for several points: 
 
-if x=0 (which is the most probable point), your $f_\xi(0)=e^{-0/2} = 1$, a bit more probable than average.
+if x=0 (which is the most probable point), your $f_\xi(0)=\frac{1}{ 2\pi } e^{-0/2} = 0.398942$, a bit more probable than average.
 
-if x=1 (which is the standard deviation), your $f_\xi(1)=e^{-1/2} = 0.60653$, a bit less probable than average.
+if x=1 (which is the standard deviation), your $f_\xi(1)=\frac{1}{ 2\pi } e^{-1/2} = 0.241970$, a bit less probable than average.
 
-if x=2 (which is 2 standard deviations), your $f_\xi(2)=e^{-4/2} = 0.13533$, not much.
+if x=2 (which is 2 standard deviations), your $f_\xi(2)=\frac{1}{ 2\pi } e^{-4/2} = 0.053989$, not much.
 
-if x=3 (which is 3 standard deviations), your $f_\xi(3)=e^{-9/2} = 0.01111$, very small.
+if x=3 (which is 3 standard deviations), your $f_\xi(3)=\frac{1}{ 2\pi } e^{-9/2} = 0.004432$, very small.
 
 With these numbers let's return to the 5 points I've observed. Out of those five point two points are at 3 standard 
 deviations, two points are at 2 standard deviations and one point is at 1 standard deviation. So the probability density
-function of such an observation is $f^2_\xi(3) \cdot f^2_\xi(2) \cdot f_\xi(1) = 0.01111^2 \cdot 0.13533^2 \cdot 0.60653 = 1.37 \cdot 10^{-6}$.
+function of such an observation is $f^2_\xi(3) \cdot f^2_\xi(2) \cdot f_\xi(1) = 0.004432^2 \cdot 0.053989^2 \cdot 0.241970 = 1.38 \cdot 10^{-8}$.
 
-At the same time the expected pdf of five average point to be observed is $0.70711^5 = 0.17678$. Seems like my observation was a really improbable one, it is less probable than average by over 100 000 times.
+At the same time the expected pdf of five average point to be observed is $0.282095^5 = 0.0017678$.
+
+Seems like our observation was a really improbable one, it is less probable than average by over 100 000 times.
 
 Intuition behind Pearson's chi-square test
 ------------------------------------------
