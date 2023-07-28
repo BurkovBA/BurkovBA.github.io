@@ -17,12 +17,12 @@ A motivational example
 Suppose you've taken 5 samples of a random variable that you assumed to be [standard normal Gaussian](https://en.wikipedia.org/wiki/Normal_distribution) and received 
 suspicious results: you have a feeling that your dots have landed too far away from the peak of distribution.  
 
-![Gaussian distribution observed dispersion](./Gaussian_distribution_observed_dispersion.png)
+![Gaussian distribution observed dispersion](./Gaussian_distribution_observed_dispersion.png)<center>**Sample 5 points from standard normal distribution**. In this example sampled points are very far from distribution's mode, this is very, very unlikely.</center>
 
 Given the [probability density function](https://en.wikipedia.org/wiki/Probability_density_function) (abbreviated *pdf*) of a gaussian distribution and knowledge that standard deviation is 1,
 you would expect a much more close distribution of your samples, something like this:
 
-![Gaussian distribution expected dispersion](./Gaussian_distribution_expected_dispersion.png)
+![Gaussian distribution expected dispersion](./Gaussian_distribution_expected_dispersion.png)<center>**Another sample of 5 points from standard normal distribution**. This result is much more typical.</center>
 
 You could ask yourself a question: what is the average value of probability density function that I would observe, 
 when sampling a point from standard normal? 
@@ -141,7 +141,7 @@ $Cov[O_2, O_3] = n Cov[o_2, o_3] = -n p_2 p_3$
 
 $Var[\xi] = \frac{n p_2 p_3 (p_2 + p_3) - 2 n p_2^2 p_3^2 - 2 p_2 p_3 \cdot Cov[O_2, O_3]}{n p_2 p_3 (p_2+p_3)} = \frac{n p_2 p_3 (p_2 + p_3) - \cancel{2 n p_2^2 p_3^2} - \cancel{2 p_2 p_3 \cdot (-n p_2 p_3)} }{n p_2 p_3 (p_2+p_3)} = 1$
 
-Thus, $\xi^2 \sim \chi_1^2$. This concludes the proof.
+Thus, we've shown that our normal random variable $\xi$ has zero expectation and unit variance: $\xi \sim \mathcal{N}(0, 1)$. Hence, $\xi^2 \sim \chi_1^2$. This concludes the proof.
 
 ---
 
