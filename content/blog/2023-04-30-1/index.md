@@ -1775,11 +1775,11 @@ Pickands-Balkema-de Haan theorem (sometimes called Second Extreme Value Theorem)
 
 #### Theorem 5.1. Pickands-Balkema-de Haan theorem (Second Extreme Value Theorem)
 
-Normalized residual life time distribution $F(t + x g(t)) \xrightarrow{t \to \infty} G(x)$, where 
-$G(x) = \begin{cases} 1 - (1 + \gamma x)^{-1/\gamma} \\ 1 - e^{-x} \end{cases}$, where $t \to \infty$ is some time point 
+Normalized residual life time distribution $\frac{ S(t + x g(t)) } {S(t)} \xrightarrow{t \to \infty} G(x)$, where 
+$G(x) = \begin{cases} (1 + \gamma x)^{-1/\gamma} \\ e^{-x} \end{cases}$, where $t \to \infty$ is some time point 
 sufficiently large, after which this theorem holds, and $g(t)$ is an auxiliary function for normalization.
 
-**Note:** Moreover, we can generalize even more and relax conditions to $F(b(t) + x g(t)) \xrightarrow{t \to \infty} G(x)$, 
+**Note:** Moreover, we can generalize even more and relax conditions to $S(b(t) + x g(t)) \xrightarrow{t \to \infty} G(x)$, 
 then limit distributions set is slightly extended. I am not going to go into details, see [Balkema, de Haan 1974 paper](https://projecteuclid.org/journals/annals-of-probability/volume-2/issue-5/Residual-Life-Time-at-Great-Age/10.1214/aop/1176996548.full).
 
 #### Proof of direct statement:
@@ -1792,7 +1792,57 @@ $\frac{S(u + x g(u))}{S(u)} \xrightarrow{u \to x_F} e^{-x}$
 
 Note that $e^{-x}$ is a special case of generalized Pareto distribution upon $\gamma \to 0$: $(1 + \gamma x)^{-\frac{1}{\gamma}} \xrightarrow{\gamma \to 0} e^{-x}$. 
 
+##### Type II (Frechet)
+
+This proof is based on a proof sketch from [Embrechts textbook, appendix A3.3 and Theorem 3.4.5](https://minerva.it.manchester.ac.uk/~saralees/book1.pdf)
+and the original [Balkema, de Haan paper](https://projecteuclid.org/journals/annals-of-probability/volume-2/issue-5/Residual-Life-Time-at-Great-Age/10.1214/aop/1176996548.full) with
+omissions filled in.
+
+By the necessary and sufficient conditions we know that $\frac{S(tx)}{S(t)} = x^{-\alpha}$. Hence, $S(x)$ is a regularly 
+varying function with index of variation $\alpha$.
+
+By Karamata's characterization theorem: $S(x) = c(x) e^{\int \limits_1^x \frac{-\alpha(t)}{t}} dt$, where $\alpha(t) \xrightarrow{ t \to \infty } \alpha$, $c(t) \xrightarrow{ t \to \infty } const$.
+
+Hence, $\frac{S(u + x g(u))}{S(u)} \xrightarrow{u \to x_F} \frac{ c(u + x g(u)) \cdot e^{ - \int \limits_1^{u + x g(u)} \frac{\alpha(t)}{t}} dt } { c(u) \cdot e^{ - \int \limits_1^u \frac{ \alpha(t) }{t} } dt } \approx e^{ - \int \limits_1^{u + x g(u)} \frac{\alpha(t)}{t} dt + \int \limits_1^u \frac{\alpha(t)}{t} dt } = e^{ - \int \limits_u^{u + x g(u)} \frac{\alpha(t)}{t} dt } \approx e^{ - \alpha (\ln (u + x g(u)) - \ln u)} = (\frac{u + x g(u)}{ u })^{-\alpha}$.
+
+Auxiliary function $g(u)$ is tail-equivalent to $\frac{1}{h(u)}$ by Khinchin's lemma, where $h(u)$ is hazard rate. 
+
+Hazard rate, is a ratio of probability density and survival function, and we know that survival function is regularly varying.
+
+Hence, by Karamata's theorem ratio statement $x h(x) = \frac{x S'(x)}{S(x)} \to \alpha$.
+
+Thus, $\frac{u}{g(u)} \to \alpha$, we get $\frac{S(u + x g(u))}{S(u)} \xrightarrow{u \to x_F} (\frac{u + x g(u)}{u})^{-\alpha} \approx (1 + x/\alpha)^{-\alpha}$. 
+
+Denoting $\gamma = \frac{1}{\alpha}$ we get the desired result $\frac{S(u + x g(u))}{S(u)} \xrightarrow{u \to \infty} (1 + \gamma x)^{-\frac{1}{\gamma}}$.
+
+###### Obsolete version of proof
+
+Finally, for Frechet Type II EVD we just do a simple variable substitution $y = x - 1$ and end up with Lomax (specialized Pareto type II) distribution:
+
+$\frac{S(tx)}{S(x)} \to x^{-\alpha}$
+
+$\frac{S(t + (x - 1)t)}{S(x)} = \frac{S(t + y t)}{S(x)} \xrightarrow{t \to \infty} (1 + y)^{-\alpha} = (1 + y)^{-\frac{1}{\gamma}}$
+
+Assuming $u = t$, $g(u) = t$, we get the desired result.
+
 ##### Type III (Inverse Weibull)
+
+This version of proof is similar to Type II, but with appropriate substitution of Karamata's characterization of survival
+function for Type II with its Type III analogue from [Resnick's textbook corollary 1.14](https://minerva.it.manchester.ac.uk/~saralees/book3.pdf).
+
+One may show that if $x_F < \infty$ survival function has the following representation $S(x) = c(x) e^{- \int \limits_{x_F - 1}^x \frac{ \alpha(t) }{ x_F - t } dt }$,
+where $\alpha(t) \xrightarrow{t \to x_F} \alpha$, $c(t) \xrightarrow{t \to x_F} const$.
+
+TODO: copy-paste Resnick's proof here and work through it
+
+$\frac{S(u + x g(u))}{S(u)} \xrightarrow{u \to x_F} e^{-\int \limits_{u}^{u + x g(u)} \frac{\alpha(t)}{x_F - t} dt } = e^{\alpha (\ln (x_F - (u + x g(u))) - \ln (x_F - u)) } = (\frac{ x_F - u - xg(u) } { x_F - u } )^\alpha = (1 - \frac{x g(u)}{ x_F - u } )^{\alpha}$.
+
+Last thing left to show is that $\frac{ g(u) }{ x_F - u } \to -\frac{1}{\alpha}$. This follows from the fact that auxiliary function
+$g(u)$ is the inverse of hazard rate and the fact that $S(x_F - u)$ is regularly varying function.
+
+Denoting $\gamma = -\frac{1}{\alpha}$, we obtain the desired result.
+
+###### Obsolete version of proof
 
 For Inverse Weibull Type III EVD case we had a necessary and sufficient condition:
 
@@ -1806,15 +1856,7 @@ Substitute $y = 1 - x$ and set $g(u) = t = x_F - u$, $\beta = \frac{1}{\gamma}$,
 
 Again, we get a Generalized Pareto Distribution (actually "specialized generalized", a.k.a. Lomax distribution or Pareto Type II, as it is $(1 + x)^{-\frac{1}{\gamma}}$, not $(1 + \gamma x)^{-\frac{1}{\gamma}}$).
 
-##### Type II (Frechet)
 
-Finally, for Frechet Type II EVD we just do a simple variable substitution $y = x - 1$ and end up with Lomax (specialized Pareto type II) distribution:
-
-$\frac{S(tx)}{S(x)} \to x^{-\alpha}$
-
-$\frac{S(t + (x - 1)t)}{S(x)} = \frac{S(t + y t)}{S(x)} \xrightarrow{t \to \infty} (1 + y)^{-\alpha} = (1 + y)^{-\frac{1}{\gamma}}$
-
-Assuming $u = t$, $g(u) = t$, we get the desired result.
 
 #### Outline of the proof of converse statement:
 
@@ -2246,6 +2288,7 @@ Sidney I. Resnick                           |  Laurens de Haan                  
 * https://www.studmed.ru/lidbetter-m-lindgren-g-rotsen-x-ekstremumy-sluchaynyh-posledovatelnostey-i-processov_21f63a9fd30.html - download link for Leadbetter, Lindgren and Rootzen (in Russian)
 * https://books.google.ru/books?id=t6tfXnykazEC&pg=PR11&hl=ru&source=gbs_selected_pages&cad=2#v=onepage&q&f=false - de Haan, Ferreira book with nice examples
 * https://www.researchgate.net/publication/265142104_Extreme_Value_Theory_An_Introduction/link/5f270d35a6fdcccc43a60799/download - de Haan, Ferreira book download link
+* https://minerva.it.manchester.ac.uk/~saralees/book1.pdf - Embrechts et al. (1997) textbook on applications of EVT in finance
 * https://repositorio.unican.es/xmlui/bitstream/handle/10902/20125/Se%C3%B1as%20Peon%20Pablo.pdf?sequence=1&isAllowed=y - nice masters PhD by Pablo Señas Peón on EVD
 * https://ckrao.wordpress.com/2012/06/10/outline-proof-of-the-extreme-value-theorem-in-statistics/ - Fisher-Tippet-Gnedenko for i.i.d. RV proof
 * https://hal-enac.archives-ouvertes.fr/hal-00917995/document - good proof of Fisher-Tippett-Gnedenko theorem
