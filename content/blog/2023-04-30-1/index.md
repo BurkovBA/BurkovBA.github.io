@@ -1795,7 +1795,7 @@ Note that $e^{-x}$ is a special case of generalized Pareto distribution upon $\g
 ##### Type II (Frechet)
 
 This proof is based on a proof sketch from [Embrechts textbook, appendix A3.3 and Theorem 3.4.5](https://minerva.it.manchester.ac.uk/~saralees/book1.pdf)
-and the original [Balkema, de Haan paper](https://projecteuclid.org/journals/annals-of-probability/volume-2/issue-5/Residual-Life-Time-at-Great-Age/10.1214/aop/1176996548.full) with
+and [Theorem 6 from Balkema, de Haan 1974 paper](https://projecteuclid.org/journals/annals-of-probability/volume-2/issue-5/Residual-Life-Time-at-Great-Age/10.1214/aop/1176996548.full) with
 omissions filled in.
 
 By the necessary and sufficient conditions we know that $\frac{S(tx)}{S(t)} = x^{-\alpha}$. Hence, $S(x)$ is a regularly 
@@ -1809,7 +1809,7 @@ Auxiliary function $g(u)$ is tail-equivalent to $\frac{1}{h(u)}$ by Khinchin's l
 
 Hazard rate, is a ratio of probability density and survival function, and we know that survival function is regularly varying.
 
-Hence, by Karamata's theorem ratio statement $x h(x) = \frac{x S'(x)}{S(x)} \to \alpha$.
+Hence, by Karamata's theorem ratio statement $x h(x) = \frac{ - x S'(x)}{S(x)} \to - (-\alpha) = \alpha$.
 
 Thus, $\frac{u}{g(u)} \to \alpha$, we get $\frac{S(u + x g(u))}{S(u)} \xrightarrow{u \to x_F} (\frac{u + x g(u)}{u})^{-\alpha} \approx (1 + x/\alpha)^{-\alpha}$. 
 
@@ -1830,17 +1830,33 @@ Assuming $u = t$, $g(u) = t$, we get the desired result.
 This version of proof is similar to Type II, but with appropriate substitution of Karamata's characterization of survival
 function for Type II with its Type III analogue from [Resnick's textbook corollary 1.14](https://minerva.it.manchester.ac.uk/~saralees/book3.pdf).
 
-One may show that if $x_F < \infty$ survival function has the following representation $S(x) = c(x) e^{- \int \limits_{x_F - 1}^x \frac{ \alpha(t) }{ x_F - t } dt }$,
-where $\alpha(t) \xrightarrow{t \to x_F} \alpha$, $c(t) \xrightarrow{t \to x_F} const$.
+The proof consists of two steps.
 
-TODO: copy-paste Resnick's proof here and work through it
+The first step is to show that if $x_F < \infty$ survival function has the following representation $S(x) = c(x) e^{- \int \limits_{x_F - 1}^x \frac{ \beta(t) }{ x_F - t } dt }$,
+where $\beta(t) \xrightarrow{t \to x_F} \beta$, $c(t) \xrightarrow{t \to x_F} const$.
 
-$\frac{S(u + x g(u))}{S(u)} \xrightarrow{u \to x_F} e^{-\int \limits_{u}^{u + x g(u)} \frac{\alpha(t)}{x_F - t} dt } = e^{\alpha (\ln (x_F - (u + x g(u))) - \ln (x_F - u)) } = (\frac{ x_F - u - xg(u) } { x_F - u } )^\alpha = (1 - \frac{x g(u)}{ x_F - u } )^{\alpha}$.
+From necessary and sufficient conditions of Type III EVD domain of attraction:
 
-Last thing left to show is that $\frac{ g(u) }{ x_F - u } \to -\frac{1}{\alpha}$. This follows from the fact that auxiliary function
-$g(u)$ is the inverse of hazard rate and the fact that $S(x_F - u)$ is regularly varying function.
+$\frac{ S(x_F - \frac{1}{tx}) }{ S(x_F - \frac{1}{t}) } \xrightarrow{t \to \infty} x^{-\beta}$
 
-Denoting $\gamma = -\frac{1}{\alpha}$, we obtain the desired result.
+Hence, by Karamata theorem's ratio statement: $S(x_F - \frac{1}{x}) = \tilde{c}(x) e^{- \int \limits_{x_F - 1}^{x} \frac{\tilde{\beta}(t)}{t} dt }$, where $\tilde{\beta}(t) \xrightarrow{t \to x_F}$ and $\tilde{c}(t) \xrightarrow{t \to x_F} const$.
+
+Denote $y = x_F - \frac{1}{x}$, so that $x = \frac{1}{ x_F - y }$. Then:
+
+$S(y) = \tilde{c}(\frac{1}{x_F - y}) e^{- \int \limits_{1}^{\frac{1}{x_F - y}} \frac{ \tilde{\beta}(t) }{ t } dt }$
+
+Changing variables in the integral to $s = x_F - \frac{1}{t}$ results in:
+
+$S(y) = \tilde{c}( \frac{1}{x_F - y} ) e^{- \int \limits_{x_F - 1}^{y} \frac{ \tilde{beta}( \frac{1}{x_F - s} ) }{ x_F - s } ds } = c(y) e^{- \int \limits_{x_F - 1}^{y} \frac{\beta}{x_F - s} ds}$
+
+Now the second step of the proof is to apply this representation of survival function:
+
+$\frac{S(u + x g(u))}{S(u)} \xrightarrow{u \to x_F} e^{-\int \limits_{u}^{u + x g(u)} \frac{\beta(t)}{x_F - t} dt } = e^{\beta (\ln (x_F - (u + x g(u))) - \ln (x_F - u)) } = (\frac{ x_F - u - xg(u) } { x_F - u } )^\beta = (1 - \frac{x g(u)}{ x_F - u } )^{\beta}$.
+
+Last thing left to show is that $\frac{ g(u) }{ x_F - u } \to -\frac{1}{\beta}$. This follows from the fact that auxiliary function
+$g(u)$ is the inverse of hazard rate, and the fact that $S(x_F - u)$ is regularly varying function.
+
+Denoting $\gamma = -\frac{1}{\beta}$, we obtain the desired result.
 
 ###### Obsolete version of proof
 
