@@ -1319,7 +1319,7 @@ So, $\frac{S(tx)}{S(t)} \xrightarrow{t \to \infty} x^{-\alpha}$, which is the re
 #### Theorem 4.2. Necessary and sufficient conditions of convergence to Type III (Inverse Weibull) EVD
 
 A distribution of maximum of a random variable $\xi$ converges to Type III (Inverse Weibull) EVD if and only 
-if $x_F < \infty$ and $\lim \limits_{t \to 0} \frac{S_\xi(x_F - tx)}{S_\xi(x_F - t)} = x^{-\beta}$, where $\beta > 0$, 
+if $x_F < \infty$ and $\lim \limits_{t \to 0} \frac{S_\xi(x_F - tx)}{S_\xi(x_F - t)} = x^{\beta}$, where $\beta > 0$, 
 $x > 0$, $S_\xi$ is survival function.
 
 **Equivalent formulation (up to a change of notation)**: A distribution of maximum of randome variable $\xi$ converges to 
@@ -1330,19 +1330,22 @@ varying function with index of variation $- \beta$).
 
 In the proof of direct statement I'll be using the first form of notation.
 
-Given $\frac{ S(x_F - t x) }{ S(x_F - t) } \to x^{-\beta}$, where $\beta > 0$ and $x_F < \infty$, we need to show that $F^n(a_n x + b_n) \to e^{-(-x)^{\beta}}$.
+Given $\frac{ S(x_F - t x) }{ S(x_F - t) } \to x^{\beta}$, where $\beta > 0$ and $x_F < \infty$, we need to show that $F^n(a_n x + b_n) \to e^{-(-x)^{\beta}}$.
 
 The proof of direct statement is similar in spirit to the proof of von Mises sufficient conditions.
 
-$F_{M_n}(x_F - tx) = p(M_n \le x_F - tx) = p(x_F - M_n \ge tx) = p^n(x_F - \xi \ge tx) = (1 - p(x_F - \xi \le tx) )^n = (1 - S(x_F - tx))^n \to (1 - S(x_F - t) \cdot x^{-\beta})^n$
+$F_{M_n}(x_F - tx) = p(M_n \le x_F - tx) = p(x_F - M_n \ge tx) = p^n(x_F - \xi \ge tx) = (1 - p(x_F - \xi \le tx) )^n = (1 - S(x_F - tx))^n \to (1 - S(x_F - t) \cdot x^{\beta})^n$
 
 Now choose $t = \gamma(n)$ (a value of tail quantile function, such that $S(x_F - t) = \frac{1}{n}$), and we get:
 
-$(1 - S(x_F - t) \cdot x^{-\beta})^n = (1 - \frac{1}{n} \cdot x^{-\beta}) = e^{-x^{-\beta}}$.
+$(1 - S(x_F - t) \cdot x^{\beta})^n = (1 - \frac{1}{n} \cdot x^{\beta})^n = e^{-(x)^{\beta}}$.
+
+Hence, $F_{M_n}(a_n x + b_n) = F_{M_n}(x_F + tx) = F_{M_n}(tx + x_F) = e^{-(-x)^{\beta}}$ (note the change of sign, as
+I had to re-assign $x = -x$, so that now $x < 0$). 
 
 #### Proof of converse statement:
 
-Given $F^n(a_n x + b_n) = e^{-x^{-\beta}}$, we need to show that $\frac{S(x_F - tx)}{S(x_F - t)} \xrightarrow{t \to 0} x^{-\beta}$.
+Given $F^n(a_n x + b_n) = e^{-(-x)^{\beta}}$, we need to show that $\frac{S(x_F - tx)}{S(x_F - t)} \xrightarrow{t \to 0} x^{\beta}$.
 
 Again, this proof is extremely ugly and technical. Again, I copy-pasted it from the 
 [Resnick textbook](https://minerva.it.manchester.ac.uk/~saralees/book3.pdf), altering/simplifying/unifying the notation,
@@ -1350,7 +1353,7 @@ and added my comments and clarifications everywhere.
 
 ##### Step 1: re-formulate the problem in terms of tail quantile function $\gamma$
 
-$F^n(a_n x + b_n) \to e^{-x^{-\beta}}$
+$F^n(a_n x + b_n) \to e^{-(-x)^{-\beta}}$
 
 $(1 - S(a_n x + b_n))^n = (1 - \frac{nS(a_n x + b_n)}{n})^n \approx e^{-nS(a_n x + b_n)} \to e^{-(-x)^\beta}$
 
@@ -1807,23 +1810,13 @@ Hence, $\frac{S(u + x g(u))}{S(u)} \xrightarrow{u \to x_F} \frac{ c(u + x g(u)) 
 
 Auxiliary function $g(u)$ is tail-equivalent to $\frac{1}{h(u)}$ by Khinchin's lemma, where $h(u)$ is hazard rate. 
 
-Hazard rate, is a ratio of probability density and survival function, and we know that survival function is regularly varying.
+Hazard rate is the ratio of probability density and survival function, and we know that survival function is regularly varying.
 
 Hence, by Karamata's theorem ratio statement $x h(x) = \frac{ - x S'(x)}{S(x)} \to - (-\alpha) = \alpha$.
 
 Thus, $\frac{u}{g(u)} \to \alpha$, we get $\frac{S(u + x g(u))}{S(u)} \xrightarrow{u \to x_F} (\frac{u + x g(u)}{u})^{-\alpha} \approx (1 + x/\alpha)^{-\alpha}$. 
 
 Denoting $\gamma = \frac{1}{\alpha}$ we get the desired result $\frac{S(u + x g(u))}{S(u)} \xrightarrow{u \to \infty} (1 + \gamma x)^{-\frac{1}{\gamma}}$.
-
-###### Obsolete version of proof
-
-Finally, for Frechet Type II EVD we just do a simple variable substitution $y = x - 1$ and end up with Lomax (specialized Pareto type II) distribution:
-
-$\frac{S(tx)}{S(x)} \to x^{-\alpha}$
-
-$\frac{S(t + (x - 1)t)}{S(x)} = \frac{S(t + y t)}{S(x)} \xrightarrow{t \to \infty} (1 + y)^{-\alpha} = (1 + y)^{-\frac{1}{\gamma}}$
-
-Assuming $u = t$, $g(u) = t$, we get the desired result.
 
 ##### Type III (Inverse Weibull)
 
@@ -1839,7 +1832,7 @@ From necessary and sufficient conditions of Type III EVD domain of attraction:
 
 $\frac{ S(x_F - \frac{1}{tx}) }{ S(x_F - \frac{1}{t}) } \xrightarrow{t \to \infty} x^{-\beta}$
 
-Hence, by Karamata theorem's ratio statement: $S(x_F - \frac{1}{x}) = \tilde{c}(x) e^{- \int \limits_{x_F - 1}^{x} \frac{\tilde{\beta}(t)}{t} dt }$, where $\tilde{\beta}(t) \xrightarrow{t \to x_F}$ and $\tilde{c}(t) \xrightarrow{t \to x_F} const$.
+Hence, by Karamata theorem's ratio statement: $S(x_F - \frac{1}{x}) = \tilde{c}(x) e^{- \int \limits_{x_F - 1}^{x} \frac{\tilde{\beta}(t)}{t} dt }$, where $\tilde{\beta}(t) \xrightarrow{t \to x_F} \beta$ and $\tilde{c}(t) \xrightarrow{t \to x_F} const$.
 
 Denote $y = x_F - \frac{1}{x}$, so that $x = \frac{1}{ x_F - y }$. Then:
 
@@ -1847,7 +1840,7 @@ $S(y) = \tilde{c}(\frac{1}{x_F - y}) e^{- \int \limits_{1}^{\frac{1}{x_F - y}} \
 
 Changing variables in the integral to $s = x_F - \frac{1}{t}$ results in:
 
-$S(y) = \tilde{c}( \frac{1}{x_F - y} ) e^{- \int \limits_{x_F - 1}^{y} \frac{ \tilde{beta}( \frac{1}{x_F - s} ) }{ x_F - s } ds } = c(y) e^{- \int \limits_{x_F - 1}^{y} \frac{\beta}{x_F - s} ds}$
+$S(y) = \tilde{c}( \frac{1}{x_F - y} ) e^{- \int \limits_{x_F - 1}^{y} \frac{ \tilde{\beta}( \frac{1}{x_F - s} ) }{ x_F - s } ds } = c(y) e^{- \int \limits_{x_F - 1}^{y} \frac{\beta(s)}{x_F - s} ds}$
 
 Now the second step of the proof is to apply this representation of survival function:
 
@@ -1857,22 +1850,6 @@ Last thing left to show is that $\frac{ g(u) }{ x_F - u } \to -\frac{1}{\beta}$.
 $g(u)$ is the inverse of hazard rate, and the fact that $S(x_F - u)$ is regularly varying function.
 
 Denoting $\gamma = -\frac{1}{\beta}$, we obtain the desired result.
-
-###### Obsolete version of proof
-
-For Inverse Weibull Type III EVD case we had a necessary and sufficient condition:
-
-$\frac{S(x_F - tx)}{S(x_F - t)} \xrightarrow{t \to \infty} x^{-\beta}$
-
-Substitute variables $u = x_F - t$:
-
-$\frac{S(x_F - tx)}{S(x_F - t)} = \frac{x_F - t + t - tx}{S(x_F - t)} = \frac{S(u + t (1-x) )}{S(u)}$.
-
-Substitute $y = 1 - x$ and set $g(u) = t = x_F - u$, $\beta = \frac{1}{\gamma}$, so that $\frac{S(u + y g(u))}{S(u)} \xrightarrow{u \to \infty} (1+y)^{-1/\gamma}$.
-
-Again, we get a Generalized Pareto Distribution (actually "specialized generalized", a.k.a. Lomax distribution or Pareto Type II, as it is $(1 + x)^{-\frac{1}{\gamma}}$, not $(1 + \gamma x)^{-\frac{1}{\gamma}}$).
-
-
 
 #### Outline of the proof of converse statement:
 
@@ -1885,12 +1862,10 @@ Instead of an exact proof, I'd just stick with the fact that if we know that:
 $\frac{S(u + x g(u))}{S(u)} \xrightarrow{u \to \infty} (1 + \gamma x)^{-1 / \gamma}$
 
 We know that all the g(u) are asymptotically equivalent from Khinchin's lemma. Then we can use the fact that we already
-know an appropriate $g(u)$ for each $\gamma$:
+know that $g^*(u) = \frac{-F'(u)}{1 - F(u)}$ fits, and our $g(u) \sim g^*(u)$ by Khinchin's lemma upon $u \to \infty$.
 
-$g^*(u) = \begin{cases} x_F - u, \gamma < 0  \\ u, \gamma > 0 \\ \frac{F'(u)}{1 - F(u)}, \gamma = 0 \end{cases}$
-
-And our $g(u) \sim g^*(u)$ by Khinchin's lemma upon $u \to \infty$. This allows us to reverse the discussion in the 
-direct statement and end up with necessary and sufficient conditions of convergence to EVD.
+This allows us to reverse the discussion in the direct statement for each distribution type and end up with necessary 
+and sufficient conditions of convergence to EVD.
 
 ### Pickands' estimator
 
@@ -1942,6 +1917,10 @@ Now we choose $k$ large enough, close enough to $n$, so that we assume that the 
 to Generalized Pareto, and we replace $S^{\leftarrow}(1/4)$ and $S^{\leftarrow}(1/2)$ with $x_{k + 3/4 (n-k)} - x_{k + 1/2 (n-k)}$ and $x_{k + 1/2 (n-k)} - x_n$, resulting in: 
 
 $\hat{\gamma} = \log_2 (\frac{ x_{k + 3/4 (n-k)} - x_{k + 1/2 (n-k)} }{ x_{k + 1/2 (n-k)} - x_n })$.
+
+One can prove that Pickands estimator is asymptotically normally distributed, hence, it is possible to calculate its
+confidence intervals. However, this is really tedious (see [this paper, Theorem 2.3](https://www.jstor.org/stable/2241666?seq=26))
+and is beyond the scope of this text.
 
 ### Hill's estimator
 
@@ -2305,6 +2284,7 @@ Sidney I. Resnick                           |  Laurens de Haan                  
 * https://books.google.ru/books?id=t6tfXnykazEC&pg=PR11&hl=ru&source=gbs_selected_pages&cad=2#v=onepage&q&f=false - de Haan, Ferreira book with nice examples
 * https://www.researchgate.net/publication/265142104_Extreme_Value_Theory_An_Introduction/link/5f270d35a6fdcccc43a60799/download - de Haan, Ferreira book download link
 * https://minerva.it.manchester.ac.uk/~saralees/book1.pdf - Embrechts et al. (1997) textbook on applications of EVT in finance
+* http://www2.stat-athens.aueb.gr/~jpan/diatrives/Tsourti/Index.html - a great review of EVT theory, estimators and applications by Tsourti Zoi
 * https://repositorio.unican.es/xmlui/bitstream/handle/10902/20125/Se%C3%B1as%20Peon%20Pablo.pdf?sequence=1&isAllowed=y - nice masters PhD by Pablo Señas Peón on EVD
 * https://ckrao.wordpress.com/2012/06/10/outline-proof-of-the-extreme-value-theorem-in-statistics/ - Fisher-Tippet-Gnedenko for i.i.d. RV proof
 * https://hal-enac.archives-ouvertes.fr/hal-00917995/document - good proof of Fisher-Tippett-Gnedenko theorem
@@ -2334,6 +2314,7 @@ Sidney I. Resnick                           |  Laurens de Haan                  
 * https://www.mdpi.com/2073-8994/14/6/1207/htm - on the issue of sub-exponential tails of Gompertz disitribution
 * https://en.wikipedia.org/wiki/Heavy-tailed_distribution - Wikipedia on heavy-tailed, long-tailed and subexponential distributions
 * https://arxiv.org/pdf/math/0403299.pdf - a paper on Pickands estimator
+* https://www.jstor.org/stable/2241666?seq=26 - derivation of Pickands estimator's confidence intervals and proof of asymptotic normality (see Theorem 2.3)
 * https://projecteuclid.org/journals/annals-of-statistics/volume-3/issue-5/A-Simple-General-Approach-to-Inference-About-the-Tail-of/10.1214/aos/1176343247.full - original paper on Hill's estimator
 * http://sfb649.wiwi.hu-berlin.de/fedc_homepage/xplore/tutorials/sfehtmlnode91.html - chapter of a tutorial on Hill's estimator
 * https://projecteuclid.org/journals/annals-of-applied-probability/volume-14/issue-3/On-maximum-likelihood-estimation-of-the-extreme-value-index/10.1214/105051604000000279.full - Drees, Ferreira, de Haan paper on estimator for upper end of distribution
