@@ -13,7 +13,7 @@ Informal explantation of the nature of condition numbers
 
 The nature of condition numbers in case of inverse matrix problem is quite simple: if one of eigenvalues of your matrix is 0, the matrix determinant is 0, and it has no inverse. Such a matrix is called [singular or degenerate](https://en.wikipedia.org/wiki/Invertible_matrix).
 
-If none of the eigenvalues is exactly 0, but one of them is close to 0, the matrix determinant is close to 0, it turns out that the error
+If none of the eigenvalues is exactly 0, but one of them is close to 0, the matrix determinant is close to 0. Then it turns out that the error
 that you get, when numerically calculating inverse of such matrix, is huge. Such a matrix is called [ill-conditioned](https://en.wikipedia.org/wiki/Condition_number).
 
 However, it turns out that it is not the absolute value of the smallest eigenvalue that determines, if the matrix is well- or ill-conditioned, but (speaking vaguely) the ratio between the absolute values of the smallest and the largest ones. I'll explain this below.
@@ -90,7 +90,7 @@ In order to prevent the solution from overfitting, it is a common practice to ad
 
 ${\bf \hat{w}} = \underset{{\bf w}}{\argmin} \sum \limits_i (y_i - \langle {\bf w}, {\bf x_i} \rangle)^2 + \lambda || {\bf w} ||^2$
 
-Why this works? Because, upon minimization we take a derivative in each coordinate $w_i$ and end up with the following expression:
+Why does this work? Because, upon minimization we take a derivative in each coordinate $w_i$ and end up with the following expression:
 
 $\sum (y_i - {\bf w}^T x_i)x_i = \lambda {\bf w} \implies {\bf w} = (\lambda {\bf I} + \sum \limits_i {\bf x_i} {\bf x_i}^T)^{-1} (\sum \limits_i y_i {\bf x_i})$
 
@@ -98,7 +98,7 @@ Now, if the matrix $C = \sum \limits_i {\bf x_i} {\bf x_i}^T$ is ill-conditioned
 if the number of elements of sum is less then dimensionality of the vectors $x_i$, its inverse $C^{-1} = (\sum \limits_i {\bf x_i} {\bf x_i}^T)^{-1}$ is either calculated
 with a huge error (if the smallest by absolute value eigenvalue is very little), or just does not exist at all (is the smallest by absolute value eigenvalue is 0, and the matrix is non-full-rank).
 
-Regularization is our salvation for such a problem, because it increments all the eigenvalues by regularization coefficient $\lambda$. Indeed, if $\sigma_i^2$ is an eigenvalue of this matrix, and $v$ is its eigenvector:
+Regularization is our solution for such a problem, because it increments all the eigenvalues by regularization coefficient $\lambda$. Indeed, if $\sigma_i^2$ is an eigenvalue of this matrix, and $v$ is its eigenvector:
 
 $C v = \sigma^2 v$
 
