@@ -2103,6 +2103,31 @@ $\alpha = n / \sum \limits_{i=1}^{n} T_{(i)}$
  
 Now recall that $\frac{1}{\gamma} = \alpha$, so that $\gamma = \frac{1}{n} \sum \limits_{i=1}^{n} T_{(i)} = \frac{1}{n} ( n \ln \xi_{1} + \sum \limits_{i=2}^n (n - i + 1) (\ln \xi_{(i)} - \ln \xi_{(i-1)}) ) = \frac{1}{n} ( \sum \limits_{i=1}^{n} \ln \xi_{(i)} - (n + 1) \xi_{(n+1)} ) = \frac{1}{n} \sum \limits_{i=1}^{n} \ln \xi_{(n-i+1)} - \ln \xi_{(n+1)}$.
 
+Here is a python implementation of Hill's estimator:
+
+```python
+import numpy as np
+import math
+
+
+def Hill_estimator(data, k):
+    """
+    Returns the Hill Estimators for some 1D data set.
+    
+    See: https://github.com/alinasode/hill-estimator/blob/main/utils/functions.py
+    """
+    n = len(data)
+
+    sum = 0
+    for i in range(k):   # i = 0, ..., k
+        sum += np.log(data[i]) - np.log(data[k-1])
+        
+    gamma = (1 / k) * sum
+
+    return gamma
+```
+
+
 ### Pickands' estimator
 
 If we find a way to estimate the parameter $\gamma$ from the experimental data, we can argue that underlying survival
@@ -2157,6 +2182,67 @@ $\hat{\gamma} = \log_2 (\frac{ x_{k + 3/4 (n-k)} - x_{k + 1/2 (n-k)} }{ x_{k + 1
 One can prove that Pickands estimator is asymptotically normally distributed, hence, it is possible to calculate its
 confidence intervals. However, this is really tedious (see [this paper, Theorem 2.3](https://www.jstor.org/stable/2241666?seq=26))
 and is beyond the scope of this text.
+
+Here is a python implementation of Pickands estimator and its confidence intervals:
+
+```python
+from scipy.integrate import quad 
+
+
+def Pickands_estimator(data, k):
+    """Returns Pickands estimator of inverse tail index gamma (shape parameter) and sigma (scale parameter)."""
+    n = len(data)
+    
+    quartile = data[k]
+    median = data[2*k]
+    full = data[max(0, 4*k - 1)]
+    
+    gamma = math.log((quartile - median) / (median - full)) / math.log(2)
+
+    def integrand(t):
+        return np.exp(-gamma*t)
+    
+    sigma = (median - full) / quad(integrand, 0, math.log(2))[0]
+    
+    return gamma, sigma
+
+
+def get_pickands_ci(genpareto_shape, k, alpha=0.95):
+    """
+    Calculate confidence intervals for Pickands estimator.
+
+    Parameters:
+        genpareto_shape (float): Pickands estimate of genpareto shape parameter.
+        k (int): current order statistic (e.g. we are considering n=100000 elements and k=1000).
+        alpha (float): Confidence level, e.g. 95%.
+
+    Returns:
+        (2-tuple) Lower confidence interval, upper confidence intervale
+
+    This function creates a line chart with the provided data and plots confidence intervals
+    around the main line using Seaborn. The 'x' array should correspond to the data arrays
+    'data', 'upper_ci', and 'lower_ci', and they must have the same length.
+    """
+    alpha = 0.95  # confidence level
+    two_sigma = 1.96  # almost 2 standard errors correspond to confidence level of 0.95
+
+    try:
+        pickands_standard_error = genpareto_shape * math.sqrt((2**(2 * genpareto_shape + 1) + 1)) / (2 * (2**(genpareto_shape) - 1) * math.log(2) * math.sqrt(k))
+    except ZeroDivisionError:
+        pickands_standard_error = np.infty
+        
+    #     print(f"standard_error = {pickands_standard_error}")
+
+    pickands_confidence_intervals = (genpareto_shape - two_sigma * pickands_standard_error, genpareto_shape + two_sigma * pickands_standard_error)  # TODO: Pickci = cbind(Pick - qnorm(1 - alpha/2) * Pickse, Pick + qnorm(1 - alpha/2) * Pickse)
+    
+    return pickands_confidence_intervals
+
+
+genpareto_shape, genpareto_scale = Pickands_estimator(data, math.floor(len(data) / 4))                                                                          
+pickands_confidence_intervals = get_pickands_ci(genpareto_shape, k=len(data))
+print(pickands_confidence_intervals)
+```
+
 
 ### Other estimators
 
