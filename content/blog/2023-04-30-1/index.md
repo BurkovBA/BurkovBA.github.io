@@ -30,13 +30,16 @@ description: Quite often in mathematical statistics I run into Extreme Value Dis
     * Generalized Pareto distribution
     * Residual life time problem
     * Pickands-Balkema-de Haan theorem (a.k.a. Second Extreme Value Theorem)
-    * Pickands' estimator
+6. Order statistics and parameter estimation
+    * Order statistics
     * Hill's estimator
-6. Summary and examples of practical application
+    * Pickands' estimator
+    * Other estimators
+7. Summary and examples of practical application
     * Examples of Type I Gumbel distribution
     * Examples of Type II Frechet distribution
     * Examples of Type III Inverse Weibull distribution
-7. Concluding remarks
+8. Concluding remarks
    
 
 ## 1. Problem statement and Generalized Extreme Value distribution
@@ -1867,6 +1870,239 @@ know that $g^*(u) = \frac{-F'(u)}{1 - F(u)}$ fits, and our $g(u) \sim g^*(u)$ by
 This allows us to reverse the discussion in the direct statement for each distribution type and end up with necessary 
 and sufficient conditions of convergence to EVD.
 
+## 6. Order statistics and parameter estimation
+
+### Order statistics
+
+TODO: introductory words about mearning of order statistics and their role in constructing the Hill's estimator.
+
+#### Definition 6.1. Order statistics
+
+Given a set of samples $\{ \xi_i \}$ from an arbitrary distribution $\xi$, one can re-order them in an increasing order. Then
+ordered list $\{ \xi_{(k)} \}$, such that $\xi_{(k)} < \xi_{(k+1)}$ is called **k-th order statistics**. 
+
+Basically, the k-th smallest value is called k-th order statistic.
+
+#### Theorem 6.1. Distribution of k-th order statistics
+
+Cumulative distribution function of $k$-th order statistic from distribution $\xi$ is $F_{ \xi_{(k)} }(x) = \frac{n!}{(n-k)! k!} F_{\xi}^k (1 - F_{\xi})^{n-k}$.
+
+#### Proof:
+
+For a $k$-th order statitic to equal $x$, $n-k$ points should be no greater than $x$ and $k$ points should be no lesser
+than $x$.
+
+Which exactly points fall in both categories - does not matter, hence, there are $C_n^k$ ways to rearrange them.
+
+Hence, $F_{\xi_{(k)}}(x) = C_n^k F_\xi(x)^k (1 - F_\xi(x))^{n-k}$.
+
+#### Theorem 6.2. Poisson-like distribution of k-th order statistics from Extreme Value Distribution
+
+Cumulative distribution function of k-th maximum of a function that is in the domain of attraction of Generalized EVD
+$G(x)$ is Poisson-like:
+
+$F_{\xi_{(k)}}(a_n x + b_n) \to G(x) \frac{(-\ln G(x))^k}{k!}$
+
+#### Proof:
+
+I am following the logic of [Smith, Weissman book](https://rls.sites.oasis.unc.edu/s834-2020/ExtremeValues.pdf) or [Leadbetter, Lindgren, Rootzen book](https://scask.ru/k_book_eps.php).
+
+$nS(a_n x + b_n) \xrightarrow{n \to \infty} - \ln G(x)$, where $G(x)$ is the generalized EVD.
+
+We know that binomial distribution converges to Poisson upon $n \to \infty$ and small $k$:
+
+$F_{\xi_{(k)}}(a_n x + b_n) = C_n^k F_\xi(x)^k (1 - F_\xi(x))^{n-k} \xrightarrow{n \to \infty} e^{-\lambda} \frac{\lambda^k}{k!}$, where $\lambda \xrightarrow{n \to \infty} - \ln G(x)$.
+
+Then $F_{\xi_{(k)}}(a_n x + b_n) \to e^{-(-\ln G(x))} \frac{(-\ln G(x))^k}{k!} = G(x) \frac{(-\ln G(x))^k}{k!}$
+
+### Hill's estimator
+
+Hill's estimator is based on order statistics and is derived from Renyi's representation theorem.
+
+It is applicable only in Frechet case $\gamma > 0$. In case of Gumbel and Inverse Weibull it returns nonsense results.
+However, there are similar estimators for them.
+
+Hill's estimator provides an estimate of the tail index: $\hat{\gamma} = \frac{1}{n - k} \sum \limits_{i=k}^{n} \ln \frac{x_i}{x_n}$.
+
+Derivation of Hill's estimator is based on transformation theorem for probability densities and Renyi's representation theorem. Let's
+prove them first.
+
+#### Lemma 6.1. Transformation theorem for probability densities
+
+Given a density function $f(x_1, x_2, ..., x_n)$ and a transformation of variables $T: (x_1, x_2, ..., x_n) \to (y_1, y_2, ..., y_n)$,
+
+we can calculate the probability of any event in new variables as:
+
+$\iint \limits_{D(x_1, x_2, ..., x_n)} f(x_1, x_2, ..., x_n) dx_1 dx_2 ... dx_n = \iint \limits_{D(y_1, y_2, ..., y_n)} |J| \cdot f(y_1, y_2, ..., y_n) dy_1 dy_2 ... dy_n$,
+
+where $|J|$ is a Jacobian determinant $ \det \begin{pmatrix} \frac{\partial{x_1}}{\partial{y_1}} && \frac{\partial{x_2}}{\partial{y_1}} && ... && \frac{\partial{x_n}}{\partial{y_1}} \\ \frac{\partial{x_1}}{\partial{y_2}} && \frac{\partial{x_2}}{\partial{y_2}} && ... && \frac{\partial{x_n}}{\partial{y_2}} \\ ... && ... && ... && ... \\ \frac{\partial{x_1}}{\partial{y_n}} && \frac{\partial{x_2}}{\partial{y_n}} && ... && \frac{\partial{x_n}}{\partial{y_n}} \end{pmatrix}$.
+
+#### Proof:
+
+TODO: obvious, basically
+
+
+Next we go to the Renyi representation theorem, importance of which is well stated in [Robert Reitano's book, page 55](https://robertrreitano.com/wp-content/uploads/2020/04/Book4.pdf):
+
+The essence of this representation theorem is that each of the k-th order statistics, or any sequential grouping of kth order statistics, can be generated
+**sequentially** as a sum of independent exponential random variables. This
+is in contrast to the definitional procedure whereby the entire collection $\{X_j\}_{j=1}^M$ must be generated, then reordered to $\{ X_{(j)} \}_{j=1}^M$ to identify each
+variate. To generate a larger collection requires more variates, $\{X_{j}\}_{j=1}^{M+1}$
+and then a complete reordering of the entire collection $\{X_{(j)}\}_{j=1}^{M+1}$
+
+With Renyi's result we can directly generate $X_{(1)}$, then $X_{(2)}$ and so forth.
+For example, $X_{(1)}$ is exponential with parameter $M\lambda$; while $X_{(2)}$ is a sum of
+$X_{(1)}$ and an independent exponential variate with parameter $(M - 1)\lambda$; and
+so forth.
+
+#### Lemma 6.2: Renyi representation theorem
+
+Let $\{\xi_n\}$ be samples from a standard exponential distribution with parameter $\lambda$.
+
+Let $\{\xi_{(n)}\}$ be corresponding order statistic, so that $\xi_{(1)} < \xi_{(2)}$, $\xi_{(2)} < \xi_{(3)}$, ..., $\xi_{(n-1)} < \xi_{(n)}$.
+
+Then order statistics can be represented as:
+
+$\xi_{(i)} = \frac{1}{\lambda} (\frac{E_1}{n} + \frac{E_2}{n-1} + ... + \frac{E_i}{n-i+1}) = \frac{1}{\lambda} \sum\limits_{m=1}^i \frac{E_m}{n - m + 1}$, where $E_i$ are **independent** stadard exponentially-distributed variables.
+
+#### Proof:
+
+I am following the logic of the proof from [Reitano textbook, proposition 2.2.3](https://robertrreitano.com/wp-content/uploads/2020/04/Book4.pdf), it makes use of cumulative distribution functions. Alternatively, one can follow [Embrechts (1997) textbook, Example 4.1.5](https://minerva.it.manchester.ac.uk/~saralees/book1.pdf), it makes use of density function.
+
+Consider the probability density of obtaining the given order statistic (it can be obtained in $n!$ permutations of the unordered set of observed points $\{x_1, ..., x_n\}$ ):
+
+$f_{\{ \xi_{(1)}, ..., \xi_{(n)} \}} = n! \cdot e^{-\prod \limits_{i=1}^{n} x_i}$
+
+Now consider the gaps between consecutive order statistics, multiplied by consecutive numbers: $\xi_{(1)}$, $(\xi_{(2)} - \xi_{(1)})$, ...,  $(\xi_{(n)} - \xi_{(n-1)})$. 
+
+$p(\xi_{(1)} \le a_1, \xi_{(2)} - \xi_{(1)} \le a_2, ..., \xi_{(n)} - \xi_{(n-1)} \le a_n) = n! \int \limits_{x_{n-1}}^{x_{n-1} + a_n} \dots \int \limits_{x_{1}}^{x_{1} + a_2} \int \limits_{-\infty}^{a_1} f(x_1) dx_1 f(x_2) dx_2 \dots f(x_n) dx_n$
+
+Start with the outermost integral:
+
+$\int \limits_{x_{n-1}}^{x_{n-1} + a_n}f(x_n)dx_n = F(x_{n-1} + a_n) - F(x_{n-1})$ 
+
+$(F(x_{n-1} + a_n) - F(x_{n-1})) f(x_{n-1})dx_{n-1} = (1 - e^{-\lambda (x_{n-1} + a_n)} - 1 + e^{-\lambda x_{n-1}}) \cdot \lambda e^{-\lambda x_{n-1}} = (1 - e^{-\lambda a_n}) \lambda e^{-2 \lambda x_{n-1}} = \frac{1}{2} (1 - e^{-\lambda a_n}) f_2(x_{n-1})$,
+
+where $f_2(x) = 2 \lambda e^{-2 \lambda x}$ is the probability density of exponential distribution with a parameter $2\lambda$.
+
+Repeat this procedure with the next integral:
+
+$(1 - e^{-\lambda a_n}) \int \limits_{x_{n-2}}^{x_{n-2} + a_{n-1}} \frac{1}{2} f_2(x_{n-1}) dx_{n-1} f(x_{n-2}) dx_{n-2} = \frac{1}{2} (1 - e^{-\lambda a_n}) (1 - e^{-2\lambda (x_{n-2} + a_{n-1})} - 1 + e^{-2\lambda x_{n-2}}) f(x_{n-2}) dx_{n-2} = \frac{1}{2} (1 - e^{-\lambda a_n}) (1 - e^{-2\lambda a_{n-1}}) e^{-2 \lambda x_{n-2}} (\lambda e^{-\lambda x_{n-2}}) dx_{n-2} = \frac{1}{3!} (1 - e^{-\lambda a_n}) (1 - e^{-2\lambda a_{n-1}}) f_3(x_{n-2}) dx_{n-2}$
+
+Repeating this procedure for the full integral, we get:
+
+$p(\xi_{(1)} \le a_1, \xi_{(2)} - \xi_{(1)} \le a_2, ..., \xi_{(n)} - \xi_{(n-1)} \le a_n) = n! \int \limits_{x_{n-1}}^{x_{n-1} + a_n} \dots \int \limits_{x_{1}}^{x_{1} + a_2} \int \limits_{-\infty}^{a_1} f(x_1) dx_1 f(x_2) dx_2 \dots f(x_n) dx_n = n! \frac{1}{(n-1)!} \prod\limits_{i=1}^{n-1} (1-e^{-i \lambda a_{n-i+1}}) \int \limits_{-\infty}^{a_1} f_{n-1}(x_{1})dx_1 = \frac{n!}{n!} \prod\limits_{i=1}^{n} (1-e^{-i \lambda a_{n-i+1}}) = \prod\limits_{i=1}^{n} F_i(a_{n-i+1})$
+
+We see that cumulative distribution functions of gaps are independent and $i$-th has an exponential distribution with rate parameter $(n-i+1)\lambda$.
+
+Equivalently, if $E_i$ is a standard exponential distribution with rate parameter 1, one can convert it to an exponential distribution with rate $\lambda$ by $E = \frac{X}{\lambda}$, because:
+
+$f_E(y) = P(E = y) = P(X / \lambda = y) = P(X = λy) = f_X(\lambda y) = exp(- \lambda y)$
+
+Hence, $\xi_{(1)} = \frac{1}{\lambda} \frac{E_1}{n}$, $\xi_{(2)} = \frac{1}{\lambda} (\frac{E_1}{n} + \frac{E_1}{n-1})$ and so on.
+
+#### Definition 6.2. Upper order statistics
+
+In case of Hill's estimator we are studying the upper tail of survival function.
+
+Hence, we introduce a counterpart of k-th order statistic, but decreasing, which we call **k-th upper order statistic**.
+
+In Hill's estimator we denote $x_{(k)}$ k-th upper order statistic the k-th **largest** value, as we're looking at the upper 
+tail of survival function. So, $x_{(1)} > x_{(2)} > ... > x_{(k)}$.
+
+#### Theorem 6.3: Hill's estimator is a Maximum Likelihood estimator in Frechet EVD Type II case
+
+If survival function of a distribution $\xi$ lies in the domain of attraction of Frechet Type II EVD, we sampled
+$n \to \infty$ largest observations (i.e. upper order statistics), then the shape parameter $\gamma$ of EVD 
+can be estimated as:
+
+$\hat{\gamma} = \frac{1}{n} \sum \limits_{j=1}^{n} (\ln \xi_{(i)} - \ln \xi_{(n+1)} )$
+
+#### Proof:
+
+I am following the [monograph on Hill's estimator by Jan Henning Volmer](https://getd.libs.uga.edu/pdfs/vollmer_jan_h_200308_ms.pdf) and [Tsourti textbook chapter 4](http://www2.stat-athens.aueb.gr/~jpan/diatrives/Tsourti/chapter4.pdf).
+
+##### Step 1: connect order statistic from Type II GPD with exponential distribution through quantile transform
+
+Out of thin air consider 1-st order statistic $X_{(1)}$ of a standard exponential distribution. From Renyi representation:
+
+$X_{(1)} = \frac{E_1}{n}$
+
+Apply a quantile transform to this expression, taking the inverse of c.d.f. of exponential distribution:
+
+$F_X(X_{(1)}) = 1 - e^{-X_{(1)}} \sim U_{(1)}$, where $U_{(1)}$ is a 1-st order statistic from a uniform distribution.
+
+$F^{\leftarrow}_X(U_{(1)}) = X_{(1)} = - \ln (1 - U_{(1)})$
+
+Now, consider our order statistic from Type II Generalized Pareto Distribution: $\{\xi_{(1)}, ..., \xi_{(n)}\}$.
+
+We can apply quantile transform to our order statistics as well: $F_\xi(\xi_{(i)}) \sim U_{(i)}$, which converts the data from 
+$(0, +\infty)$ domain to [0,1] probabilities domain, resulting in an order statistic, sampled from uniform 
+distribution.
+
+So, through the quantile transformation and uniform distribution we are able to connect Type II GPD to exponential distribution:
+
+$E_1 = -n \ln F_\xi(\xi_{(1)})$
+
+Similarly, for other order statistics:
+
+$F_\xi(\xi_{(i)}) = 1 - e^{-X_{(i)}} = 1 - e^{-\sum \limits_{k=i}^{n}\frac{E_i}{n-i+1}}$
+
+$\ln (1 - F_\xi(\xi_{(i)})) = \ln S_\xi(\xi_{(i)}) = \sum \limits_{k=i}^{n} \frac{E_i}{n - k + 1}$
+
+$\ln (1 - F_\xi(\xi_{(i-1)})) = \ln S_\xi(\xi_{(i-1)}) = \sum \limits_{k=i-1}^{n} \frac{E_i}{n - k + 1}$
+
+$E_i = - (n - i + 1) ( \ln S_\xi(\xi_{(i)}) - \ln S_\xi(\xi_{(i-1)}) )$
+
+##### Step 2: define likelihood, apply transformation and Jacobian
+
+Let the likelihood function be $L = p(\xi_{(1)}, \xi_{(2)}, ..., \xi_{(n)})$.
+
+In this proof we will twice substitute the variables and express log-likelihood through the new ones. Fist, let us 
+express log-likelihood through $E_{(i)}$ rather than $\xi_{(i)}$, applying the transformation theorem for probability 
+densities:
+
+$L = p(\xi_{(1)}, \xi_{(2)}, ..., \xi_{(n)}) = |J| p(E_{(1)}, E_{(2)}, ..., E_{(n)}) = |J| e^{-(E_{(1)} + E_{(2)} + ... + E_{(n)})} = |J| e^{ -n \ln S_\xi(\xi_{(1)}) -\sum \limits_{i=2}^{n} (n - i + 1) ( \ln S_\xi(\xi_{(i)}) - \ln S_\xi(\xi_{(i-1)}) )}$, where $|J|$ is Jacobian determinant.
+
+##### Step 3: substitute Karamata's representation of survival function
+
+From Karamata's representation theorem and necessary and sufficient conditions of convergence to Type II EVD, we
+know that survival function upon $x \to \infty$ can be approximated as $S(x) \xrightarrow{x \to \infty} c x^{-\alpha}$
+due to $S(x) \xrightarrow{x \to \infty} c(x) e^{-\int \limits_{-\infty}^{x} \frac{-\alpha(t)}{t} dt}$, where $\alpha(t) \xrightarrow{t \to \infty} \alpha$, 
+$c(t) \xrightarrow{t \to \infty} c$.
+
+Then consider each element of likelihood product $L = e^{ -n \ln S_\xi(\xi_{(1)}) -\sum \limits_{i=2}^{n} (n - i + 1) ( \ln S_\xi(\xi_{(i)}) - \ln S_\xi(\xi_{(i-1)}) )}$. 
+
+For $i = 1$:
+
+$e^{-n( \ln S_\xi(\xi_{(i)}) )} = e^{-n \alpha \ln \xi_{(1)}}$
+
+For $i > 1$:
+
+$e^{-(n-i+1)(\ln S_\xi(\xi_{(i)}) - \ln S_\xi(\xi_{(i-1)}) )} = e^{-(n-i+1) \ln \frac{ c \xi_{(i-1)}^\alpha }{ c \xi_{(i)}^\alpha }} = e^{-(n-i+1) \alpha (\ln \xi_{(i)} - \ln \xi_{(i-1)} )}$.
+
+Here we make a second variable substitution. Define gap between logarithms $T_{(i)} = \begin{cases} n \ln \xi_{(i)}, i = 1 \\ (n - i + 1) (\ln \xi_{(i)} - \ln \xi_{(i-1)}), i > 1 \end{cases}$
+
+Then likelihood takes a form: $L = p(\xi_{(1)}, \xi_{(2)}, ..., \xi_{(n)}) = p(T_{(1)}, T_{(2)}, ..., T_{(n)}) = |J| e^{-\alpha \sum \limits_{i=1}^{n} T_{(i)} }$.
+
+##### Step 4: Calculate Jacobian determinant
+
+$|J| = \det \begin{pmatrix} \frac{\partial T_1 }{ \partial \xi_{(1)} } && \frac{\partial T_1 }{ \partial \xi_{(2)} } && ... && \frac{\partial T_1 }{ \partial \xi_{(n)} } \\ \frac{\partial T_2 }{ \partial \xi_{(1)} } && \frac{\partial T_2 }{ \partial \xi_{(2)} } && ... && \frac{\partial T_2 }{ \partial \xi_{(n)} } \\ ... && ... && ... && ... \\ \frac{\partial T_n }{ \partial \xi_{(1)} } && \frac{\partial T_n }{ \partial \xi_{(2)} } && ... && \frac{\partial T_n }{ \partial \xi_{(n)} } \\ \end{pmatrix} = \det \begin{pmatrix} \frac{\partial T_1 }{ \partial \xi_{(1)} } && 0 && ... && 0  \\ 0 && \frac{\partial T_2 }{ \partial \xi_{(2)} } && ... && 0 \\ ... && ... && ... && ... \\ 0 && 0 && ... && \frac{\partial T_n }{ \partial \xi_{(n)} } \end{pmatrix} = \prod \limits_{i=1}^{n} \frac{\partial T_i }{\partial \xi_{(i)}} = \alpha^n$
+
+Then likelihood $L = |J| e^{-\alpha \sum \limits_{i=1}^{n} T_{(i)} } = \alpha^n e^{-\alpha \sum \limits_{i=1}^{n} T_{(i)} }$
+
+##### Step 5: find maximum of log-likelihood
+
+Now, let us find the maximum of log-likelihood:
+
+$\ln L = \ln (\alpha^n e^{-\alpha \sum \limits_{i=1}^{n} T_{(i)} } ) = n \ln \alpha - \alpha \sum \limits_{i=1}^{n} T_{(i)}$.
+
+$\frac{\partial \ln L}{\partial \alpha} = \frac{n}{\alpha} - \sum \limits_{i=1}^{n} T_{(i)} = 0$
+
+$\alpha = n / \sum \limits_{i=1}^{n} T_{(i)}$
+ 
+Now recall that $\frac{1}{\gamma} = \alpha$, so that $\gamma = \frac{1}{n} \sum \limits_{i=1}^{n} T_{(i)} = \frac{1}{n} ( n \ln \xi_{1} + \sum \limits_{i=2}^n (n - i + 1) (\ln \xi_{(i)} - \ln \xi_{(i-1)}) ) = \frac{1}{n} ( \sum \limits_{i=1}^{n} \ln \xi_{(i)} - (n + 1) \xi_{(n+1)} ) = \frac{1}{n} \sum \limits_{i=1}^{n} \ln \xi_{(n-i+1)} - \ln \xi_{(n+1)}$.
+
 ### Pickands' estimator
 
 If we find a way to estimate the parameter $\gamma$ from the experimental data, we can argue that underlying survival
@@ -1879,7 +2115,7 @@ Pickands in his 1975 paper suggested an estimator based on order statistic. If w
 the ascending order and consider only the tail, starting from the highest $k$ (at this tail scaled residual lifetimes
 converge to Generalized Pareto), we can infer $\hat{\gamma}$ from this order statistics as follows.
 
-#### Theorem 5.2. Pickands' estimator
+#### Theorem 6.3. Pickands' estimator
 
 The $\gamma$ parameter of Generalized Pareto Distribution can be estimated as: $\hat{\gamma} = \log_2 (\frac{ x_{k + 3/4 (n-k)} - x_{k + 1/2 (n-k)} }{ x_{k + 1/2 (n-k)} - x_n })$.
 
@@ -1922,58 +2158,14 @@ One can prove that Pickands estimator is asymptotically normally distributed, he
 confidence intervals. However, this is really tedious (see [this paper, Theorem 2.3](https://www.jstor.org/stable/2241666?seq=26))
 and is beyond the scope of this text.
 
-### Hill's estimator
+### Other estimators
 
-A similar estimator was suggested by Hill. It is based on order statistic as well and in general case its derivation is tedious (e.g. see: [Embrechts book](https://books.google.ru/books?id=o-clBQAAQBAJ&dq=modeeling+extreme+events+for+insurance&pg=PA190&redir_esc=y#v=onepage&q=modeeling%20extreme%20events%20for%20insurance&f=false)).
+TODO
 
-In general case Hill's estimator is: $\hat{\gamma} = \frac{1}{n - k} \sum \limits_{i=k}^{n} \ln \frac{x_i}{x_n}$. It
-works only for $gamma > 0$, Frechet case! In case of Gumbel and Inverse Weibull it returns non-sensical results.
-
-Although its derivation in general case is tedious, when $\gamma \ne 0$,
-we are dealing with Lomax distribution, not generalized Pareto. This significantly simplifies the derivation of a maximum
-likelihood estimator.
-
-#### Theorem 5.3: Hill's estimator for fat tails and Lomax distribution 
-
-For fat-tail survival functions (Inverse Weibull and Frechet) tail index can be estimated as $\gamma = \frac{1}{n - k + 1} \sum \limits_{i=k}^n \ln (x_i)$.
-
-#### Proof:
-
-Suppose that we have $n$ observations $\xi_1$, $\xi_2$, ..., $\xi_n$. We need to estimate $\gamma$, using maximum 
-likelihood approach.
-
-##### Step 1: transition from cdf to pdf
-
-First of all, we need to derive probability density function $f(x)$ from cumulative density function $F(x)$:
-
-$F(x) = 1 - (1 + x)^{-1/\gamma}$
-
-$f(x) = \frac{\partial F(x)}{\partial x} = \frac{1}{\gamma} (1 + x)^{-1/\gamma - 1}$
-
-##### Step 2: transition from product to log-likelihood
-
-Suppose that we have an order statistic of $n$ observations $x_i$, such that $x_n$ is the largest and $x_1$ is the smallest.
-Let us look at the tail, starting from observation $k$, so that the largest $n - k + 1$ observations out of $n$ 
-constitute our sample residual life time.
-
-We aim to obtain the maximum likelihood estimate of $\gamma$, which makes these observations most probable. The whole
-tail order statistic's likelihood is described by a product of probabilities.
-
-Log-likelihood, obtained by transitioning from the product to a sum of logarithms of observations, given $\gamma$, is more convenient to work with: 
-
-$\hat{\gamma} = \arg \max \limits_{\gamma} \sum \limits_{i=k}^n (\ln (1 + x_i)^{-1/\gamma - 1} - \ln \gamma) = \arg \max \limits_{\gamma} (- (\frac{1}{\gamma} + 1) \sum \limits_{i=k}^n \ln (1 + x_i) - (n - k + 1) \ln \gamma)$.
-
-##### Step 3: take the derivative of log-likelihood in $\gamma$, equate it to zero
-
-Taking the derivative of this log-likelihood in $\xi$ and equating it to zero, we get:
-
-$\frac{\partial (- (\frac{1}{\gamma} + 1) \sum \limits_{i=k}^n \ln (1 + x_i) - (n - k + 1) \ln \gamma) }{\partial \gamma} = \frac{1}{\gamma^2} \sum \limits_{i=k}^n \ln (1 + x_i) -\frac{n - k + 1}{\gamma} = 0$.
-
-$\hat{\gamma} = \frac{1}{n - k + 1} \sum \limits_{i=k}^n \ln (x_i)$.
 
 ---
 
-## 6. Summary and examples of practical application
+## 7. Summary and examples of practical application
 
 Speaking informally: 
 
@@ -1991,13 +2183,13 @@ For instance:
 
 In case of Type I the end point might be finite or infinite. 
 
-#### Example 6.1. Exponential distribution
+#### Example 7.1. Exponential distribution
 
 An example of distribution with infinite end point $x_F$ we can consider exponential distribution $F(x) = 1 - e^{-x}$ 
 for $x > 0$. We can show that its maximum converges to Type I by choosing $a_n = 1$, $b_n = \log n$, so that we 
 get $F^n(x + \log n) = (1 - e^{-(x + \log n)})^n = (1 - \frac{e^{-x}}{n})^n \to exp(e^{-x})$.
 
-#### Example 6.2 Gnedenko's example
+#### Example 7.2 Gnedenko's example
 
 An example of distribution with a finite end point $x_F$ is from Gnedenko (1943) work:
 
@@ -2028,7 +2220,7 @@ Then $\xi - \xi_0 = \frac{1}{ (1 + \ln n)^2 } (\eta - \eta_0)$. So $(\xi - \xi_0
 
 Hence, $\max (\xi - \frac{\ln n}{1 + \ln n}) (1 + \ln n)^2 \sim e^{-e^{-x}}$.
 
-#### Example 6.3. Gompertz, shifted Gompertz distribution and mortality
+#### Example 7.3. Gompertz, shifted Gompertz distribution and mortality
 
 When descrtibing human survival function, they often use Gompertz model, which is a special case of Gumbel distribution. 
 
@@ -2048,7 +2240,7 @@ Which results in a survival function $S(t) = exp(-R(t)) = exp(-A t - \frac{B}{\l
 
 This is a special kind of shifted, scaled Gumbel distribution, mirrored around y axis.
 
-#### Example 6.4. Karlin-Altschul statistics in bioinformatics
+#### Example 7.4. Karlin-Altschul statistics in bioinformatics
 
 Suppose that you're using your IDE, e.g. PyCharm to perform a fuzzy search of a random string "HomerSimpson" against a 
 codebase. What's the baseline probability of finding a text, where 10 letters out of 12 exactly match your query?
@@ -2061,7 +2253,7 @@ with insertions/deletions allowed.
 Karlin-Altschul statistics is in the core of BLAST software, used for searching known homologs of biological sequences
 in databases of already known sequences.
 
-#### Example 6.5. Gumbel Softmax VAE
+#### Example 7.5. Gumbel Softmax VAE
 
 Gumbel distribution is sometimes used in neural networks in Gumbel softmax nodes in order to slightly relax categorical 
 features, making it differentiable. E.g. see [Gumbel Softmax VAE blog post](https://blog.evjang.com/2016/11/tutorial-categorical-variational.html) or
@@ -2069,7 +2261,7 @@ features, making it differentiable. E.g. see [Gumbel Softmax VAE blog post](http
 
 ### EVD Type II: Frechet distribution
 
-#### Example 6.6. Pareto distribution, Lindy effect
+#### Example 7.6. Pareto distribution, Lindy effect
 
 What's the chance that the richest of your friends would be a billionaire?
 
@@ -2084,7 +2276,7 @@ Maximum of this distribution could be shown to converge to $(1 - F(x)/n)^n = e^{
 
 ### EVD Type III: Inverse Weibull distribution
 
-#### Example 6.7. Strength of materials
+#### Example 7.7. Strength of materials
 
 Seemingly identical pieces of materials break at different strengths due to randomness in the material. Weibull distribution
 describes the probability of a material to break at a strength $t$, representing it as a chain of $n$ identical
@@ -2103,7 +2295,7 @@ You split it into a chain of $n$ links of identical length $\Delta l = \frac{l}{
 link breaks, when a force $t$ is applied to it, is $p(t) = \frac{ \Delta l } {l} t^\alpha = t^\alpha / n$. Then probability 
 that the rod does not break, when force $t$ is applied to it is $(1 - p(t))^n = (1 - \frac{t^\alpha}{n}) \xrightarrow{n \to \infty} e^{-t^\alpha}$.
 
-#### Example 6.8. Fraction of mass, occupied by particles of a certain size in mining
+#### Example 7.8. Fraction of mass, occupied by particles of a certain size in mining
 
 Another interesting case, where Weibull distribution arises is distribution of particle sizes in mining. Rozen and Rammler
 in 1933 empirically found out this distribution in the data, describing crushing of coal.
@@ -2133,7 +2325,7 @@ This produces a survival function $\frac{S(m)}{ M } = \frac{\int \limits_m^\inft
 
 See this [paper by Brown and Wohletz](https://www.lanl.gov/orgs/ees/geodynamics/Wohletz/SFT_Weibull.pdf) for more details.
 
-#### Example 6.9. Human longevity
+#### Example 7.9. Human longevity
 
 While survival function of human is well-described by Gompertz distribution, related to Type I Gumbel distribution in
 the middle-to-old age, when it comes to the late age and the long-livers, the tail of survival function becomes fat and
@@ -2151,7 +2343,7 @@ resulting in a human life span limit of 117-123 years, no trend in terminal life
 to the progress of medicine) and, obviously, negative tail index $\gamma$, corresponding to Inverse Weibull domain of
 attraction of survival function.
 
-#### Example 6.10. Value at Risk (VaR) in finance
+#### Example 7.10. Value at Risk (VaR) in finance
 
 Say, you manage a portfolio of assets in finance. At each moment of time you can consider the change of price of your
 assets as a random variable. How much value can your assets lose in case the 5%-worst outcome materializes? 2%? 10%?
@@ -2181,7 +2373,7 @@ $VaR = u + x = u + \frac{ \sigma }{ \gamma } (\frac{\alpha}{p}^\gamma - 1)$
 
 See [this paper](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9231421/) with application of this approach to time series prediction with ARMA-GARCH.
 
-## 7. Concluding remarks
+## 8. Concluding remarks
 
 In this post we've explored the EVD for the case of maximum of i.i.d. random variables. There are many related problems 
 and extensions, however.
@@ -2251,11 +2443,6 @@ Frechet distribution has non-zero pdf at positive values of $x$, while Frechet h
 
 Distribution of minimum behaves in a similar way to the distribution of maximum with some inversions of EVDs.
 
-### N-th order statistics
-
-One might ask a question, how the N-th largest maximum of arbitrary random variable is distributed. Quite intuitively,
-its distribution looks like a hybrid between Poisson distribution and EVD. 
-
 ### Multi-variate case and continuous-time stochastic processes
 
 Instead of discrete number of random variables $n$ you might want to work with stochastic processes with continuous time $t$.
@@ -2286,6 +2473,7 @@ Sidney I. Resnick                           |  Laurens de Haan                  
 * https://minerva.it.manchester.ac.uk/~saralees/book1.pdf - Embrechts et al. (1997) textbook on applications of EVT in finance
 * http://www2.stat-athens.aueb.gr/~jpan/diatrives/Tsourti/Index.html - a great review of EVT theory, estimators and applications by Tsourti Zoi
 * https://repositorio.unican.es/xmlui/bitstream/handle/10902/20125/Se%C3%B1as%20Peon%20Pablo.pdf?sequence=1&isAllowed=y - nice masters PhD by Pablo Señas Peón on EVD
+* https://robertrreitano.com/wp-content/uploads/2020/04/Book4.pdf - a great text on Hill's estimator derivation, Renyi representation theorem etc.
 * https://ckrao.wordpress.com/2012/06/10/outline-proof-of-the-extreme-value-theorem-in-statistics/ - Fisher-Tippet-Gnedenko for i.i.d. RV proof
 * https://hal-enac.archives-ouvertes.fr/hal-00917995/document - good proof of Fisher-Tippett-Gnedenko theorem
 * https://eva.fing.edu.uy/pluginfile.php/287975/mod_resource/content/1/Stuart_Coles_An_Introduction_to_Statistical_Modeling_of_Extreme_Values__2001.pdf - a book on EVD by Stuart Coles
@@ -2313,9 +2501,12 @@ Sidney I. Resnick                           |  Laurens de Haan                  
 * https://projecteuclid.org/journals/annals-of-statistics/volume-3/issue-1/Statistical-Inference-Using-Extreme-Order-Statistics/10.1214/aos/1176343003.full - Pickands paper on Extreme Order Statistics
 * https://www.mdpi.com/2073-8994/14/6/1207/htm - on the issue of sub-exponential tails of Gompertz disitribution
 * https://en.wikipedia.org/wiki/Heavy-tailed_distribution - Wikipedia on heavy-tailed, long-tailed and subexponential distributions
+* http://www.math.u-szeged.hu/CsorgoEmlek/talks/Viharos.pdf - a chapter from Tsourti book on estimators
 * https://arxiv.org/pdf/math/0403299.pdf - a paper on Pickands estimator
 * https://www.jstor.org/stable/2241666?seq=26 - derivation of Pickands estimator's confidence intervals and proof of asymptotic normality (see Theorem 2.3)
 * https://projecteuclid.org/journals/annals-of-statistics/volume-3/issue-5/A-Simple-General-Approach-to-Inference-About-the-Tail-of/10.1214/aos/1176343247.full - original paper on Hill's estimator
+* https://getd.libs.uga.edu/pdfs/vollmer_jan_h_200308_ms.pdf - a good monograph on Hill's estimator
+* http://www2.stat-athens.aueb.gr/~jpan/diatrives/Tsourti/chapter4.pdf - a Beamer presentation on Hill's estimator
 * http://sfb649.wiwi.hu-berlin.de/fedc_homepage/xplore/tutorials/sfehtmlnode91.html - chapter of a tutorial on Hill's estimator
 * https://projecteuclid.org/journals/annals-of-applied-probability/volume-14/issue-3/On-maximum-likelihood-estimation-of-the-extreme-value-index/10.1214/105051604000000279.full - Drees, Ferreira, de Haan paper on estimator for upper end of distribution
 * https://www.investopedia.com/terms/v/var.asp - Value at Risk, explained by Investopedia
