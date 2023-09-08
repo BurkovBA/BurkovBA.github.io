@@ -1872,9 +1872,16 @@ and sufficient conditions of convergence to EVD.
 
 ## 6. Order statistics and parameter estimation
 
-### Order statistics
+Extreme Value Theorem provides us with the distribution of maximum. 
 
-TODO: introductory words about mearning of order statistics and their role in constructing the Hill's estimator.
+However, as an almost free bonus, we can also infer the distribution of 2nd largest maximum, 3rd and, generally, k-th 
+maximum from EVT and Poisson distribution. We'll need just a few basic results from the order statistics toolbox in order
+to infer the asymptotic distribution of k-th maximum. 
+
+In the second part of this chapter we will use this toolbox as well to study 2 of the best known
+estimators of EVD parameters, Hill and Pickands esimators, which are based on order statistics as well.
+
+### Order statistics
 
 #### Definition 6.1. Order statistics
 
@@ -1883,7 +1890,7 @@ ordered list $\{ \xi_{(k)} \}$, such that $\xi_{(k)} < \xi_{(k+1)}$ is called **
 
 Basically, the k-th smallest value is called k-th order statistic.
 
-#### Theorem 6.1. Distribution of k-th order statistics
+#### Proposition 6.1. Distribution of k-th order statistics
 
 Cumulative distribution function of $k$-th order statistic from distribution $\xi$ is $F_{ \xi_{(k)} }(x) = \frac{n!}{(n-k)! k!} F_{\xi}^k (1 - F_{\xi})^{n-k}$.
 
@@ -1896,7 +1903,7 @@ Which exactly points fall in both categories - does not matter, hence, there are
 
 Hence, $F_{\xi_{(k)}}(x) = C_n^k F_\xi(x)^k (1 - F_\xi(x))^{n-k}$.
 
-#### Theorem 6.2. Poisson-like distribution of k-th order statistics from Extreme Value Distribution
+#### Theorem 6.1. Poisson-like distribution of k-th order statistics from Extreme Value Distribution
 
 Cumulative distribution function of k-th maximum of a function that is in the domain of attraction of Generalized EVD
 $G(x)$ is Poisson-like:
@@ -1927,7 +1934,7 @@ Hill's estimator provides an estimate of the tail index: $\hat{\gamma} = \frac{1
 Derivation of Hill's estimator is based on transformation theorem for probability densities and Renyi's representation theorem. Let's
 prove them first.
 
-#### Lemma 6.1. Transformation theorem for probability densities
+#### Proposition 6.1. Transformation theorem for probability densities
 
 Given a density function $f(x_1, x_2, ..., x_n)$ and a transformation of variables $T: (x_1, x_2, ..., x_n) \to (y_1, y_2, ..., y_n)$,
 
@@ -1937,9 +1944,7 @@ $\iint \limits_{D(x_1, x_2, ..., x_n)} f(x_1, x_2, ..., x_n) dx_1 dx_2 ... dx_n 
 
 where $|J|$ is a Jacobian determinant $ \det \begin{pmatrix} \frac{\partial{x_1}}{\partial{y_1}} && \frac{\partial{x_2}}{\partial{y_1}} && ... && \frac{\partial{x_n}}{\partial{y_1}} \\ \frac{\partial{x_1}}{\partial{y_2}} && \frac{\partial{x_2}}{\partial{y_2}} && ... && \frac{\partial{x_n}}{\partial{y_2}} \\ ... && ... && ... && ... \\ \frac{\partial{x_1}}{\partial{y_n}} && \frac{\partial{x_2}}{\partial{y_n}} && ... && \frac{\partial{x_n}}{\partial{y_n}} \end{pmatrix}$.
 
-#### Proof:
-
-TODO: obvious, basically
+This result is obvious, basically.
 
 
 Next we go to the Renyi representation theorem, importance of which is well stated in [Robert Reitano's book, page 55](https://robertrreitano.com/wp-content/uploads/2020/04/Book4.pdf):
@@ -1955,7 +1960,7 @@ For example, $X_{(1)}$ is exponential with parameter $M\lambda$; while $X_{(2)}$
 $X_{(1)}$ and an independent exponential variate with parameter $(M - 1)\lambda$; and
 so forth.
 
-#### Lemma 6.2: Renyi representation theorem
+#### Lemma 6.1: Renyi representation theorem
 
 Let $\{\xi_n\}$ be samples from a standard exponential distribution with parameter $\lambda$.
 
@@ -2010,7 +2015,7 @@ Hence, we introduce a counterpart of k-th order statistic, but decreasing, which
 In Hill's estimator we denote $x_{(k)}$ k-th upper order statistic the k-th **largest** value, as we're looking at the upper 
 tail of survival function. So, $x_{(1)} > x_{(2)} > ... > x_{(k)}$.
 
-#### Theorem 6.3: Hill's estimator is a Maximum Likelihood estimator in Frechet EVD Type II case
+#### Theorem 6.2: Hill's estimator is a Maximum Likelihood estimator in Frechet EVD Type II case
 
 If survival function of a distribution $\xi$ lies in the domain of attraction of Frechet Type II EVD, we sampled
 $n \to \infty$ largest observations (i.e. upper order statistics), then the shape parameter $\gamma$ of EVD 
@@ -2224,17 +2229,15 @@ def get_pickands_ci(genpareto_shape, k, alpha=0.95):
     'data', 'upper_ci', and 'lower_ci', and they must have the same length.
     """
     alpha = 0.95  # confidence level
-    two_sigma = 1.96  # almost 2 standard errors correspond to confidence level of 0.95
+    two_sigma = 1.96  # almost 2 standard errors correspond to confidence level alpha=0.95
 
     try:
         pickands_standard_error = genpareto_shape * math.sqrt((2**(2 * genpareto_shape + 1) + 1)) / (2 * (2**(genpareto_shape) - 1) * math.log(2) * math.sqrt(k))
     except ZeroDivisionError:
         pickands_standard_error = np.infty
-        
-    #     print(f"standard_error = {pickands_standard_error}")
 
-    pickands_confidence_intervals = (genpareto_shape - two_sigma * pickands_standard_error, genpareto_shape + two_sigma * pickands_standard_error)  # TODO: Pickci = cbind(Pick - qnorm(1 - alpha/2) * Pickse, Pick + qnorm(1 - alpha/2) * Pickse)
-    
+    pickands_confidence_intervals = (genpareto_shape - two_sigma * pickands_standard_error, genpareto_shape + two_sigma * pickands_standard_error)    
+
     return pickands_confidence_intervals
 
 
@@ -2246,8 +2249,20 @@ print(pickands_confidence_intervals)
 
 ### Other estimators
 
-TODO
+I've described two of the best known estimators for EVD/GPD parameters in detail. 
 
+However, I want to briefly mention several alternatives:
+
+* Maximum likelihood (MLE)
+* Method of moments (MOM)
+* Probability-weighted moments (PWM)
+* L-moments ([paper](https://www.researchgate.net/publication/267572092_Questioning_MLE_for_the_estimation_of_environmental_extreme_distributions))
+* Principle of maximum entropy (POME) ([paper](https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.399.4638&rep=rep1&type=pdf))
+* Refined Pickands estimator ([paper](https://www.jstor.org/stable/2242785))
+* Hill-like estimator for arbitrary tail index values range ([paper](https://www.utstat.utoronto.ca/keith/papers/robusthill.pdf))
+
+Some of them are well-explained in a [Tsourti book](http://www2.stat-athens.aueb.gr/~jpan/diatrives/Tsourti/Index.html), 
+other are described in their respective papers.
 
 ---
 
