@@ -68,18 +68,23 @@ useful below.
 
 #### Convergence
 
-TODO: example: all eigenvalues are equal - converges in 1 iteration
+Convergence rate of steepest descent varies. For instance, it might converge in one iteration, if $A$ is diagonal and
+all of its eigenvalues are equal:
 
-TODO: example: ill-conditioned matrix - rate of convergence related to condition number
+![Perfect convergence of steepest descent](steepest_descent_perfect_convergence.png)<center>**Perfect convergence of steepest descent**. If matrix $A$ is diagonal with equal eigenvalues, isolevels are spheres and steepest descent converges in 1 iteration.</center>
 
-![Poor convergence of Steepest descent](steepest_descent_poor_convergence.png)<center>**Poor convergence of steepest descent**. If we have an ill-conditioned matrix, so that even one eigenvalue of matrix $A$ is much smaller than other eigenvalues of matrix $A$, the ellipsoid isolevels look like a ravine, and gradient jumps off the sides of the ravine. Image from J.R.Schewchuk book.</center>
+However, in general we cannot guarantee fast convergence for steepest descent. E.g. if the matrix $A$ is ill-conditioned,
+i.e. the difference in magnitude between its largest and smallest eigenvalues is big, steepest descent will start jumping
+from one side of the ellipsoid to the other.
+
+![Poor convergence of steepest descent](steepest_descent_poor_convergence.png)<center>**Poor convergence of steepest descent**. If we have an ill-conditioned matrix, so that even one eigenvalue of matrix $A$ is much smaller than other eigenvalues of matrix $A$, the ellipsoid isolevels look like a ravine, and gradient jumps off the sides of the ravine. Image from J.R.Schewchuk book.</center>
 
 Hence, convergence rate is related to condition numbers $\kappa$ of the matrix. One can actually derive a formula for
 convergence rate:
 
 $\frac{f(x_{(i)}) - f(x)}{f(x_{(0)}) - f(x)} = \frac{\frac{1}{2} e_{(i)}^T A e_{(i)} }{ \frac{1}{2} e_{(0)}^T A e_{(0)} } \le (\frac{\kappa - 1}{\kappa + 1})^{2i}$
 
-Exact derivation of this fact is somewhat tedious and can be found in [J.R. Schewchuk tutorial, part 6.2](http://www.cs.cmu.edu/~quake-papers/painless-conjugate-gradient.pdf).
+Exact derivation of this fact is somewhat tedious (although, not so hard for understanding) and can be found in [J.R. Schewchuk tutorial, part 6.2](http://www.cs.cmu.edu/~quake-papers/painless-conjugate-gradient.pdf).
 
 ## Conjugate directions and conjugate gradients
 
@@ -136,7 +141,40 @@ Second, we come to a coordinate system, where isolevels are spheres. In these co
 
 ### Conjugate directions
 
-TODO
+TODO: introductory words
+
+Let us prove the guarantees of convergence for conjugate directions algorithm in $N$ steps.
+
+Consider a descent algorithm, which uses vectors $\{ p_i \}$ as descent directions and step sizes $\alpha_i = - \frac{p_i^T r_i }{p_i^T A p_i}$, where $r_i = A x_i - b$ is the current residue.
+
+$x_n = x_0 + \alpha_0 p_0 + \alpha_1 p_1 + ... + \alpha_{n-1} p_{n-1}$
+
+We want to prove that if $\{ p_i \}$ are conjugate directions, then $x_n = x^*$. 
+
+Indeed, we know that vectors $\{ p_i \}$ span the whole space. Hence, there exist coefficients $\{ \sigma_i \}$, such that
+we can come to the desired solution point $x^*$ walking the directions:
+
+$x^* = x_0 + \sigma_0 p_0 + \sigma_1 p_1 + ... + \sigma_{n-1} p_{n-1}$
+
+Pre-multiply this expression by $p_{i} A$:
+
+$p_{i}^T A (x^* - x_0) = \cancel{\sigma_0 p_{i}^T A p_0} + ... + \sigma_1 p_{i}^T A p_{i} + ... + \cancel{\sigma_{n-1} p_{i}^T A p_{n-1}}$
+
+Hence, $\sigma_{i} = \frac{p_{i}^T A (x^* - x_0)}{ p_{i}^T A p_{i} }$.
+
+Recall that $Ax^* = b$ (because $x^*$ is the perfect solution of our system of linear equations in the end).
+
+Thus, $\sigma_{i} = \frac{p_{i}^T A (x^* - x_0)}{ p_{i}^T A p_{i} } = \frac{ p_{i}^T (b - A x_0) }{ p_{i}^T A p_{i} } = \frac{ -p_{i}^T r_0 }{ p_{i}^T A p_{i} }$.
+
+Now, consider $x_i = x_0 + \alpha_0 p_0 + \alpha_1 p_1 + ... + \alpha_{i-1} p_{i-1}$ and pre-multiply it by $p_i^T A$:
+
+$p_i^T A (x_i - x_0) = 0$, hence, $p_i^T A x_i = p_i^T A x_0$. 
+
+Then substitute this into $\sigma_{i-1} = \frac{ -p_{i}^T r_0 }{ p_{i}^T A p_{i} }$. 
+
+This produces $\sigma_{i} = \frac{ -p_{i}^T r_i }{ p_{i}^T A p_{i} }$, which coincides with $\alpha_i = - \frac{p_i^T r_i }{p_i^T A p_i}$.
+
+Hence, $\sigma_i = \alpha_i$.
 
 ### Conjugate gradients
 
