@@ -2,16 +2,18 @@
 title: Conjugate gradients
 date: "2023-09-21T00:00:00.284Z"
 tags: ["math"]
-cover: "./coordinate_descent.png"
+cover: "./cover.png"
 description: Conjugate gradients is one of the most popular computationally effective methods, used to solve systems of linear equations. Along with other Krylov space methods it can also be used for finding eigenvalues and eigenvectors of a matrix.
 ---
 
 ## System of linear equations as a quadratic optimization problem
 
 TODO: quadratic form $x^T A x$ represents ellipsoid, eigenvectors $\{ e_i \}$ of matrix $A$ are axes, eigenvalues 
-$\{ e_i \}$ are semi-axes, solution vector $b$ is shift (???).
+$\{ e_i \}$ are semi-axes, solution vector $b$ is (???).
 
 $x^* : A x - b = 0 \iff x^* = \arg \min \limits_x \phi(x) = x^T A x - b^T x$
+
+Here $A$ is a Gram matrix (i.e. symmetric and positive definite). Thus, its eigenvalues are real and positive.
 
 ## Naive approaches
 
@@ -145,38 +147,64 @@ TODO: introductory words
 
 Let us prove the guarantees of convergence for conjugate directions algorithm in $N$ steps.
 
-Consider a descent algorithm, which uses vectors $\{ p_i \}$ as descent directions and step sizes $\alpha_i = - \frac{p_i^T r_i }{p_i^T A p_i}$, where $r_i = A x_i - b$ is the current residue.
+Consider a descent algorithm, which uses vectors $\{ d_i \}$ as descent directions and step sizes $\alpha_i = - \frac{d_i^T r_i }{d_i^T A d_i}$, where $r_i = A x_i - b$ is the current residue.
 
-$x_n = x_0 + \alpha_0 p_0 + \alpha_1 p_1 + ... + \alpha_{n-1} p_{n-1}$
+$x_n = x_0 + \alpha_0 d_0 + \alpha_1 d_1 + ... + \alpha_{n-1} d_{n-1}$
 
-We want to prove that if $\{ p_i \}$ are conjugate directions, then $x_n = x^*$. 
+We want to prove that if $\{ d_i \}$ are conjugate directions, then $x_n = x^*$. 
 
-Indeed, we know that vectors $\{ p_i \}$ span the whole space. Hence, there exist coefficients $\{ \sigma_i \}$, such that
+Indeed, we know that vectors $\{ d_i \}$ span the whole space. Hence, there exist coefficients $\{ \sigma_i \}$, such that
 we can come to the desired solution point $x^*$ walking the directions:
 
-$x^* = x_0 + \sigma_0 p_0 + \sigma_1 p_1 + ... + \sigma_{n-1} p_{n-1}$
+$x^* = x_0 + \sigma_0 d_0 + \sigma_1 d_1 + ... + \sigma_{n-1} d_{n-1}$
 
-Pre-multiply this expression by $p_{i} A$:
+Pre-multiply this expression by $d_{i} A$:
 
-$p_{i}^T A (x^* - x_0) = \cancel{\sigma_0 p_{i}^T A p_0} + ... + \sigma_1 p_{i}^T A p_{i} + ... + \cancel{\sigma_{n-1} p_{i}^T A p_{n-1}}$
+$d_{i}^T A (x^* - x_0) = \cancel{\sigma_0 d_{i}^T A d_0} + ... + \sigma_1 d_{i}^T A d_{i} + ... + \cancel{\sigma_{n-1} d_{i}^T A d_{n-1}}$
 
-Hence, $\sigma_{i} = \frac{p_{i}^T A (x^* - x_0)}{ p_{i}^T A p_{i} }$.
+Hence, $\sigma_{i} = \frac{d_{i}^T A (x^* - x_0)}{ d_{i}^T A d_{i} }$.
 
 Recall that $Ax^* = b$ (because $x^*$ is the perfect solution of our system of linear equations in the end).
 
-Thus, $\sigma_{i} = \frac{p_{i}^T A (x^* - x_0)}{ p_{i}^T A p_{i} } = \frac{ p_{i}^T (b - A x_0) }{ p_{i}^T A p_{i} } = \frac{ -p_{i}^T r_0 }{ p_{i}^T A p_{i} }$.
+Thus, $\sigma_{i} = \frac{d_{i}^T A (x^* - x_0)}{ d_{i}^T A d_{i} } = \frac{ d_{i}^T (b - A x_0) }{ d_{i}^T A d_{i} } = \frac{ -d_{i}^T r_0 }{ d_{i}^T A d_{i} }$.
 
-Now, consider $x_i = x_0 + \alpha_0 p_0 + \alpha_1 p_1 + ... + \alpha_{i-1} p_{i-1}$ and pre-multiply it by $p_i^T A$:
+Now, consider $x_i = x_0 + \alpha_0 d_0 + \alpha_1 d_1 + ... + \alpha_{i-1} d_{i-1}$ and pre-multiply it by $d_i^T A$:
 
-$p_i^T A (x_i - x_0) = 0$, hence, $p_i^T A x_i = p_i^T A x_0$. 
+$d_i^T A (x_i - x_0) = 0$, hence, $d_i^T A x_i = d_i^T A x_0$. 
 
-Then substitute this into $\sigma_{i-1} = \frac{ -p_{i}^T r_0 }{ p_{i}^T A p_{i} }$. 
+Then substitute this into $\sigma_{i-1} = \frac{ -d_{i}^T r_0 }{ d_{i}^T A d_{i} }$. 
 
-This produces $\sigma_{i} = \frac{ -p_{i}^T r_i }{ p_{i}^T A p_{i} }$, which coincides with $\alpha_i = - \frac{p_i^T r_i }{p_i^T A p_i}$.
+This produces $\sigma_{i} = \frac{ -d_{i}^T r_i }{ d_{i}^T A d_{i} }$, which coincides with $\alpha_i = - \frac{d_i^T r_i }{d_i^T A d_i}$.
 
 Hence, $\sigma_i = \alpha_i$.
 
+TODO: conjugate directions as an energy norm minimization
+
 ### Conjugate gradients
+
+Consider residuals $r_i = A(x_i - b)$.
+
+Observe that in conjugate directions if directions and errors are A-orthogonal, residuals are simply orthogonal.
+
+![conjugate_directions](conjugate_directions.png)<center>**Conjugate directions in 2D**. Note that $r_{(1)}$ is 
+orthogonal to $d_{(0)}$ and $e_{(1)}$ is A-orthogonal to $d_{(0)}$. Image from J.R. Schewchuk.</center>
+
+$d_i = r_i + \beta d_{i-1}$
+
+Calculation of $\beta$ is evident from A-orthogonality of $d_i$ and $d_{i-1}$: pre-multiply this expression with 
+$d^T_{i-1} A$:
+
+$\cancel{d^T_{i-1} A d_i} = d^T_{i-1} A r_i + \beta d^T_{i-1} A d^{i-1}$
+
+$d^T_{i-1} A r_i + \beta d^T_{i-1} A d^{i-1} = 0$
+
+$\beta = \frac{ d^T_{i-1} A r_i }{ d^T_{i-1} A d^{i-1} }$
+
+
+
+TODO: residuals as directions
+
+TODO: Krylov space
 
 TODO: only the last direction required
 
