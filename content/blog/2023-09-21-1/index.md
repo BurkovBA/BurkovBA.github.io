@@ -63,7 +63,7 @@ $d^T (A (x + \alpha d) - b) = 0$
 
 $d^T A x + \alpha d^T A d - d^T A d - d^T b = 0$
 
-$\alpha = - \frac{d^T (Ax - b)}{d^T A d}$
+$\alpha = - \frac{d^T (Ax - b)}{d^T A d} = - \frac{d^T r}{ d^T A d }$
 
 Now our steepest descent algorithm is fully defined. By the way, this formula for step length $\alpha$ is going to be
 useful below.
@@ -178,33 +178,58 @@ This produces $\sigma_{i} = \frac{ -d_{i}^T r_i }{ d_{i}^T A d_{i} }$, which coi
 
 Hence, $\sigma_i = \alpha_i$.
 
-TODO: conjugate directions as an energy norm minimization
+#### Conjugate directions as an energy norm minimization
+
+TODO
+
+#### Conjugate directions and eigenvectors
+
+Let $A = E \Lambda E^T$ be the eigenvector decomposition of $A$.
+
+Consider the definition of conjugate directions: $P^T A P = D$, where $D$ is any diagonal matrix, $P$ is the matrix of conjugate 
+directions row-vector (orthogonal).
+
+$A = P D P^T$
+
+$E \Lambda E^T = P D P^T$
+
+$E \Lambda^{1/2} = P D^{1/2}$
+
+$P = E \Lambda^{1/2} D^{-1/2} = E (\Lambda D^{-1})^{1/2}$
 
 ### Conjugate gradients
 
-Consider residuals $r_i = A(x_i - b)$.
+How do we obtain conjugate directions in practice?
 
-Observe that in conjugate directions if directions and errors are A-orthogonal, residuals are simply orthogonal.
+Simple and straighforward approach: let us use neg-gradients as directions: $d_{i+1} = - r_{i+1} = - A(x_{i+1} - b)$. Problem is, 
+our "conjugate" directions are not conjugate. $d_i^T A d_{i+1} \ne 0$, directions are not A-orthogonal (although, by the
+way, we know that $d_{i+1}$ is orthogonal, not A-orthogonal to the previous search direction due to tangency of search 
+direction to isolevels at the point $x_{i+1}$.
 
 ![conjugate_directions](conjugate_directions.png)<center>**Conjugate directions in 2D**. Note that $r_{(1)}$ is 
 orthogonal to $d_{(0)}$ and $e_{(1)}$ is A-orthogonal to $d_{(0)}$. Image from J.R. Schewchuk.</center>
 
-$d_i = r_i + \beta d_{i-1}$
+So, we correct the gradient direction by subtracting $d_{i}$ with some coefficient to A-orthogonalize $d_{i+1}$ and $d_{i}$:
 
-Calculation of $\beta$ is evident from A-orthogonality of $d_i$ and $d_{i-1}$: pre-multiply this expression with 
-$d^T_{i-1} A$:
+$d_{i+1} = - r_{i+1} + \beta_k \sum \limits_k^{i} d_{k}$
 
-$\cancel{d^T_{i-1} A d_i} = d^T_{i-1} A r_i + \beta d^T_{i-1} A d^{i-1}$
+Calculation of $\beta_i$ is evident from A-orthogonality of $d_{i+1}$ and $d_{i}$: pre-multiply this expression with 
+$d^T_{i} A$:
 
-$d^T_{i-1} A r_i + \beta d^T_{i-1} A d^{i-1} = 0$
+$\cancel{d^T_{i} A d_{i+1}} = - d^T_{i} A r_{i+1} + \beta_i d^T_{i} A d_{i}$ (all other $d^T_{k} A d_{i} = 0$)
 
-$\beta = \frac{ d^T_{i-1} A r_i }{ d^T_{i-1} A d^{i-1} }$
+$d^T_{i} A r_{i+1} = \beta d^T_{i} A d_{i}$ (I drop index under $\beta$, as there's only one non-zero $\beta_i$)
 
+$\beta = \frac{ d^T_{i} A r_{i+1} }{ d^T_{i} A d_{i} }$
 
+This is just a special case of Schmidt orthogonalization.
 
-TODO: residuals as directions
+Notice, that we don't need all the previous directions to calculate the next one. Only the last! This is amazing in
+terms of low memory requirements.
 
-TODO: Krylov space
+#### Krylov space
+
+TODO
 
 TODO: only the last direction required
 
@@ -226,4 +251,7 @@ TODO
 * http://www.cs.cmu.edu/~quake-papers/painless-conjugate-gradient.pdf - a great monography on conjugate gradients by Johnathan Richard Schewchuk
 * https://www.csie.ntu.edu.tw/~r97002/temp/num_optimization.pdf - Numerical Optimization by Nocedal, Wright
 * https://dl.acm.org/doi/pdf/10.1145/87252.88084 - a nice autobiography and explanation by Magnus Hestenes
+* https://math.mit.edu/classes/18.086/2006/am64.pdf - a text on Krylov space methods: CG, Arnoldi iteration, Lanczos
+* https://math.stackexchange.com/questions/3439589/are-conjugate-vectors-unique - about relation of conjugate and eigen vectors
+* http://www.people.vcu.edu/~ysong3/lecture11.pdf - good intro
 * https://en.wikipedia.org/wiki/Conjugate_gradient_method - wikipedia
