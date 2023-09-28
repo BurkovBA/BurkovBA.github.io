@@ -180,13 +180,17 @@ Hence, $\sigma_i = \alpha_i$.
 
 #### Conjugate directions as an energy norm minimization
 
-One can show that conjugate directions is similar to PCA in terms of maximization of energy norm.
+An insightful way of thinking about conjugate gradients is through norm minimization/maximization.
+
+One can show that conjugate directions is similar to PCA in terms of minimization/maximization of a certain norm.
 
 PCA at each iteration finds a projection that minimizes Frobenius norm of approximation of our matrix by low-rank matrices:
 
 $|| A - \sum_k^i \lambda_k u_k v_k^T ||_F \to \min$
 
 TODO: check PCA analogy
+
+TODO: duality between energy norm and Frobenius norm (maximum of energy norm corresponds to maximum of Frobenius norm)
 
 Similarly, we can introduce a notion of **energy norm** of vector $x$: $|| x ||_A = x^T A x $.
 
