@@ -190,7 +190,7 @@ $|| A - \sum_k^i \lambda_k u_k v_k^T ||_F \to \min$
 
 TODO: check PCA analogy
 
-TODO: duality between energy norm and Frobenius norm (maximum of energy norm corresponds to maximum of Frobenius norm)
+TODO: duality between energy norm and Frobenius norm (maximum of energy norm corresponds to minimum of Frobenius norm)
 
 Similarly, we can introduce a notion of **energy norm** of vector $x$: $|| x ||_A = x^T A x $.
 
