@@ -224,22 +224,37 @@ $\beta = \frac{ d^T_{i} A r_{i+1} }{ d^T_{i} A d_{i} }$
 
 This is just a special case of Schmidt orthogonalization.
 
-Notice, that we don't need all the previous directions to calculate the next one. Only the last! This is amazing in
+Notice, that we don't need all the previous directions to calculate the next one. Only the last one! This is amazing in
 terms of low memory requirements.
 
 #### Krylov space
 
-TODO
+One more important aspect: assume $x_0 = 0$ and consider $-r_0 = b - Ax = b$. Hence, $x_1 = b$.
 
-TODO: only the last direction required
+$x_2 - x_1 = - r_{2} + \beta (x_1 - x_0) = (b - A x_2) + \beta x_1$
+
+$x_2 (I + A) = b + (1 + \beta) x_1 = b + (1 + \beta) b = 2b + \beta b$
+
+$x_2 = b (2 + \beta)$
+
+Similarly, if we consider $x_3$, we get a polynomial of $A^2 b$, $A b$ and $b$. And so on.
+
+Hence, in case of $x_i$ we are working with a space of vectors $[ A^{i-1} b, A^{i-2} b, ..., A b, b ]$
+
+This space is called **Krylov space** and is useful in related problems, such as numeric eigenvector/eigenvalue 
+estimation. Such problems are often solved with a related family of algorithms, such as Arnoldi iteration and Lanczos
+algorithm.
+
+TODO: fix bugs
+
 
 #### Convergence rate: exact arithmetic
 
-TODO
+TODO: convergence in under N iterations
 
 #### Convergence rate: inexact arithmetic
 
-TODO
+TODO: clusters of eigenvalues, faster than N iterations
 
 ### Preconditioning and clusters of eigenvalues
 
