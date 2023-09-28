@@ -180,7 +180,24 @@ Hence, $\sigma_i = \alpha_i$.
 
 #### Conjugate directions as an energy norm minimization
 
-TODO
+One can show that conjugate directions is similar to PCA in terms of maximization of energy norm.
+
+PCA at each iteration finds a projection that minimizes Frobenius norm of approximation of our matrix by low-rank matrices:
+
+$|| A - \sum_k^i \lambda_k u_k v_k^T ||_F \to \min$
+
+TODO: check PCA analogy
+
+Similarly, we can introduce a notion of **energy norm** of vector $x$: $|| x ||_A = x^T A x $.
+
+One may show that at each step conjugate directions algorithm chooses such a vector $d_i$ that minimizes the energy norm
+of error:
+
+$|| e_i ||_A \to \min$
+
+$|| e_i ||_A = e_i^T A e_i = (\sum \limits_k=i^{n-1} d_k^T ) A (\sum \limits_k=i^{n-1} d_k ) = \sum \limits_{k=i}^{n-1} d_k^T A d_k$.
+
+TODO: check notation and finish this part
 
 #### Conjugate directions and eigenvectors
 
@@ -210,6 +227,8 @@ direction to isolevels at the point $x_{i+1}$.
 orthogonal to $d_{(0)}$ and $e_{(1)}$ is A-orthogonal to $d_{(0)}$. Image from J.R. Schewchuk.</center>
 
 So, we correct the gradient direction by subtracting $d_{i}$ with some coefficient to A-orthogonalize $d_{i+1}$ and $d_{i}$:
+
+TODO: show why only one beta remains and other betas are 0!
 
 $d_{i+1} = - r_{i+1} + \beta_k \sum \limits_k^{i} d_{k}$
 
