@@ -282,6 +282,41 @@ I don't like the way I predict returns now, though. I will have to use better mo
 automation using data from APIs of parsed financial statements, and be different for stable and expanding companies. For
 instance, one could use the data from financialmodelingprep.com.
 
+### Capital Allocation Line, Capital Market Line and Sharpe ratio
+
+Suppose that risk-free return in $R_f = 5%$. Suppose that we want to create a portfolio, which consists of risk-free
+treasuries with return $R_p$ and risky market portfolio with expected return $\mathbb{E}R_m$ in a proportion $w$ to $1 - w$.
+
+Expected return of this portfolio $\mathbb{E} R_p = w R_f + (1-w) R_m$.
+
+Variance of this portfolio $Var\{R_p\} = \sigma_p^2 = w^2 \sigma_f^2 + 2 w (1-w) Cov \{ R_f, R_m \} + (1 - w)^2 \sigma_m^2$.
+
+Assuming risk-free income variance fixed $w^2 \sigma_f^2 = 0$ and market and risk-free returns uncorrelated $2 w (1-w) Cov \{ R_f, R_m \} = 0$,
+we get:
+
+$Var\{R_p\} = (1 - w)^2 \sigma_m^2$, hence, $\sigma_p = (1 - w) \sigma_m$.
+
+Substitute this into expectation, resulting in:
+
+$\mathbb{E} R_p = w R_f + (1-w) R_m = w R_f + \frac{ \sigma_p }{ \sigma_m } \mathbb{E} R_m = (1 - (1 - w)) R_f + \frac{ \sigma_p }{ \sigma_m } \mathbb{E} R_m = R_f - \frac{\sigma_p}{\sigma_m} R_f + \frac{ \sigma_p }{ \sigma_m } \mathbb{E} R_m = R_f + \frac{R_f - \mathbb{E}R_m}{\sigma_m} \cdot \sigma_p$.
+
+Here we see an equation of a straight line, with an intercept $R_f$ and a 
+slope $\frac{R_f - \mathbb{E}R_m}{\sigma_m} = S_m$. This quantity $S_m$ is known as **Sharpe ratio**.
+
+Let us look at a graphical illustration of this.
+
+![CAL vs CML](CAL_vs_CML.png)<center>**Capital allocation line, Captial Market Line and Markowitz efficient frontier**. Risk-free return $R_f$ is the intercept of ordinate line. Choose an arbitrary slope of a portfolio, it equals to Sharpe ratio of this portfolio. Draw a line from the intercept point, it is called **Capital Allocation Line (CAL)**. The point A, where CAL intersects efficient frontier represents the optimal composition of risk-free and risky assets in your mixed portfolio. If Capital Allocation Line is tangent to efficient frontier, it is called **Capital Market Line**. Then optimal contents of portfolio are represented with the point $M$. Illustration from the thesis of Musaad A. Abalkhail.</center>
+
+On this plot the abscissa is $\sigma_p$, not $\sigma_m$ (counter-intuitively, I'd expect it to be market std $\sigma_m$,
+as we are seeking to maximize Sharpe ratio of a mix of bonds and stocks against a stock-only efficient frontier).
+
+We are seeking to maximize the Sharpe ratio, return of mixed bonds+stocks portfolio to $\sigma_m$. It is achieved, when
+our Capital Allocation Line crosses the efficient frontier as high as possible (i.e. is tangent to it), resuling in
+Capital Market Line.
+
+Also, we can choose some arbitrary point on the Capital Market Line. The further it is, the larger share of stocks is
+in our portfolio. Again, optimal share of stocks corresponds to the point, where CML touches the efficient frontier.
+
 ## References
 * https://www.kaggle.com/camnugent/sandp500 - S&P 500 dataset from Kaggle
 * https://site.financialmodelingprep.com/developer/docs - financialmodelingprep API with financial data
@@ -293,3 +328,7 @@ instance, one could use the data from financialmodelingprep.com.
 * https://medium.com/bearnbull/demystifying-the-magic-of-modern-portfolio-theory-5ed86a03e4dc - good intro to MPF from medium
 * https://en.wikipedia.org/wiki/Markowitz_model - about Henry Markowitz
 * https://www.di.ens.fr/~aspremon/PDF/INFORMS05sparsePCA.pdf - on Sparse PCA in finance
+* https://scholarworks.calstate.edu/downloads/f1881p207 - masters thesis by Musaad A. Abalkhail, includes information on Capital Allocation Line and Capital Market Line
+* https://analystprep.com/cfa-level-1-exam/portfolio-management/cal-cml/ - a nice derivation of expectation of portfolio return, CAL and CML
+* https://en.wikipedia.org/wiki/Capital_allocation_line - Wikipedia on CAL
+* https://en.wikipedia.org/wiki/Capital_market_line - Wikipedia on CML
