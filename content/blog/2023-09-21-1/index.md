@@ -270,20 +270,244 @@ algorithm.
 
 TODO: fix bugs
 
-
 #### Convergence rate: exact arithmetic
 
 TODO: convergence in under N iterations
 
 #### Convergence rate: inexact arithmetic
 
+TODO: example: 2 clusters of eigenvalues
+
 TODO: clusters of eigenvalues, faster than N iterations
 
 ### Preconditioning and clusters of eigenvalues
 
-TODO: example: 2 clusters of eigenvalues
+If the matrix $A$ is ill-conditioned, iterative multiplication of a vector $b$ by a matrix $A$ would accumulate 
+the floating point rounding errors, resuling in a failure to converge to the correct solution. Hence, we need to
+"normalize" the matrix $A$ similarly to how we apply batch norm or layer norm to normalize the layers of neural networks.
 
-TODO
+This process is called pre-conditioning. We are multiplying both sides of our equation by a pre-conditioner matrix $P$: 
+$P A x = P b$.
+
+An ideal pre-conditioner would convert our matrix to a perfect sphere. Then pre-conditioning axes should be the 
+eigenvectors and coefficients be eigenvalues. So, the perfect pre-conditioner is the matrix inverse. However, this is
+computationally impractical, as it is more-or-less equivalent to the solution of the initial system $Ax = b$ and would
+take $O(N^3)$ operations.
+
+The simplest pre-conditioner matrix is a diagonal matrix of the values at the diagonal of the matrix $A$. This is called
+[Jacobi pre-conditioner](https://en.wikipedia.org/wiki/Preconditioner#Jacobi_(or_diagonal)_preconditioner). It is 
+equivalent to scaling the matrix along the coordinate axes by values at the diagonal of matrix $A$. Obviously, this is 
+an imperfect solution.
+
+A more practical pre-conditioner would be an incomplete Cholesky decomposition. I will first discuss a regular Cholesky
+decomposition in the context of conjugate directions, and then its sparse variation.
+
+#### Cholesky decomposition as a special case of conjugate directions
+
+Cholesky decomposition is a representation of our matrix $A$ as a product of lower-diagonal matrix $L$ and its transpose
+upper-diagonal matrix $L^T$: $A = L L^T$.
+
+One can see that the vectors of inverse of Cholesky decomposition [are actually conjugate directions](https://en.wikipedia.org/wiki/Cholesky_decomposition#Geometric_interpretation) of matrix $A$, such 
+that the first direction is parallel to the first coordinate axis, second direction is in the plan of the first two 
+axes etc. Consider an upper-triangular matrix $V$:
+
+$V^T A V = I$
+
+$V^T A = V^{-1}$
+
+$A = {V^{-1}}^T V^{-1}$
+
+Now we can denote $L = {(V^{-1})}^T$ and $L^T = V^{-1}$, and we get $A = L L^T$.
+
+To see that inverse of an upper-triangular matrix is upper-triangular, just [apply](https://math.stackexchange.com/questions/4841/inverse-of-an-invertible-triangular-matrix-either-upper-or-lower-is-triangular/4843#4843) the textbook method of matrix 
+inversion, i.e. write down a matrix and a unit matrix next to each other, Gauss-eliminate the left, and you will
+obtain its inverse from the right:
+
+$$
+\begin{pmatrix}
+a^1_1 & a^1_2 & \cdots & a^1_{n-1}     & a^1_n     & 1 & 0      & \cdots & 0 & 0 \\\
+      & a^2_2 & \cdots & a^2_{n-1}     & a^2_n     &   & 1      & \cdots & 0 & 0  \\\
+      &       & \ddots & \vdots        & \vdots    &   &        & \ddots & \vdots  & \vdots \\\
+      &       &        & a^{n-1}_{n-1} & a^{n-1}_n &   &        &        & 1 & 0 \\\
+      &       &        &               & a^n_n     &   &        &        &   & 1  
+\end{pmatrix}
+$$
+
+#### Cholesky decomposition algorithm
+
+The algorithm for Cholesky decomposition is actually pretty straightforward.
+
+$$
+\begin{pmatrix} 
+a_{1,1} & a_{1,2} & a_{1,3} \\
+a_{2,1} & a_{2,2} & a_{2,3} \\
+a_{3,1} & a_{3,2} & a_{3,3} \\
+\end{pmatrix}
+=
+\begin{pmatrix} 
+l_{1,1} & 0 & 0 \\
+l_{2,1} & l_{2,2} & 0 \\
+l_{3,1} & l_{3,2} & l_{3,3} \\
+\end{pmatrix}
+\cdot
+\begin{pmatrix} 
+l_{1,1} & l_{2,1} & l_{3,1} \\
+0 & l_{2,2} & l_{3,2} \\
+0 & 0 & l_{3,3} \\
+\end{pmatrix}
+$$
+
+$$
+\begin{pmatrix} 
+a_{1,1} & a_{1,2} & a_{1,3} \\
+a_{2,1} & a_{2,2} & a_{2,3} \\
+a_{3,1} & a_{3,2} & a_{3,3} \\
+\end{pmatrix}
+=
+\begin{pmatrix} 
+l_{1,1} & 0 & 0 \\
+? & ? & 0 \\
+? & ? & ? \\
+\end{pmatrix}
+\cdot
+\begin{pmatrix} 
+l_{1,1} & ? & ? \\
+0 & ? & ? \\
+0 & 0 & ? \\
+\end{pmatrix}
+\implies l^2_{1,1} = a_{1,1}
+$$
+
+$$
+\begin{pmatrix} 
+a_{1,1} & a_{1,2} & a_{1,3} \\
+a_{2,1} & a_{2,2} & a_{2,3} \\
+a_{3,1} & a_{3,2} & a_{3,3} \\
+\end{pmatrix}
+=
+\begin{pmatrix} 
+l_{1,1} & 0 & 0 \\
+? & ? & 0 \\
+? & ? & ? \\
+\end{pmatrix}
+\cdot
+\begin{pmatrix} 
+? & l_{2,1} & ? \\
+0 & ? & ? \\
+0 & 0 & ? \\
+\end{pmatrix}
+\implies l_{2,1} = a_{1,2} / l_{1,1}
+$$
+
+$$
+\begin{pmatrix} 
+a_{1,1} & a_{1,2} & a_{1,3} \\
+a_{2,1} & a_{2,2} & a_{2,3} \\
+a_{3,1} & a_{3,2} & a_{3,3} \\
+\end{pmatrix}
+=
+\begin{pmatrix} 
+l_{1,1} & 0 & 0 \\
+? & ? & 0 \\
+? & ? & ? \\
+\end{pmatrix}
+\cdot
+\begin{pmatrix} 
+? & ? & l_{3,1} \\
+0 & ? & ? \\
+0 & 0 & ? \\
+\end{pmatrix}
+\implies l_{3,1} = a_{1,3} / l_{1,1}
+$$
+
+$$
+\begin{pmatrix} 
+a_{1,1} & a_{1,2} & a_{1,3} \\
+a_{2,1} & a_{2,2} & a_{2,3} \\
+a_{3,1} & a_{3,2} & a_{3,3} \\
+\end{pmatrix}
+=
+\begin{pmatrix} 
+? & 0 & 0 \\
+l_{2,1} & l_{2,2} & 0 \\
+? & ? & ? \\
+\end{pmatrix}
+\cdot
+\begin{pmatrix} 
+? & l_{2,1} & ? \\
+0 & l_{2,2} & ? \\
+0 & 0 & ? \\
+\end{pmatrix}
+\implies l_{2,2}^2 = a_{2,2} - l_{1,1}^2
+$$
+
+$$
+\begin{pmatrix} 
+a_{1,1} & a_{1,2} & a_{1,3} \\
+a_{2,1} & a_{2,2} & a_{2,3} \\
+a_{3,1} & a_{3,2} & a_{3,3} \\
+\end{pmatrix}
+=
+\begin{pmatrix} 
+? & 0 & 0 \\
+? & ? & 0 \\
+l_{3,1} & ? & ? \\
+\end{pmatrix}
+\cdot
+\begin{pmatrix} 
+l_{1,1} & ? & ? \\
+0 & ? & ? \\
+0 & 0 & ? \\
+\end{pmatrix}
+\implies l_{3,1} = a_{3,1} / l_{1,1}
+$$
+
+$$
+\begin{pmatrix} 
+a_{1,1} & a_{1,2} & a_{1,3} \\
+a_{2,1} & a_{2,2} & a_{2,3} \\
+a_{3,1} & a_{3,2} & a_{3,3} \\
+\end{pmatrix}
+=
+\begin{pmatrix} 
+? & 0 & 0 \\
+l_{1,2} & l_{2,2} & 0 \\
+? & ? & ? \\
+\end{pmatrix}
+\cdot
+\begin{pmatrix} 
+? & ? & l_{3,1} \\
+0 & ? & l_{3,2} \\
+0 & 0 & l_{3,3} \\
+\end{pmatrix}
+\implies l_{1,2} l_{3,1} + l_{2,2} l_{3,2} = a_{2,3} \implies l_{3,2} = \frac{ a_{2,3} - l_{1,2} l_{3,1} } { l_{2,2} }
+$$
+
+$$
+\begin{pmatrix} 
+a_{1,1} & a_{1,2} & a_{1,3} \\
+a_{2,1} & a_{2,2} & a_{2,3} \\
+a_{3,1} & a_{3,2} & a_{3,3} \\
+\end{pmatrix}
+=
+\begin{pmatrix} 
+? & 0 & 0 \\
+? & ? & 0 \\
+l_{3,1} & l_{3,2} & l_{3,3} \\
+\end{pmatrix}
+\cdot
+\begin{pmatrix} 
+? & ? & l_{3,1} \\
+0 & ? & l_{3,2} \\
+0 & 0 & l_{3,3} \\
+\end{pmatrix}
+\implies l_{3,3}^2 = a_{3,3} - l_{3,1}^2 - l_{3,2}^2
+$$
+
+#### Incomplete Cholesky decomposition
+
+TODO: sparsity structure (e.g. replication of sparsity structure of the initial matrix)
+
 
 ## References:
 * http://www.cs.cmu.edu/~quake-papers/painless-conjugate-gradient.pdf - a great monography on conjugate gradients by Johnathan Richard Schewchuk
@@ -293,3 +517,4 @@ TODO
 * https://math.stackexchange.com/questions/3439589/are-conjugate-vectors-unique - about relation of conjugate and eigen vectors
 * http://www.people.vcu.edu/~ysong3/lecture11.pdf - good intro
 * https://en.wikipedia.org/wiki/Conjugate_gradient_method - wikipedia
+* https://en.wikipedia.org/wiki/Cholesky_decomposition#Geometric_interpretation - on interpretation of Cholesky as 
