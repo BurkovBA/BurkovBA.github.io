@@ -276,9 +276,17 @@ TODO: convergence in under N iterations
 
 #### Convergence rate: inexact arithmetic
 
-TODO: example: 2 clusters of eigenvalues
+If we allow for a certain error, conjugate gradients might not even require $N$ iterations. Consider the following
+clustering of eigenvalues of our matrix $A$:
 
-TODO: clusters of eigenvalues, faster than N iterations
+![Eigenvalue clusters](eigenvalue_clusters.png)<center>**Two clusters of eigenvalues**. From Nocedal-Wright's Numerical optimization.</center>
+
+Recall the convergence rate formula: $|| x_{n-k} - x^* ||_A \le (\frac{\lambda_{n-k} - \lambda_1}{ \lambda_{n-k} + \lambda_1 })^2 || x_0 - x^* ||_A$.
+
+Suppose that we've already made $m+1$ iterations. Then $\lambda_{n-(m+1)} - \lambda_1$ is very small and $\lambda_{n-(m+1)} + \lambda_1 \approx 2 \lambda_1$.
+
+Hence,  $|| x_{n-k} - x^* ||_A \le \epsilon$, where $\epsilon > 0$ is small, and we've basically converged to the solution.
+
 
 ### Preconditioning and clusters of eigenvalues
 
@@ -529,10 +537,10 @@ This approach is known as $IC(0)$. If you want more precision and less sparsity,
 $A^2$, which has less 0 elements, and calculate Cholesky decomposition for it. This would be called $IC(1)$. And so on,
 then it would be called $IC(k)$. Greater $k$ would result in a better pre-conditioning at the cost of more compute.
 
-If the matrix $A$ is not sparse at all, we can employ $IC(\tau)$ approach. With it we choose some threshold of absolute
+If the matrix $A$ is not sparse at all, we can employ $IC(\tau)$ approach: choose some threshold of absolute
 value of an element of matrix $A$, called $\tau$ and if the element is smaller than that, consider it 0. Thus, we achieve
 a sparse matrix with a Frobenius norm more or less close to the original matrix $A$. Hence, we get a reasonable
-pre-conditioner at an $O(N^2)$ cost.
+pre-conditioner at an $O(N^2)$ compute and $O(N)$ memory cost.
 
 ## References:
 * http://www.cs.cmu.edu/~quake-papers/painless-conjugate-gradient.pdf - a great monography on conjugate gradients by Johnathan Richard Schewchuk
