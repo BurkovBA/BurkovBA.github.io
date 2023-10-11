@@ -506,8 +506,33 @@ $$
 
 #### Incomplete Cholesky decomposition
 
-TODO: sparsity structure (e.g. replication of sparsity structure of the initial matrix)
+Full Cholesky decomposition is expensive and takes ~$O(N^3)$ operations.
 
+In case of sparse matrices (or introducing sparsification ourselves), we can achieve the same result with a much smaller 
+compute.
+
+The simplest form of incomplete Cholesky decomposition repeats the sparsity patter of the original matrix. E.g. if the
+original matrix is:
+
+$A = \begin{pmatrix} 1 && 0 && 0 && 2 \\ 0 && 3 && 0 && 4 \\ 0 && 0 && 5 && 0 \\ 2 && 4 && 0 && 6 \end{pmatrix}$
+
+its incomplete Cholesky decomposition would have a sparsity pattern of:
+
+$L = \begin{pmatrix} ? && 0 && 0 && 0 \\ 0 && ? && 0 && 0 \\ 0 && 0 && ? && 0 \\ ? && ? && 0 && ? \end{pmatrix}$
+
+Zeros above main diagonal stem from the fact that $L$ is lower diagonal, zeros below the main diagonal reproduce 
+the sparsity pattern of matrix $A$:
+
+$A = L L^T = \begin{pmatrix} ? && 0 && 0 && 0 \\ 0 && ? && 0 && 0 \\ 0 && 0 && ? && 0 \\ ? && ? && 0 && ? \end{pmatrix} \cdot \begin{pmatrix} ? && 0 && 0 && ? \\ 0 && ? && 0 && ? \\ 0 && 0 && ? && 0 \\ 0 && 0 && 0 && ? \end{pmatrix}$
+
+This approach is known as $IC(0)$. If you want more precision and less sparsity, you can take the sparsity pattern of 
+$A^2$, which has less 0 elements, and calculate Cholesky decomposition for it. This would be called $IC(1)$. And so on,
+then it would be called $IC(k)$. Greater $k$ would result in a better pre-conditioning at the cost of more compute.
+
+If the matrix $A$ is not sparse at all, we can employ $IC(\tau)$ approach. With it we choose some threshold of absolute
+value of an element of matrix $A$, called $\tau$ and if the element is smaller than that, consider it 0. Thus, we achieve
+a sparse matrix with a Frobenius norm more or less close to the original matrix $A$. Hence, we get a reasonable
+pre-conditioner at an $O(N^2)$ cost.
 
 ## References:
 * http://www.cs.cmu.edu/~quake-papers/painless-conjugate-gradient.pdf - a great monography on conjugate gradients by Johnathan Richard Schewchuk
@@ -517,4 +542,5 @@ TODO: sparsity structure (e.g. replication of sparsity structure of the initial 
 * https://math.stackexchange.com/questions/3439589/are-conjugate-vectors-unique - about relation of conjugate and eigen vectors
 * http://www.people.vcu.edu/~ysong3/lecture11.pdf - good intro
 * https://en.wikipedia.org/wiki/Conjugate_gradient_method - wikipedia
-* https://en.wikipedia.org/wiki/Cholesky_decomposition#Geometric_interpretation - on interpretation of Cholesky as 
+* https://en.wikipedia.org/wiki/Cholesky_decomposition#Geometric_interpretation - on interpretation of Cholesky as conjugate directions
+* https://algowiki-project.org/en/Cholesky_method#Usage_of_Cholesky_decomposition_in_iterative_methods - on variants of incomplete Cholesky decomposition
