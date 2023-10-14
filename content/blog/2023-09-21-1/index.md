@@ -8,12 +8,16 @@ description: Conjugate gradients is one of the most popular computationally effe
 
 ## System of linear equations as a quadratic optimization problem
 
-TODO: quadratic form $x^T A x$ represents ellipsoid, eigenvectors $\{ e_i \}$ of matrix $A$ are axes, eigenvalues 
-$\{ e_i \}$ are semi-axes, solution vector $b$ is (???).
+
+In case $A$ is a Gram matrix (i.e. symmetric and positive definite), so that its eigenvalues are real and positive, it 
+is useful to think about solution of a system of linear equations $Ax = b$ in terms of an equivalent
+quadratic problem of finding a minimum of a quadratic function, given by a quadratic form:
 
 $x^* : A x - b = 0 \iff x^* = \arg \min \limits_x \phi(x) = x^T A x - b^T x$
 
-Here $A$ is a Gram matrix (i.e. symmetric and positive definite). Thus, its eigenvalues are real and positive.
+Quadratic form $x^T A x$ represents ellipsoid, eigenvectors $\{ e_i \}$ of matrix $A$ are axes, eigenvalues 
+$\{ e_i \}$ are lengths semi-axes, difference between the optimal solution and current point is $x^* - x$,
+residue vector $r = Ax - b = Ax - Ax^*$ will be discussed later.
 
 ## Naive approaches
 
@@ -90,22 +94,26 @@ Exact derivation of this fact is somewhat tedious (although, not so hard for und
 
 ## Conjugate directions and conjugate gradients
 
-TODO: example: diagonal matrix and eigenvectors parallel to axes
+As we've seen convergence of neither coordinate descent, nor steepest descent in $N$ steps is guaranteed.
 
-TODO
+Here we discuss a better approach, conjugate directions, which will converge in $N$ steps or less. It has a special
+case, conjugate gradients, which is even more computationally efficient.
 
+Let us start with an example of orthogonal axes and then transition to a general case.
 
 ### Orthogonal axes
 
-Imagine that our matrix $A$ is diagonal. So that our coordinate axes correspond to the axes of ellipsoids.
+Consider the case when all the eigenvectors of our surface are parallel to the coordinate axes. In such a case matrix $A$
+is diagonal and performing line search along the coordinate axes guarantees convergence in N iterations.
 
-Then if we just use the directions $d_i$, parallel to the axes, we will converge in $N$ steps.
+![eigenvectors paraller to axes](eigenvectors_parallel_to_axes.png)<center>**If matrix $A$ is diagonal, line search along the conjugate directions converges in $N$ steps.** Image based on J.R.Schewchuk.</center>
+
+However, in general case we cannot rely on orthogonality of axes. If eigenvectors of matrix $A$ are not orthogonal and
+parallel to coordinate axes, this approach won't work and line search along orthogonal directions would not work.
 
 ### A-orthogonality
 
-TODO: why we cannot use regular orthogonality
-
-Instead of orthogonality, we introduce the notion of A-orthogonality
+Instead of orthogonality, we introduce the notion of A-orthogonality:
 
 $\langle a, b \rangle_A = 0 \iff \langle A a, b \rangle = 0 \iff \langle a, A b \rangle = 0$
 
@@ -142,8 +150,6 @@ Second, we come to a coordinate system, where isolevels are spheres. In these co
 ![A othogonality](A_orthogonality.png)<center>**A-orthogonality**: vectors that are A-orthogonal become orthogonal, if we make two changes of coordinates: first, we make eigenvectors the axes of our coordinate system, obtaining image (a); second, we stretch coordinate axes by eigenvalues, so that our isolevels become concentric spheres, resulting in image (b). Image from J.R.Schewchuk.</center>
 
 ### Conjugate directions
-
-TODO: introductory words
 
 Let us prove the guarantees of convergence for conjugate directions algorithm in $N$ steps.
 
@@ -222,7 +228,7 @@ $P = E \Lambda^{1/2} D^{-1/2} = E (\Lambda D^{-1})^{1/2}$
 
 How do we obtain conjugate directions in practice?
 
-Simple and straighforward approach: let us use neg-gradients as directions: $d_{i+1} = - r_{i+1} = - A(x_{i+1} - b)$. Problem is, 
+Simple and straightforward approach: let us use neg-gradients as directions: $d_{i+1} = - r_{i+1} = - A(x_{i+1} - b)$. Problem is, 
 our "conjugate" directions are not conjugate. $d_i^T A d_{i+1} \ne 0$, directions are not A-orthogonal (although, by the
 way, we know that $d_{i+1}$ is orthogonal, not A-orthogonal to the previous search direction due to tangency of search 
 direction to isolevels at the point $x_{i+1}$.
@@ -232,23 +238,45 @@ orthogonal to $d_{(0)}$ and $e_{(1)}$ is A-orthogonal to $d_{(0)}$. Image from J
 
 So, we correct the gradient direction by subtracting $d_{i}$ with some coefficient to A-orthogonalize $d_{i+1}$ and $d_{i}$:
 
-TODO: show why only one beta remains and other betas are 0!
+We know that $d_{i+1}$ is orthogonal to each of the previous directions $\{ d_1, ..., d_{i-1} \}$.
 
-$d_{i+1} = - r_{i+1} + \beta_k \sum \limits_k^{i} d_{k}$
+$x^* = x_0 + \alpha_0 d_0 + \alpha_1 d_1 + ... + \alpha_{n-1} d_{n-1}$
 
-Calculation of $\beta_i$ is evident from A-orthogonality of $d_{i+1}$ and $d_{i}$: pre-multiply this expression with 
+$x_{i+1} = x_0 + \alpha_0 d_0 + ... + \alpha_i d_i$
+
+$r_{i+1} = Ax_{i+1} - b = Ax_{i+1} - Ax^* = A (x_0 + \alpha_0 d_0 + ... + \alpha_i d_i) - A (x_0 + \alpha_0 d_0 + \alpha_1 d_1 + ... + \alpha_{n-1} d_{n-1}) = - A (\alpha_{i+1}d_{i+1} + ... + \alpha_{n-1} d_{n-1})$
+
+$d_k^T r_{i+1} = 0$
+
+Hence, $r_{i+1}$ is already orthogonal to $\{ d_0, ..., d_{i} \}$.
+
+But more importantly for conjugate gradients, it is not only orthogonal, but also A-orthogonal to $\{ d_0, ..., d_{i-1} \}$!
+
+$x_{i+1} = x_{i} + \alpha_i d_{i}$
+
+$r_{i+1} = r_{i} + \alpha_i A d_{i}$
+
+$\alpha_i A d_i = r_{i+1} - r_{i}$
+
+Pre-multiply this with $r^T_k$: $\alpha_i r^T_k A d_i = r^T_k r_{i+1} - r^T_k r_{i}$. 
+
+The following cases arise: $\begin{cases} k < i: r^T_k A d_i = 0 \\ k = i: r^T_i A d_i = - r^T_i r_{i} \\ k = i + 1: r^T_{i+1} A d_i = r^T_{i+1} r_{i+1} \end{cases}$
+
+Hence, $r_{i+1}$ is already A-orthogonal to $d_k$ for $k < i$. To A-orthogonalize $d_{i+1}$ derived from $r_{i+1}$, all we need to do is to orthogonalize it with respect to $d_i$. This greatly simplifies
+the calculation process and saves us a lot of memory:
+
+$d_{i+1} = - r_{i+1} + \beta d_{i}$
+
+Calculation of $\beta$ is evident from A-orthogonality of $d_{i+1}$ and $d_{i}$: pre-multiply this expression with 
 $d^T_{i} A$:
 
-$\cancel{d^T_{i} A d_{i+1}} = - d^T_{i} A r_{i+1} + \beta_i d^T_{i} A d_{i}$ (all other $d^T_{k} A d_{i} = 0$)
+$\cancel{d^T_{i} A d_{i+1}} = - d^T_{i} A r_{i+1} + \beta d^T_{i} A d_{i}$ (all other $d^T_{k} A d_{i} = 0$)
 
-$d^T_{i} A r_{i+1} = \beta d^T_{i} A d_{i}$ (I drop index under $\beta$, as there's only one non-zero $\beta_i$)
+$d^T_{i} A r_{i+1} = \beta d^T_{i} A d_{i}$
 
 $\beta = \frac{ d^T_{i} A r_{i+1} }{ d^T_{i} A d_{i} }$
 
 This is just a special case of Schmidt orthogonalization.
-
-Notice, that we don't need all the previous directions to calculate the next one. Only the last one! This is amazing in
-terms of low memory requirements.
 
 #### Krylov space
 
@@ -269,10 +297,6 @@ estimation. Such problems are often solved with a related family of algorithms, 
 algorithm.
 
 TODO: fix bugs
-
-#### Convergence rate: exact arithmetic
-
-TODO: convergence in under N iterations
 
 #### Convergence rate: inexact arithmetic
 
