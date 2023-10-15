@@ -572,7 +572,7 @@ pre-conditioner at an $O(N^2)$ compute and $O(N)$ memory cost.
 * https://dl.acm.org/doi/pdf/10.1145/87252.88084 - a nice autobiography and explanation by Magnus Hestenes
 * https://math.mit.edu/classes/18.086/2006/am64.pdf - a text on Krylov space methods: CG, Arnoldi iteration, Lanczos
 * https://math.stackexchange.com/questions/3439589/are-conjugate-vectors-unique - about relation of conjugate and eigen vectors
-* http://www.people.vcu.edu/~ysong3/lecture11.pdf - good intro
+* http://www.people.vcu.edu/~ysong3/lecture11.pdf - good intro, construction of each search direction well explained
 * https://en.wikipedia.org/wiki/Conjugate_gradient_method - wikipedia
 * https://en.wikipedia.org/wiki/Cholesky_decomposition#Geometric_interpretation - on interpretation of Cholesky as conjugate directions
 * https://algowiki-project.org/en/Cholesky_method#Usage_of_Cholesky_decomposition_in_iterative_methods - on variants of incomplete Cholesky decomposition
