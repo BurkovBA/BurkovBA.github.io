@@ -875,7 +875,7 @@ $\ln x$ is a slowly varying function because $\lim \limits_{t \to \infty} \frac{
 
 #### Definition 4.2: Regularly varying function
 
-**Regularly varying function** $h(x)$ of index $\beta is such a function that $\lim \limits_{t \to \infty} \frac{h(xt)}{h(t)} = x^{\beta}$ for any $x > 0$,
+**Regularly varying function** $h(x)$ of index $\beta$ is such a function that $\lim \limits_{t \to \infty} \frac{h(xt)}{h(t)} = x^{\beta}$ for any $x > 0$,
 where $\beta$ is a real number, sometimes called **exponent of variation** or **index of variation**.
 
 Regularly-varying function is basically just a generalization of slow-varying function.
