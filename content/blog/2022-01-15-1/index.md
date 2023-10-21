@@ -22,7 +22,7 @@ Problem with stocks is that although they offer much higher interest rates than 
 
 For instance, if you have a time point in near future, when you have to pay a certain sum (e.g. college fees for your child in 10 years), you would be very unhappy, if your stocks all of a sudden go down by 200% (which is totally possible due to an unexpected recession). 
 
-So, opting for stocks rather than bonds, you trade away predictability of yield for higher average yield. This is called "Risk-reward tradeoff".
+So, opting for stocks rather than bonds, you trade away predictability of yield for higher average yield. This is called "Risk-return tradeoff".
 
 However, you can minimize the risks you assume by buying stocks, if you sufficiently diversify your money across a large enough selection of stocks. Diversification allows one to keep a high average yield, while making variance lower.
 
