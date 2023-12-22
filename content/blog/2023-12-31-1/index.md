@@ -83,7 +83,7 @@ Importantly, it is by far the fastest implementation to train the model with (po
 handling of categorical features by CatBoost), it slightly outperforms XGBoost in prediction accuracy, while being
 competitive with XGBoost in terms of prediction time (both XGBoost and LightGBM predicting slower than CatBoost).
 
-## Hist GBM: binning of continuous features 
+### Hist GBM: binning of continuous features 
 
 The bottleneck of boosting algorithm is the procedure of sorting of data points on every new split for optimal split 
 feature selection. In a naive implementation this procedure takes $\mathcal{O}(N \log N \times F)$ operations, where $N$ is the number
@@ -139,20 +139,20 @@ ones.
 ### Why do the Gradient Boosting Machines beat Random Forests?
 
 Random Forests are a competing ensemble method. While Gradient Boosting builds trees sequentially, at each iteration
-improving mostly on samples, where preceding ensemble members underperformed, Random Forests construct all the trees
-in an ensemble in parallel.
+paying attention to improving prediction on samples, where preceding ensemble members underperformed, Random Forests 
+construct all the trees in the ensemble in parallel.
 
 Due to subsampling in both samples and features, Random Forests achieve improvement of prediction with addition of extra
 trees by reducing variance of the resulting ensemble. In contrast, RBMs primarily reduce bias (due to the focus on 
-samples, where preceding members of ensemble underperformed), although subsampling of samples (and sometimes features) 
-helps reduce variance, too.
+samples, where preceding members of ensemble underperformed), although subsampling of samples in Stochastic GBM and 
+possibly features in hist/GOSS GBM helps reduce variance, too.
 
 Thus, generally GBMs attain better losses than Random Forests. However, sometimes Random Forests still perform 
 comparably to Gradient Boosting Machines, e.g. in case of abundance of very noisy and weak features.
 
 It might seem that Random Forests can be parallelized better than Gradient Boosting due to parallelism of tree 
-construction. But actually GBMs allow for parallel execution at the level of a single tree (candidate features at a split
-and/or, possibly, tree nodes can be traversed in parallel).
+construction. But actually GBMs allow for parallel execution at the level of a single tree (through parallel iteration
+over candidate features at a split and/or, possibly, tree nodes can be traversed in parallel).
 
 ### LightGBM vs CatBoost
 
