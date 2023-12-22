@@ -1,5 +1,5 @@
 ---
-title: Gradient boosting
+title: Gradient boosting machines 101
 date: "2023-12-31T00:00:00.284Z"
 tags: ["math"]
 cover: "./gbm.png"
@@ -125,7 +125,8 @@ While LightGBM goes depth-first and creates deep asymmetrical trees, CatBoost us
 predictably low execution time for all samples, which is important for Yandex production environments.
 
 ![symmetric trees](CatBoost_vs_LightGBM.png)<center>**CatBoost uses same feature/threshold pair at each split**, which 
-results in balanced symmetrical trees with approximately constant prediction time for all samples.</center>
+results in balanced symmetrical trees with approximately constant prediction time for all samples (right picture) unlike
+LightGBM, which produces imbalanced asymmetrical trees with large variance of tree legth for different samples (left picture).</center>
 
 ### Categorical features handling: target encoding etc.
 
