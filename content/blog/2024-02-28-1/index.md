@@ -222,6 +222,7 @@ $E[g]_{t+1} = \beta E[g]_{t} + (1 - \beta) g$ is accumulated gradient.
 
 These two alternative views at regularization stem from the same approach, but lead to somewhat different performance.
 
+
 ## References:
 * https://ieeexplore.ieee.org/document/298623 - Rprop paper (1992)
 * https://www.youtube.com/watch?v=XhZahXzEuNo - Hinton lecture 6 on RMSprop
