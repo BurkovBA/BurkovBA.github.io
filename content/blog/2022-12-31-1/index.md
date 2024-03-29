@@ -23,7 +23,7 @@ In 1940-1950 information theorists such as Claude Shannon posed a set of problem
 ways of data transmission.
 
 Suppose that you have a signal (e.g. long text in English), and you need to transmit it through a channel (e.g. wire) with a severely limited
-bandwidth. It would be beneficial to compress this signal, using some kind of encoding, before transfering it through the
+bandwidth. It would be beneficial to compress this signal, using some kind of encoding, before transferring it through the
 wire, so that we make as good use of our data transfer channel, as possible. The receiving side should decompress the 
 signal after receiving it.
 
@@ -64,7 +64,7 @@ this quantity is known as **Cross entropy**.
 
 Inspired by information theory, machine learning practitioners employed the concept of **Autoencoders**.
 
-To the best of my knowledge first publication of autoencoders or autoassociative neural networks was made by Mark Kramer
+To the best of my knowledge first publication on autoencoders or autoassociative neural networks was written by Mark Kramer
 in 1991, where autoencoders were seen as a non-linear dimensionality reduction tool, a non-linear analogue of PCA.
 
 The logic of autoencoder is to train such encoder $\mathcal{E}_{\phi}$ and decoder $\mathcal{D}_{\theta}$ neural networks
@@ -131,7 +131,7 @@ cover a lot of background in Bayesian ML.
 
 To explain the Bayesian framework, employed by VAE, we have to start with Bayes formula:
 
-$\underbrace{ p(z | x) }_\text{posterior} = \frac{ \overbrace{ p(x | z)}^\text{evidence} \cdot \overbrace{p(z)}^{prior} }{ \underbrace{ p(x) }_\text{evidence} }$
+$\underbrace{ p(z | x) }_\text{posterior} = \frac{ \overbrace{ p(x | z)}^\text{likelihood} \cdot \overbrace{p(z)}^{prior} }{ \underbrace{ p(x) }_\text{evidence} }$
 
 In case of VAE the notation is as follows:
 
