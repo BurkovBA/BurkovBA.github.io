@@ -1,5 +1,5 @@
 ---
-title: Pearson's Chi-square tests - intuition and derivation
+title: Pearson's Chi-square test - intuition and derivation
 date: "2021-06-17T00:00:00.284Z"
 tags: ["math"]
 cover: "./Pearson.png"
@@ -27,7 +27,7 @@ you would expect a much more close distribution of your samples, something like 
 You could ask yourself a question: what is the average value of probability density function that I would observe, 
 when sampling a point from standard normal? 
 
-Well, you can actually calculate it, following the expectation formula: $\int \limits_{-\infty}^{+\infty} \underbrace{ \frac{1}{\sqrt{2 \pi}} e^{-\frac{x^2}{2}} }_\text{This is the variable you're averaging} \cdot \underbrace{ \frac{1}{\sqrt{2\pi}} e^{-\frac{x^2}{2}}}_\text{This is pdf over which you're averaging} \cdot dx = \frac{1}{ 2\pi } \int \limits_{-\infty}^{+\infty} e^{-x^2} dx$.
+Well, you can actually calculate it, following the expectation formula: $ \mathbb{E}_\xi[pdf] = \int \limits_{-\infty}^{+\infty} \underbrace{ \frac{1}{\sqrt{2 \pi}} e^{-\frac{x^2}{2}} }_\text{This is pdf, i.e. the random variable you're averaging} \cdot \underbrace{ \frac{1}{\sqrt{2\pi}} e^{-\frac{x^2}{2}}}_{\text{This is pdf of } \xi \text{ over which you're averaging}} \cdot dx = \frac{1}{ 2\pi } \int \limits_{-\infty}^{+\infty} e^{-x^2} dx$.
 
 Now, substitute $t = \sqrt{2}x$: $\frac{1}{ 2\pi } \int \limits_{-\infty}^{+\infty} e^{-x^2} dx = \frac{1}{ 2\pi } \int \limits_{-\infty}^{+\infty} e^{-\frac{t^2}{2}} d(\frac{t}{\sqrt2}) = \frac{1}{\sqrt{2} \cdot 2\pi } \int \limits_{-\infty}^{+\infty} e^{-\frac{t^2}{2}} dt = \frac{\cancel{\sqrt{2\pi}}}{\sqrt{2}\cdot \sqrt{2\pi} \cancel{\sqrt{2\pi}}} = \frac{1}{\sqrt{2} \sqrt{2\pi}}$.
 
@@ -35,13 +35,13 @@ So, probability density function of an average point, you sample, is expected to
 
 Let us calculate pdf for several points: 
 
-if x=0 (which is the most probable point), your $f_\xi(0)=\frac{1}{ 2\pi } e^{-0/2} = 0.398942$, a bit more probable than average.
+if x=0 (which is the most probable point), your $f_\xi(0)=\frac{1}{ \sqrt{2\pi} } e^{-0/2} = 0.398942$, a bit more probable than average.
 
-if x=1 (which is the standard deviation), your $f_\xi(1)=\frac{1}{ 2\pi } e^{-1/2} = 0.241970$, a bit less probable than average.
+if x=1 (which is the standard deviation), your $f_\xi(1)=\frac{1}{ \sqrt{2\pi} } e^{-1/2} = 0.241970$, a bit less probable than average.
 
-if x=2 (which is 2 standard deviations), your $f_\xi(2)=\frac{1}{ 2\pi } e^{-4/2} = 0.053989$, not much.
+if x=2 (which is 2 standard deviations), your $f_\xi(2)=\frac{1}{ \sqrt{2\pi} } e^{-4/2} = 0.053989$, not much.
 
-if x=3 (which is 3 standard deviations), your $f_\xi(3)=\frac{1}{ 2\pi } e^{-9/2} = 0.004432$, very small.
+if x=3 (which is 3 standard deviations), your $f_\xi(3)=\frac{1}{ \sqrt{2\pi} } e^{-9/2} = 0.004432$, very small.
 
 With these numbers let's return to the 5 points I've observed. Out of those five point two points are at 3 standard 
 deviations, two points are at 2 standard deviations and one point is at 1 standard deviation. So the probability density
@@ -104,7 +104,7 @@ but will still work for our new 3-dice.
 
 Let's write down the formula of Pearson's test for 3-nomial disitrubion and split it into binomial part and an additional term:
 
-$\sum \limits_{i=1}^{3} \frac{(O_i - np_i)^2}{np_i} = \frac{(O_1 - np_1)^2}{np_1} + \frac{(O_2 - np_2)^2}{np_2} + \frac{(O_3 - np_3)^2}{np_3} = \underbrace{\frac{(O_1 - np_1)^2}{np_1} + \frac{(O_2 + O_3 - n(p_2 + p_3))^2}{n(p_2 + p_3)}}_{\sum \limits_{j=1}^2 \frac{{O'-np_j}^2}{np_j} \sim \chi_1^2 \text{ for sum of k=2 terms by induction base}} - \underbrace{\frac{(O_2 + O_3 - n(p_2 + p_3))^2}{n(p_2 + p_3)} + \frac{(O_2 - np_2)^2}{np_2} + \frac{(O_3 - np_3)^2}{np_3}}_{\text{this part should also be } \sim \chi_1^2 \text{, let's prove this}}$
+$\sum \limits_{i=1}^{3} \frac{(O_i - np_i)^2}{np_i} = \frac{(O_1 - np_1)^2}{np_1} + \frac{(O_2 - np_2)^2}{np_2} + \frac{(O_3 - np_3)^2}{np_3} = \underbrace{\frac{(O_1 - np_1)^2}{np_1} + \frac{(O_2 + O_3 - n(p_2 + p_3))^2}{n(p_2 + p_3)}}_{\sum \limits_{j=1}^2 \frac{(O_j'-np_j)^2}{np_j} \sim \chi_1^2 \text{ for sum of k=2 terms by induction base}} - \underbrace{\frac{(O_2 + O_3 - n(p_2 + p_3))^2}{n(p_2 + p_3)} + \frac{(O_2 - np_2)^2}{np_2} + \frac{(O_3 - np_3)^2}{np_3}}_{\text{this part should also be } \sim \chi_1^2 \text{, let's prove this}}$
 
 Let us focus on the second term and simplify it:
 
@@ -133,21 +133,29 @@ $Var[\xi] = Var[\frac{p_3 O_2 - p_2 O_3}{n p_2 p_3 (p_2 + p_3)}] = \frac{1}{n^2 
 
 $ = \frac{1}{n^2 p^2_2 p^2_3 (p_2 + p_3)^2} (Var[O_2] \cdot p_3^2 + Var[O_3] \cdot p_2^2 - 2 p_2 p_3 \cdot Cov[O_2, O_3]) = \frac{np_2(1-p_2)p_3^2 + np_3(1-p_3)p_2^2 - 2 p_2 p_3 \cdot Cov[O_2, O_3]}{n^2p^2_2p^2_3(p_2+p_3)^2} = \frac{n p_2 p_3 (p_2 + p_3) - 2 n p_2^2 p_3^2 - 2 p_2 p_3 \cdot Cov[O_2, O_3]}{n^2p^2_2p^2_3(p_2+p_3)^2}.$
 
-Now, how do we calculate the covariance $Cov[O_2, O_3]$? 
+What is the covariance $Cov[O_2, O_3]$? It is a [well-known covariance of multinomial random variables](https://math.stackexchange.com/questions/1669513/show-that-the-multinomial-distribution-has-covariances-rm-covx-i-x-j-r-p) $Cov[O_2, O_3] = -n p_2 p_3$.
 
-We take a look at a single roll of our dice and consider the indicator Bernoulli random variables $o_2 = \begin{cases}0, dice roll \ne 2 \\ 1, dice roll = 2\end{cases}$ and $o_3 = \begin{cases}0, dice roll \ne 3 \\ 1, dice roll = 3\end{cases}$:
+Hence, $Var[\xi] = \frac{n p_2 p_3 (p_2 + p_3) - 2 n p_2^2 p_3^2 - 2 p_2 p_3 \cdot Cov[O_2, O_3]}{n p_2 p_3 (p_2+p_3)} = \frac{n p_2 p_3 (p_2 + p_3) - \cancel{2 n p_2^2 p_3^2} - \cancel{2 p_2 p_3 \cdot (-n p_2 p_3)} }{n p_2 p_3 (p_2+p_3)} = 1$
 
-$Cov[o_2, o_3] = \mathbb{E}(o_2 - \mathbb{E}o_2)(o_3 - \mathbb{E}o_3) = \mathbb{E}o_2o_3 - 2 \mathbb{E}o_2 \mathbb{E}o_3 + \mathbb{E}o_2 \mathbb{E}o_3 = \underbrace{\mathbb{E}o_2o_3}_{=0, \text{because }o_2\text{ and }o_3\text{ can never be 1 at the same time}} - \underbrace{\mathbb{E}o_2 \mathbb{E}o_3}_{p_2 \cdot p_3} = -p_2 p_3$.
+Thus, we've shown that our normal random variable $\xi$ has zero expectation and unit variance: $\xi \sim \mathcal{N}(0, 1)$. Hence, $\xi^2 \sim \chi_1^2$. 
 
-$Cov[O_2, O_3] = n Cov[o_2, o_3] = -n p_2 p_3$
+Finally, we need to show independence of $\xi^2$ and $\chi_{k-2}^2$, so that their sum was distributed as $\chi_{k-1}^2$. 
 
-$Var[\xi] = \frac{n p_2 p_3 (p_2 + p_3) - 2 n p_2^2 p_3^2 - 2 p_2 p_3 \cdot Cov[O_2, O_3]}{n p_2 p_3 (p_2+p_3)} = \frac{n p_2 p_3 (p_2 + p_3) - \cancel{2 n p_2^2 p_3^2} - \cancel{2 p_2 p_3 \cdot (-n p_2 p_3)} }{n p_2 p_3 (p_2+p_3)} = 1$
+For every $j < k$ (in case of the first step of induction $k=2$ there's only one $j=1$) consider $O_j$ and numerator $(O_2p_3 - O_3p_2)$ of our $\xi$: 
 
-Thus, we've shown that our normal random variable $\xi$ has zero expectation and unit variance: $\xi \sim \mathcal{N}(0, 1)$. Hence, $\xi^2 \sim \chi_1^2$. This concludes the proof.
+$Cov[O_j, O_2p_3 - O_3p_2] = \mathbb{E}[O_j (O_2p_3 - O_3p_2)] - \mathbb{E}[O_j] \mathbb{E}[O_2p_3 - O_3p_2] = -n p_j p_2 p_3 + n p_j p_3 p_2 - np_j np_2p_3 + np_j np_3 p_2 = 0$ 
+
+so that the first $k-1$ components $\frac{(O_j - np_j)^2}{np_j}$ of $\chi_{k-2}^2$ are independent of our $\xi^2 = \frac{(O_2p_3 - O_3p_2)^2}{np_2p_3(p_2+p_3)}$. 
+
+What's left is to show independence of the final coordinate $\frac{(O_k + O_{k+1} - n(p_k + p_{k+1}))^2}{n(p_k+p_{k+1})}$ of $\chi_{k-2}^2$ from our $\xi^2 = \frac{(O_2p_3 - O_3p_2)^2}{np_2p_3(p_2+p_3)}$ (or just its numerator):
+
+$Cov[O_{k+1} + O_k, O_2p_3 - O_3p_2] = Cov[O_3 + O_2, O_2p_3 - O_3p_2] = Cov[O_3, O_2p_3 - O_3p_2] + Cov[O_2, O_2p_3 - O_3p_2] = n^2 (-p_3p_2p_3 - p_3(1-p_3)p_2 + p_2(1-p_2)p_3 + p_2 p_3 p_2) = n^2 (-{p_3}^2p_2 - p_3 p_2 + p_3^2 p_2 + p_2 p_3 - {p_2}^2p_3 + p_2^2 p_3) = 0$.
+
+This concludes the proof.
 
 ---
 
 Derivation of Pearson’s goodness of fit test statistic follows the logic of 
 the proof number 6 from [this paper about 7 ways to prove Pearson's test](https://arxiv.org/pdf/1808.09171.pdf).
 
-Many thanks to Ming Zhang for finding an error in this post.
+Many thanks to Ming Zhang, Justin Cen and RoyalDiscusser for finding errors in this post and suggesting improvements.
