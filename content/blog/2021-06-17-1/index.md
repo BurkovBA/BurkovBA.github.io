@@ -102,6 +102,8 @@ Now we decided to split the second bin ("height >= 170cm") into two separate bin
 So, what used to be one side of our 2-dice has become 2 sides, and now we have a 3-dice. Let's show that Chi-squared test will just get another degree of freedom (it's going to be $\chi_2^2$ instead of $\chi_1^2$ now),
 but will still work for our new 3-dice. 
 
+#### Statement 1. Pearson's test's statistic is a sum of chi-square-distributed first term and a simple second term
+
 Let's write down the formula of Pearson's test for 3-nomial disitrubion and split it into binomial part and an additional term:
 
 $\sum \limits_{i=1}^{3} \frac{(O_i - np_i)^2}{np_i} = \frac{(O_1 - np_1)^2}{np_1} + \frac{(O_2 - np_2)^2}{np_2} + \frac{(O_3 - np_3)^2}{np_3} = \underbrace{\frac{(O_1 - np_1)^2}{np_1} + \frac{(O_2 + O_3 - n(p_2 + p_3))^2}{n(p_2 + p_3)}}_{\sum \limits_{j=1}^2 \frac{(O_j'-np_j)^2}{np_j} \sim \chi_1^2 \text{ for sum of k=2 terms by induction base}} - \underbrace{\frac{(O_2 + O_3 - n(p_2 + p_3))^2}{n(p_2 + p_3)} + \frac{(O_2 - np_2)^2}{np_2} + \frac{(O_3 - np_3)^2}{np_3}}_{\text{this part should also be } \sim \chi_1^2 \text{, let's prove this}}$
@@ -115,6 +117,8 @@ $ = \frac{ (O_2^2 - 2O_2np_2 + n^2p_2^2)(p_2p_3 + p_3^2) + (O_3^2 - 2O_3np_3 + n
 $ = \frac{(\cancel{O_2^2p_2p_3} + O_2^2p_3^2 - \cancel{2O_2np_2^2p_3} - \cancel{2O_2np_2p_3^2} + \cancel{n^2p_2^3p_3} + \cancel{n^2p_2^2p_3^2}) + (O_3^2p_2^2 + \cancel{O_3^2p_2p_3} - \cancel{2O_3np_3p_2^2} - \cancel{2O_3np_2p_3^2} + \cancel{n^2p_2^2p_3^2} + \cancel{n^2p_2p_3^3} ) - (\cancel{O_2^2p_2p_3} + 2O_2O_3p_2p_3 + \cancel{O_3^2p_2p_3} - \cancel{2O_2np_2^2p_3} - \cancel{2O_2np_2p_3^2} - \cancel{2O_3np_2^2p_3} - \cancel{2O_3np_2p_3^2} + \cancel{n^2p_2^3p_3} + \cancel{2n^2p_2^2p_3^2} + \cancel{n^2p_2p_3^3}) }{np_2p_3(p_2+p_3)} = $
 
 $ = \frac{O_2^2p_3^2 + O_3^2p_2^2 - 2O_2O_3p_2p_3}{np_2p_3(p_2+p_3)} = \frac{(O_2p_3 - O_3p_2)^2}{np_2p_3(p_2+p_3)}$.
+
+#### Statement 2. Second term is a square of standard normal random variable
 
 The random variable that we've received has a $\chi_1^2$ distribution because it is a square of $\xi = \frac{O_2p_3 - O_3p_2}{\sqrt{np_2p_3(p_2+p_3)}}$ random variable, which is a standard normal one. 
 
@@ -139,7 +143,11 @@ Hence, $Var[\xi] = \frac{n p_2 p_3 (p_2 + p_3) - 2 n p_2^2 p_3^2 - 2 p_2 p_3 \cd
 
 Thus, we've shown that our normal random variable $\xi$ has zero expectation and unit variance: $\xi \sim \mathcal{N}(0, 1)$. Hence, $\xi^2 \sim \chi_1^2$. 
 
-Finally, we need to show independence of $\xi^2$ and $\chi_{k-2}^2$, so that their sum was distributed as $\chi_{k-1}^2$. 
+#### Statement 3. Independence of the second term and the first term
+
+Finally, we need to show independence of the second term $\xi^2 \sim \chi_1^2$ and the first term $\sum \limits_{j=1}^{k} \frac{(O_j'-np_j)^2}{np_j} \sim \chi_{k-1}^2$, so that their sum is distributed as $\chi_{k}^2$. 
+
+Let me remind you the notation: here $O_j'=O_j$ for $j=1..k-1$ and $O_j'=O_j + O_{j+1}$ for $j=k$, so that the final component of the sum in the first term is $\frac{(O_k + O_{k+1} - n(p_k + p_{k+1}))^2}{n(p_k+p_{k+1})}$.
 
 For every $j < k$ (in case of the first step of induction $k=2$ there's only one $j=1$) consider $O_j$ and numerator $(O_2p_3 - O_3p_2)$ of our $\xi$: 
 
@@ -147,7 +155,7 @@ $Cov[O_j, O_2p_3 - O_3p_2] = \mathbb{E}[O_j (O_2p_3 - O_3p_2)] - \mathbb{E}[O_j]
 
 so that the first $k-1$ components $\frac{(O_j - np_j)^2}{np_j}$ of $\chi_{k-2}^2$ are independent of our $\xi^2 = \frac{(O_2p_3 - O_3p_2)^2}{np_2p_3(p_2+p_3)}$. 
 
-What's left is to show independence of the final coordinate $\frac{(O_k + O_{k+1} - n(p_k + p_{k+1}))^2}{n(p_k+p_{k+1})}$ of $\chi_{k-2}^2$ from our $\xi^2 = \frac{(O_2p_3 - O_3p_2)^2}{np_2p_3(p_2+p_3)}$ (or just its numerator):
+What's left is to show independence of the final component $\frac{(O_k + O_{k+1} - n(p_k + p_{k+1}))^2}{n(p_k+p_{k+1})}$ of $\chi_{k-2}^2$ from our $\xi^2 = \frac{(O_2p_3 - O_3p_2)^2}{np_2p_3(p_2+p_3)}$ (or just its numerator):
 
 $Cov[O_{k+1} + O_k, O_2p_3 - O_3p_2] = Cov[O_3 + O_2, O_2p_3 - O_3p_2] = Cov[O_3, O_2p_3 - O_3p_2] + Cov[O_2, O_2p_3 - O_3p_2] = n^2 (-p_3p_2p_3 - p_3(1-p_3)p_2 + p_2(1-p_2)p_3 + p_2 p_3 p_2) = n^2 (-{p_3}^2p_2 - p_3 p_2 + p_3^2 p_2 + p_2 p_3 - {p_2}^2p_3 + p_2^2 p_3) = 0$.
 
