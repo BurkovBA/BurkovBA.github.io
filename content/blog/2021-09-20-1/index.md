@@ -103,6 +103,36 @@ The operator $\nabla \cdot \nabla V(x,y,z) = \Delta V(x,y,z)$ is called Laplacia
 
 Being a divergence, Laplacian is invariant to the change of basis as well (by the way, it is the trace of Hessian).
 
+### Laplacian as a measure of non-conformness of a point
+
+For Laplacian there exists an alternative interpretation: you can draw an infinitesimal sphere around the point
+and calculate the average value of a function over that sphere. The difference between the average value and the
+value at the point corresponds to Laplacian:
+
+$\nabla^2 f(r_0) = \lim_{R \to 0} \frac{2d}{R^2} (\langle f \rangle_{shell} - f(r_0))$
+
+If a point is very much different from its neighbourhood, Laplacian will be great. If it is exactly the same as
+its surroundings, Laplacian will be 0.
+
+### Proof of equivalence of definition of Laplacian and its interpretation as a measure of non-conformness
+
+$\langle f \rangle_{shell} = \frac{\int_{shell} f(r) dr}{\int_{shell} dr} = \frac{\int_{shell} f(r) dr}{ 4 \pi R^2 }$
+
+$\nabla^2 f(r_0) = \lim\limits_{R \to 0} \frac{2d}{R^2} (\langle f \rangle_{shell} - f(r_0)) = \lim\limits_{R \to 0} \frac{2d}{R^2} (\frac{\int_{shell} f(r) dr}{ 4 \pi R^2 } - f(r_0)) = \lim\limits_{R \to 0} \frac{6}{4 \pi R^2} \int_{shell} (f(r) - f(r_0)) d^2 r$
+
+By Taylor series:
+
+$f(r) - f(r_0) = \frac{df}{dx} x + \frac{df}{dy} y + \frac{df}{dz} z + \frac{1}{2} \frac{d^2f}{dx^2}x^2 + \frac{1}{2} \frac{d^2f}{dy^2}y^2 + \frac{1}{2} \frac{d^2f}{dz^2}z^2 + \frac{d^2f}{dxdy}xy + \frac{d^2f}{dxdz}xz + \frac{d^2f}{dydz}yz + ...$
+
+By symmetry components with linear parts cancel out: $\int_{shell} x d^2 r = 0$, $\int_{shell} xy d^2 r = 0$ etc.
+
+Components with quadratic parts stay, but compound:
+
+$\int_{shell} x^2 d^2 r = \int_{shell} y^2 d^2 r = \int_{shell} z^2 d^2 r = \frac{1}{3} \int_{shell} (x^2 + y^2 + z^2) d^2 r = \frac{1}{3} \int_{shell} R^2 d^2 r = \frac{4}{3} \pi R^4$
+
+Substitute this into:
+
+$\lim\limits_{R \to 0} \frac{6}{4 \pi R^2} \int_{shell} (f(r) - f(r_0)) d^2 r = \lim\limits_{R \to 0} \frac{6}{4 \pi R^2} \frac{1}{2} \frac{4}{3} \pi R^4 (\frac{d^2f}{dx^2} + \frac{d^2f}{dy^2} + \frac{d^2f}{dz^2}) = \frac{d^2f}{dx^2} + \frac{d^2f}{dy^2} + \frac{d^2f}{dz^2}$.
 
 Applications outside multivariate calculus and field theory
 -----------------------------------------------------------
@@ -130,4 +160,6 @@ This is a subject of a [whole separate post](/2021-09-02-1) on spectral graph th
 
 References
 ----------
- - https://math.stackexchange.com/questions/2451248/why-divergence-only-cares-about-partial-derivative-of-x-y-z-respectively - helpful answer on divergence intuition
+ * https://math.stackexchange.com/questions/2451248/why-divergence-only-cares-about-partial-derivative-of-x-y-z-respectively - helpful answer on divergence intuition
+ * https://isis2.cc.oberlin.edu/physics/dstyer/Electrodynamics/Laplacian.pdf - a good paper on why Laplacian corresponds to the difference between point and its neighbors
+ * https://www.youtube.com/watch?v=L9hU4xrhEDs - a great video from Quantum Mechanics series on meaning of Laplacian in Hamiltonian, its correpsondence to momentum etc. 
