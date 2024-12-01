@@ -2612,3 +2612,9 @@ Sidney I. Resnick                           |  Laurens de Haan                  
 * https://projecteuclid.org/journals/annals-of-applied-probability/volume-14/issue-3/On-maximum-likelihood-estimation-of-the-extreme-value-index/10.1214/105051604000000279.full - Drees, Ferreira, de Haan paper on estimator for upper end of distribution
 * https://www.investopedia.com/terms/v/var.asp - Value at Risk, explained by Investopedia
 * https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9231421/ - estimating Value-at-Risk with Generalized Pareto Distribution, ARMA-GARCH etc.
+* https://www.byggmek.lth.se/fileadmin/byggnadsmekanik/publications/tvsm7000/web7161.pdf - a nice lecture on weakest link and strongest link models and Weibull distribution
+* https://stats.stackexchange.com/questions/105745/extreme-value-theory-show-normal-to-gumbel - proof that Normal distribution is in Gumbel domain of attraction
+* https://math.stackexchange.com/questions/855864/extreme-value-theory-show-normal-to-gumbel/856132#856132 - proof that Normal distribution is in the domain of attraction of Gumbel distribution
+* https://math.stackexchange.com/questions/2035079/distribution-of-the-maximum-of-a-large-number-of-normally-distributed-random-var - part of the proof that Normal distribution is in the domain of attraction of Gumbel distribution
+* https://stats.stackexchange.com/questions/105745/extreme-value-theory-show-normal-to-gumbel
+* https://math.stackexchange.com/questions/2964944/asymptotics-of-inverse-of-normal-cdf/2964980#2964980 - asymptotics of the tail of CDF of normal distribution
