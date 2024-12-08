@@ -38,7 +38,7 @@ Re-arraging the terms and dividing by $dt$, we get HJB equation:
 
 $-\frac{\partial V}{\partial t} dt = \min \limits_u \mathcal{L}(x(t), u(t)) dt + \frac{\partial V}{\partial x} f(x(t), t, u(t)) dt$
 
-## Stochacstic problems
+## Stochastic problems
 
 TODO
 

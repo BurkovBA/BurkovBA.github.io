@@ -648,7 +648,7 @@ context of our random variable $\xi$ in question.
 
 We start the proof by recalling the connection between the cumulative hazard rate function $R(t)$ and survival function $S(x)$:
 
-$-R(t) = -\int \limits_{x_1}^{x_2} r(t) dt = \ln S(x_2) - \ln S(x_1)$
+$R(x_1) - R(x_2) = -\int \limits_{x_1}^{x_2} r(t) dt = \ln S(x_2) - \ln S(x_1)$
 
 Exponentiation of both sides gets us:
 
