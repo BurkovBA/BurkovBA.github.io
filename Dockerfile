@@ -1,4 +1,4 @@
-FROM node:16-alpine
+FROM node:18-alpine
 
 ADD . /srv
 WORKDIR /srv
@@ -18,7 +18,7 @@ RUN apk add --update \
     pkgconfig \
     nasm \
     ffmpeg \
-  && pip install --ignore-installed virtualenv \
+  && pip install --ignore-installed --break-system-packages virtualenv \
   && rm -rf /var/cache/apk/*
 
 RUN npm install

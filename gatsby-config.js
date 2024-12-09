@@ -56,7 +56,7 @@ module.exports = {
             }
           },
           {
-            resolve: `@burkov/gatsby-remark-videos`,
+            resolve: `gatsby-remark-videos`,
             options: {
               pipelines: [
                 {

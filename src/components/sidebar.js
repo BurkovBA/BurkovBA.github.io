@@ -256,11 +256,8 @@ export default ({ locale }) => (
   <StaticQuery
     query={graphql`
       {
-        allMarkdownRemark(
-          sort: { fields: [frontmatter___date], order: DESC }
-          limit: 1000
-        ) {
-          group(field: frontmatter___tags) {
+        allMarkdownRemark(sort: {frontmatter: {date: DESC}}, limit: 1000) {
+          group(field: {frontmatter: {tags: SELECT}}) {
             fieldValue
             totalCount
           }
