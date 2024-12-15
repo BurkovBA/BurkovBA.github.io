@@ -269,7 +269,7 @@ Now I will provide several examples and then informally describe the proof outli
 
 ### Examples of convergence
 
-Let us start with a simple example of convergence to types I and II to get a taste of how convergence to maxima works.
+Let us start with simple examples of convergence to types I and II to get a taste of how convergence to maxima works.
 
 #### Example 2.1. Convergence of maximum of i.i.d. exponential random variables to Gumbel distribution
 
@@ -288,13 +288,13 @@ $F_{\xi}(x) = p (\xi \le x) = 1 - (\frac{x_0}{x})^{\alpha}$
 
 $p (\max \xi_i \le x) = F^n(x) = (1 - p (\xi \ge x))^n = (1 - (\frac{x_0}{x})^{\alpha})^n = (1 - \frac{(\frac{\sqrt[\alpha]{n} x_0}{x})^{\alpha}}{n})^n = (1 - \frac{(\frac{\lambda}{x})^{\alpha}}{n})^n = e^{-(\frac{\lambda}{x})^{\alpha}}$
 
-In previous examples we've used the same argument: $(1 - \frac{1 - F(x)}{n})^n \xrightarrow{n} e^{-(1 - F(x))}$.
+In these 2 examples we used the same argument: $(1 - \frac{1 - F(x)}{n})^n \xrightarrow{n} e^{-(1 - F(x))}$.
 
 It might seem that we can substitute any distribution as (1 - F(x)) and get a distribution of maximum $e^{-(1 - F(x))}$.
 
-Turns out, this intuition is wrong, as there are just 3 possible shapes of Extreme Value Distribution. 
+However, it turns out that this intuition is wrong, as there are just 3 possible shapes of Extreme Value Distribution. 
 
-Let's see, how (counter-intuitively) maximum of Gaussian distribution converges to Gumbel.
+Let's see, how (counter-intuitively) the maximum of i.i.d. Gaussian random variables converges to Gumbel.
 
 #### Example 2.3. Convergence of maximum of i.i.d. Gaussian random variables to Gumbel distribution
 
