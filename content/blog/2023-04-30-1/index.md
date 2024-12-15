@@ -13,6 +13,7 @@ description: Quite often in mathematical statistics I run into Extreme Value Dis
     * Type II: Frechet distribution
     * Type III: Inverse Weibull distribution
 2. Fisher-Tippett-Gnedenko theorem
+    * Examples of convergence
     * General approach: max-stable distributions as invariants/fixed points/attractors and EVD types as equivalence classes
     * Khinchin's theorem (Law of Convergence of Types)
     * Necessary conditions of maximium stability
@@ -264,7 +265,79 @@ We aim to show that for some series of constants $a_i$ and $b_i$
 
 $F^n(a_n x + b_n)$ as $n \to \infty$ converges in distribution to some distribution $G(x)$: $F^n(a_n x + b_n) \xrightarrow[n \to \infty]{w} G(x)$.
 
-Now I will informally describe the proof outline, before introducing the mathematical formalism.
+Now I will provide several examples and then informally describe the proof outline, before introducing the mathematical formalism.
+
+### Examples of convergence
+
+Let us start with a simple example of convergence to types I and II to get a taste of how convergence to maxima works.
+
+#### Example 2.1. Convergence of maximum of i.i.d. exponential random variables to Gumbel distribution
+
+$F_{\xi}(x) = p (\xi \le x) = 1 - e^{-x}$
+
+$p (\max \xi_i \le x) = F^n(x) = (1 - p (\xi \ge x))^n = (1 - e^{-x})^n = (1 - \frac{e^{-x + \ln n}}{n})^n \xrightarrow{n \to \infty} e^{-e^{-x + \ln n}}$
+
+We see that we need to consider a shifted random variable by choosing $a_n = 1$, $b_n = \log n$, so that we 
+get:
+
+$F^n(x + \log n) = (1 - e^{-(x + \log n)})^n = (1 - \frac{e^{-x}}{n})^n \to exp(-e^{-x})$.
+
+#### Example 2.2. Convergence of maximum of i.i.d. Pareto random variables to Frechet distribution
+
+$F_{\xi}(x) = p (\xi \le x) = 1 - (\frac{x_0}{x})^{\alpha}$
+
+$p (\max \xi_i \le x) = F^n(x) = (1 - p (\xi \ge x))^n = (1 - (\frac{x_0}{x})^{\alpha})^n = (1 - \frac{(\frac{\sqrt[\alpha]{n} x_0}{x})^{\alpha}}{n})^n = (1 - \frac{(\frac{\lambda}{x})^{\alpha}}{n})^n = e^{-(\frac{\lambda}{x})^{\alpha}}$
+
+In previous examples we've used the same argument: $(1 - \frac{1 - F(x)}{n})^n \xrightarrow{n} e^{-(1 - F(x))}$.
+
+It might seem that we can substitute any distribution as (1 - F(x)) and get a distribution of maximum $e^{-(1 - F(x))}$.
+
+Turns out, this intuition is wrong, as there are just 3 possible shapes of Extreme Value Distribution. 
+
+Let's see, how (counter-intuitively) maximum of Gaussian distribution converges to Gumbel.
+
+#### Example 2.3. Convergence of maximum of i.i.d. Gaussian random variables to Gumbel distribution
+
+##### Step 1. Integration in parts
+
+Let us consider the cdf of normal distribution $F(x) = p(\xi \le x) = \frac{1}{\sqrt{2 \pi}} \int \limits_{-\infty}^{x} e^{-t^2/2} dt = 1 - p(\xi \ge x) = 1 - \frac{1}{\sqrt{2 \pi}} \int \limits_{x}^{\infty} e^{-t^2/2} dt$.
+
+Do integration in parts: $\frac{1}{\sqrt{2 \pi}} \int \limits_{x}^{\infty} e^{-t^2/2} dt = \frac{1}{\sqrt{2 \pi}} \frac{e^{-\frac{x^2}{2}}}{x} - \frac{1}{\sqrt{2\pi}} \int \limits_{x}^{\infty} \frac{e^{-t^2/2}}{t^2} dt$
+
+Recall that we are interested in maximum of $a_nx + b_n$, not just $x$.
+
+Hence, we want to study the behaviour of $\frac{1}{\sqrt{2 \pi}} \frac{e^{-\frac{(a_n x + b_n)^2}{2}}}{a_n x + b_n}$ and to show that $\frac{1}{\sqrt{2 \pi}} \frac{e^{-\frac{(a_n x + b_n)^2}{2}}}{a_n x + b_n} \sim \frac{e^{-x}}{n}$.
+
+##### Step 2. Split result in two multipliers, select $a_n$
+
+Let us use our freedom to choose $a_n$ and $b_n$.
+
+First let us choose $a_n$, while letting $b_n \to \infty$ (we will choose a specific $b_n$ at a later stage).
+
+Let $a_n = \frac{1}{b_n}$:
+
+$\frac{1}{\sqrt{2 \pi}} \frac{e^{-\frac{(a_n x + b_n)^2}{2}}}{a_n x + b_n} = \frac{1}{\sqrt{2 \pi}} \frac{e^{-x^2 / 2 b_n^2} e^{-x}}{x / {b_n}^2 + 1} \frac{e^{-{b_n}^2 / 2}}{b_n}$
+
+By evaluating the square of $a_nx + b_n$ we've managed to come up with 2 multipliers. First of them contains $e^{-x}$, which is required for convergence to Gumbel distribution. Note that as $b_n \to \infty$, first term converges to $e^{-x}$:
+
+$\frac{e^{-x^2 / 2 b_n^2} e^{-x}}{x / {b_n}^2 + 1} \xrightarrow{b_n \to \infty} e^{-x}$
+
+The second term $\frac{e^{-{b_n}^2 / 2}}{b_n}$ will produce $1 / n$ that we need to obtain $(1 - F(x)/n)^n$.
+
+##### Step 3. Select $b_n$
+
+Choose $b_n = F^{-1}(1 - 1/n)$, so that:
+
+$\frac{e^{-{b_n}^2 / 2}}{b_n} \to 1 - F(F^{-1}(1 - 1/n)) = \frac{1}{n}$
+
+Hence, we end up having $F(a_n x + b_n) \to 1 - e^{-x}/n$, where $b_n = F^{-1}(1 - 1/n)$ and $a_n = \frac{1}{b_n}$.
+
+Then $p(\max \xi_i \le a_nx + b_n ) = p(\xi_i \le a_nx + b_n)^n = (1 - e^{-x}/n)^n = e^{-e^{-x}}$.
+
+This is just one example of a distribution, for which it doesn't appear at the first glance that its maximum would 
+converge to one of 3 types of EVD, but its maximum actually does converge to Type I. We shall prove as a theorem that for
+i.i.d. random variables from any distribution there are just 3 options for their maximum to converge to. Let's first
+discuss the general approach of how this could be shown, and then will proceed with a formal proof.
 
 ### General approach: max-stable distributions as invariants/fixed points/attractors and EVD types as equivalence classes
 
@@ -783,20 +856,19 @@ $|\int \limits_{0}^{x} \frac{g(u)}{g(u + s g(u))} ds - \int \limits_{0}^{x} 1 ds
 
 We need to work out the approximation of $\frac{g(u)}{g(u + s g(u))}$ ratio.
 
-For that end consider the Taylor series for $g(u + s g(u))$ around the point $u$:
+Recall that $\frac{g(u)}{g(u + s g(u))} = \frac{r(u + sg(u))}{r(u)}$.
 
-$g(u + s g(u)) = g(u) + g'(u) s g(u) + O(s^2 g^2(u))$ and $g(u) \to const$, hence, $g(u + s g(u)) = g(u) + g'(u) s g(u) + O(s^2)$
+Consider the Taylor series for $r(u + sg(u))$ around the point $u$:
 
-Then $\frac{g(u + s g(u))}{g(u)} = 1 + g'(u) s + O(s^2)$. Assuming $s$ small enough, we assume $O(s^2)$
-can be made arbitrarily small as well.
+$r(u + s g(u)) = r(u) + r'(u) s g(u) + O(s^2 g^2(u))$
 
-Inverting numerator and denominator, we get $\frac{g(u)}{g(u + s g(u))} = \frac{1}{1 + s g'(u)}$
+We know that $r(u) \to const$ (hence, $g(u) \to const$) and $r'(u) \to 0$, hence, $r(u + s g(u)) \xrightarrow{u \to \infty} r(u) + \cancel{r'(u) s g(u)} + O(s^2 g^2(u))$.
 
-Integrating both sides: $\int \limits_{0}^{x} \frac{g(u)}{g(u + s g(u))} ds = \int \limits_{0}^{x} \frac{1}{1 + s g'(u)} ds = \int \limits_{0}^{x} \frac{1}{g'(u)} d \ln(1 + s g'(u)) = \ln(1 + x g'(u))^{\frac{1}{g'(u)}}$
+Second-order term $O(s^2 g^2(u))$ can be kept small enough for large $u$, if we consider reasonably small $s$. 
 
-Re-write this as $\ln(1 + \frac{x}{ 1/g'(u) })^{1/g'(u)}$. This looks familiar, right?
+Then our ratio $\frac{g(u)}{g(u + s g(u))} = \frac{r(u + sg(u))}{r(u)} \to \frac{r(u)}{r(u)} \to 1$.
 
-Denote $n = \frac{1}{g'(u)} \to \infty$ as $g'(u) \to 0$. We get $\ln (1 + \frac{x}{n})^n = \ln e^x = x$. This concludes the proof.
+Then $\int \limits_{0}^{x} \frac{g(u)}{g(u + s g(u))} ds \approx \int \limits_{0}^{x} 1 ds = x$
 
 ### Generalizations of Theorem 3.3: auxiliary function and von Mises function
 
