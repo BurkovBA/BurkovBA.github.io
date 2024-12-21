@@ -277,7 +277,7 @@ Let us start with simple examples of convergence to types I and II to get a tast
 
 > I'll never believe that a horse and a wagon age in the same way.
 >
->  \- Alex Comfort (as [cited](https://mir24.tv/news/15083839) by Vladimir P. Skulachev)
+>  \- Alex Comfort (as [quoted](https://mir24.tv/news/15083839) by Vladimir P. Skulachev)
 
 Consider a wagon with an exponentially-distributed life time. For instance, assume that the probability for a wagon to break down every
 year is $1 / e$.
