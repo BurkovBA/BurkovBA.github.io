@@ -273,30 +273,89 @@ Let us start with simple examples of convergence to types I and II to get a tast
 
 #### Example 2.1. Convergence of maximum of i.i.d. exponential random variables to Gumbel distribution
 
+![horse_and_wagon.png](horse_and_wagon.png)
+
+> I'll never believe that a horse and a wagon age in the same way.
+>
+>  \- Alex Comfort (as [cited](https://mir24.tv/news/15083839) by Vladimir P. Skulachev)
+
+Consider a wagon with an exponentially-distributed life time. For instance, assume that the probability for a wagon to break down every
+year is $1 / e$.
+
+Then let $\xi$ random variable be its lifetime and its cdf be:
+
 $F_{\xi}(x) = p (\xi \le x) = 1 - e^{-x}$
+
+Given $n \to \infty$ wagons, what's the distribution of lifetime of the longest living one?
 
 $p (\max \xi_i \le x) = F^n(x) = (1 - p (\xi \ge x))^n = (1 - e^{-x})^n = (1 - \frac{e^{-x + \ln n}}{n})^n \xrightarrow{n \to \infty} e^{-e^{-x + \ln n}}$
 
-We see that we need to consider a shifted random variable by choosing $a_n = 1$, $b_n = \log n$, so that we 
+We see that this is almost standard Gumbel distribution (type I EVD). 
+
+In order to get the stadard one, we need to consider a shifted random variable $p (\max \xi_i \le a_nx + b_n)$ by choosing $a_n = 1$, $b_n = \log n$, so that we 
 get:
 
 $F^n(x + \log n) = (1 - e^{-(x + \log n)})^n = (1 - \frac{e^{-x}}{n})^n \to exp(-e^{-x})$.
 
 #### Example 2.2. Convergence of maximum of i.i.d. Pareto random variables to Frechet distribution
 
+Consider another example: Pareto distribution. It describes the distribution of wealth (e.g. fraction of people, having net worth above $x$), 
+sizes of cities (e.g. fraction of cities with a population greater than $x$), sizes of orders on an exchange (e.g. fraction of orders of size
+greater than $x$), number of Telegram channels with more than $x$ subsribers. Here is its cdf: 
+
 $F_{\xi}(x) = p (\xi \le x) = 1 - (\frac{x_0}{x})^{\alpha}$
+
+It is often convenient to depict it in log-log coordinates because $\ln (1 - F_{\xi}(x)) = \gamma (\ln x_0 - \ln x)$:
+
+![log_log_Pareto.png](log_log_Pareto.png)
+
+Pareto distribtuion also describes the distribution of life time of memes, comedy shows etc. This phenomenon is
+known as [Lindy effect](https://en.wikipedia.org/wiki/Lindy_effect). With a little calculation one can show that expected lifetime of a comedy
+show equals to the time it's already been around, which leads to Pareto distribution of its cdf.
+
+Again, let us consider the distribution of maximum lifetime of the comedy shows then:
 
 $p (\max \xi_i \le x) = F^n(x) = (1 - p (\xi \ge x))^n = (1 - (\frac{x_0}{x})^{\alpha})^n = (1 - \frac{(\frac{\sqrt[\alpha]{n} x_0}{x})^{\alpha}}{n})^n = (1 - \frac{(\frac{\lambda}{x})^{\alpha}}{n})^n = e^{-(\frac{\lambda}{x})^{\alpha}}$
 
-In these 2 examples we used the same argument: $(1 - \frac{1 - F(x)}{n})^n \xrightarrow{n} e^{-(1 - F(x))}$.
+We see that it converges to Frechet (EVD type II) distribution.
 
-It might seem that we can substitute any distribution as (1 - F(x)) and get a distribution of maximum $e^{-(1 - F(x))}$.
+#### Example 2.3. Convergence of minimum/maximum of i.i.d. Weibull/inverse Weibull random variables to Weibull/inverse Weibull distribution
+
+Consider a single link of a chain, the strength of which is described by a Weibull distribution $F_{\xi}(x) = p(\xi \le x) = 1 - e^{-(\frac{x}{x_0})^m}$:
+
+![link](link.png)
+
+In this specific application of Weibull distribution we may say that the strength of a link $S(F)$ is the probability that it does not break under application of force $F$ (sorry for the duplication of symbol $F$ in the notation, used as both cdf and force).
+
+Then we can show that strength of the whole chain is also described by Weibull distribution, as the chain is as strong as its weakest link:
+
+![chain](chain.png)
+
+$F_{chain}(F_i) = F(\min \xi_i \le F_i)^n = e^{- \sum \limits_{i}^{n} (\frac{F_i}{F_0})^m } = e^{-n (\frac{F_i}{F_0})^m } = e^{-(\frac{F_i}{H_0})^m}$
+
+We see that the whole chain's strength also follows the Weibull distribution, but with somewhat altered parameter:
+
+![Weibull stability](weibull_stability.png)
+
+Similarly, we may consider a zipper, where strength of a zipper is the strength of the hardest-to-open element. Hence, strength of a zipper and
+of each element of it is described by inverse Weibull distribution:
+
+![zipper](zipper.png)
+
+Later on we will introduce the concept of max-stable/min-stable distributions, i.e. such distributions that maximum/minimum of them follows the
+same distribution. With this example we can already see that Weibull distribtuion is min-stable and inverse Weibull distribution is max-stable.
+
+---
+
+In these examples we used the same argument: $(1 - \frac{1 - F(x)}{n})^n \xrightarrow{n} e^{-(1 - F(x))}$.
+
+It might seem that we can substitute any distribution as (1 - F(x)) and make the distribution of maximum $e^{-(1 - F(x))}$ to take almost any shape.
 
 However, it turns out that this intuition is wrong, as there are just 3 possible shapes of Extreme Value Distribution. 
 
 Let's see, how (counter-intuitively) the maximum of i.i.d. Gaussian random variables converges to Gumbel.
 
-#### Example 2.3. Convergence of maximum of i.i.d. Gaussian random variables to Gumbel distribution
+#### Example 2.4. Convergence of maximum of i.i.d. Gaussian random variables to Gumbel distribution
 
 ##### Step 1. Integration in parts
 
