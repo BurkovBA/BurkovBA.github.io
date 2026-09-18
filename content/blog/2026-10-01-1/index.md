@@ -108,7 +108,10 @@ that is a different, composite, story.)
 TODO: motivation to consider this object
 TODO: Intuition
 
-![Brownian bridge](Brownian_bridge.png)
+![Brownian bridge](Brownian_bridge.png)<center>**A Brownian bridge is a Wiener path with its chord subtracted.**
+Top: one Wiener path $W_t$ and the straight chord $L_t = t W_1$ from start to finish.
+Bottom: $B_t = W_t - t W_1$, pinned at $0$ at both endpoints. The marked gap $W_{t^\ast}-L_{t^\ast}$
+is exactly the bridge height $B_{t^\ast}$.</center>
 
 TODO: a few works on functional analysis and stochastic processes background
 TODO: Covariance matrix and motivation to consider it
