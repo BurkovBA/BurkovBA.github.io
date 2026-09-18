@@ -27,7 +27,30 @@ advantages and disadvantages).
 
 ### Empirical cumulative distribution function vs true distribution function
 
-TODO
+Let $X_1,\dots,X_n$ be i.i.d. with unknown CDF $F(x)=\mathbb{P}(X\le x)$. The *empirical* CDF is the
+sample analogue: the fraction of observations that have landed to the left of $x$,
+
+$F_n(x) = \frac{1}{n} \sum \limits_{i=1}^{n} \mathbf{1}_{\{X_i \le x\}}$.
+
+It is a right-continuous staircase: flat between samples, jump of size $1/n$ at each $X_i$
+(size $k/n$ if $k$ points coincide). By the Glivenko–Cantelli theorem $F_n$ converges to $F$
+uniformly almost surely, so the picture of GoF is simply: how wild a staircase around $F$ is
+still plausible under the null?
+
+The figure below is that picture for a standard Gaussian $F$ and one sample of size $n=24$:
+the blue curve is $F$, the red path is $F_n$.
+
+![empirical CDF](ECDF.png)<center>**Empirical CDF $F_n$ versus true Gaussian $F$.** Left: one staircase ($n=24$).
+Right: the random height of that staircase at a fixed $x^\ast$.</center>
+
+Now freeze a single abscissa $x^\ast$ (the dotted vertical line). The height $F_n(x^\ast)$ no
+longer looks like a function — it is just a number $K/n$, where $K=\#\{i: X_i\le x^\ast\}$
+counts how many green ticks sit to the left of $x^\ast$. In the figure, $K=15$ out of $24$,
+so $F_n(x^\ast)=15/24=0.625$, while the true height is $F(x^\ast)=0.655$.
+
+Under the null each $X_i$ independently falls on the left of $x^\ast$ with probability
+$F(x^\ast)$, so $K$ is a coin-flip count. That is why the histogram on the right is binomial,
+and why we next study $F_n$ *pointwise* before treating it as a process.
 
 ### Binomial distribution of sample at each point
 
