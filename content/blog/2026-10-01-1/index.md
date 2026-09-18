@@ -31,7 +31,25 @@ TODO
 
 ### Binomial distribution of sample at each point
 
-TODO
+Fix a point $x$ on the real line and look at a single number: the height of the empirical CDF there,
+$F_n(x) = \frac{1}{n}\sum_{i=1}^{n} \mathbf{1}_{\{X_i \le x\}}$.
+Under the null, $X_1,\dots,X_n$ are i.i.d. from the hypothesized $F$, so each indicator is a coin flip:
+$\mathbb{P}(X_i \le x) = F(x)$. Hence $\mathbf{1}_{\{X_i \le x\}} \sim \mathrm{Bernoulli}(F(x))$,
+independent across $i$. Their sum is binomial:
+
+$n F_n(x) \sim \mathrm{Binomial}\bigl(n,\, F(x)\bigr)$.
+
+That is the whole story: "is the sample $\le x$?" is a yes/no trial with success probability $F(x)$,
+and we run $n$ independent trials. Immediately,
+
+$\mathbb{E}[F_n(x)] = F(x),\qquad \mathrm{Var}[F_n(x)] = \frac{F(x)\bigl(1-F(x)\bigr)}{n}$.
+
+The variance is largest at the median ($F(x)=\tfrac12$) and vanishes in the tails — the empirical CDF
+is noisier in the middle than at the edges. After centering and $\sqrt{n}$-scaling this binomial
+becomes approximately $\mathcal{N}\bigl(0,\, F(x)(1-F(x))\bigr)$, which is exactly the pointwise
+marginal of the Brownian bridge we will meet below. Note that this is a *pointwise* statement:
+the counts at two different $x$ and $y$ are dependent (the same sample is reused), so the process
+$x \mapsto F_n(x)$ is not a collection of independent binomials.
 
 ### Quantile transform
 
