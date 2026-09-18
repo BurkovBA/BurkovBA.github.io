@@ -41,10 +41,24 @@ TODO
 
 TODO: motivation to consider this object
 TODO: Intuition
+
+![Brownian bridge](Brownian_bridge.png)
+
 TODO: a few works on functional analysis and stochastic processes background
 TODO: Covariance matrix and motivation to consider it
 
 ### Donsker's theorem
+
+TODO: watch full path
+TODO: rescale x to [0,1] and y by \sqrt(n)
+TODO: rescaled walk of partial i.i.d. sums, constituting CLT, converge to a standard Wiener process
+TODO: apply to quantile process in order to obtain conergence of \alpha to Brownian bridge
+
+### Kolmogorov-Smirnov
+
+TODO: Kolmogorov distribution as distribution of absolute value of Brownian bridge
+
+### Cramer-von Mises family of tests
 
 TODO
 
@@ -53,21 +67,12 @@ TODO
 TODO: essentially a functional analysis version of PCA, similar to how Fourier series relates to Discrete Fourier transform
 TODO: one dimensional stays discrete sum, the other becomes continuous integreal/function
 
-## Tests
-
-### Kolmogorov-Smirnov
-
-TODO
-
-### Cramer-von Mises
-
-TODO
 
 ### Anderson-Darling
 
 TODO
 
-## Honorable mention: Shaprio-Wilk for test of normality
+### Honorable mention: Shaprio-Wilk test of normality
 
 TODO
 
