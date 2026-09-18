@@ -53,7 +53,32 @@ $x \mapsto F_n(x)$ is not a collection of independent binomials.
 
 ### Quantile transform
 
-TODO
+The binomial picture above still depends on $F$: the success probability at $x$ is $F(x)$. Kolmogorov–Smirnov,
+Cramér–von Mises and Anderson–Darling get rid of that dependence with the *probability integral transform*
+(quantile transform). If $F$ is continuous and $X\sim F$, then
+
+$U := F(X) \sim \mathrm{Uniform}[0,1]$.
+
+Proof is one line: $\mathbb{P}(F(X) \le u) = \mathbb{P}(X \le F^{-1}(u)) = F(F^{-1}(u)) = u$ for $u\in[0,1]$
+(for a general continuous CDF take the generalized inverse $F^{-1}(u)=\inf\{x: F(x)\ge u\}$).
+
+So under the null, the mapped sample $U_i = F(X_i)$ is i.i.d. uniform on $[0,1]$. Write its empirical CDF as
+
+$G_n(u) = \frac{1}{n} \sum \limits_{i=1}^{n} \mathbf{1}_{\{U_i \le u\}},\qquad u\in[0,1]$.
+
+The original ECDF is just this process reparametrized by the hypothesized CDF: $F_n(x) = G_n(F(x))$.
+Comparing $F_n$ to $F$ is therefore the same as comparing $G_n$ to the identity map $u\mapsto u$.
+In particular, from the previous section,
+
+$n G_n(u) \sim \mathrm{Binomial}(n,\, u),\qquad \mathbb{E}[G_n(u)]=u,\qquad \mathrm{Var}[G_n(u)]=\frac{u(1-u)}{n}$.
+
+The whole GoF problem now lives on the unit interval, with a *distribution-free* null: no leftover $F$.
+That is why the same critical values work for every continuous hypothesized law, and why the limiting
+object below is a Brownian bridge on $[0,1]$ rather than some $F$-dependent process on $\mathbb{R}$.
+
+If the null is false, $F(X)$ is *not* uniform, $G_n$ drifts away from the diagonal, and that is what the
+tests detect. (If $F$ is estimated from the same sample, the $U_i$ are only approximately uniform —
+that is a different, composite, story.)
 
 ### Brownian bridge
 
