@@ -105,16 +105,51 @@ that is a different, composite, story.)
 
 ### Brownian bridge
 
-TODO: motivation to consider this object
-TODO: Intuition
+Pointwise, $\sqrt{n}(G_n(u)-u)$ is a centered binomial, hence asymptotically
+$\mathcal{N}(0,\,u(1-u))$. GoF tests, however, are not questions about one $u$: Kolmogorov–Smirnov
+looks at $\sup_u |G_n(u)-u|$, Cramér–von Mises at $\int (G_n-u)^2$, Anderson–Darling at a weighted
+version. Those are functionals of the *whole path*. Two hard constraints come with it:
+$G_n(0)=0$ and $G_n(1)=1$ always, so the centered process is pinned at both ends of $[0,1]$.
+A Wiener process starts at $0$ but is free at $t=1$. The Gaussian process that is Wiener-like
+*and* tied down at both endpoints is the Brownian bridge; Donsker's theorem (next) says the
+empirical process converges to it.
+
+Intuition: take a Wiener path $W_t$ ($W_0=0$, independent Gaussian increments, $\mathrm{Var}(W_t)=t$).
+It typically ends at some $W_1\neq 0$. Draw the chord $L_t = t W_1$ from $(0,0)$ to $(1,W_1)$ and
+subtract it,
+
+$B_t = W_t - t W_1$.
+
+Then $B_0=B_1=0$: the path is a "bridge" between the two banks of the interval. Equivalently, $B$ is
+Brownian motion conditioned on $W_1=0$. That is the same geometry as the empirical process after the
+quantile transform: $\sqrt{n}(G_n(u)-u)$ starts at $0$ (no mass before $0$) and returns to $0$
+(all mass is accounted for by $u=1$). The figure below is exactly this construction.
 
 ![Brownian bridge](Brownian_bridge.png)<center>**A Brownian bridge is a Wiener path with its chord subtracted.**
 Top: one Wiener path $W_t$ and the straight chord $L_t = t W_1$ from start to finish.
 Bottom: $B_t = W_t - t W_1$, pinned at $0$ at both endpoints. The marked gap $W_{t^\ast}-L_{t^\ast}$
 is exactly the bridge height $B_{t^\ast}$.</center>
 
-TODO: a few works on functional analysis and stochastic processes background
-TODO: Covariance matrix and motivation to consider it
+A finite-dimensional random vector is described by a covariance *matrix* $\Sigma_{ij}=\mathrm{Cov}(X_i,X_j)$.
+Sample a process at times $t_1,\dots,t_k$ and you get such a vector; let the grid get dense and the
+matrix becomes a covariance *kernel* $K(s,t)=\mathrm{Cov}(X_s,X_t)$. This is the same leap as from
+the discrete Fourier transform (eigenbasis of a circulant matrix on $n$ points) to Fourier series
+(eigenbasis of a translation-invariant kernel on $[0,1]$). In functional-analysis language, $K$ is a
+compact self-adjoint operator on $L^2[0,1]$, $(Kf)(s)=\int_0^1 K(s,t)\,f(t)\,dt$; its eigen-decomposition
+is Karhunen–Loève — PCA for paths — which Cramér–von Mises and Anderson–Darling will use.
+
+Wiener process has $K_W(s,t)=\min(s,t)$. For the bridge $B_t=W_t-t W_1$ a short calculation gives
+
+$K_B(s,t)=\mathrm{Cov}(B_s,B_t)=\min(s,t)-st$.
+
+In particular $\mathrm{Var}(B_u)=u(1-u)$. Not a coincidence: for $s\le t$,
+
+$\mathrm{Cov}\bigl(\sqrt{n}(G_n(s)-s),\,\sqrt{n}(G_n(t)-t)\bigr)=\mathrm{Cov}(\mathbf{1}_{U\le s},\,\mathbf{1}_{U\le t})=s(1-t)=\min(s,t)-st$.
+
+The empirical process on $[0,1]$ already has *exactly* the Brownian-bridge covariance at every finite $n$
+(the multinomial structure of the indicators); only the marginals are still binomial rather than Gaussian.
+That is why this kernel is the right object: every path-functional of $\sqrt{n}(G_n-u)$ becomes, in the
+limit, the same functional of a Brownian bridge.
 
 ### Donsker's theorem
 
