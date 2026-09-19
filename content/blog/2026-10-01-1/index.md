@@ -332,24 +332,26 @@ section builds that decomposition; then we return to the two choices of $\psi$.
 
 A finite-dimensional random vector is described by a covariance *matrix* $\Sigma_{ij}=\mathrm{Cov}(X_i,X_j)$.
 A standard way to diagonalize that covariance matrix is to perform a PCA or truncated PCA (knowing that the
-covariance matrix is Gram, i.e. symmetric positive definite, i.e. all of its eigenvalues are real and
-positive numbers and eigenvector correspond to the axes of ellipsoid of revolution). See [post on PCA](/2021-07-12-1).
+covariance matrix is a Gram matrix, i.e. symmetric positive definite, i.e. all of its eigenvalues are real and
+positive numbers and eigenvectors correspond to the axes of ellipsoid of revolution). See [post on PCA](/2021-07-12-1).
 
 Karhunen-Loeve is a functional analysis-style generalization of PCA from discrete random vectors case to
-a continuous random function/stochastic process case. You can defined a covariance matrix for the stochastic
-process, describing how inter-correlated points of this process at a certain distance are.
+a continuous random functions/stochastic processes case. You can define a covariance matrix for the stochastic
+process, describing how inter-correlated two points of this process, $X_t$ at moment of time $t$ and $X_s$ at a time $s$, are.
 
-In discrete case you sample a process at times $t_1,\dots,t_k$ and you get a random vector; let the grid get dense and you're transitioning to a continuous random function case, where matrix becomes a covariance *kernel* $K(s,t)=\mathrm{Cov}(X_s,X_t)$. This is the same leap as from
-the discrete Fourier transform (eigenbasis of a circulant matrix on $n$ points) to Fourier series
-(eigenbasis of a translation-invariant kernel on $[0,1]$). In functional-analysis language, $K$ is a
+In discrete case you sample a process at times $t_1,\dots,t_k$ and you get a random vector; let the grid get denser,
+and you're transitioning to a continuous random function case, where matrix becomes a covariance *kernel* $K(s,t)=\mathrm{Cov}(X_s,X_t)$. 
+If this analogy helps, this is the same leap as from the discrete Fourier transform (eigenbasis of a circulant matrix on $n$ points) to a
+Fourier series (eigenbasis of a translation-invariant kernel on $[0,1]$). In functional-analysis language, $K$ is a
 compact self-adjoint operator on $L^2[0,1]$, $(Kf)(s)=\int_0^1 K(s,t)\,f(t)\,dt$; its eigen-decomposition
 is Karhunen–Loève — PCA for paths — which Cramér–von Mises and Anderson–Darling will use.
 
 What's counter-intuitive in this transition is that compared to discrete case axes change the roles: normally
-your data matrix $X$ would consist of $n$ data points, each of which is a $p$-dimensional predictor. By covariance matrix you'd understand $n \times n$ matrix of covariances between the data points, not between coordinates of each data point. Center the columns of $X$ (subtract each predictor's mean) to get $\tilde{X}$.
-The $n\times n$ Gram matrix is the product of an $n\times p$ matrix with a $p\times n$ one,
-$C=\tilde{X}\tilde{X}^T$. Below $n=4$, $p=5$: the two blue rows of $\tilde{X}$ become the two blue
-columns of $\tilde{X}^T$, and their inner product is the blue entry of $C$.
+your data matrix $X$ would consist of $n$ data points, each of which is a $p$-dimensional predictor. By covariance matrix you'd 
+imply $n \times n$ matrix of covariances between the data points, not between coordinates of each data point. Center the columns
+of $X$ (subtract each predictor's mean) to get $\tilde{X}$. Then covariance matrix is an $n\times n$ Gram matrix is the product of
+an $n\times p$ matrix with a $p\times n$ one, $C=\tilde{X}\tilde{X}^T$. Below $n=4$, $p=5$: the two blue rows of $\tilde{X}$ become
+the two blue columns of $\tilde{X}^T$, and their inner product is the blue entry of $C$.
 
 $$
 C_{n \times n}
@@ -379,7 +381,7 @@ c_{41} & \textcolor{blue}{c_{42}} & c_{43} & c_{44}
 \end{bmatrix}
 $$
 
-In case of random functions and covariance kernel roles of axes swap. One path is what used to be a $p$-dimensional data point, as $p \to \infty$. And so covariance kernel actually reflects correlations between what used to be your predictors. Flip the product: $K=\tilde{X}^T\tilde{X}$ is $p\times n$ times $n\times p$. The two orange columns of $\tilde{X}$ become the two orange rows of $\tilde{X}^T$, and their inner product is the orange entry of the $p\times p$
+In case of random functions and covariance kernel roles of axes swap. One path is what used to be a $p$-dimensional data point, as $p \to \infty$. So covariance kernel actually reflects correlations between what used to be your predictors. Flip the product: $K=\tilde{X}^T\tilde{X}$ is $p\times n$ times $n\times p$. The two orange columns of $\tilde{X}$ become the two orange rows of $\tilde{X}^T$, and their inner product is the orange entry of the $p\times p$
 kernel — the object that becomes $K(s,t)$ as $p\to\infty$.
 
 $$
@@ -421,10 +423,9 @@ In particular $\mathrm{Var}(B_u)=u(1-u)$. Not a coincidence: for $s\le t$,
 
 $\mathrm{Cov}\bigl(\sqrt{n}(G_n(s)-s),\,\sqrt{n}(G_n(t)-t)\bigr)=\mathrm{Cov}(\mathbf{1}_{U\le s},\,\mathbf{1}_{U\le t})=s(1-t)=\min(s,t)-st$.
 
-The empirical process on $[0,1]$ already has *exactly* the Brownian-bridge covariance at every finite $n$
+The empirical process on $[0,1]$ naturally has *exactly* the Brownian-bridge covariance at every finite $n$
 (the multinomial structure of the indicators); only the marginals are still binomial rather than Gaussian.
-That is why this kernel is the right object: every path-functional of $\sqrt{n}(G_n-u)$ becomes, in the
-limit, the same functional of a Brownian bridge.
+Every path-functional of $\sqrt{n}(G_n-u)$ becomes, in the limit, the same functional of a Brownian bridge.
 
 
 ### Cramer - von Mises
