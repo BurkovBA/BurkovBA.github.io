@@ -164,30 +164,91 @@ supremum or an integral over all $u$.
 
 The classical CLT watches only the *endpoint*: $S_n/\sqrt{n}\to\mathcal{N}(0,\sigma^2)$.
 (A single arrow $\to$ is the same idea as $\Rightarrow$, but for a random *number* rather than a
-stochastic process: the distribution of $S_n/\sqrt{n}$ approaches $\mathcal{N}(0,\sigma^2)$.)
-Donsker's theorem (the functional CLT) says: watch the *whole path* of partial sums, and the path
-converges to a Wiener process. That is the right statement for GoF, because KS/CvM/AD are functions
-of the entire curve $u\mapsto G_n(u)-u$, not of a single coordinate.
+stochastic process.) Donsker's theorem is the same statement for the *whole path*. We will prove two
+claims.
 
-Donsker's theorem requires a double rescaling so the path lives on the same interval as the bridge. First, time needs rescaling : put the $k$-th partial sum at $t=k/n\in[0,1]$. Second, space as well: divide by $\sqrt{n}$, the CLT width. Connect the dots (or keep the step version) to get a stochastic process $W_n$ on $[0,1]$,
+#### Donsker's theorem (functional CLT). 
 
-$W_n(t) = \frac{S_{\lfloor nt\rfloor}}{\sqrt{n}},\qquad S_k=\xi_1+\cdots+\xi_k$.
+**Donsker's theorem for the partial sums.**  Let $\xi_i$ be i.i.d. with mean $0$ and variance $1$,
+$S_k=\xi_1+\cdots+\xi_k$, and $W_n(t)=S_{\lfloor nt\rfloor}/\sqrt{n}$ on $[0,1]$. Then
+$W_n\Rightarrow W$, a standard Wiener process.
 
-As $n\to\infty$ this object stays $O(1)$ and can be compared to $W_t$ and $B_t$.
+**Donsker's theorem for the empirical process.** Let $U_i$ be i.i.d. Uniform$[0,1]$ and
+$\alpha_n(u)=\sqrt{n}\bigl(G_n(u)-u\bigr)$. Then $\alpha_n\Rightarrow B$, a standard Brownian bridge
+on $[0,1]$. Equivalently $\alpha_n$ is a Donsker walk with the chord subtracted:
+$B_t=W_t-t W_1$.
 
-If $\xi_i$ are i.i.d. with mean $0$ and variance $1$, then $W_n\Rightarrow W$: every continuous
-functional of the rescaled walk (value at a point, $\sup$, $\int(\cdot)^2$, \ldots) converges in
-law to the same functional of standard Wiener process. Ordinary CLT is the special case
-“evaluate at $t=1$”.
+The first claim is steps 1–3; the second is step 4.
 
-Apply this to the quantile-transformed sample. Our empirical process $\alpha_n$ is itself a rescaled
-walk of the centered indicators $\mathbf{1}_{\{U_i\le u\}}-u$. Those increments are not independent
-across $u$ (the same $U_i$ is reused), and they are pinned: $\alpha_n(0)=\alpha_n(1)=0$. Donsker plus
-the chord subtraction $B_t=W_t-tW_1$ therefore yields $\alpha_n\Rightarrow B$ on $[0,1]$. Combined
-with the covariance of $B$ computed later, this is unsurprising: $\alpha_n$ already has the
-bridge covariance at finite $n$, and now the paths converge too. Continuous functionals of $\alpha_n$
-become the corresponding functionals of a Brownian bridge — which is how the three GoF tests get
-their null distributions.
+**1. Rescale the walk.** Let $\xi_i$ be i.i.d. with $\mathbb{E}[\xi_i]=0$, $\mathrm{Var}(\xi_i)=1$,
+and (for the tightness step) a finite fourth moment. Put $S_k=\xi_1+\cdots+\xi_k$, $S_0=0$, and
+
+$W_n(t) = \dfrac{S_{\lfloor nt\rfloor}}{\sqrt{n}},\qquad t\in[0,1]$
+
+(linearly interpolate between $k/n$ if you prefer a continuous path). Time $k$ sits at $t=k/n$;
+height is the CLT scale $1/\sqrt{n}$. Ordinary CLT is $W_n(1)\to\mathcal{N}(0,1)$.
+
+**2. Finite-dimensional distributions.** Fix $0\le t_1<\cdots<t_m\le 1$. The increments
+$W_n(t_j)-W_n(t_{j-1})$ are functions of *disjoint* blocks of the $\xi_i$, hence independent, and
+each block is a sum of about $n(t_j-t_{j-1})$ terms. Lindeberg CLT gives
+
+$W_n(t_j)-W_n(t_{j-1}) \to \mathcal{N}\bigl(0,\, t_j-t_{j-1}\bigr)$,
+
+independently across $j$. Therefore $(W_n(t_1),\dots,W_n(t_m))$ converges to a centered Gaussian
+vector with $\mathrm{Cov}=\min(t_i,t_j)$ — exactly the finite-dimensional laws of Wiener process $W$.
+
+**3. Tightness (paths, not just coordinates).** The *finite-dimensional distributions* (f.d.d.s) of a
+process $X$ are the laws of the random vectors $\bigl(X(t_1),\dots,X(t_m)\bigr)$ for every finite
+grid $t_1,\dots,t_m$. Step 2 says those vectors, for $W_n$, converge to those of $W$. That is not
+enough for $W_n\Rightarrow W$ as *paths*: two processes can agree on every finite grid and still
+differ wildly in the gaps (imagine a spike of height $1$ and width $1/n$ sitting between the $t_j$;
+no finite grid will see it, but $\sup|W_n|$ will). Tightness rules those spikes out. A sequence of
+random paths is *tight* if, uniformly in $n$, the path stays bounded and does not oscillate too fast:
+for every $\varepsilon>0$ there is a modulus of continuity $\delta$ such that
+
+$\mathbb{P}\bigl(\sup_{|t-s|<\delta}\bigl|W_n(t)-W_n(s)\bigr| > \varepsilon\bigr)$
+is small, independently of $n$. Then every subsequential limit is a continuous path, and together
+with the f.d.d.s it must be Wiener process.
+
+The Kolmogorov–Chentsov theorem turns a *moment* bound on increments into that modulus. If a
+process satisfies, for some $\alpha>0$ and $\beta>0$,
+
+$\mathbb{E}\bigl|X(t)-X(s)\bigr|^\alpha \le C\,|t-s|^{1+\beta}$,
+
+then it admits a version whose paths are almost surely Hölder-$\gamma$ for every $\gamma<\beta/\alpha$
+(locally: $|X(t)-X(s)|\le K|t-s|^\gamma$). In particular the oscillations on small intervals are
+under control, which is tightness in Hölder geometry. For our walk the block of length $n|t-s|$
+and a finite fourth moment of $\xi_i$ give
+
+$\mathbb{E}\bigl[W_n(t)-W_n(s)\bigr]^4 \le C\,|t-s|^2$,
+
+which is [Kolmogorov–Chentsov](https://en.wikipedia.org/wiki/Kolmogorov_continuity_theorem) with $\alpha=4$, $\beta=1$, hence Hölder up to (but not including)
+exponent $1/4$ — the same budget Brownian motion itself has (Wiener increments satisfy
+$\mathbb{E}|W_t-W_s|^4=3|t-s|^2$). Tightness plus f.d.d.s $\Rightarrow$ $W_n\Rightarrow W$ as
+processes. (If you only assume two moments the same conclusion holds with a maximal inequality
+in place of Kolmogorov–Chentsov.)
+
+**4. Empirical process: the same two ingredients.** After the quantile transform,
+$\alpha_n(u)=n^{-1/2}\sum_{i=1}^n \bigl(\mathbf{1}_{\{U_i\le u\}}-u\bigr)$. This is *not* a walk
+of independent increments in $u$ (each $U_i$ is reused), but it is a walk in the *sample index*,
+and the two Donsker steps still fire.
+
+*Finite-dimensional laws.* For fixed $u_1,\dots,u_m$, the vector of indicators is multinomial.
+We already computed its covariance: it equals $\min(s,t)-st$ at every finite $n$. Multivariate
+CLT therefore sends $(\alpha_n(u_1),\dots,\alpha_n(u_m))$ to the corresponding Brownian-bridge
+vector. Also $\alpha_n(0)=\alpha_n(1)=0$ exactly.
+
+*Tightness.* An increment $\alpha_n(t)-\alpha_n(s)$ is a centered binomial of success probability
+$t-s$, hence the same fourth-moment bound $\mathbb{E}|\alpha_n(t)-\alpha_n(s)|^4\le C|t-s|^2$.
+Tightness follows as in step 3.
+
+The unique continuous Gaussian limit with that covariance and those endpoints is the Brownian
+bridge. Equivalently: the chord map $\pi(x)(t)=x(t)-t\,x(1)$ is continuous, $\pi(W)=B$, and
+$\alpha_n=\pi(W_n')+o_p(1)$ for a Donsker walk $W_n'$ built from the same indicators, so
+continuous mapping gives $\alpha_n\Rightarrow B$ directly from $W_n'\Rightarrow W$.
+
+Continuous functionals of $\alpha_n$ are then functionals of $B$ — which is how KS, CvM and AD
+get their null distributions.
 
 ### Kolmogorov-Smirnov
 
