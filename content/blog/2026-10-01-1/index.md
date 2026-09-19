@@ -379,9 +379,42 @@ The three tests are now three functionals of the same $\alpha_n$: KS takes $\sup
 CvM takes $\int\alpha_n^2$, AD takes $\int\alpha_n^2/\mathrm{Var}(B)$. Same Donsker limit $B$,
 three different ways of asking whether that bridge wandered too far.
 
-### Honorable mention: Shaprio-Wilk test of normality
+### Honorable mention: Shapiro-Wilk test of normality
 
-TODO
+Everything above was *omnibus* GoF: after the quantile transform, KS/CvM/AD do not care which
+continuous $F$ you hypothesized, and their null limits are functionals of one Brownian bridge.
+Shapiro–Wilk asks a narrower question — “is this sample Gaussian?” — and therefore throws away
+the empirical-process machinery. The mathematics is mostly different. The *problem* is the same,
+and the contrast is useful.
+
+The catch we kept postponing is the composite null. In practice one almost never knows $\mu$ and
+$\sigma$; one estimates them from the same sample. Then $U_i=\hat F(X_i)$ are not uniform, $\alpha_n$
+is not a free bridge, and the KS/CvM/AD critical values we quoted are wrong (Stephens / Lilliefors).
+Shapiro–Wilk is built for that case. It is location–scale invariant: $W(aX+b)=W(X)$, so unknown
+$\mu,\sigma$ are not a nuisance — they are quotiented out.
+
+The picture is a QQ-plot, which is the *inverse* of the ECDF story. Order the sample
+$X_{(1)}\le\cdots\le X_{(n)}$. Under normality the order statistics have known means $m_i=\mathbb{E}[Z_{(i)}]$
+and covariance $V$ for a standard normal sample $Z$. The best linear unbiased estimator of $\sigma$
+from those order statistics is $m^\top V^{-1} X_{(\cdot)}$ (up to a constant). Shapiro–Wilk compares
+that Gaussian-specific estimate of scale to the ordinary sample variance:
+
+$W = \frac{\bigl(\sum_{i=1}^{n} a_i X_{(i)}\bigr)^2}{\sum_{i=1}^{n}(X_i-\bar X)^2},\qquad
+a \propto V^{-1}m.$
+
+$W\in(0,1]$; $W=1$ means the ordered sample lies exactly on the normal scores line. One rejects
+normality for *small* $W$ (the opposite direction from $D_n$, $\omega_n^2$, $A_n^2$). The
+Shapiro–Francia cousin is literally the squared correlation of $(X_{(i)})$ with $m$, i.e. $R^2$
+of the QQ-plot; $W$ is that idea with the covariance $V$ of the order statistics baked into the
+weights $a_i$.
+
+So: KS/CvM/AD measure how far the ECDF staircase wanders from $F$, in $L^\infty$ or (weighted)
+$L^2$, and need Donsker to know what “far” means. Shapiro–Wilk measures how straight the
+*quantile* plot is against Gaussian order-statistic means, and “far” is a finite-$n$ ratio of
+quadratic forms — no bridge, no Karhunen–Loève, no generalized $\chi^2$ series. The payoff for
+specializing is power: for the composite normal null, $W$ typically beats even Anderson–Darling.
+The cost is that it does not test exponentiality, uniformity, or any other $F$. Those remain
+jobs for $\alpha_n$.
 
 ## References:
 * https://www.investopedia.com/terms/g/goodness-of-fit.asp
