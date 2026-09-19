@@ -191,7 +191,40 @@ their null distributions.
 
 ### Kolmogorov-Smirnov
 
-TODO: Kolmogorov distribution as distribution of absolute value of Brownian bridge
+The Kolmogorov–Smirnov statistic is the largest vertical gap between the staircase and the hypothesized CDF,
+
+$D_n = \sup_x \bigl|F_n(x)-F(x)\bigr| = \sup_{u\in[0,1]} \bigl|G_n(u)-u\bigr|$.
+
+In the notation of the previous section this is just $T_{\mathrm{KS}}$ applied to the empirical process:
+$\sqrt{n}\,D_n = T_{\mathrm{KS}}(\alpha_n) = \sup_u|\alpha_n(u)|$. The supremum of a step function is attained
+at (or just before) a jump, so in practice one evaluates $|i/n - F(X_{(i)})|$ and $|(i-1)/n - F(X_{(i)})|$
+at the order statistics and takes the max.
+
+Donsker gives $\alpha_n\Rightarrow B$. The map $f\mapsto\sup|f|$ is continuous, so the continuous mapping
+theorem yields the whole null distribution in one line:
+
+$\sqrt{n}\,D_n \Rightarrow \sup_{u\in[0,1]} |B_u|$.
+
+The law of that supremum is Kolmogorov's distribution. For $x>0$,
+
+$K(x) := \mathbb{P}\bigl(\sup_u |B_u| \le x\bigr) = 1 - 2\sum_{k=1}^{\infty} (-1)^{k-1} e^{-2k^2 x^2}$.
+
+(The series is the reflection principle in disguise: $\mathbb{P}(\sup|B|>x)$ is the probability that a
+bridge ever exits $[-x,x]$, obtained by summing signed Wiener paths that hit $\pm x, \pm 3x, \ldots$
+and still end at $0$.) Thus, under a continuous simple null,
+
+$\mathbb{P}(\sqrt{n}\,D_n \le x) \to K(x)$.
+
+Reject $H_0$ when $\sqrt{n}\,D_n$ exceeds the $(1-\alpha)$-quantile of $K$ — about $1.36$ at $5\%$,
+$1.63$ at $1\%$. Because of the quantile transform, those numbers do not depend on $F$.
+
+KS asks only how far the worst point of $\alpha_n$ wandered. That makes it a clean, distribution-free
+test of any continuous $F$, and unusually sensitive to a single large bump. It is *not* equally
+sensitive everywhere: $\mathrm{Var}(B_u)=u(1-u)$ peaks at the median, so a deviation in the bulk
+moves $\sup|B|$ more easily than the same vertical gap in the tails. Cramér–von Mises will average
+the squared gap instead of taking the max; Anderson–Darling will reweight the tails. If $F$ is
+estimated from the same sample, $\alpha_n$ is no longer a free bridge and these critical values
+are too conservative (Lilliefors' tables for normality, etc.).
 
 ### Cramer-von Mises family of tests
 
