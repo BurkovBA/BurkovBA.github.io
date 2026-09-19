@@ -270,14 +270,89 @@ section builds that decomposition; then we return to the two choices of $\psi$.
 ### Karhunen-Loeve decomposition of a stochastic process
 
 A finite-dimensional random vector is described by a covariance *matrix* $\Sigma_{ij}=\mathrm{Cov}(X_i,X_j)$.
-Sample a process at times $t_1,\dots,t_k$ and you get such a vector; let the grid get dense and the
-matrix becomes a covariance *kernel* $K(s,t)=\mathrm{Cov}(X_s,X_t)$. This is the same leap as from
+A standard way to diagonalize that covariance matrix is to perform a PCA or truncated PCA (knowing that the
+covariance matrix is Gram, i.e. symmetric positive definite, i.e. all of its eigenvalues are real and
+positive numbers and eigenvector correspond to the axes of ellipsoid of revolution). See [post on PCA](/2021-07-12-1).
+
+Karhunen-Loeve is a functional analysis-style generalization of PCA from discrete random vectors case to
+a continuous random function/stochastic process case. You can defined a covariance matrix for the stochastic
+process, describing how inter-correlated points of this process at a certain distance are.
+
+In discrete case you sample a process at times $t_1,\dots,t_k$ and you get a random vector; let the grid get dense and you're transitioning to a continuous random function case, where matrix becomes a covariance *kernel* $K(s,t)=\mathrm{Cov}(X_s,X_t)$. This is the same leap as from
 the discrete Fourier transform (eigenbasis of a circulant matrix on $n$ points) to Fourier series
 (eigenbasis of a translation-invariant kernel on $[0,1]$). In functional-analysis language, $K$ is a
 compact self-adjoint operator on $L^2[0,1]$, $(Kf)(s)=\int_0^1 K(s,t)\,f(t)\,dt$; its eigen-decomposition
 is Karhunen–Loève — PCA for paths — which Cramér–von Mises and Anderson–Darling will use.
 
-Wiener process has $K_W(s,t)=\min(s,t)$. For the bridge $B_t=W_t-t W_1$ a short calculation gives
+What's counter-intuitive in this transition is that compared to discrete case axes change the roles: normally
+your data matrix $X$ would consist of $n$ data points, each of which is a $p$-dimensional predictor. By covariance matrix you'd understand $n \times n$ matrix of covariances between the data points, not between coordinates of each data point. Center the columns of $X$ (subtract each predictor's mean) to get $\tilde{X}$.
+The $n\times n$ Gram matrix is the product of an $n\times p$ matrix with a $p\times n$ one,
+$C=\tilde{X}\tilde{X}^T$. Below $n=4$, $p=5$: the two blue rows of $\tilde{X}$ become the two blue
+columns of $\tilde{X}^T$, and their inner product is the blue entry of $C$.
+
+$$
+C_{n \times n}
+=
+\tilde{X}_{n \times p}\,
+\tilde{X}^T_{p \times n}
+=
+\begin{bmatrix}
+x_{11} & x_{12} & x_{13} & x_{14} & x_{15} \\
+\textcolor{blue}{x_{21}} & \textcolor{blue}{x_{22}} & \textcolor{blue}{x_{23}} & \textcolor{blue}{x_{24}} & \textcolor{blue}{x_{25}} \\
+x_{31} & x_{32} & x_{33} & x_{34} & x_{35} \\
+\textcolor{blue}{x_{41}} & \textcolor{blue}{x_{42}} & \textcolor{blue}{x_{43}} & \textcolor{blue}{x_{44}} & \textcolor{blue}{x_{45}}
+\end{bmatrix}
+\begin{bmatrix}
+x_{11} & \textcolor{blue}{x_{21}} & x_{31} & \textcolor{blue}{x_{41}} \\
+x_{12} & \textcolor{blue}{x_{22}} & x_{32} & \textcolor{blue}{x_{42}} \\
+x_{13} & \textcolor{blue}{x_{23}} & x_{33} & \textcolor{blue}{x_{43}} \\
+x_{14} & \textcolor{blue}{x_{24}} & x_{34} & \textcolor{blue}{x_{44}} \\
+x_{15} & \textcolor{blue}{x_{25}} & x_{35} & \textcolor{blue}{x_{45}}
+\end{bmatrix}
+=
+\begin{bmatrix}
+c_{11} & c_{12} & c_{13} & c_{14} \\
+c_{21} & c_{22} & c_{23} & \textcolor{blue}{c_{24}} \\
+c_{31} & c_{32} & c_{33} & c_{34} \\
+c_{41} & \textcolor{blue}{c_{42}} & c_{43} & c_{44}
+\end{bmatrix}
+$$
+
+In case of random functions and covariance kernel roles of axes swap. One path is what used to be a $p$-dimensional data point, as $p \to \infty$. And so covariance kernel actually reflects correlations between what used to be your predictors. Flip the product: $K=\tilde{X}^T\tilde{X}$ is $p\times n$ times $n\times p$. The two orange columns of $\tilde{X}$ become the two orange rows of $\tilde{X}^T$, and their inner product is the orange entry of the $p\times p$
+kernel — the object that becomes $K(s,t)$ as $p\to\infty$.
+
+$$
+K_{p \times p}
+=
+\tilde{X}^T_{p \times n}\,
+\tilde{X}_{n \times p}
+=
+\begin{bmatrix}
+x_{11} & x_{21} & x_{31} & x_{41} \\
+\textcolor{orange}{x_{12}} & \textcolor{orange}{x_{22}} & \textcolor{orange}{x_{32}} & \textcolor{orange}{x_{42}} \\
+x_{13} & x_{23} & x_{33} & x_{43} \\
+\textcolor{orange}{x_{14}} & \textcolor{orange}{x_{24}} & \textcolor{orange}{x_{34}} & \textcolor{orange}{x_{44}} \\
+x_{15} & x_{25} & x_{35} & x_{45}
+\end{bmatrix}
+\begin{bmatrix}
+x_{11} & \textcolor{orange}{x_{12}} & x_{13} & \textcolor{orange}{x_{14}} & x_{15} \\
+x_{21} & \textcolor{orange}{x_{22}} & x_{23} & \textcolor{orange}{x_{24}} & x_{25} \\
+x_{31} & \textcolor{orange}{x_{32}} & x_{33} & \textcolor{orange}{x_{34}} & x_{35} \\
+x_{41} & \textcolor{orange}{x_{42}} & x_{43} & \textcolor{orange}{x_{44}} & x_{45}
+\end{bmatrix}
+=
+\begin{bmatrix}
+k_{11} & k_{12} & k_{13} & k_{14} & k_{15} \\
+k_{21} & k_{22} & k_{23} & \textcolor{orange}{k_{24}} & k_{25} \\
+k_{31} & k_{32} & k_{33} & k_{34} & k_{35} \\
+k_{41} & \textcolor{orange}{k_{42}} & k_{43} & k_{44} & k_{45} \\
+k_{51} & k_{52} & k_{53} & k_{54} & k_{55}
+\end{bmatrix}
+$$
+
+(The usual sample-covariance $1/n$ or $1/(n-1)$ factor does not change the eigenstructure; it is omitted from the pictures.)
+
+From practical standpoint for the Cramer - von Mises family of tests we'd need covariance kernels for Wiener process $K_W(s,t)=\min(s,t)$ and for the Brownian bridge process $B_t=W_t-t W_1$. For the latter a short calculation gives
 
 $K_B(s,t)=\mathrm{Cov}(B_s,B_t)=\min(s,t)-st$.
 
@@ -290,8 +365,6 @@ The empirical process on $[0,1]$ already has *exactly* the Brownian-bridge covar
 That is why this kernel is the right object: every path-functional of $\sqrt{n}(G_n-u)$ becomes, in the
 limit, the same functional of a Brownian bridge.
 
-TODO: essentially a functional analysis version of PCA, similar to how Fourier series relates to Discrete Fourier transform
-TODO: one dimensional stays discrete sum, the other becomes continuous integreal/function
 
 ### Cramer - von Mises
 
