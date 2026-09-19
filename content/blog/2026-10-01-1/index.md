@@ -131,7 +131,7 @@ the *empirical process*
 
 $\alpha_n(u) = \sqrt{n}\bigl(G_n(u)-u\bigr),\qquad u\in[0,1]$.
 
-Pointwise it is the standardized binomial from earlier; as a *function* of $u$ it is a random path
+Pointwise it is the standardized binomial from earlier; as a *function* of $u$ it is a stochastic process
 that, like the green curve above, starts at $0$ and dies at $0$. Without the $\sqrt{n}$, Glivenko–Cantelli
 says $\alpha_n/\sqrt{n}\to 0$ uniformly — the staircase hugs $F$ and there is nothing left to test.
 The $\sqrt{n}$ keeps the typical fluctuations of order $1$, so questions like “is $\sup_u|\alpha_n(u)|$
@@ -142,24 +142,46 @@ in the limit a functional of $B$, whose law we can actually compute.
 
 ### Donsker's theorem
 
-The classical CLT watches only the *endpoint*: $S_n/\sqrt{n}\to\mathcal{N}(0,\sigma^2)$. Donsker's theorem
-(the functional CLT) says: watch the *whole path* of partial sums, and the path converges to a Wiener
-process. That is the right statement for GoF, because KS/CvM/AD are functions of the entire curve
-$u\mapsto G_n(u)-u$, not of a single coordinate.
+Here is where the previous pieces become a theorem: we have an empirical
+staircase $G_n$, a pinned fluctuation process $\alpha_n=\sqrt{n}(G_n-u)$, and a named Gaussian
+limit $B$ (Brownian bridge) that has the same covariance and the same endpoints. Donsker's theorem is the statement that this is actually convergence in distribution: $\alpha_n\Rightarrow B$ as stochastic processes on $[0,1]$.
+The double arrow $\Rightarrow$ means *convergence in distribution*. For a real random variable that is
+the statement $F_{X_n}(x)\to F_X(x)$ at every continuity point of $F_X$ — equivalently,
+$\mathbb{E}[f(X_n)]\to\mathbb{E}[f(X)]$ for every bounded continuous $f:\mathbb{R}\to\mathbb{R}$.
+For a stochastic process the same thing, with $f$ a bounded continuous functional of the whole curve:
+$\mathbb{E}[\varphi(\alpha_n)]\to\mathbb{E}[\varphi(B)]$ for every such $\varphi$. In particular it
+does *not* say that one realized staircase $\alpha_n(\omega)$ converges to one realized bridge
+$B(\omega)$; only that probabilities of nice events about the path settle to those of $B$.
 
-Rescale so the path lives on the same space as the bridge. Time: put the $k$-th partial sum at
-$t=k/n\in[0,1]$. Space: divide by $\sqrt{n}$, the CLT width. Linearly interpolate (or take the
-càdlàg step version) to get a random function $W_n\in D[0,1]$,
+That single arrow is the hinge of the rest of the post. Write $T$ for a *test statistic*: a continuous
+map from a path on $[0,1]$ to a real number, $f\mapsto T(f)$ (the arrow $\mapsto$ just names the
+function: “the path $f$ is sent to the number $T(f)$”). Kolmogorov–Smirnov, Cramér–von Mises and
+Anderson–Darling are three such maps — $T_{\mathrm{KS}}(\alpha)=\sup_u|\alpha(u)|$,
+$T_{\mathrm{CvM}}(\alpha)=\int_0^1 \alpha(u)^2\,du$, and a weighted $L^2$ map for AD. The continuous
+mapping theorem plus Donsker turn $T(\alpha_n)$ into $T(B)$, whose laws we then compute (Kolmogorov's
+distribution of $\sup|B|$; Karhunen–Loève for the $L^2$ and weighted $L^2$ maps). Without Donsker
+we would only have the pointwise binomial CLT from earlier — enough for one $u$, useless for a
+supremum or an integral over all $u$.
+
+The classical CLT watches only the *endpoint*: $S_n/\sqrt{n}\to\mathcal{N}(0,\sigma^2)$.
+(A single arrow $\to$ is the same idea as $\Rightarrow$, but for a random *number* rather than a
+stochastic process: the distribution of $S_n/\sqrt{n}$ approaches $\mathcal{N}(0,\sigma^2)$.)
+Donsker's theorem (the functional CLT) says: watch the *whole path* of partial sums, and the path
+converges to a Wiener process. That is the right statement for GoF, because KS/CvM/AD are functions
+of the entire curve $u\mapsto G_n(u)-u$, not of a single coordinate.
+
+Rescale so the path lives on the same interval as the bridge. Time: put the $k$-th partial sum at
+$t=k/n\in[0,1]$. Space: divide by $\sqrt{n}$, the CLT width. Connect the dots (or keep the step
+version) to get a stochastic process $W_n$ on $[0,1]$,
 
 $W_n(t) = \frac{S_{\lfloor nt\rfloor}}{\sqrt{n}},\qquad S_k=\xi_1+\cdots+\xi_k$.
 
 As $n\to\infty$ this object stays $O(1)$ and can be compared to $W_t$ and $B_t$.
 
-If $\xi_i$ are i.i.d. with mean $0$ and variance $1$, then $W_n\Rightarrow W$ in Skorokhod space
-$D[0,1]$: every continuous functional of the rescaled walk (value at a point, $\sup$, $\int(\cdot)^2$,
-\ldots) converges in law to the same functional of standard Wiener process. Finite-dimensional
-distributions are multivariate CLT; tightness upgrades that to a statement about paths. Ordinary
-CLT is the special case “evaluate at $t=1$”.
+If $\xi_i$ are i.i.d. with mean $0$ and variance $1$, then $W_n\Rightarrow W$: every continuous
+functional of the rescaled walk (value at a point, $\sup$, $\int(\cdot)^2$, \ldots) converges in
+law to the same functional of standard Wiener process. Ordinary CLT is the special case
+“evaluate at $t=1$”.
 
 Apply this to the quantile-transformed sample. Our empirical process $\alpha_n$ is itself a rescaled
 walk of the centered indicators $\mathbf{1}_{\{U_i\le u\}}-u$. Those increments are not independent
