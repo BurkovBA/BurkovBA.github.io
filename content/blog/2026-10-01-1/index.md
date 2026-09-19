@@ -228,7 +228,44 @@ are too conservative (Lilliefors' tables for normality, etc.).
 
 ### Cramer-von Mises family of tests
 
-TODO
+Kolmogorov–Smirnov judged the empirical process by its $L^\infty$ size: one number, the worst vertical
+gap. The Cramér–von Mises *family* judges it in $L^2$ instead. Average the squared gap along the
+whole curve, optionally with a weight $\psi$ that says which $u$ you care about:
+
+$\omega_n^2(\psi) = \int_0^1 \alpha_n(u)^2\,\psi(u)\,du = T_\psi(\alpha_n)$.
+
+After the quantile transform this is the same as $\int n(F_n-F)^2\psi(F)\,dF$ on the original scale.
+Two members of the family will occupy the rest of the post:
+
+- Cramér–von Mises: $\psi\equiv 1$, so $T_{\mathrm{CvM}}(\alpha_n)=\int_0^1\alpha_n(u)^2\,du$;
+- Anderson–Darling: $\psi(u)=1/(u(1-u))$, so $T_{\mathrm{AD}}(\alpha_n)=\int_0^1 \alpha_n(u)^2/(u(1-u))\,du$.
+
+The AD weight is not a whim: $\mathrm{Var}(B_u)=u(1-u)$, so $\psi=1/\mathrm{Var}(B_u)$ puts the noisy
+middle and the quiet tails on equal footing. Both statistics are continuous maps of the path, so
+Donsker plus continuous mapping give $\omega_n^2(\psi)\Rightarrow\int_0^1 B_u^2\,\psi(u)\,du$ under a
+continuous simple null — still distribution-free. What they share, and what KS did *not* need, is
+that the limit is a *quadratic* functional of a Gaussian process.
+
+That is awkward at first glance. The random variables $B_u$ at different $u$ are dependent (the
+bridge covariance $\min(s,t)-st$ is not diagonal), so $\int B^2\psi$ is not the square of one
+Gaussian and not an ordinary $\chi^2$. The way out is the same move that turns a correlated
+Gaussian vector $X\sim\mathcal{N}(0,\Sigma)$ into independent coordinates: diagonalize $\Sigma$,
+write $X=\sum \sqrt{\lambda_k} Z_k v_k$ with $Z_k$ i.i.d. standard normal. For a process the
+covariance *matrix* is the kernel $K_B(s,t)$, the eigenvectors become eigen*functions*, and the
+finite sum becomes a series
+
+$B_u = \sum_{k=1}^{\infty} \sqrt{\lambda_k}\,Z_k\,\varphi_k(u),\qquad Z_k\sim\mathcal{N}(0,1)\ \text{i.i.d.}$
+
+That expansion is Karhunen–Loève — PCA in $L^2$, with interdependent values of $B$ rotated into
+independent random coefficients in front of orthogonal eigenfunctions. Plug it into the quadratic
+statistic and the cross terms die:
+
+$\int_0^1 B_u^2\,\psi(u)\,du = \sum_{k=1}^{\infty} \lambda_k Z_k^2$,
+
+a weighted sum of independent $\chi^2_1$ random variables. The eigenvalues $\{\lambda_k\}$ depend
+on $\psi$ (plain $L^2$ for CvM, the $1/(u(1-u))$ inner product for AD), which is why the two tests
+get different series and different critical values — but they share this machinery. The next
+section builds that decomposition; then we return to the two choices of $\psi$.
 
 ### Karhunen-Loeve decomposition of a stochastic process
 
@@ -256,10 +293,91 @@ limit, the same functional of a Brownian bridge.
 TODO: essentially a functional analysis version of PCA, similar to how Fourier series relates to Discrete Fourier transform
 TODO: one dimensional stays discrete sum, the other becomes continuous integreal/function
 
+### Cramer - von Mises
+
+Cramér–von Mises is the unweighted member of the family, $\psi\equiv 1$:
+
+$\omega_n^2 = T_{\mathrm{CvM}}(\alpha_n) = \int_0^1 \alpha_n(u)^2\,du
+= n\int_{-\infty}^{\infty}(F_n-F)^2\,dF$.
+
+Every $u$ contributes equally to the $L^2$ energy of the empirical process. Relative to KS, a
+single spike is diluted by the rest of the curve; relative to AD, the tails are *not* up-weighted,
+so CvM is a bulk test — most of its power sits where $\mathrm{Var}(B_u)=u(1-u)$ is already large.
+
+The staircase again turns the integral into a sum over $U_{(i)}=F(X_{(i)})$:
+
+$\omega_n^2 = \frac{1}{12n} + \sum_{i=1}^{n}\left(U_{(i)}-\frac{2i-1}{2n}\right)^2$.
+
+(The term $(2i-1)/(2n)$ is the midpoint of the $i$-th ECDF step; $\omega_n^2$ is the squared
+distance from the uniform order statistics to those midpoints, plus a $1/(12n)$ continuity
+correction.)
+
+Donsker sends $\omega_n^2$ to $\int_0^1 B_u^2\,du$. Karhunen–Loève in ordinary $L^2[0,1]$
+diagonalizes the bridge covariance $K_B(s,t)=\min(s,t)-st$. The eigenfunctions and eigenvalues are
+the sine modes that vanish at both endpoints,
+
+$\varphi_k(u)=\sqrt{2}\sin(k\pi u),\qquad \lambda_k=\frac{1}{k^2\pi^2},\qquad k=1,2,\ldots$
+
+hence
+
+$\omega_n^2 \Rightarrow \sum_{k=1}^{\infty} \frac{Z_k^2}{k^2\pi^2},\qquad Z_k\sim\mathcal{N}(0,1)\ \text{i.i.d.}$
+
+This is a *weighted generalized chi-squared* $\sum_k \lambda_k\chi^2_{1,k}$ with
+weights $1/(k^2\pi^2)$. The $k=1$ mode (a single arch on $[0,1]$) carries most of the mass;
+higher harmonics decay as $1/k^2$, faster than AD's $1/(k(k+1))$, which is another way of saying
+CvM is less interested in the wiggly, tail-heavy part of the path.
+
+Reject $H_0$ when $\omega_n^2$ is large. For a fully specified continuous $F$ the $5\%$ and $1\%$
+points are about $0.461$ and $0.743.
+
+Anderson–Darling, next, keeps this quadratic/KL story and only changes the inner product.
 
 ### Anderson-Darling
 
-TODO
+Anderson–Darling is Cramér–von Mises with the weight that flattens the bridge's variance,
+$\psi(u)=1/(u(1-u))$:
+
+$A_n^2 = T_{\mathrm{AD}}(\alpha_n) = \int_0^1 \frac{\alpha_n(u)^2}{u(1-u)}\,du
+= n\int_{-\infty}^{\infty}\frac{(F_n-F)^2}{F(1-F)}\,dF$.
+
+Near $u=0$ and $u=1$, $\mathrm{Var}(B_u)=u(1-u)$ vanishes, so an ordinary $L^2$ gap (CvM) or a
+raw vertical gap (KS) can hide a large *relative* misfit in the tails. Dividing by $u(1-u)$ is
+exactly studentizing each $u$: the integrand is the square of the pointwise $z$-score of $\alpha_n(u)$.
+That is why AD is the member of the family people reach for when tail discrepancies matter
+(normality with outliers, exponential vs heavier tails, and so on).
+
+Because $G_n$ is a staircase, the integral collapses to a sum over the order statistics
+$U_{(i)}=F(X_{(i)})$ of the quantile-transformed sample:
+
+$A_n^2 = -n -\frac{1}{n}\sum_{i=1}^{n}(2i-1)\bigl[\ln U_{(i)}+\ln\bigl(1-U_{(n+1-i)}\bigr)\bigr]$.
+
+Under a continuous simple null, Donsker sends $A_n^2$ to $\int B_u^2/(u(1-u))\,du$. Karhunen–Loève
+in the weighted inner product $\langle f,g\rangle_\psi=\int f g/(u(1-u))\,du$ diagonalizes that
+quadratic form. The eigenvalues of the corresponding operator on the bridge are
+$\lambda_k=1/(k(k+1))$, so
+
+$A_n^2 \Rightarrow \sum_{k=1}^{\infty} \frac{Z_k^2}{k(k+1)},\qquad Z_k\sim\mathcal{N}(0,1)\ \text{i.i.d.}$
+
+Each $Z_k^2\sim\chi^2_1$, so the limit is a *weighted generalized chi-squared*: an infinite linear
+combination $\sum_k \lambda_k \chi^2_{1,k}$ of independent chi-squares, here with weights
+$\lambda_k=1/(k(k+1))$. It is “generalized” because it is not a single $\chi^2_\nu$ (the weights
+are unequal), and “weighted” because those $\lambda_k$ are exactly the KL eigenvalues of the
+AD inner product. The same statement holds for CvM with a different sequence $\{\lambda_k\}$;
+ordinary $\chi^2$ would require all weights equal.
+
+(The eigenfunctions are Jacobi / shifted Legendre polynomials, orthonormal in that weighted
+$L^2$ — the same PCA story as CvM, different inner product, different spectrum. CvM's eigenvalues
+decay like $1/(\pi k)^2$; AD's $1/(k(k+1))$ put relatively more mass on the first few modes.)
+
+Reject $H_0$ when $A_n^2$ is large. For a fully specified continuous $F$ the $5\%$ and $1\%$
+points of the limiting law are about $2.49$ and $3.86$. As always, if mean or variance of $F$
+is estimated from the same sample the process is no longer a free bridge and one must use the
+adjusted tables (Stephens); for normality that actually *helps* power, which is why AD is a
+standard normality test.
+
+The three tests are now three functionals of the same $\alpha_n$: KS takes $\sup|\alpha_n|$,
+CvM takes $\int\alpha_n^2$, AD takes $\int\alpha_n^2/\mathrm{Var}(B)$. Same Donsker limit $B$,
+three different ways of asking whether that bridge wandered too far.
 
 ### Honorable mention: Shaprio-Wilk test of normality
 
