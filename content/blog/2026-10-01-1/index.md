@@ -8,22 +8,18 @@ description: Previously we've already considered Chi-sqared goodness-of-fit (GoF
 
 ## Goodness of Fit (GoF) problem
 
-TODO: problem statement
+Goodness of fit problem arises when we need to check, if an empirically observed data follow
+some theoretically known distribution. E.g. we hypothesized that the distribution on the cover of this
+post is exponential. How to test, if this hypothesis holds?
 
 Previously we've already considered derivation of Pearson's Chi-squared goodness-of-fit test [post](/2021-06-17-1).
 
 Today we'll look into a family of its alternatives, based on comparison of empirical distribution function with
-theoretical one. Then those tests would collect different statistics, all measuring some kind of divergence between
-theoretical and empirical distributions and will try to say that it is totally improbable to observe such an empirical
-distribution, if we assumed that indeed it was sampled from theoretical one.
+theoretical one. Then those tests would collect different statistics, all measuring some kind of divergence between theoretical and empirical distributions and will try to say that it is totally improbable to observe such an empirical distribution, if we assumed that indeed it was sampled from theoretical one.
 
 ## Toolchain
 
-All 3 tests, Kolmogorov-Smirnov, Cramer-von Mises, Anderson-Darling, rely upon the same set of mathematical objects and
-results. Hence, in order to understand the derivation of those tests and intuition behind them, I'll first describe
-those objects and how they pertain to the GoF problem and then will consider specifics of each test in the final
-steps of their derivation, where they somewhat diverge (hopefully, this will result in intuitions on their relative 
-advantages and disadvantages).
+All 3 tests, Kolmogorov-Smirnov, Cramer-von Mises, Anderson-Darling, rely upon the same set of mathematical objects and results. Hence, in order to understand the derivation of those tests and intuition behind them, I'll first describe those objects and how they pertain to the GoF problem and then will consider specifics of each test in the final steps of their derivation, where they somewhat diverge (hopefully, this will result in intuitions on their relative advantages and disadvantages).
 
 ### Empirical cumulative distribution function vs true distribution function
 
@@ -130,6 +126,60 @@ Top: one Wiener path $W_t$ and the straight chord $L_t = t W_1$ from start to fi
 Bottom: $B_t = W_t - t W_1$, pinned at $0$ at both endpoints. The marked gap $W_{t^\ast}-L_{t^\ast}$
 is exactly the bridge height $B_{t^\ast}$.</center>
 
+The object GoF actually computes with is this staircase, centered and blown up to CLT scale. Call it
+the *empirical process*
+
+$\alpha_n(u) = \sqrt{n}\bigl(G_n(u)-u\bigr),\qquad u\in[0,1]$.
+
+Pointwise it is the standardized binomial from earlier; as a *function* of $u$ it is a random path
+that, like the green curve above, starts at $0$ and dies at $0$. Without the $\sqrt{n}$, Glivenko–Cantelli
+says $\alpha_n/\sqrt{n}\to 0$ uniformly — the staircase hugs $F$ and there is nothing left to test.
+The $\sqrt{n}$ keeps the typical fluctuations of order $1$, so questions like “is $\sup_u|\alpha_n(u)|$
+too large?” have a non-degenerate answer. Donsker's theorem, next, is the functional CLT that
+identifies the limiting path: $\alpha_n\Rightarrow B$, a Brownian bridge. That is the whole reason
+to care about bridges — every KS/CvM/AD statistic is a continuous functional of $\alpha_n$, hence
+in the limit a functional of $B$, whose law we can actually compute.
+
+### Donsker's theorem
+
+The classical CLT watches only the *endpoint*: $S_n/\sqrt{n}\to\mathcal{N}(0,\sigma^2)$. Donsker's theorem
+(the functional CLT) says: watch the *whole path* of partial sums, and the path converges to a Wiener
+process. That is the right statement for GoF, because KS/CvM/AD are functions of the entire curve
+$u\mapsto G_n(u)-u$, not of a single coordinate.
+
+Rescale so the path lives on the same space as the bridge. Time: put the $k$-th partial sum at
+$t=k/n\in[0,1]$. Space: divide by $\sqrt{n}$, the CLT width. Linearly interpolate (or take the
+càdlàg step version) to get a random function $W_n\in D[0,1]$,
+
+$W_n(t) = \frac{S_{\lfloor nt\rfloor}}{\sqrt{n}},\qquad S_k=\xi_1+\cdots+\xi_k$.
+
+As $n\to\infty$ this object stays $O(1)$ and can be compared to $W_t$ and $B_t$.
+
+If $\xi_i$ are i.i.d. with mean $0$ and variance $1$, then $W_n\Rightarrow W$ in Skorokhod space
+$D[0,1]$: every continuous functional of the rescaled walk (value at a point, $\sup$, $\int(\cdot)^2$,
+\ldots) converges in law to the same functional of standard Wiener process. Finite-dimensional
+distributions are multivariate CLT; tightness upgrades that to a statement about paths. Ordinary
+CLT is the special case “evaluate at $t=1$”.
+
+Apply this to the quantile-transformed sample. Our empirical process $\alpha_n$ is itself a rescaled
+walk of the centered indicators $\mathbf{1}_{\{U_i\le u\}}-u$. Those increments are not independent
+across $u$ (the same $U_i$ is reused), and they are pinned: $\alpha_n(0)=\alpha_n(1)=0$. Donsker plus
+the chord subtraction $B_t=W_t-tW_1$ therefore yields $\alpha_n\Rightarrow B$ on $[0,1]$. Combined
+with the covariance of $B$ computed later, this is unsurprising: $\alpha_n$ already has the
+bridge covariance at finite $n$, and now the paths converge too. Continuous functionals of $\alpha_n$
+become the corresponding functionals of a Brownian bridge — which is how the three GoF tests get
+their null distributions.
+
+### Kolmogorov-Smirnov
+
+TODO: Kolmogorov distribution as distribution of absolute value of Brownian bridge
+
+### Cramer-von Mises family of tests
+
+TODO
+
+### Karhunen-Loeve decomposition of a stochastic process
+
 A finite-dimensional random vector is described by a covariance *matrix* $\Sigma_{ij}=\mathrm{Cov}(X_i,X_j)$.
 Sample a process at times $t_1,\dots,t_k$ and you get such a vector; let the grid get dense and the
 matrix becomes a covariance *kernel* $K(s,t)=\mathrm{Cov}(X_s,X_t)$. This is the same leap as from
@@ -150,23 +200,6 @@ The empirical process on $[0,1]$ already has *exactly* the Brownian-bridge covar
 (the multinomial structure of the indicators); only the marginals are still binomial rather than Gaussian.
 That is why this kernel is the right object: every path-functional of $\sqrt{n}(G_n-u)$ becomes, in the
 limit, the same functional of a Brownian bridge.
-
-### Donsker's theorem
-
-TODO: watch full path
-TODO: rescale x to [0,1] and y by \sqrt(n)
-TODO: rescaled walk of partial i.i.d. sums, constituting CLT, converge to a standard Wiener process
-TODO: apply to quantile process in order to obtain conergence of \alpha to Brownian bridge
-
-### Kolmogorov-Smirnov
-
-TODO: Kolmogorov distribution as distribution of absolute value of Brownian bridge
-
-### Cramer-von Mises family of tests
-
-TODO
-
-### Karhunen-Loeve decomposition of a stochastic process
 
 TODO: essentially a functional analysis version of PCA, similar to how Fourier series relates to Discrete Fourier transform
 TODO: one dimensional stays discrete sum, the other becomes continuous integreal/function
