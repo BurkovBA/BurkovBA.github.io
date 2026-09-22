@@ -143,17 +143,21 @@ $n\mathcal{I}_1(\hat\sigma^2)=\begin{pmatrix} 5/0.147 & 0 \\ 0 & 5/(2\cdot 0.147
 
 which is exactly $-H(\hat\mu,\hat\sigma^2)$ for this sample. Width of the bowl in the $\mu$-direction is governed by $34.1$: moving $\mu$ by $0.0406$ away from $\hat\mu$ costs about $\tfrac12\cdot 34.1\cdot(0.0406)^2\approx 0.028$ in log-likelihood, the drop from $-2.29$ to $-2.32$.
 
-###
+### Two properties we will need
 
-Two properties we will need. (i) Cramér–Rao, proved in the next section: an unbiased estimator
-cannot beat $\mathcal{I}^{-1}/n$ in variance. (ii) Reparametrization $\phi=g(\theta)$ transforms $\mathcal{I}$ as a Riemannian metric,
+The sample just used $n/\hat\sigma^2\approx 34.1$ as the curvature in $\mu$, and that curvature turned the gap $0.0406$ into the drop $0.028$.
+
+That is the bowl, not yet a test: a test still needs a distribution for the drop under the null hypothesis to find out, whether 0.028 is large, in order to reject it. This distribution is going to be the $\chi^2$ limit below. What the tests do need from $\mathcal{I}$ itself, and what is still unproved, are two properties.
+
+(i) Cramér–Rao, proved in the next section: an unbiased estimator
+cannot beat $\mathcal{I}^{-1}/n$ in variance. (ii) If you rename the parameter, $\phi=g(\theta)$, the chain rule multiplies the score by the matrix of partial derivatives $Dg$, and Fisher information changes with it,
 $\mathcal{I}_\phi = (D g)^{-\top}\mathcal{I}_\theta (D g)^{-1}$. Distances
 $(\hat\theta-\theta_0)^\top\mathcal{I}(\hat\theta-\theta_0)$ therefore *change* if you rewrite the
 parameter — Wald is not invariant. The vertical drop $\ell(\hat\theta)-\ell(\theta_0)$ does not care
 how you name $\theta$; that is Wilks.
 
-None of this yet says $\hat\theta$ is normal or that a test is $\chi^2$. It only names the bowl.
-Cramér–Rao next; then a CLT on the score and confidence intervals off the same quadratic.
+None of this yet says $\hat\theta$ is normal or that a test is $\chi^2$. It only names the bowl. After
+we're done with these properties, we'll finally go to the tests.
 
 ## Cramér-Rao bound
 
@@ -342,7 +346,7 @@ ellipsoid — the next section.
 
 Two caveats the CLT does not hide. The expansion needs $\theta^\ast$ in the *interior* of $\Theta$
 (a variance of $0$ on the boundary is a different, chi-bar-squared, story). And because $\mathcal{I}$
-transforms as a metric, the ellipsoid and the $z$-interval *move* if you reparametrize; the numerical
+changes when you rename $\theta$, the ellipsoid and the $z$-interval *move* if you reparametrize; the numerical
 MLE changes, the event “$\theta_0$ is inside the interval” need not. That is already the seed of
 Wald vs Wilks.
 
@@ -422,7 +426,7 @@ the multinomial: residual cell counts are the score, the covariance is $n\mathca
 
 The price: $\mathcal{I}$ is evaluated under $H_0$, so a badly misspecified null curvature still
 enters the studentization. And like Wald, a naive $S_n$ is not invariant to every reparametrization
-of the *alternative*. Wilks will drop the metric and keep only $\ell(\hat\theta)-\ell(\tilde\theta)$.
+of the *alternative*. Wilks will ignore that rescaling and keep only $\ell(\hat\theta)-\ell(\tilde\theta)$.
 
 ## Wilks likelihood ratio test
 
