@@ -206,11 +206,19 @@ $$
 
 Therefore $\mathrm{Var}(T)\succeq \mathcal{I}_n^{-1}$. Equality holds iff $T-\theta$ is a linear
 function of the score, $T=\theta+\mathcal{I}_n^{-1}s$ a.s. — an exponential family with $T$ as
-natural sufficient statistic. The MLE is typically biased in finite samples, so it does *not*
-literally attain Cramér–Rao for finite $n$. The next section shows its *asymptotic* covariance
+natural sufficient statistic. The maximum likelihood estimate (MLE) is typically biased in finite samples, so it does *not* literally attain Cramér–Rao for finite $n$. The next section shows its *asymptotic* covariance
 is exactly $\mathcal{I}_n^{-1}$: efficient in the limit, not a finite-sample Gauss–Markov miracle.
 
-## MLE normality under null and confidence intervals
+## Maximum likelihood estimate (MLE) normality under null and confidence intervals
+
+Ok, let's sum up our results so far. Recall that MLE estimate is a sum of independent identically distributed random variables by definition $\ell(\theta)=\sum_{i=1}^n \log p(X_i\mid\theta)$.
+
+Hence, as $n \to \infty$ its distribution converges to Gaussian. Moreover, if the MLE estimate is unbiased,
+its expectation is 0. As for its variance, we now have Cramér–Rao bound as a floor on it. Moreover, Cramér–Rao tells when that floor is reached: only if the estimation error is a linear function of the score, $T-\theta=\mathcal{I}_n^{-1}s$. The maximum-likelihood estimate $\hat\theta$ is not exactly that linear function for finite $n$, but the equation $s(\hat\theta)=0$ forces it to be so approximately. Expand that equation around the true value $\theta^\ast$ and you get
+
+$\hat\theta-\theta^\ast \approx {\mathcal{I}_n}^{-1}s(\theta^\ast)$.
+
+The right-hand side is sum of i.i.d. terms (one score contribution per observation), so the ordinary central limit theorem applies to $s(\theta^\ast)$, and the same limit passes to $\hat\theta$ through the matrix ${\mathcal{I}_n}^{-1}$. The limiting covariance is exactly the Cramér–Rao matrix. That is why the three tests may divide by Fisher information: it is both the variance of the score and the asymptotic variance of $\hat\theta$.
 
 The score at the *true* value is a sum of i.i.d. centred vectors with covariance $\mathcal{I}(\theta)$.
 CLT plus the information identity therefore give, at the truth $\theta^\ast$,
