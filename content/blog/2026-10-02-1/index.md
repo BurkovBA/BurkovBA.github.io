@@ -70,16 +70,114 @@ Replace $-H(\hat\theta)$ by $n\mathcal{I}$ and the log-likelihood is a quadratic
 $n\mathcal{I}$. That is why a Gaussian approximation for $\hat\theta$ is coming, and why “how far is
 $\theta_0$ from $\hat\theta$?” has three equivalent readings on the cover: width, slope, height.
 
-Two properties we will need. (i) Cramér–Rao: for an unbiased estimator $T$,
-$\mathrm{Var}(T)\succeq \mathcal{I}(\theta)^{-1}/n$; the MLE attains this bound asymptotically.
-(ii) Reparametrization $\phi=g(\theta)$ transforms $\mathcal{I}$ as a Riemannian metric,
+Two properties we will need. (i) Cramér–Rao, proved in the next section: an unbiased estimator
+cannot beat $\mathcal{I}^{-1}/n$ in variance. (ii) Reparametrization $\phi=g(\theta)$ transforms $\mathcal{I}$ as a Riemannian metric,
 $\mathcal{I}_\phi = (D g)^{-\top}\mathcal{I}_\theta (D g)^{-1}$. Distances
 $(\hat\theta-\theta_0)^\top\mathcal{I}(\hat\theta-\theta_0)$ therefore *change* if you rewrite the
 parameter — Wald is not invariant. The vertical drop $\ell(\hat\theta)-\ell(\theta_0)$ does not care
 how you name $\theta$; that is Wilks.
 
 None of this yet says $\hat\theta$ is normal or that a test is $\chi^2$. It only names the bowl.
-The next section puts a CLT on the score and reads confidence intervals off the same quadratic.
+Cramér–Rao next; then a CLT on the score and confidence intervals off the same quadratic.
+
+## Cramér-Rao bound
+
+Each of the three tests measures how far the data are from $H_0$ and *divides by a scale* so that
+the squared result can be compared to a $\chi^2$ table. Wald divides the gap between the
+maximum-likelihood estimate $\hat\theta$ and the null value $\theta_0$ by how much $\hat\theta$
+typically jitters from sample to sample. Score does the same for the slope of the log-likelihood
+$\ell$ at $\theta_0$. Wilks does it for the drop $\ell(\hat\theta)-\ell(\theta_0)$. In all three
+cases that “typical jitter” is read off the Fisher information $\mathcal{I}$: we treat
+$\mathrm{Var}(\hat\theta)$ as ${\mathcal{I}_n}^{-1}$.
+
+If the true variance of $\hat\theta$ were *smaller* than ${\mathcal{I}_n}^{-1}$, we would divide
+by too large a number, the test would look too calm, and we would reject $H_0$ too rarely. If the
+true variance were *larger*, we would reject too often. So before trusting those $\chi^2$
+thresholds we must know that ${\mathcal{I}_n}^{-1}$ is the right scale. Cramér–Rao says: for any
+estimator $T$ with $\mathbb{E}[T]=\theta$, you cannot get a smaller variance than
+${\mathcal{I}_n}^{-1}$. The next section shows that $\hat\theta$ actually *reaches* that limit
+when $n$ is large. Then dividing by Fisher information is dividing by the real sampling variance
+of $\hat\theta$ (and of the slope of $\ell$, whose variance is $\mathcal{I}_n$ itself). That is
+why the three tests are not three random recipes: they all use the smallest scale an unbiased
+estimator of $\theta$ is allowed to have.
+
+#### Cramer-Rao bound
+
+**Claim**: if $T=T(X_1,\dots,X_n)$ is an unbiased estimator for $\theta\in\mathbb{R}^p$ (i.e. $\mathbb{E}_\theta[T]=\theta$), and
+one may differentiate the likelihood under the integral (support of $p$ does not depend on $\theta$,
+$\mathcal{I}(\theta)$ finite and invertible), then
+
+$$\mathrm{Var}_\theta(T) \succeq {\mathcal{I}_n(\theta)}^{-1} = \bigl(n\mathcal{I}_1(\theta)\bigr)^{-1}.$$
+
+No unbiased estimator can be more concentrated than the inverse Fisher information.
+
+**Proof for one dimension**.
+
+Start with analysis of unbiasedness of estimator: $\int T(x)\,p(x\mid\theta)\,dx=\theta$.
+
+Differentiate both sides with respect to $\theta$ (regularity
+assumed). The right side becomes $1$. On the left, $T(x)$ does not depend on $\theta$, so the
+derivative hits only the density:
+
+$$1=\int T(x)\,\frac{\partial p(x\mid\theta)}{\partial\theta}\,dx.$$
+
+Chain rule for the logarithm:
+$\frac{\partial\log p}{\partial\theta} = \frac{1}{p}\frac{\partial p}{\partial\theta}$, hence
+$\frac{\partial p}{\partial\theta} = \frac{\partial\log p}{\partial\theta}\,p$. Substitute that in:
+
+$$1 = \int T(x)\,\frac{\partial\log p(x\mid\theta)}{\partial\theta}\,p(x\mid\theta)\,dx.$$
+
+The integrand is $T$ times $\frac{\partial\log p}{\partial\theta}$, weighted by the density $p$, which is
+the definition of an expectation:
+$1=\mathbb{E}\bigl[T\cdot\frac{\partial\log p}{\partial\theta}\bigr]$. For a single observation
+the log-likelihood is $\ell(\theta)=\log p(X\mid\theta)$, and the score is its derivative
+
+$$s(\theta)=\frac{\partial\ell}{\partial\theta}=\frac{\partial\log p(X\mid\theta)}{\partial\theta}.$$
+
+Therefore $1=\mathbb{E}[T\,s]$.
+
+The score has mean zero:
+$\int \frac{\partial p}{\partial\theta}\,dx=\frac{\partial}{\partial\theta}\int p\,dx=0$, so
+$\mathbb{E}[s]=0$. Combined with $1=\mathbb{E}[T s]$ this gives $\mathbb{E}[(T-\theta)s]=1$:
+$\theta$ is a non-random number (the true parameter), so it factors out of the expectation,
+
+$$\mathbb{E}[(T-\theta)s]=\mathbb{E}[T s]-\theta\,\mathbb{E}[s]=1-\theta\cdot 0=1.$$
+
+That inner product $\mathbb{E}[(T-\theta)s]$ is a covariance of $T-\theta$ and $s$ (both expectation are 0 because $\mathbb{E}[s]=0$ and $\mathbb{E}[T] = \theta$). 
+
+Now, for any random variables $U,V$ the quadratic $\mathbb{E}[(U-\lambda V)^2]\ge 0$ for all $\lambda$ expands to
+$(\mathbb{E}[UV])^2\le\mathbb{E}[U^2]\mathbb{E}[V^2]$.
+
+Take $U=T-\theta$ and $V=s$:
+
+$$1 = \bigl(\mathbb{E}[(T-\theta)s]\bigr)^2 \le \mathrm{Var}(T)\cdot\mathbb{E}[s^2] = \mathrm{Var}(T)\,\mathcal{I}(\theta),$$
+
+hence $\mathrm{Var}(T)\ge 1/\mathcal{I}(\theta)$. For $n$ i.i.d. observations the score adds and
+$\mathcal{I}_n=n\mathcal{I}_1$, so the bound is $1/(n\mathcal{I}_1)$.
+
+**Proof for multiple dimensions**.
+
+In $p$ dimensions the same covariance identity is a matrix. Differentiate $\mathbb{E}[T_j]=\theta_j$
+in $\theta_k$: $\mathbb{E}[T_j s_k]=\delta_{jk}$, and $\mathbb{E}[s]=0$ still, so
+$\mathbb{E}[(T-\theta)s^\top]=\mathrm{I}_p$.
+
+Let $\mathcal{I}_n=\mathbb{E}[ss^\top]$ and consider the residual $T-\theta-\mathcal{I}_n^{-1}s$. Its covariance is positive semidefinite:
+
+$$
+\begin{aligned}
+0 &\preceq \mathbb{E}\bigl[(T-\theta-\mathcal{I}_n^{-1}s)(T-\theta-\mathcal{I}_n^{-1}s)^\top\bigr] \\
+&= \mathrm{Var}(T) - \mathbb{E}[(T-\theta)s^\top]\mathcal{I}_n^{-1}
+- \mathcal{I}_n^{-1}\mathbb{E}[s(T-\theta)^\top] + \mathcal{I}_n^{-1} \\
+&= \mathrm{Var}(T) - \mathcal{I}_n^{-1} - \mathcal{I}_n^{-1} + \mathcal{I}_n^{-1} \\
+&= \mathrm{Var}(T) - \mathcal{I}_n^{-1}.
+\end{aligned}
+$$
+
+Therefore $\mathrm{Var}(T)\succeq \mathcal{I}_n^{-1}$. Equality holds iff $T-\theta$ is a linear
+function of the score, $T=\theta+\mathcal{I}_n^{-1}s$ a.s. — an exponential family with $T$ as
+natural sufficient statistic. The MLE is typically biased in finite samples, so it does *not*
+literally attain Cramér–Rao for finite $n$. The next section shows its *asymptotic* covariance
+is exactly $\mathcal{I}_n^{-1}$: efficient in the limit, not a finite-sample Gauss–Markov miracle.
 
 ## MLE normality under null and confidence intervals
 
@@ -96,12 +194,22 @@ condition $s(\hat\theta)=0$ about $\theta^\ast$:
 $0=s(\theta^\ast)+H(\tilde\theta)(\hat\theta-\theta^\ast)$,
 
 so $\sqrt{n}(\hat\theta-\theta^\ast)=\bigl(-n^{-1}H(\tilde\theta)\bigr)^{-1} n^{-1/2}s(\theta^\ast)$.
-Slutsky's lemma replaces the random Hessian by $\mathcal{I}(\theta^\ast)^{-1}$ and yields the MLE CLT
+Write $Z_n=n^{-1/2}s(\theta^\ast)\to\mathcal{N}(0,\mathcal{I})$ and
+$A_n=-n^{-1}H(\tilde\theta)$. The LLN plus $\tilde\theta\to\theta^\ast$ give $A_n\to\mathcal{I}$
+in probability, and inversion is continuous on invertible matrices, so $A_n^{-1}\to\mathcal{I}^{-1}$
+in probability. Split
+
+$A_n^{-1}Z_n = \mathcal{I}^{-1}Z_n + (A_n^{-1}-\mathcal{I}^{-1})Z_n$.
+
+The first term converges in distribution to $\mathcal{N}(0,\mathcal{I}^{-1})$. The second is a
+product of something $\to 0$ in probability and a tight sequence $Z_n$ (it converges in
+distribution, hence does not escape to infinity), so that product vanishes in probability. A
+limit in distribution plus a $o_p(1)$ is still that limit. Therefore
 
 $\sqrt{n}\bigl(\hat\theta-\theta^\ast\bigr)\ \to\ \mathcal{N}\bigl(0,\ \mathcal{I}(\theta^\ast)^{-1}\bigr)$.
 
-This is the Cramér–Rao bound attained asymptotically: the MLE is efficient. In [multivariate
-normal](/2021-07-01-1) language, a $p$-vector $Z\sim\mathcal{N}(0,\Sigma)$ has
+The asymptotic covariance is exactly the Cramér–Rao matrix of the previous section: the MLE is
+efficient in the limit. In [multivariate normal](/2021-07-01-1) language, a $p$-vector $Z\sim\mathcal{N}(0,\Sigma)$ has
 $Z^\top\Sigma^{-1}Z\sim\chi^2_p$ ([chi-square as $\|Z\|^2$](/2021-06-09-1); [Cochran](/2021-06-30-1)
 for the rank/df). Hence the Wald quadratic form is already a [chi-squared](/2021-06-09-1) random
 variable in the limit:
