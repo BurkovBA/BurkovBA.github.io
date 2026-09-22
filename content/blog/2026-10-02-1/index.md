@@ -157,9 +157,40 @@ $\mathcal{I}_n=n\mathcal{I}_1$, so the bound is $1/(n\mathcal{I}_1)$.
 
 **Proof for multiple dimensions**.
 
-In $p$ dimensions the same covariance identity is a matrix. Differentiate $\mathbb{E}[T_j]=\theta_j$
-in $\theta_k$: $\mathbb{E}[T_j s_k]=\delta_{jk}$, and $\mathbb{E}[s]=0$ still, so
-$\mathbb{E}[(T-\theta)s^\top]=\mathrm{I}_p$.
+Now $\theta=(\theta_1,\dots,\theta_p)$ and the estimator is a vector $T=(T_1,\dots,T_p)$ with
+$\mathbb{E}[T_j]=\theta_j$ for each coordinate $j$. The score is likewise a vector of ordinary
+partial derivatives, one per coordinate,
+
+$$s_k=\frac{\partial\ell}{\partial\theta_k}=\frac{\partial\log p}{\partial\theta_k},\qquad k=1,\dots,p.$$
+
+Fix one pair of coordinates $(j,k)$ and repeat the one-dimensional argument. Differentiate
+$\mathbb{E}[T_j]=\theta_j$ with respect to $\theta_k$. The right side is $1$ if $j=k$ and $0$
+otherwise, i.e. the Kronecker symbol $\delta_{jk}$. On the left, $T_j$ does not depend on $\theta$,
+so the derivative hits only the density, and the same chain rule
+$\frac{\partial p}{\partial\theta_k}=\frac{\partial\log p}{\partial\theta_k}\,p$ turns it into an expectation:
+
+$$
+\delta_{jk}
+=\frac{\partial}{\partial\theta_k}\mathbb{E}[T_j]
+=\int T_j\,\frac{\partial p}{\partial\theta_k}\,dx
+=\mathbb{E}[T_j s_k].
+$$
+
+The entry $(j,k)$ of the matrix $\mathbb{E}[T s^\top]$ is exactly $\mathbb{E}[T_j s_k]$, so
+$\mathbb{E}[T s^\top]=\mathrm{I}_p$. The score still has mean zero in every coordinate,
+$\mathbb{E}[s_k]=0$, and $\theta_j$ is a non-random number, so
+
+$$
+\mathbb{E}[(T_j-\theta_j)s_k]
+=\mathbb{E}[T_j s_k]-\theta_j\,\mathbb{E}[s_k]
+=\delta_{jk}-\theta_j\cdot 0
+=\delta_{jk}.
+$$
+
+The left side is the entry $(j,k)$ of $\mathbb{E}[(T-\theta)s^\top]$. Therefore the whole matrix is
+the identity:
+
+$$\mathbb{E}[(T-\theta)s^\top]=\mathrm{I}_p.$$
 
 Let $\mathcal{I}_n=\mathbb{E}[ss^\top]$ and consider the residual $T-\theta-\mathcal{I}_n^{-1}s$. Its covariance is positive semidefinite:
 
