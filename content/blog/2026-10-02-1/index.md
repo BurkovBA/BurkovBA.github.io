@@ -89,6 +89,62 @@ $\ell(\theta)\approx\ell(\hat\theta)-\tfrac12 n(\theta-\hat\theta)^\top\mathcal{
 
 That is why a Gaussian approximation for $\hat\theta$ is coming, and why “how far is $\theta_0$ from $\hat\theta$?” has three readings on the cover: width of the bowl, slope of $\ell$ at $\theta_0$, and vertical drop from the maximum.
 
+#### Example: Estimate the mean of a normal sample when the variance is unknown. 
+
+One observation has density
+
+$p(x\mid\mu,\sigma^2)=\frac{1}{\sqrt{2\pi\sigma^2}}\exp\bigl(-\frac{(x-\mu)^2}{2\sigma^2}\bigr)$,
+
+so the parameter is $\theta=(\mu,\sigma^2)$ and the log-likelihood of $x_1,\dots,x_n$ is
+
+$\ell(\mu,\sigma^2)=-\frac{n}{2}\log(2\pi)-\frac{n}{2}\log\sigma^2-\frac{1}{2\sigma^2}\sum_{i=1}^n(x_i-\mu)^2$.
+
+The score has two coordinates, the partial derivatives
+
+$\frac{\partial\ell}{\partial\mu}=\frac{n(\bar x-\mu)}{\sigma^2},\qquad
+\frac{\partial\ell}{\partial\sigma^2}=-\frac{n}{2\sigma^2}+\frac{1}{2\sigma^4}\sum_{i=1}^n(x_i-\mu)^2$.
+
+Set both to zero. The first equation forces $\hat\mu=\bar x$. Substitute that into the second and get the maximum-likelihood variance $\hat\sigma^2=\frac{1}{n}\sum_i(x_i-\bar x)^2$ (the $1/n$ version, not the $1/(n-1)$ one). At that point the score is the zero vector, as required of an interior maximum.
+
+Fisher information for one observation, in the coordinates $(\mu,\sigma^2)$, is minus the expected Hessian. Differentiate the two score coordinates once more. For a single observation the score is
+
+$\frac{\partial\ell}{\partial\mu}=\frac{x-\mu}{\sigma^2},\qquad
+\frac{\partial\ell}{\partial\sigma^2}=-\frac{1}{2\sigma^2}+\frac{(x-\mu)^2}{2\sigma^4}$,
+
+and the three second derivatives are
+
+$\frac{\partial^2\ell}{\partial\mu^2}=-\frac{1}{\sigma^2}$,
+
+$\frac{\partial^2\ell}{\partial\mu\,\partial\sigma^2}=-\frac{x-\mu}{\sigma^4}$,
+
+$\frac{\partial^2\ell}{\partial(\sigma^2)^2}=\frac{1}{2\sigma^4}-\frac{(x-\mu)^2}{\sigma^6}$.
+
+Take the expectation and use $\mathbb{E}[X-\mu]=0$ and $\mathbb{E}[(X-\mu)^2]=\sigma^2$:
+
+$\mathbb{E}\Bigl[\frac{\partial^2\ell}{\partial\mu^2}\Bigr]=-\frac{1}{\sigma^2}$,
+
+$\mathbb{E}\Bigl[\frac{\partial^2\ell}{\partial\mu\,\partial\sigma^2}\Bigr]=-\frac{\mathbb{E}[X-\mu]}{\sigma^4}=0$,
+
+$\mathbb{E}\Bigl[\frac{\partial^2\ell}{\partial(\sigma^2)^2}\Bigr]=\frac{1}{2\sigma^4}-\frac{\sigma^2}{\sigma^6}=\frac{1}{2\sigma^4}-\frac{1}{\sigma^4}=-\frac{1}{2\sigma^4}$.
+
+The information identity $\mathcal{I}_1=-\mathbb{E}[H]$ then flips the signs:
+
+$\mathcal{I}_1=\begin{pmatrix} 1/\sigma^2 & 0 \\ 0 & 1/(2\sigma^4) \end{pmatrix},\qquad n\mathcal{I}_1=\begin{pmatrix} n/\sigma^2 & 0 \\ 0 & n/(2\sigma^4) \end{pmatrix}.$
+
+The off-diagonal is zero: the slope in $\mu$ and the slope in $\sigma^2$ are uncorrelated. For this model the Hessian at $(\hat\mu,\hat\sigma^2)$ equals $-n\mathcal{I}_1(\hat\sigma^2)$ exactly, not only for large $n$. The substitution $-H(\hat\theta)\approx n\mathcal{I}$ of the previous paragraph is an equality here.
+
+A sample of five draws, rounded to three decimals: $0.126,\ -0.132,\ 0.640,\ 0.105,\ -0.536$. Then $\bar x=0.0406$ and $\sum(x_i-\bar x)^2=0.733$, so
+
+$\hat\mu=0.0406,\qquad\hat\sigma^2=0.733/5=0.147,\qquad\ell(\hat\mu,\hat\sigma^2)\approx -2.29$.
+
+The null “mean is zero, variance free” plugs $\mu=0$ into the same $\hat\sigma^2$ and drops the log-likelihood to $\ell(0,0.147)\approx -2.32$. The score there is not zero: $\partial\ell/\partial\mu\approx 1.38$, $\partial\ell/\partial\sigma^2\approx 0.19$. And
+
+$n\mathcal{I}_1(\hat\sigma^2)=\begin{pmatrix} 5/0.147 & 0 \\ 0 & 5/(2\cdot 0.147^2) \end{pmatrix}\approx\begin{pmatrix} 34.1 & 0 \\ 0 & 116 \end{pmatrix}$,
+
+which is exactly $-H(\hat\mu,\hat\sigma^2)$ for this sample. Width of the bowl in the $\mu$-direction is governed by $34.1$: moving $\mu$ by $0.0406$ away from $\hat\mu$ costs about $\tfrac12\cdot 34.1\cdot(0.0406)^2\approx 0.028$ in log-likelihood, the drop from $-2.29$ to $-2.32$.
+
+###
+
 Two properties we will need. (i) Cramér–Rao, proved in the next section: an unbiased estimator
 cannot beat $\mathcal{I}^{-1}/n$ in variance. (ii) Reparametrization $\phi=g(\theta)$ transforms $\mathcal{I}$ as a Riemannian metric,
 $\mathcal{I}_\phi = (D g)^{-\top}\mathcal{I}_\theta (D g)^{-1}$. Distances
