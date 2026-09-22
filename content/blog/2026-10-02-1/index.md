@@ -42,15 +42,20 @@ Wilks: drop $\ell(\hat\theta)-\ell(\theta_0)$.</center>
 ## Log-likelihood, Fisher information
 
 Write $\ell(\theta)=\sum_{i=1}^n \log p(X_i\mid\theta)$ for the log-likelihood of an i.i.d. sample.
-The *score* is its gradient and the *Hessian* is the second-derivative matrix,
+
+The *maximum likelihood estimate* is the parameter value that maximises this function,
+
+$\hat\theta = \arg\max_{\theta\in\Theta}\ell(\theta)$.
+
+(If there are several maxima, pick one. I assume it lies in the interior of $\Theta$, not on the boundary.)
+
+The *score* is log-likelihood gradient and the *Hessian* is the second-derivative matrix,
 
 $s(\theta)=\nabla_\theta\ell(\theta),\qquad H(\theta)=\nabla^2_\theta\ell(\theta)$.
 
-The MLE $\hat\theta$ is a critical point: $s(\hat\theta)=0$ (interior maximum). Under $H_0:\theta=\theta_0$
-the score at the *restricted* point $s(\theta_0)$ is a sum of i.i.d. mean-zero terms — that is the
-random vector Wald, Score and Wilks will studentize.
+Under null hypothesis $H_0:\theta=\theta_0$ the score at the null value, $s(\theta_0)$, is a sum of i.i.d. mean-zero terms. Wald, Score and Wilks will each divide a gap by a scale built from this score; that is the next two sections.
 
-Fisher information is the covariance of that score, equivalently the expected curvature of log-likelihood $\ell$:
+Fisher information is the covariance of the score, equivalently the expected curvature of $\ell$:
 
 $\mathcal{I}(\theta)=\mathbb{E}_\theta\bigl[s(\theta)s(\theta)^\top\bigr]
 =-\mathbb{E}_\theta\bigl[H(\theta)\bigr]$.
@@ -59,16 +64,30 @@ The equality is the information identity: differentiate $\mathbb{E}_\theta s(\th
 integral (regularity: support independent of $\theta$, differentiate under $\int$). For i.i.d. data
 information adds: $\mathcal{I}_n(\theta)=n\,\mathcal{I}_1(\theta)$. One often writes $\mathcal{I}$
 for the per-observation matrix and $n\mathcal{I}$ for the sample. *Observed* information $-H(\hat\theta)$
-is the random Hessian; *expected* information $n\mathcal{I}(\hat\theta)$ plugs $\hat\theta$ into the
+is the Hessian at the maximum likelihood estimate; *expected* information $n\mathcal{I}(\hat\theta)$ plugs that same $\hat\theta$ into the
 mean curvature. Wald can use either.
 
-A second-order Taylor step around an interior $\hat\theta$ is the whole local picture of this post:
+To see the shape of $\ell$ near $\hat\theta$, expand to second order. For a twice differentiable function the Taylor formula about a point $\theta_\star$ is
+
+$\ell(\theta)=\ell(\theta_\star)+s(\theta_\star)^\top(\theta-\theta_\star)+\tfrac12(\theta-\theta_\star)^\top H(\theta_\star)\,(\theta-\theta_\star)+o(\|\theta-\theta_\star\|^2)$.
+
+Set $\theta_\star=\hat\theta$. If the gradient $s(\hat\theta)$ were not the zero vector, a small step from $\hat\theta$ in the direction of $s(\hat\theta)$ would make the linear term positive and larger than the quadratic term, so $\ell$ would increase. That contradicts $\hat\theta$ being a maximum. Therefore an interior maximum is a critical point,
+
+$s(\hat\theta)=0$,
+
+and the linear term drops out. What remains is a quadratic bowl,
 
 $\ell(\theta)=\ell(\hat\theta)+\tfrac12(\theta-\hat\theta)^\top H(\hat\theta)\,(\theta-\hat\theta)+o(\|\theta-\hat\theta\|^2)$.
 
-Replace $-H(\hat\theta)$ by $n\mathcal{I}$ and the log-likelihood is a quadratic bowl of precision
-$n\mathcal{I}$. That is why a Gaussian approximation for $\hat\theta$ is coming, and why “how far is
-$\theta_0$ from $\hat\theta$?” has three equivalent readings on the cover: width, slope, height.
+The curvature in that formula, $H(\hat\theta)$, is computed from one sample, so it is random. The information identity above says its expectation, at the true parameter, is not random: $\mathbb{E}[-H]=n\mathcal{I}_1=n\mathcal{I}$. And $-H$ is itself a sum of $n$ i.i.d. per-observation Hessians, so for large $n$ it sits close to that expectation. Evaluating it at $\hat\theta$ rather than at the true $\theta$ does not change the limit once $\hat\theta$ is close to the truth (the MLE section shows that it is). Therefore, for large $n$,
+
+$-H(\hat\theta)\approx n\mathcal{I}$,
+
+and the bowl has precision $n\mathcal{I}$:
+
+$\ell(\theta)\approx\ell(\hat\theta)-\tfrac12 n(\theta-\hat\theta)^\top\mathcal{I}\,(\theta-\hat\theta)$.
+
+That is why a Gaussian approximation for $\hat\theta$ is coming, and why “how far is $\theta_0$ from $\hat\theta$?” has three readings on the cover: width of the bowl, slope of $\ell$ at $\theta_0$, and vertical drop from the maximum.
 
 Two properties we will need. (i) Cramér–Rao, proved in the next section: an unbiased estimator
 cannot beat $\mathcal{I}^{-1}/n$ in variance. (ii) Reparametrization $\phi=g(\theta)$ transforms $\mathcal{I}$ as a Riemannian metric,
