@@ -215,9 +215,15 @@ $$s(\theta)=\frac{\partial\ell}{\partial\theta}=\frac{\partial\log p(X\mid\theta
 
 Therefore $1=\mathbb{E}[T\,s]$.
 
-The score has mean zero:
-$\int \frac{\partial p}{\partial\theta}\,dx=\frac{\partial}{\partial\theta}\int p\,dx=0$, so
-$\mathbb{E}[s]=0$. Combined with $1=\mathbb{E}[T s]$ this gives $\mathbb{E}[(T-\theta)s]=1$:
+The score has mean zero: $\mathbb{E} [s(\theta)] = \int s(\theta) \cdot p \cdot dx =  \int \frac{\partial\log p(x\mid\theta)}{\partial\theta}\,p(x\mid\theta)\,dx = \int \frac{1}{p} \cdot \frac{\partial p(x\mid\theta)}{\partial\theta} \cdot p\,dx = \int \frac{\partial p(x\mid\theta)}{\partial\theta}\,dx = \frac{\partial}{\partial\theta}\int p(x\mid\theta)\,dx = \frac{\partial}{\partial\theta}(1) = 0.$
+
+The integrand is $\frac{\partial\log p}{\partial\theta}$ weighted by the density $p$, which is an expectation. For one observation that factor is the score, so
+
+$$\mathbb{E}[s(\theta)]=\mathbb{E}\left[\frac{\partial\log p(X\mid\theta)}{\partial\theta}\right]=0.$$
+
+For $n$ i.i.d. observations the score is the sum of $n$ such terms. The expectation of a sum is the sum of the expectations, each of which is $0$, so the sample score has mean zero too. In several dimensions the same steps with $\partial/\partial\theta_k$ in place of $\partial/\partial\theta$ give $\mathbb{E}[s_k]=0$ for every coordinate, because $\int p\,dx=1$ still has derivative $0$ in each coordinate.
+
+Combined with $1=\mathbb{E}[T s]$ this gives $\mathbb{E}[(T-\theta)s]=1$:
 $\theta$ is a non-random number (the true parameter), so it factors out of the expectation,
 
 $$\mathbb{E}[(T-\theta)s]=\mathbb{E}[T s]-\theta\,\mathbb{E}[s]=1-\theta\cdot 0=1.$$
@@ -285,80 +291,34 @@ $$
 
 Therefore $\mathrm{Var}(T)\succeq \mathcal{I}_n^{-1}$. Equality holds iff $T-\theta$ is a linear
 function of the score, $T=\theta+\mathcal{I}_n^{-1}s$ a.s. — an exponential family with $T$ as
-natural sufficient statistic. The maximum likelihood estimate (MLE) is typically biased in finite samples, so it does *not* literally attain Cramér–Rao for finite $n$. The next section shows its *asymptotic* covariance
-is exactly $\mathcal{I}_n^{-1}$: efficient in the limit, not a finite-sample Gauss–Markov miracle.
-
-## Maximum likelihood estimate (MLE) normality under null and confidence intervals
-
-Ok, let's sum up our results so far. Recall that MLE estimate is a sum of independent identically distributed random variables by definition $\ell(\theta)=\sum_{i=1}^n \log p(X_i\mid\theta)$.
-
-Hence, as $n \to \infty$ its distribution converges to Gaussian. Moreover, if the MLE estimate is unbiased,
-its expectation is 0. As for its variance, we now have Cramér–Rao bound as a floor on it. Moreover, Cramér–Rao tells when that floor is reached: only if the estimation error is a linear function of the score, $T-\theta=\mathcal{I}_n^{-1}s$. The maximum-likelihood estimate $\hat\theta$ is not exactly that linear function for finite $n$, but the equation $s(\hat\theta)=0$ forces it to be so approximately. Expand that equation around the true value $\theta^\ast$ and you get
-
-$\hat\theta-\theta^\ast \approx {\mathcal{I}_n}^{-1}s(\theta^\ast)$.
-
-The right-hand side is sum of i.i.d. terms (one score contribution per observation), so the ordinary central limit theorem applies to $s(\theta^\ast)$, and the same limit passes to $\hat\theta$ through the matrix ${\mathcal{I}_n}^{-1}$. The limiting covariance is exactly the Cramér–Rao matrix. That is why the three tests may divide by Fisher information: it is both the variance of the score and the asymptotic variance of $\hat\theta$.
-
-The score at the *true* value is a sum of i.i.d. centred vectors with covariance $\mathcal{I}(\theta)$.
-CLT plus the information identity therefore give, at the truth $\theta^\ast$,
-
-$\dfrac{1}{\sqrt{n}}s(\theta^\ast)\ \to\ \mathcal{N}\bigl(0,\ \mathcal{I}(\theta^\ast)\bigr)$.
-
-(Under a simple $H_0$ one has $\theta^\ast=\theta_0$; that is the only place the null enters. Confidence
-intervals below do not assume $H_0$ — they treat $\theta^\ast$ as unknown.) The average Hessian
-concentrates by the LLN: $-n^{-1}H(\theta^\ast)\to\mathcal{I}(\theta^\ast)$. Expand the first-order
-condition $s(\hat\theta)=0$ about $\theta^\ast$:
-
-$0=s(\theta^\ast)+H(\tilde\theta)(\hat\theta-\theta^\ast)$,
-
-so $\sqrt{n}(\hat\theta-\theta^\ast)=\bigl(-n^{-1}H(\tilde\theta)\bigr)^{-1} n^{-1/2}s(\theta^\ast)$.
-Write $Z_n=n^{-1/2}s(\theta^\ast)\to\mathcal{N}(0,\mathcal{I})$ and
-$A_n=-n^{-1}H(\tilde\theta)$. The LLN plus $\tilde\theta\to\theta^\ast$ give $A_n\to\mathcal{I}$
-in probability, and inversion is continuous on invertible matrices, so $A_n^{-1}\to\mathcal{I}^{-1}$
-in probability. Split
-
-$A_n^{-1}Z_n = \mathcal{I}^{-1}Z_n + (A_n^{-1}-\mathcal{I}^{-1})Z_n$.
-
-The first term converges in distribution to $\mathcal{N}(0,\mathcal{I}^{-1})$. The second is a
-product of something $\to 0$ in probability and a tight sequence $Z_n$ (it converges in
-distribution, hence does not escape to infinity), so that product vanishes in probability. A
-limit in distribution plus a $o_p(1)$ is still that limit. Therefore
-
-$\sqrt{n}\bigl(\hat\theta-\theta^\ast\bigr)\ \to\ \mathcal{N}\bigl(0,\ \mathcal{I}(\theta^\ast)^{-1}\bigr)$.
-
-The asymptotic covariance is exactly the Cramér–Rao matrix of the previous section: the MLE is
-efficient in the limit. In [multivariate normal](/2021-07-01-1) language, a $p$-vector $Z\sim\mathcal{N}(0,\Sigma)$ has
-$Z^\top\Sigma^{-1}Z\sim\chi^2_p$ ([chi-square as $\|Z\|^2$](/2021-06-09-1); [Cochran](/2021-06-30-1)
-for the rank/df). Hence the Wald quadratic form is already a [chi-squared](/2021-06-09-1) random
-variable in the limit:
-
-$n\bigl(\hat\theta-\theta^\ast\bigr)^\top\mathcal{I}(\theta^\ast)\bigl(\hat\theta-\theta^\ast\bigr)\ \to\ \chi^2_p$.
-
-Plug in a consistent $\hat{\mathcal{I}}$ — expected $n\mathcal{I}(\hat\theta)$ or observed $-H(\hat\theta)$ —
-and invert: an asymptotic $(1-\alpha)$ confidence *ellipsoid* for $\theta^\ast$ is
-
-$\bigl\{\theta:\ n(\hat\theta-\theta)^\top\hat{\mathcal{I}}(\hat\theta-\theta)\ \le\ \chi^2_{p,1-\alpha}\bigr\}$.
-
-In one dimension this is the familiar $\hat\theta\pm z_{1-\alpha/2}/\sqrt{n\hat{\mathcal{I}}}$. Those
-are Wald intervals: the same horizontal gap as on the cover, now read as “which $\theta_0$ are
-*not* too far?” Testing $H_0:\theta=\theta_0$ is asking whether $\theta_0$ lies outside that
-ellipsoid — the next section.
-
-Two caveats the CLT does not hide. The expansion needs $\theta^\ast$ in the *interior* of $\Theta$
-(a variance of $0$ on the boundary is a different, chi-bar-squared, story). And because $\mathcal{I}$
-changes when you rename $\theta$, the ellipsoid and the $z$-interval *move* if you reparametrize; the numerical
-MLE changes, the event “$\theta_0$ is inside the interval” need not. That is already the seed of
-Wald vs Wilks.
+natural sufficient statistic. The maximum likelihood estimate (MLE) is typically biased in finite samples, so it does *not* literally attain Cramér–Rao for finite $n$. The Wald section shows that for large $n$ its covariance reaches $\mathcal{I}_n^{-1}$.
 
 ## Wald test
 
-Wald is the horizontal gap on the cover, studentized by Fisher information. Fit the *unrestricted*
-model, get $\hat\theta$, and ask whether $\theta_0$ is too many information-standard-deviations away.
-Under a simple $H_0:\theta=\theta_0$ the previous section already produced the statistic and its limit:
+Wald is the horizontal gap on the cover: how far the maximum likelihood estimate $\hat\theta$ sits from the null value $\theta_0$, divided by how much $\hat\theta$ typically moves from sample to sample.
+
+Differentiating the log-likelihood $\ell(\theta)=\sum_{i=1}^n\log p(X_i\mid\theta)$ in coordinate $\theta_j$ produces the score coordinate $s_j(\theta) = \sum_{i=1}^n \frac{\partial \log p(X_i\mid\theta)}{\partial \theta_j}$.
+
+As the log-likelihood is a sum, each coordinate of the score at the true parameter is also a sum of i.i.d. contributions, one per observation. Each contribution has mean zero — that is $\mathbb{E}[s]=0$ (reminder: $\mathbb{E} [s(\theta)] = \int s(\theta) \cdot p \cdot dx =  \int \frac{\partial\log p(x\mid\theta)}{\partial\theta}\,p(x\mid\theta)\,dx = \int \frac{1}{p} \cdot \frac{\partial p(x\mid\theta)}{\partial\theta} \cdot p\,dx = \int \frac{\partial p(x\mid\theta)}{\partial\theta}\,dx = \frac{\partial}{\partial\theta}\int p(x\mid\theta)\,dx = \frac{\partial}{\partial\theta}(1) = 0.$) — and the vector of those contributions has covariance $\mathcal{I}$. The central limit theorem therefore gives
+
+$\dfrac{1}{\sqrt{n}}s(\theta_0)\ \to\ \mathcal{N}\bigl(0,\ \mathcal{I}(\theta_0)\bigr)$.
+
+This is not a statement that MLE $\hat\theta$ has mean zero. The maximum likelihood estimate is usually biased for finite $n$; what has mean zero is the score.
+
+As for the variance of $\hat\theta$: the maximum solves $s(\hat\theta)=0$. Under $H_0$ the true value is $\theta_0$. Expand that equation about $\theta_0$,
+
+$0=s(\theta_0)+H(\tilde\theta)(\hat\theta-\theta_0)$,
+
+so $\hat\theta-\theta_0=-H(\tilde\theta)^{-1}s(\theta_0)$. For large $n$ the Hessian concentrates on its expectation, $-H\approx n\mathcal{I}$, and the estimation error is the linear function of the score that Cramér–Rao named as the equality case,
+
+$\hat\theta-\theta_0\approx {\mathcal{I}_n(\theta_0)}^{-1}s(\theta_0)$.
+
+The variance of the right-hand side is exactly the Cramér–Rao floor ${\mathcal{I}_n}^{-1}$. The squared distance from $\hat\theta$ to $\theta_0$, divided by that variance, is chi-squared ([a squared normal, or a sum of them](/2021-06-09-1); [whitening by $\mathcal{I}$](/2021-07-01-1)):
 
 $W_n = n\bigl(\hat\theta-\theta_0\bigr)^\top \hat{\mathcal{I}}\bigl(\hat\theta-\theta_0\bigr)
 \ \xrightarrow{H_0}\ \chi^2_p$.
 
+Fit the *unrestricted* model, get $\hat\theta$, and ask whether $\theta_0$ is too many of those standard deviations away.
 Reject when $W_n>\chi^2_{p,1-\alpha}$. Equivalently: reject when $\theta_0$ lies outside the Wald
 ellipsoid. In one dimension $W_n=n\hat{\mathcal{I}}(\hat\theta-\theta_0)^2$ is the square of the
 usual $z$-statistic; for a Gaussian mean with unknown variance the exact small-sample cousin is
@@ -458,7 +418,7 @@ the Gaussian linear model; [Wilks' lambda](/2021-07-13-1) is the multivariate co
 Because $\Lambda_n$ is a difference of scalar maxima, it does not see a reparametrization: $\ell$
 is attached to the distribution, not to the coordinate chart on $\Theta$. That is the invariance
 Wald and a naive score statistic lack. The cost is two optimisations. The regularity cost is
-sharper than Wald's: if $\theta^\ast$ sits on the *boundary* of $\Theta$ (variance component equal
+sharper than Wald's: if $\theta_0$ sits on the *boundary* of $\Theta$ (variance component equal
 to zero), the $\chi^2_q$ limit fails and one gets a chi-bar-square mixture of $\chi^2_0,\ldots,\chi^2_q$.
 Do not quote Wilks there.
 
