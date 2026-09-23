@@ -313,7 +313,15 @@ so $\hat\theta-\theta_0=-H(\tilde\theta)^{-1}s(\theta_0)$. For large $n$ the Hes
 
 $\hat\theta-\theta_0\approx {\mathcal{I}_n(\theta_0)}^{-1}s(\theta_0)$.
 
-The variance of the right-hand side is exactly the Cramér–Rao floor ${\mathcal{I}_n}^{-1}$. For large $n$ the error $Z=\hat\theta-\theta_0$ is approximately normal with mean $0$ and covariance $\Sigma={\mathcal{I}(\theta_0)}^{-1}/n$. That vector is not yet a sum of standard normals: its coordinates are correlated, and each has its own variance.
+Solving $\hat\theta-\theta_0\approx {\mathcal{I}_n(\theta_0)}^{-1}s(\theta_0)$ for the score gives $s(\theta_0)\approx n\mathcal{I}(\theta_0)\,(\hat\theta-\theta_0)$, since $\mathcal{I}_n(\theta_0)=n\mathcal{I}(\theta_0)$. Put that into the whitened squared length of the score, $s(\theta_0)^\top\bigl(n\mathcal{I}(\theta_0)\bigr)^{-1}s(\theta_0)$. Fisher information is symmetric, so $n\mathcal{I}(\theta_0)$ is symmetric, and the two factors cancel:
+
+$s(\theta_0)^\top\bigl(n\mathcal{I}(\theta_0)\bigr)^{-1}s(\theta_0)
+\approx \bigl(n\mathcal{I}(\theta_0)\,(\hat\theta-\theta_0)\bigr)^\top\bigl(n\mathcal{I}(\theta_0)\bigr)^{-1}\bigl(n\mathcal{I}(\theta_0)\,(\hat\theta-\theta_0)\bigr)
+= n(\hat\theta-\theta_0)^\top\mathcal{I}(\theta_0)(\hat\theta-\theta_0)$.
+
+The score is gone because it was replaced by $n\mathcal{I}(\theta_0)\,(\hat\theta-\theta_0)$. The number that remains is a quadratic form in the estimation error alone, and it equals the whitened length of $s(\theta_0)$.
+
+The variance of $\hat\theta-\theta_0$ is exactly the Cramér–Rao floor ${\mathcal{I}_n}^{-1}$, since it equals ${\mathcal{I}_n(\theta_0)}^{-1}s(\theta_0)$ and the covariance of $s(\theta_0)$ is $n\mathcal{I}(\theta_0)$. For large $n$ the error $Z=\hat\theta-\theta_0$ is approximately normal with mean $0$ and covariance $\Sigma={\mathcal{I}(\theta_0)}^{-1}/n$. That vector is not yet a sum of standard normals: its coordinates are correlated, and each has its own variance.
 
 Whitening removes both. As in the [multivariate normal](/2021-07-01-1) post, write $\Sigma=E\Lambda E^\top$ with $E$ orthogonal and $\Lambda$ the diagonal matrix of eigenvalues $\lambda_j>0$. The rotated coordinates $E^\top Z$ are uncorrelated, and coordinate $j$ has variance $\lambda_j$. Divide that coordinate by $\sqrt{\lambda_j}$. The vector $W=\Lambda^{-1/2}E^\top Z$ then has covariance $I$: uncorrelated, and every coordinate has variance $1$. Uncorrelated jointly normal coordinates are independent, so $W$ is a vector of $p$ independent standard normals. This rescaling is whitening. The squared length does not care about the rotation $E$,
 
@@ -358,41 +366,70 @@ cannot, or should not, lean on that unrestricted $\hat\theta$.
 
 ## Score/Lagrange multipliers test
 
-Score looks at the *slope* of $\ell$ at the restricted point, not at how far $\hat\theta$ travelled.
-If $H_0$ is true, $\theta_0$ is already the top of the bowl and $s(\theta_0)$ should be a mean-zero
-wiggle of size $\sqrt{n\mathcal{I}}$. A large score means the likelihood still wants to leave
-$\Theta_0$. Under a simple $H_0:\theta=\theta_0$ one never computes $\hat\theta$:
+Score looks at the slope of $\ell$ where the null says the maximum should be, not at how far $\hat\theta$ has moved.
+
+**Simple null.** Here $H_0$ names one point, $\theta=\theta_0$. The Wald section already has the central limit theorem for the score at that point. The score is a sum of $n$ i.i.d. contributions with mean $0$ and covariance $\mathcal{I}(\theta_0)$, so
+
+$\dfrac{1}{\sqrt{n}}s(\theta_0)\ \to\ \mathcal{N}\bigl(0,\ \mathcal{I}(\theta_0)\bigr)$.
+
+Thus $s(\theta_0)$ itself is approximately normal with mean $0$ and covariance $n\mathcal{I}(\theta_0)$. Whiten that vector, in the sense of the previous section: if $n\mathcal{I}(\theta_0)=E\Lambda E^\top$, the vector $W=\Lambda^{-1/2}E^\top s(\theta_0)$ has covariance $I$ for large $n$, and
+
+$s(\theta_0)^\top\bigl(n\mathcal{I}(\theta_0)\bigr)^{-1} s(\theta_0) = W^\top W = \sum_{j=1}^p W_j^2$.
+
+A sum of squares of $p$ independent standard normals is $\chi^2_p$ ([Gamma / chi-square](/2021-06-09-1)). The score statistic is that squared length,
 
 $S_n = s(\theta_0)^\top \bigl(n\mathcal{I}(\theta_0)\bigr)^{-1} s(\theta_0)
 \ \xrightarrow{H_0}\ \chi^2_p$.
 
-(The same $\chi^2$ as Wald: $n^{-1/2}s(\theta_0)\to\mathcal{N}(0,\mathcal{I})$, so the quadratic form
-is [chi-square](/2021-06-09-1) with $p$ df.) Reject when $S_n>\chi^2_{p,1-\alpha}$.
+Reject when $S_n>\chi^2_{p,1-\alpha}$. The unrestricted estimate $\hat\theta$ is never computed: $\theta_0$ is known, and $s(\theta_0)$ is a sum of derivatives of $\log p(X_i\mid\theta_0)$.
 
-For a composite $R(\theta)=0$, maximize $\ell$ *on* $\Theta_0$ to get a restricted MLE $\tilde\theta$,
-and evaluate the score there. That is [Lagrange multipliers](/2022-05-10-1) applied to
-$\max_\theta\ell(\theta)$ subject to $R(\theta)=0$: the Lagrangian $\ell+\lambda^\top R$ has
-stationarity $s(\tilde\theta)+J^\top\hat\lambda=0$, so the score at $\tilde\theta$ is exactly
-$-J^\top\hat\lambda$ — it is normal to the constraint, as $\nabla f=\lambda\nabla g$ was in that
-post. The test that $\hat\lambda=0$ (the restriction is not fighting the likelihood) is
+**Composite null.** Now $H_0$ is $R(\theta)=0$, where $R$ maps $\mathbb{R}^p$ to $\mathbb{R}^q$ and $q<p$. Write $J$ for the $q\times p$ matrix of partial derivatives, $J_{ak}=\partial R_a/\partial\theta_k$. Assume $J$ has rank $q$: the $q$ restrictions are not copies of each other. The true value $\theta_0$ lies on this surface, but it is not a known point, because the remaining $p-q$ coordinates are still free. There is nowhere to plug in and get $s(\theta_0)$.
 
-$S_n = s(\tilde\theta)^\top \bigl(n\hat{\mathcal{I}}(\tilde\theta)\bigr)^{-1} s(\tilde\theta)
-\ \xrightarrow{H_0}\ \chi^2_q$,
+Maximize $\ell$ on the surface and call the maximum $\tilde\theta$. This is the constrained maximum from the [Lagrange multipliers](/2022-05-10-1) post. At that maximum the gradient of $\ell$ is orthogonal to the surface, so it is a linear combination of the gradients of the $q$ constraints. Those gradients are the rows of $J$. With the Lagrangian $\ell+\lambda^\top R$, the stationarity condition is
 
-again $q=\mathrm{rank}(R)$. Equivalently one writes a quadratic form in $\hat\lambda$; Rao's score
-test and the Aitchison–Silvey / Engle LM test are this object.
+$s(\tilde\theta)+J(\tilde\theta)^\top\hat\lambda=0,\qquad R(\tilde\theta)=0$.
 
-Why bother, if Wald is the same $\chi^2$? Because $S_n$ uses only the **restricted** fit. When the
-alternative is a nuisance to optimize — extra ARCH lags, a random effect, a mixture component —
-you evaluate the gradient of that extra structure at the null and stop. Under $H_0$ and local
-alternatives the Taylor identity $\hat\theta-\theta_0\approx n^{-1}\mathcal{I}^{-1}s(\theta_0)$
-makes $W_n-S_n=o_p(1)$; locally the score test is most powerful against infinitesimal departures
-(the Neyman $C(\alpha)$ picture). Pearson's [chi-squared GoF](/2021-06-17-1) is a score test for
-the multinomial: residual cell counts are the score, the covariance is $n\mathcal{I}$.
+So $s(\tilde\theta)=-J(\tilde\theta)^\top\hat\lambda$. The score that remains after the constrained maximum is not a full $p$-vector of free noise. It lies in the column space of $J^\top$, which has dimension $q$. The $p-q$ directions tangent to the surface have derivative zero, because $\tilde\theta$ is a maximum along the surface.
 
-The price: $\mathcal{I}$ is evaluated under $H_0$, so a badly misspecified null curvature still
-enters the studentization. And like Wald, a naive $S_n$ is not invariant to every reparametrization
-of the *alternative*. Wilks will ignore that rescaling and keep only $\ell(\hat\theta)-\ell(\tilde\theta)$.
+The same first-order expansion as in the Wald section, taken from the true point $\theta_0$ out to $\tilde\theta$, reads
+
+$s(\tilde\theta)=s(\theta_0)+H(\theta_\dagger)(\tilde\theta-\theta_0)$,
+
+where $\theta_\dagger$ is a point on the segment between them. For large $n$ the Hessian concentrates on its expectation, $-H\approx n\mathcal{I}(\theta_0)$, and both $\tilde\theta$ and $\theta_\dagger$ sit near $\theta_0$: the curvature is of size $n$ and the score is of size $\sqrt{n}$, so the step that cancels the slope is of size $1/\sqrt{n}$. Therefore
+
+$s(\theta_0)\approx s(\tilde\theta)+n\mathcal{I}(\theta_0)\,(\tilde\theta-\theta_0)=-J^\top\hat\lambda+n\mathcal{I}(\theta_0)\,(\tilde\theta-\theta_0)$,
+
+with $J=J(\theta_0)$. The constraint gives the other linear relation. $R(\tilde\theta)=R(\theta_0)=0$, and the step $\tilde\theta-\theta_0$ is of size $1/\sqrt{n}$, so the second-order piece of $R$ is of size $1/n$ and
+
+$J(\tilde\theta-\theta_0)\approx 0$.
+
+Multiply $s(\theta_0)\approx -J^\top\hat\lambda+n\mathcal{I}(\theta_0)\,(\tilde\theta-\theta_0)$ on the left by $J\bigl(n\mathcal{I}(\theta_0)\bigr)^{-1}$:
+
+$J\bigl(n\mathcal{I}(\theta_0)\bigr)^{-1} s(\theta_0)\approx -J\bigl(n\mathcal{I}(\theta_0)\bigr)^{-1} J^\top\hat\lambda+J(\tilde\theta-\theta_0)\approx -J\bigl(n\mathcal{I}(\theta_0)\bigr)^{-1} J^\top\hat\lambda$.
+
+The $q\times q$ matrix $J\bigl(n\mathcal{I}(\theta_0)\bigr)^{-1} J^\top$ is invertible: $\bigl(n\mathcal{I}(\theta_0)\bigr)^{-1}$ is positive definite and $J$ has rank $q$. Solve for the multiplier,
+
+$\hat\lambda\approx -\bigl(J\bigl(n\mathcal{I}(\theta_0)\bigr)^{-1} J^\top\bigr)^{-1} J\bigl(n\mathcal{I}(\theta_0)\bigr)^{-1} s(\theta_0)$.
+
+The test statistic is the whitened squared length of the score that is left at $\tilde\theta$. Substitute $s(\tilde\theta)=-J^\top\hat\lambda$:
+
+$S_n = s(\tilde\theta)^\top\bigl(n\mathcal{I}(\theta_0)\bigr)^{-1} s(\tilde\theta) = \hat\lambda^\top J\bigl(n\mathcal{I}(\theta_0)\bigr)^{-1} J^\top\hat\lambda = s(\theta_0)^\top\bigl(n\mathcal{I}(\theta_0)\bigr)^{-1} J^\top\bigl(J\bigl(n\mathcal{I}(\theta_0)\bigr)^{-1} J^\top\bigr)^{-1} J\bigl(n\mathcal{I}(\theta_0)\bigr)^{-1} s(\theta_0)$.
+
+It remains to see that this quadratic form is $\chi^2_q$. Whiten the score at the true point, $U=\bigl(n\mathcal{I}(\theta_0)\bigr)^{-1/2}s(\theta_0)$. The covariance of $s(\theta_0)$ is $n\mathcal{I}(\theta_0)$, so the covariance of $U$ is $I_p$, and $U\to\mathcal{N}(0,I_p)$. Set $B=\bigl(n\mathcal{I}(\theta_0)\bigr)^{-1/2}J^\top$, a $p\times q$ matrix of rank $q$. The display above is
+
+$S_n = U^\top B\bigl(B^\top B\bigr)^{-1} B^\top U = U^\top P U$,
+
+where $P=B(B^\top B)^{-1}B^\top$. This $P$ is the orthogonal projection onto the column space of $B$. Indeed $P^\top=P$, and $PB=B$, so $P$ fixes every column of $B$. For an arbitrary vector, $Pu$ is in that column space, hence $P(Pu)=Pu$, that is $P^2=P$.
+
+The eigenvalues of $P$ are only $0$ and $1$. If $Pv=\lambda v$ with $v\neq 0$, then $P^2 v=\lambda^2 v$, but $P^2=P$, so $\lambda^2=\lambda$. Every vector in the column space satisfies $Pv=v$, and that space has dimension $q$, so the eigenvalue $1$ occurs $q$ times. The orthogonal complement is the kernel, with eigenvalue $0$. Take an orthonormal basis of these eigenvectors and rotate $U$ into it. A rotation of a $\mathcal{N}(0,I_p)$ vector is still $\mathcal{N}(0,I_p)$, because the covariance $E^\top E=I_p$ ([multivariate normal](/2021-07-01-1)). In that basis $U^\top P U$ keeps the $q$ coordinates with eigenvalue $1$ and drops the rest, so it is a sum of $q$ squares of independent standard normals:
+
+$S_n\ \xrightarrow{H_0}\ \chi^2_q$.
+
+The matrix $n\mathcal{I}(\theta_0)$ depends on the unknown $\theta_0$. Replacing it by $n\mathcal{I}(\tilde\theta)$ does not change the limit, for the same reason as in Wald: $\tilde\theta$ approaches $\theta_0$, and $\mathcal{I}$ at those two points approaches the same matrix. The statistic one actually computes is
+
+$S_n = s(\tilde\theta)^\top \bigl(n\mathcal{I}(\tilde\theta)\bigr)^{-1} s(\tilde\theta)$.
+
+Reject when $S_n>\chi^2_{q,1-\alpha}$. Only the restricted maximum is required. The $p-q$ directions along the surface have been set to zero by that maximum, and the $\chi^2$ has one degree of freedom for each restriction that remains.
 
 ## Wilks likelihood ratio test
 
