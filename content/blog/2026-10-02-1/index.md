@@ -299,7 +299,7 @@ Wald is the horizontal gap on the cover: how far the maximum likelihood estimate
 
 Differentiating the log-likelihood $\ell(\theta)=\sum_{i=1}^n\log p(X_i\mid\theta)$ in coordinate $\theta_j$ produces the score coordinate $s_j(\theta) = \sum_{i=1}^n \frac{\partial \log p(X_i\mid\theta)}{\partial \theta_j}$.
 
-As the log-likelihood is a sum, each coordinate of the score at the true parameter is also a sum of i.i.d. contributions, one per observation. Each contribution has mean zero — that is $\mathbb{E}[s]=0$ (reminder: $\mathbb{E} [s(\theta)] = \int s(\theta) \cdot p \cdot dx =  \int \frac{\partial\log p(x\mid\theta)}{\partial\theta}\,p(x\mid\theta)\,dx = \int \frac{1}{p} \cdot \frac{\partial p(x\mid\theta)}{\partial\theta} \cdot p\,dx = \int \frac{\partial p(x\mid\theta)}{\partial\theta}\,dx = \frac{\partial}{\partial\theta}\int p(x\mid\theta)\,dx = \frac{\partial}{\partial\theta}(1) = 0.$) — and the vector of those contributions has covariance $\mathcal{I}$. The central limit theorem therefore gives
+As the log-likelihood is a sum, each coordinate of the score at the true parameter is also a sum of i.i.d. contributions, one per observation. Each contribution has mean zero — that is $\mathbb{E}[s]=0$ (reminder: $\mathbb{E} [s(\theta)] = \int s(\theta) \cdot p \cdot dx =  \int \frac{\partial\log p(x\mid\theta)}{\partial\theta}\,p(x\mid\theta)\,dx = \int \frac{1}{p} \cdot \frac{\partial p(x\mid\theta)}{\partial\theta} \cdot p\,dx = \int \frac{\partial p(x\mid\theta)}{\partial\theta}\,dx = \frac{\partial}{\partial\theta}\int p(x\mid\theta)\,dx = \frac{\partial}{\partial\theta}(1) = 0$) — and the vector of those contributions has covariance $\mathcal{I}$. The central limit theorem therefore gives
 
 $\dfrac{1}{\sqrt{n}}s(\theta_0)\ \to\ \mathcal{N}\bigl(0,\ \mathcal{I}(\theta_0)\bigr)$.
 
@@ -313,7 +313,13 @@ so $\hat\theta-\theta_0=-H(\tilde\theta)^{-1}s(\theta_0)$. For large $n$ the Hes
 
 $\hat\theta-\theta_0\approx {\mathcal{I}_n(\theta_0)}^{-1}s(\theta_0)$.
 
-The variance of the right-hand side is exactly the Cramér–Rao floor ${\mathcal{I}_n}^{-1}$. The squared distance from $\hat\theta$ to $\theta_0$, divided by that variance, is chi-squared ([a squared normal, or a sum of them](/2021-06-09-1); [whitening by $\mathcal{I}$](/2021-07-01-1)):
+The variance of the right-hand side is exactly the Cramér–Rao floor ${\mathcal{I}_n}^{-1}$. For large $n$ the error $Z=\hat\theta-\theta_0$ is approximately normal with mean $0$ and covariance $\Sigma={\mathcal{I}(\theta_0)}^{-1}/n$. That vector is not yet a sum of standard normals: its coordinates are correlated, and each has its own variance.
+
+Whitening removes both. As in the [multivariate normal](/2021-07-01-1) post, write $\Sigma=E\Lambda E^\top$ with $E$ orthogonal and $\Lambda$ the diagonal matrix of eigenvalues $\lambda_j>0$. The rotated coordinates $E^\top Z$ are uncorrelated, and coordinate $j$ has variance $\lambda_j$. Divide that coordinate by $\sqrt{\lambda_j}$. The vector $W=\Lambda^{-1/2}E^\top Z$ then has covariance $I$: uncorrelated, and every coordinate has variance $1$. Uncorrelated jointly normal coordinates are independent, so $W$ is a vector of $p$ independent standard normals. This rescaling is whitening. The squared length does not care about the rotation $E$,
+
+$Z^\top\Sigma^{-1}Z = W^\top W = \sum_{j=1}^p W_j^2$,
+
+and a sum of squares of independent standard normals is $\chi^2_p$ ([Gamma / chi-square](/2021-06-09-1)). Here $\Sigma^{-1}=n\mathcal{I}(\theta_0)$, so the squared length is $n(\hat\theta-\theta_0)^\top\mathcal{I}(\theta_0)(\hat\theta-\theta_0)$. Replacing $\mathcal{I}(\theta_0)$ by the matrix $\hat{\mathcal{I}}$ computed from the sample does not change the limit. Therefore
 
 $W_n = n\bigl(\hat\theta-\theta_0\bigr)^\top \hat{\mathcal{I}}\bigl(\hat\theta-\theta_0\bigr)
 \ \xrightarrow{H_0}\ \chi^2_p$.
@@ -324,7 +330,7 @@ ellipsoid. In one dimension $W_n=n\hat{\mathcal{I}}(\hat\theta-\theta_0)^2$ is t
 usual $z$-statistic; for a Gaussian mean with unknown variance the exact small-sample cousin is
 Student's [$t$-test](/2021-06-20-1). The $\chi^2$ limit is the same beast as in the
 [Gamma / chi-square](/2021-06-09-1) post: a squared standard normal, or a sum of $p$ of them
-after a multivariate [whitening](/2021-07-01-1).
+after the whitening above.
 
 For a composite restriction $R(\theta)=0$ with $R:\mathbb{R}^p\to\mathbb{R}^q$ (full rank $q<p$),
 delta method replaces $\hat\theta-\theta_0$ by the $q$-vector $R(\hat\theta)$. The Jacobian
@@ -343,7 +349,7 @@ both are consistent under the interior regularity already used. Pearson's
 [chi-squared GoF](/2021-06-17-1) is a discrete cousin: cell counts vs expected, quadratic form with
 the multinomial covariance, $p-1$ df.
 
-Wald is the simplest of the three because it is a function of $\hat\theta$ alone — one unrestricted
+Wald is the simplest of the three tests because it is a function of $\hat\theta$ alone — one unrestricted
 MLE, then a matrix product. That is also its cost. You must be able to *fit the alternative*. The
 test is not invariant to reparametrization ($\phi=e^\theta$ vs $\theta$ can flip the $p$-value).
 Near the boundary of $\Theta$ the normal approximation for $\hat\theta$ is poor (binomial $p$ near
