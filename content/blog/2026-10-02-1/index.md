@@ -307,9 +307,9 @@ This is not a statement that MLE $\hat\theta$ has mean zero. The maximum likelih
 
 As for the variance of $\hat\theta$: the maximum solves $s(\hat\theta)=0$. Under $H_0$ the true value is $\theta_0$. Expand that equation about $\theta_0$,
 
-$0=s(\theta_0)+H(\tilde\theta)(\hat\theta-\theta_0)$,
+$0=s(\theta_0)+H(\theta_\dagger)(\hat\theta-\theta_0)$,
 
-so $\hat\theta-\theta_0=-H(\tilde\theta)^{-1}s(\theta_0)$. For large $n$ the Hessian concentrates on its expectation, $-H\approx n\mathcal{I}$, and the estimation error is the linear function of the score that Cramér–Rao named as the equality case,
+where $\theta_\dagger$ lies on the segment between $\theta_0$ and $\hat\theta$. So $\hat\theta-\theta_0=-H(\theta_\dagger)^{-1}s(\theta_0)$. For large $n$ the Hessian concentrates on its expectation, $-H\approx n\mathcal{I}$, and the estimation error is the linear function of the score that Cramér–Rao named as the equality case,
 
 $\hat\theta-\theta_0\approx {\mathcal{I}_n(\theta_0)}^{-1}s(\theta_0)$.
 
@@ -385,7 +385,11 @@ Reject when $S_n>\chi^2_{p,1-\alpha}$. The unrestricted estimate $\hat\theta$ is
 
 **Composite null.** Now $H_0$ is $R(\theta)=0$, where $R$ maps $\mathbb{R}^p$ to $\mathbb{R}^q$ and $q<p$. Write $J$ for the $q\times p$ matrix of partial derivatives, $J_{ak}=\partial R_a/\partial\theta_k$. Assume $J$ has rank $q$: the $q$ restrictions are not copies of each other. The true value $\theta_0$ lies on this surface, but it is not a known point, because the remaining $p-q$ coordinates are still free. There is nowhere to plug in and get $s(\theta_0)$.
 
-Maximize $\ell$ on the surface and call the maximum $\tilde\theta$. This is the constrained maximum from the [Lagrange multipliers](/2022-05-10-1) post. At that maximum the gradient of $\ell$ is orthogonal to the surface, so it is a linear combination of the gradients of the $q$ constraints. Those gradients are the rows of $J$. With the Lagrangian $\ell+\lambda^\top R$, the stationarity condition is
+The estimate under this null is the maximum of $\ell$ on the surface,
+
+$\tilde\theta = \arg\max_{R(\theta)=0}\ell(\theta).$
+
+Call $\tilde\theta$ the restricted maximum likelihood estimate. It satisfies $R(\tilde\theta)=0$. It is not the unknown true point $\theta_0$, and it is not the unrestricted maximum $\hat\theta$. This is the constrained maximum from the [Lagrange multipliers](/2022-05-10-1) post. At that maximum the gradient of $\ell$ is orthogonal to the surface, so it is a linear combination of the gradients of the $q$ constraints. Those gradients are the rows of $J$. With the Lagrangian $\ell+\lambda^\top R$, the stationarity condition is
 
 $s(\tilde\theta)+J(\tilde\theta)^\top\hat\lambda=0,\qquad R(\tilde\theta)=0$.
 
@@ -433,41 +437,66 @@ Reject when $S_n>\chi^2_{q,1-\alpha}$. Only the restricted maximum is required. 
 
 ## Wilks likelihood ratio test
 
-Wilks is the *vertical* drop on the cover: how much log-likelihood you lose by imposing $H_0$.
-Fit both models — unrestricted MLE $\hat\theta$ and restricted $\tilde\theta\in\Theta_0$ — and form
+Wilks is the vertical drop on the cover: how much log-likelihood is lost by forcing the maximum to lie in $\Theta_0$. Fit both models. Let $\hat\theta$ be the unrestricted maximum and $\tilde\theta$ the maximum on $\Theta_0$. The statistic is twice that drop,
 
-$\Lambda_n = 2\bigl(\ell(\hat\theta)-\ell(\tilde\theta)\bigr)
-\ \xrightarrow{H_0}\ \chi^2_q,\qquad q=\dim\Theta-\dim\Theta_0$.
+$\Lambda_n = 2\bigl(\ell(\hat\theta)-\ell(\tilde\theta)\bigr).$
 
-Reject when $\Lambda_n>\chi^2_{q,1-\alpha}$. (For a simple null, $\tilde\theta=\theta_0$ and $q=p$.)
-The factor $2$ is Wilks' normalisation so that the drop matches the $\chi^2$ scale of $W_n$ and
-$S_n$: Taylor-expand $\ell$ about $\hat\theta$, use $s(\hat\theta)=0$ and $-H\approx n\mathcal{I}$,
+The factor $2$ is fixed by the Taylor formula already written for $\ell$. Expand $\ell(\tilde\theta)$ about $\hat\theta$:
 
-$2\bigl(\ell(\hat\theta)-\ell(\theta_0)\bigr)
-= n(\hat\theta-\theta_0)^\top\mathcal{I}(\hat\theta-\theta_0)+o_p(1)$,
+$\ell(\tilde\theta)=\ell(\hat\theta)+s(\hat\theta)^\top(\tilde\theta-\hat\theta)+\tfrac12(\tilde\theta-\hat\theta)^\top H(\hat\theta)\,(\tilde\theta-\hat\theta)+r_n.$
 
-hence $\Lambda_n=W_n+o_p(1)=S_n+o_p(1)$ under $H_0$ and under local alternatives. The three tests
-are the same measurement of the quadratic bowl, read off width, slope, or height.
+The unrestricted maximum is a critical point, $s(\hat\theta)=0$, so the linear term is zero. Rearrange and multiply by $2$:
 
-The decision-theoretic ancestor is the [Neyman–Pearson lemma](https://en.wikipedia.org/wiki/Neyman%E2%80%93Pearson_lemma): for a *simple* $H_0$ against a
-*simple* $H_1$, the most powerful test of a given size is a likelihood-ratio threshold
-$p(x\mid\theta_1)/p(x\mid\theta_0)>c$. Once $H_0$ or $H_1$ is composite, no UMP test exists in
-general; one replaces each density by its supremum on that set — the *generalised* LRT
-$\sup_{\Theta_0}L/\sup_{\Theta}L=e^{-\Lambda_n/2}$. Wilks' theorem is the $\chi^2$ approximation
-to that GLRT for nested regular models, interior true parameter, $q$ free restrictions.
-[Student's $t$](/2021-06-20-1) and [Snedecor's $F$](/2021-06-19-1) are exact small-sample LRTs in
-the Gaussian linear model; [Wilks' lambda](/2021-07-13-1) is the multivariate cousin.
+$\Lambda_n = (\hat\theta-\tilde\theta)^\top\bigl(-H(\hat\theta)\bigr)(\hat\theta-\tilde\theta)-2r_n.$
 
-Because $\Lambda_n$ is a difference of scalar maxima, it does not see a reparametrization: $\ell$
-is attached to the distribution, not to the coordinate chart on $\Theta$. That is the invariance
-Wald and a naive score statistic lack. The cost is two optimisations. The regularity cost is
-sharper than Wald's: if $\theta_0$ sits on the *boundary* of $\Theta$ (variance component equal
-to zero), the $\chi^2_q$ limit fails and one gets a chi-bar-square mixture of $\chi^2_0,\ldots,\chi^2_q$.
-Do not quote Wilks there.
+The step $\hat\theta-\tilde\theta$ is of size $1/\sqrt{n}$, as both points sit that close to $\theta_0$ under $H_0$. The quadratic term, with a Hessian of size $n$, is then of size $1$. The remainder $r_n$ in the Taylor formula is small compared with $\|\hat\theta-\tilde\theta\|^2$, hence small compared with $1/n$, and $-2r_n$ disappears as $n$ grows. For large $n$ the Hessian concentrates on its expectation, $-H(\hat\theta)\approx n\mathcal{I}(\theta_0)$, and
 
-Use $\Lambda_n$ when both fits are cheap and you want a parametrization-invariant, usually
-well-behaved finite-sample test. Use Score when the alternative is painful to maximise. Use Wald
-when you already have $\hat\theta$ and want a confidence ellipsoid in the same stroke.
+$\Lambda_n \approx n(\hat\theta-\tilde\theta)^\top\mathcal{I}(\theta_0)\,(\hat\theta-\tilde\theta).$
+
+**Simple null.** Here $\Theta_0=\{\theta_0\}$, so $\tilde\theta=\theta_0$ and there is nothing to maximize under the null. The display becomes
+
+$\Lambda_n \approx n(\hat\theta-\theta_0)^\top\mathcal{I}(\theta_0)\,(\hat\theta-\theta_0).$
+
+That is the Wald quadratic form. The Wald section already showed it tends to $\chi^2_p$, by substituting $s(\theta_0)\approx n\mathcal{I}(\theta_0)\,(\hat\theta-\theta_0)$ into the whitened squared length of the score. The same substitution reads the drop as the score statistic,
+
+$\Lambda_n \approx s(\theta_0)^\top\bigl(n\mathcal{I}(\theta_0)\bigr)^{-1}s(\theta_0)=S_n,$
+
+and $S_n\to\chi^2_p$. The $2$ in front of the drop is what cancels the $\tfrac12$ in Taylor's formula, so $\Lambda_n$ matches $W_n$ and $S_n$ rather than half of either.
+
+**Composite null.** As in the Score section, $\tilde\theta$ is the restricted maximum likelihood estimate, the maximum of $\ell$ on the null surface,
+
+$\tilde\theta = \arg\max_{R(\theta)=0}\ell(\theta),$
+
+with $q$ independent restrictions $R(\theta)=0$. It satisfies $R(\tilde\theta)=0$. It is not the unknown true point $\theta_0$, and it is not the unrestricted maximum $\hat\theta$. Wald's expansion and the Score section's expansion, both about $\theta_0$, are
+
+$\hat\theta-\theta_0\approx \bigl(n\mathcal{I}(\theta_0)\bigr)^{-1}s(\theta_0),$
+
+$s(\theta_0)\approx s(\tilde\theta)+n\mathcal{I}(\theta_0)\,(\tilde\theta-\theta_0).$
+
+Substitute the second into the first:
+
+$\hat\theta-\theta_0\approx \bigl(n\mathcal{I}(\theta_0)\bigr)^{-1}s(\tilde\theta)+(\tilde\theta-\theta_0),$
+
+and therefore
+
+$\hat\theta-\tilde\theta\approx \bigl(n\mathcal{I}(\theta_0)\bigr)^{-1}s(\tilde\theta).$
+
+Insert this step into the quadratic form for $\Lambda_n$. Fisher information is symmetric, so the two factors of $n\mathcal{I}(\theta_0)$ cancel exactly as they did for Wald:
+
+$n(\hat\theta-\tilde\theta)^\top\mathcal{I}(\theta_0)\,(\hat\theta-\tilde\theta)
+\approx s(\tilde\theta)^\top\bigl(n\mathcal{I}(\theta_0)\bigr)^{-1}s(\tilde\theta).$
+
+The right-hand side is the score statistic $S_n$. The Score section showed $S_n\to\chi^2_q$, one degree of freedom for each restriction. Replacing $\mathcal{I}(\theta_0)$ by $\mathcal{I}(\hat\theta)$ or by $\mathcal{I}(\tilde\theta)$ does not change the limit. Hence
+
+$\Lambda_n = 2\bigl(\ell(\hat\theta)-\ell(\tilde\theta)\bigr)\ \xrightarrow{H_0}\ \chi^2_q.$
+
+Reject when $\Lambda_n>\chi^2_{q,1-\alpha}$.
+
+The same drop can be written as a ratio of the two maxima of the likelihood $L=e^{\ell}$, since $\ell(\hat\theta)-\ell(\tilde\theta)=\log\bigl(L(\hat\theta)/L(\tilde\theta)\bigr)$. For a simple $H_0$ against a simple $H_1$ the [Neyman–Pearson lemma](https://en.wikipedia.org/wiki/Neyman%E2%80%93Pearson_lemma) says that a threshold on $L(\theta_1)/L(\theta_0)$ is the most powerful test of a given size. Once either hypothesis leaves $\theta$ free, one puts the maximum of $L$ on that set in place of the single density. $\Lambda_n$ is that comparison for a null nested inside the alternative. It is not a uniformly most powerful test of a composite hypothesis. [Student's $t$](/2021-06-20-1) and [Snedecor's $F$](/2021-06-19-1) are cases where this ratio has an exact distribution in the Gaussian linear model; [Wilks' lambda](/2021-07-13-1) is the multivariate version of that exact ratio.
+
+Renaming the parameter does not change $\Lambda_n$. The number $\ell(\hat\theta)-\ell(\tilde\theta)$ is a difference of values of the log-likelihood, and the chain-rule calculation earlier in the post changes $\mathcal{I}$ and the score but not the value of $\ell$. Wald's quadratic form in $\hat\theta-\theta_0$ does change under that renaming.
+
+The expansion used $s(\hat\theta)=0$. That fails when $\theta_0$ lies on the boundary of $\Theta$, for instance a variance component fixed at zero: the maximum may sit on the boundary with a nonzero score pointing outward. Then $\Lambda_n$ does not tend to $\chi^2_q$. The limit is a mixture of $\chi^2$ laws whose degrees of freedom run from $0$ to $q$. Do not use the $\chi^2_q$ threshold there.
 
 ## Comparison of tests
 
