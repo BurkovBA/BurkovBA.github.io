@@ -341,8 +341,7 @@ Student's [$t$-test](/2021-06-20-1). The $\chi^2$ limit is the same beast as in 
 after the whitening above.
 
 For a composite restriction $R(\theta)=0$ with $R:\mathbb{R}^p\to\mathbb{R}^q$ (full rank $q<p$),
-delta method replaces $\hat\theta-\theta_0$ by the $q$-vector $R(\hat\theta)$. The Jacobian
-$J=DR(\hat\theta)$ maps the $p\times p$ variance $\mathcal{I}^{-1}/n$ to a $q\times q$ covariance
+delta method replaces $\hat\theta-\theta_0$ by the $q$-vector $R(\hat\theta)$. The Jacobian of $R$ is the $q\times p$ matrix of partial derivatives $J_{ak}=\partial R_a/\partial\theta_k$, evaluated at $\hat\theta$. That Jacobian $J$ maps the $p\times p$ variance $\mathcal{I}^{-1}/n$ to a $q\times q$ covariance
 $J\mathcal{I}^{-1}J^\top/n$, and
 
 $W_n = n\, R(\hat\theta)^\top \bigl(J\,\hat{\mathcal{I}}^{-1} J^\top\bigr)^{-1} R(\hat\theta)
@@ -383,7 +382,9 @@ $S_n = s(\theta_0)^\top \bigl(n\mathcal{I}(\theta_0)\bigr)^{-1} s(\theta_0)
 
 Reject when $S_n>\chi^2_{p,1-\alpha}$. The unrestricted estimate $\hat\theta$ is never computed: $\theta_0$ is known, and $s(\theta_0)$ is a sum of derivatives of $\log p(X_i\mid\theta_0)$.
 
-**Composite null.** Now $H_0$ is $R(\theta)=0$, where $R$ maps $\mathbb{R}^p$ to $\mathbb{R}^q$ and $q<p$. Write $J$ for the $q\times p$ matrix of partial derivatives, $J_{ak}=\partial R_a/\partial\theta_k$. Assume $J$ has rank $q$: the $q$ restrictions are not copies of each other. The true value $\theta_0$ lies on this surface, but it is not a known point, because the remaining $p-q$ coordinates are still free. There is nowhere to plug in and get $s(\theta_0)$.
+**Composite null.** Now $H_0$ is $R(\theta)=0$, where $R$ maps $\mathbb{R}^p$ to $\mathbb{R}^q$ and $q<p$ (e.g. in case of normal distribution with unknown variance, $\theta=(\mu,\sigma^2)$ so $p=2$, and the null “mean is zero” is $R(\mu,\sigma^2)=\mu$, one restriction, so $q=1$).
+
+The Jacobian of $R$ is the $q\times p$ matrix of partial derivatives of the restrictions. Denote that Jacobian by $J$, with entries $J_{ak}=\partial R_a/\partial\theta_k$: row $a$ is the gradient of the $a$-th restriction $R_a$ (e.g. in case of normal distribution with unknown variance, $R(\mu,\sigma^2)=\mu$ has one row, and that Jacobian is $J=\bigl(\partial R/\partial\mu,\ \partial R/\partial\sigma^2\bigr)=(1,\ 0)$). Assume this Jacobian has rank $q$: the $q$ restrictions are not copies of each other. The true value $\theta_0$ lies on this surface, but it is not a known point, because the remaining $p-q$ coordinates are still free (e.g. in case of normal distribution with unknown variance the surface is the half-line $\mu=0$, $\sigma^2>0$, and the one free coordinate is the unknown variance, so $\theta_0=(0,\sigma^2_0)$ is not a single known point).
 
 The estimate under this null is the maximum of $\ell$ on the surface,
 
@@ -497,6 +498,38 @@ The same drop can be written as a ratio of the two maxima of the likelihood $L=e
 Renaming the parameter does not change $\Lambda_n$. The number $\ell(\hat\theta)-\ell(\tilde\theta)$ is a difference of values of the log-likelihood, and the chain-rule calculation earlier in the post changes $\mathcal{I}$ and the score but not the value of $\ell$. Wald's quadratic form in $\hat\theta-\theta_0$ does change under that renaming.
 
 The expansion used $s(\hat\theta)=0$. That fails when $\theta_0$ lies on the boundary of $\Theta$, for instance a variance component fixed at zero: the maximum may sit on the boundary with a nonzero score pointing outward. Then $\Lambda_n$ does not tend to $\chi^2_q$. The limit is a mixture of $\chi^2$ laws whose degrees of freedom run from $0$ to $q$. Do not use the $\chi^2_q$ threshold there.
+
+## The normal example in the three tests
+
+The sample above is the composite null from the problem statement: $\mu=0$, with $\sigma^2$ free. One restriction, so $q=1$. The unrestricted fit is already computed: $\hat\mu=0.0406$, $\hat\sigma^2=0.733/5=0.1466$, written $0.147$ above, and $\ell(\hat\mu,\hat\sigma^2)=-2.295$, written $-2.29$. The curvature in $\mu$ was $n/\hat\sigma^2\approx 34.1$.
+
+The point $(0,\ 0.147)$ used above is not the restricted maximum. Plugging $\mu=0$ into the unrestricted variance leaves a nonzero slope in $\sigma^2$, about $0.19$. The restricted maximum $\tilde\theta$ re-estimates the variance at $\mu=0$. The sum of squares about zero is the sum about $\bar x$ plus $n\bar x^2$,
+
+$\sum_i x_i^2 = 0.733 + 5\cdot(0.0406)^2 = 0.733+0.00824 = 0.74124,$
+
+so $\tilde\sigma^2=0.74124/5=0.1482$ and $\tilde\mu=0$. At that point the slope in $\sigma^2$ is zero by construction, and
+
+$\frac{\partial\ell}{\partial\mu}=\frac{5\cdot 0.0406}{0.1482}=1.37,\qquad n\mathcal{I}_{\mu\mu}=\frac{5}{0.1482}=33.7.$
+
+**Wald.** The restriction is $R(\mu,\sigma^2)=\mu$, so $J=(1,\ 0)$ and $R(\hat\theta)=\hat\mu$. The per-observation information is diagonal, and the $\mu$-entry of its inverse is $\hat\sigma^2$. The general quadratic form therefore collapses to one term,
+
+$W_n = n\,\hat\mu^\top\bigl(\hat\sigma^2\bigr)^{-1}\hat\mu = \frac{n\hat\mu^2}{\hat\sigma^2} = 34.1\cdot(0.0406)^2 = 0.056.$
+
+This is twice the bowl calculation already done. Moving $\mu$ by $0.0406$ at this curvature cost $\tfrac12\cdot 34.1\cdot(0.0406)^2\approx 0.028$ in log-likelihood; the Wald statistic is that cost with the $\tfrac12$ removed.
+
+**Score.** Only $\tilde\theta$ is used. The score there is $(1.37,\ 0)$, and $n\mathcal{I}(\tilde\theta)$ is diagonal, so the whitened squared length keeps the $\mu$ coordinate and drops the other:
+
+$S_n = \frac{(1.37)^2}{33.7} = 0.056.$
+
+Same number as Wald, because $1.37=n\hat\mu/\tilde\sigma^2$ and $33.7=n/\tilde\sigma^2$, so $S_n=n\hat\mu^2/\tilde\sigma^2$. The two statistics differ only by $\hat\sigma^2=0.1466$ against $\tilde\sigma^2=0.1482$.
+
+**Wilks.** Both maxima. At either maximum the sum of squares equals $n$ times the fitted variance, so those terms cancel in the difference of log-likelihoods and
+
+$\Lambda_n = 2\bigl(\ell(\hat\mu,\hat\sigma^2)-\ell(0,\tilde\sigma^2)\bigr) = n\log\frac{\tilde\sigma^2}{\hat\sigma^2} = 5\log\frac{0.74124}{0.733} = 5\log 1.0112 = 0.056.$
+
+The drop $0.028$ printed earlier is half of this: it was $\tfrac12 W_n$, the cost of moving $\mu$ in the bowl, and Wilks multiplies that cost by $2$.
+
+All three statistics equal $0.056$, to the rounding of this sample. Each is compared with $\chi^2_1$. The $5\%$ point of that law is $3.84$, and $0.056$ is far below it: the test does not reject $\mu=0$. The three readings of one bowl — gap, slope, drop — are the same number once each is scaled by the Fisher information of its own fit.
 
 ## Comparison of tests
 
