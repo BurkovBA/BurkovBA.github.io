@@ -396,7 +396,9 @@ $s(\tilde\theta)+J(\tilde\theta)^\top\hat\lambda=0,\qquad R(\tilde\theta)=0$.
 
 So $s(\tilde\theta)=-J(\tilde\theta)^\top\hat\lambda$. The score that remains after the constrained maximum is not a full $p$-vector of free noise. It lies in the column space of $J^\top$, which has dimension $q$. The $p-q$ directions tangent to the surface have derivative zero, because $\tilde\theta$ is a maximum along the surface.
 
-The same first-order expansion as in the Wald section, taken from the true point $\theta_0$ out to $\tilde\theta$, reads
+Let me put this into geometric perspective. The score $s$ is the slope of likelihood $\ell$. The LM test statistic is the squared size of that slope. Under the composite null the true point $\theta_0$ is not known. Maximizing $\ell$ on the surface $R(\theta)=0$ kills the slope along the surface. The slope that remains, $s(\tilde\theta)$, points off the surface: it is how hard the likelihood still wants to leave the null. The stationarity condition says this leftover slope is the multiplier, $s(\tilde\theta)=-J^\top\hat\lambda$. Testing $\hat\lambda=0$ is the same question as testing $s(\tilde\theta)=0$. If that slope is already zero, $\tilde\theta$ is a maximum of the unrestricted likelihood and the constraint is not binding.
+
+Now that we're done with geometry, let's proceed. The same first-order expansion as in the Wald section, taken from the true point $\theta_0$ out to $\tilde\theta$, reads
 
 $s(\tilde\theta)=s(\theta_0)+H(\theta_\dagger)(\tilde\theta-\theta_0)$,
 
